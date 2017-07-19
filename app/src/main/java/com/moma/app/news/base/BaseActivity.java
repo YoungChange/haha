@@ -1,12 +1,10 @@
-package com.moma.app.base;
+package com.moma.app.news.base;
 
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.Toolbar;
-import android.view.View;
 
-import com.moma.app.base.presenter.BasePresenter;
-import com.moma.app.util.annotation.ActivityInject;
+import com.moma.app.news.base.presenter.BasePresenter;
+import com.moma.app.news.util.annotation.ActivityInject;
 
 /**
  * Created by moma on 17-7-17.

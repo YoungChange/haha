@@ -1,4 +1,4 @@
-package com.moma.app.news;
+package com.moma.app.news.home;
 
 import android.os.Bundle;
 import android.os.PersistableBundle;

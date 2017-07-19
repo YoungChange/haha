@@ -1,4 +1,4 @@
-package com.moma.app.util.annotation;
+package com.moma.app.news.util.annotation;
 
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;

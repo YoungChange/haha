@@ -31,7 +31,7 @@ public class INewsPresenterImpl extends BasePresenterImpl<INewsView, List<NewsCh
         super(newsView);
         mNewsInteractor = new INewsInteractorImpl();
         mSubscription = mNewsInteractor.operateChannel(this);
-        mView.initRxBusEvent();
+//        mView.initRxBusEvent();
     }
 
     @Override

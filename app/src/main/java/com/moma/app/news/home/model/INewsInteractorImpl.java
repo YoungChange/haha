@@ -4,6 +4,7 @@ import com.moma.app.news.util.bean.NewsChannelBean;
 import com.moma.app.news.util.callback.RequestCallback;
 import com.socks.library.KLog;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import rx.Observable;
@@ -29,6 +30,18 @@ public class INewsInteractorImpl implements INewsInteractor<List<NewsChannelBean
         return Observable.create(new Observable.OnSubscribe<List<NewsChannelBean>>() {
             @Override
             public void call(Subscriber<? super List<NewsChannelBean>> subscriber) {
+                NewsChannelBean bean1 = new NewsChannelBean("头条");
+                NewsChannelBean bean2 = new NewsChannelBean("体育");
+                NewsChannelBean bean3 = new NewsChannelBean("科技");
+
+                List<NewsChannelBean> newsChannels = new ArrayList<NewsChannelBean>();
+                newsChannels.add(bean1);
+                newsChannels.add(bean2);
+                newsChannels.add(bean3);
+
+                subscriber.onNext(newsChannels);
+                subscriber.onCompleted();
+
 
             }
         }).subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread())
@@ -46,7 +59,6 @@ public class INewsInteractorImpl implements INewsInteractor<List<NewsChannelBean
 
                     @Override
                     public void onError(Throwable e) {
-                        KLog.e(e.getLocalizedMessage() + "\n" + e);
                         callback.requestError(e.getLocalizedMessage() + "\n" + e);
                     }
 

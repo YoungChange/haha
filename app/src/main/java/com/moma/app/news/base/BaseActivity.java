@@ -1,16 +1,26 @@
 package com.moma.app.news.base;
 
 import android.os.Bundle;
+import android.support.design.widget.TabLayout;
+import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
+import android.view.View;
+import android.widget.TextView;
+import android.widget.Toast;
 
 import com.moma.app.news.base.presenter.BasePresenter;
-import com.moma.app.news.util.annotation.ActivityInject;
+import com.moma.app.news.base.view.BaseView;
+import com.moma.app.news.util.annotation.ActivityFragmentInject;
+import com.moma.app.news.util.RxBus;
+
+import rx.Observable;
 
 /**
  * Created by moma on 17-7-17.
  */
 
-public abstract class BaseActivity<T extends BasePresenter> extends AppCompatActivity{
+public abstract class BaseActivity<T extends BasePresenter> extends AppCompatActivity implements View.OnClickListener, BaseView {
 
 
     /**
@@ -24,31 +34,109 @@ public abstract class BaseActivity<T extends BasePresenter> extends AppCompatAct
     protected int mContentViewId;
 
     /**
-     * Toolbar标题
+     * Toolbar  id
      */
-    private int mToolbarTitle;
+    private int mToolbarId;
+
+    /**
+     * mToolbarTextViewId
+     */
+    private int mToolbarTextViewId;
+
+    /**
+     * mToolbarTextView 內容  “新闻”
+     */
+    private int mToolbarTextViewTitle;
+
+    /**
+     * 结束Activity的可观测对象
+     */
+    private Observable<Boolean> mFinishObservable;
+
+    /**
+     * 跳转的类
+     */
+    private Class mClass;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        if(getClass().isAnnotationPresent(ActivityInject.class)){
-            ActivityInject anno = getClass().getAnnotation(ActivityInject.class);
+        if(getClass().isAnnotationPresent(ActivityFragmentInject.class)){
+            ActivityFragmentInject anno = getClass().getAnnotation(ActivityFragmentInject.class);
             mContentViewId = anno.contentViewId();
-            mToolbarTitle  = anno.toolbarTitle();
+            mToolbarId  = anno.toolbarId();
+            mToolbarTextViewId = anno.toolbarTextViewId();
+            mToolbarTextViewTitle = anno.toolbarTextViewTitle();
         } else {
             throw new RuntimeException("Class must add annotations of ActivityFragmentInitParams.class");
         }
 
         setContentView(mContentViewId);
 
+        Toolbar myToolbar = initToolbar(mToolbarId,mToolbarTextViewId,mToolbarTextViewTitle);
 
         initView();
 
     }
 
-
-
-
     protected abstract void initView();
+
+    /**
+     * 设置toolbar标题居中，没有返回键
+     * @param id    toolbar的id
+     * @param titleId   textView的id
+     * @param titleString   textView设置的文字
+     * @return  返回toolbar
+     */
+    public Toolbar initToolbar(int id, int titleId, int titleString) {
+        Toolbar toolbar = (Toolbar) findViewById(id);
+        TextView textView = (TextView) findViewById(titleId);
+        textView.setText(titleString);
+        AppCompatActivity activity = this;
+        activity.setSupportActionBar(toolbar);
+        android.support.v7.app.ActionBar actionBar = activity.getSupportActionBar();
+        if (actionBar != null){
+            actionBar.setDisplayHomeAsUpEnabled(false);
+            actionBar.setDisplayShowTitleEnabled(false);
+        }
+        return toolbar;
+    }
+
+    @Override
+    public void toast(String msg) {
+        Toast.makeText(this, msg, Toast.LENGTH_SHORT).show();
+    }
+
+    @Override
+    public void showProgress() {
+
+    }
+
+    @Override
+    public void hideProgress() {
+
+    }
+
+    protected void setOnTabSelectEvent(final ViewPager viewPager, final TabLayout tabLayout) {
+        tabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
+            @Override
+            public void onTabSelected(TabLayout.Tab tab) {
+                viewPager.setCurrentItem(tab.getPosition(), true);
+            }
+
+            @Override
+            public void onTabReselected(TabLayout.Tab tab) {
+                RxBus.get().post("enableRefreshLayoutOrScrollRecyclerView", tab.getPosition());
+            }
+
+            @Override
+            public void onTabUnselected(TabLayout.Tab tab) {
+
+            }
+        });
+    }
+
+
+
 
 }

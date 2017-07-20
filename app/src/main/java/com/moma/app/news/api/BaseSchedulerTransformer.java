@@ -12,7 +12,9 @@ public class BaseSchedulerTransformer<T> implements Observable.Transformer<T, T>
 
     @Override
     public Observable<T> call(Observable<T> tObservable) {
-        return tObservable.subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread()).unsubscribeOn(Schedulers.io());
+        return tObservable.subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .unsubscribeOn(Schedulers.io());
     }
 
 }

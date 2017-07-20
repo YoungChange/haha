@@ -24,8 +24,6 @@ public class INewsListInteractorImpl implements INewsListInteractor<List<NewsLis
     public Subscription requestNewsList(final RequestCallback<List<NewsList>> callback, String type, final String id, int startPage) {
 //        KLog.e("新闻列表：" + type + ";" + id);
 
-        type = "list";
-
         Subscription subscription = RetrofitService.getInstance(1)
                 .getNewsListObservable(type, id, startPage)
                 .flatMap(new Func1<Map<String, List<NewsList>>, Observable<NewsList>>() {
@@ -37,8 +35,8 @@ public class INewsListInteractorImpl implements INewsListInteractor<List<NewsLis
                 .toSortedList(new Func2<NewsList, NewsList, Integer>() {
                     // 按时间先后排序
                     @Override
-                    public Integer call(NewsList neteastNewsSummary, NewsList neteastNewsSummary2) {
-                        return neteastNewsSummary2.ptime.compareTo(neteastNewsSummary.ptime);
+                    public Integer call(NewsList newsSummary, NewsList newsSummary2) {
+                        return newsSummary2.ptime.compareTo(newsSummary.ptime);
                     }
                 }).subscribe(new BaseSubscriber<List<NewsList>>(callback));
 

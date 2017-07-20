@@ -36,9 +36,11 @@ public class SimpleFragment extends BaseFragment<INewsListPresenter> implements 
 
     public static final String ARGS_TYPE = "args_tagType";
     public static final String ARGS_NAME = "args_tagName";
+    public static final String ARGS_Id = "args_tagId";
 
     private String tagType;
     private String tagName;
+    private String tagId;
 
     private RecyclerView mRecyclerView;
     private RelativeLayout mRelativeLayout;
@@ -47,15 +49,17 @@ public class SimpleFragment extends BaseFragment<INewsListPresenter> implements 
 
     /**
      *
-     * @param tType
-     * @param tName tab的title
+     * @param tagType
+     * @param tagName
+     * @param tagId
      * @return
      */
-    public static SimpleFragment newInstance(String tType,String tName) {
+    public static SimpleFragment newInstance(String tagType,String tagName,String tagId) {
         Bundle args = new Bundle();
 
-        args.putString(ARGS_TYPE, tType);
-        args.putString(ARGS_NAME,tName);
+        args.putString(ARGS_TYPE,tagType);
+        args.putString(ARGS_NAME,tagName);
+        args.putString(ARGS_Id,tagId);
         SimpleFragment fragment = new SimpleFragment();
         fragment.setArguments(args);
         return fragment;
@@ -67,6 +71,7 @@ public class SimpleFragment extends BaseFragment<INewsListPresenter> implements 
         if (getArguments() != null) {
             tagType = getArguments().getString(ARGS_TYPE);
             tagName = getArguments().getString(ARGS_NAME);
+            tagId = getArguments().getString(ARGS_Id);
         }
 
     }
@@ -83,7 +88,7 @@ public class SimpleFragment extends BaseFragment<INewsListPresenter> implements 
 
         mRelativeLayout = (RelativeLayout) fragmentRootView.findViewById(R.id.refresh_layout);
 
-        mPresenter = new INewsListPresenterImpl(this,tagType , tagName);
+        mPresenter = new INewsListPresenterImpl(this,tagId,tagType);
 
     }
 

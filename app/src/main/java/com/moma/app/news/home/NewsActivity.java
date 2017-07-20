@@ -85,10 +85,10 @@ public class NewsActivity extends BaseActivity<INewsPresenter> implements INewsV
             // 有除了固定的其他频道被选中，添加
             for (NewsChannelBean news : newsChannels) {
                 final SimpleFragment fragment = SimpleFragment
-                        .newInstance(news.getTabType(), news.gettName());
+                        .newInstance(news.getTabType(), news.getTabName(),news.getTabId());
 
                 fragments.add(fragment);
-                title.add(news.gettName());
+                title.add(news.getTabName());
             }
 
             if (mNewsViewpager.getAdapter() == null) {

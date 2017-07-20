@@ -30,15 +30,22 @@ public class INewsInteractorImpl implements INewsInteractor<List<NewsChannelBean
         return Observable.create(new Observable.OnSubscribe<List<NewsChannelBean>>() {
             @Override
             public void call(Subscriber<? super List<NewsChannelBean>> subscriber) {
-                NewsChannelBean bean1 = new NewsChannelBean("头条");
 
-                NewsChannelBean bean2 = new NewsChannelBean("体育");
-                NewsChannelBean bean3 = new NewsChannelBean("科技");
+//                NewsChannelBean bean1 = new NewsChannelBean("头条");
+//                NewsChannelBean bean2 = new NewsChannelBean("体育");
+//                NewsChannelBean bean3 = new NewsChannelBean("科技");
+
+
+                NewsChannelBean bean1 = new NewsChannelBean("头条","T1348647909107","headline");
+                NewsChannelBean bean2 = new NewsChannelBean("体育","T1348649079062","list");
+                NewsChannelBean bean3 = new NewsChannelBean("科技","T1348649580692","list");
+                NewsChannelBean bean4 = new NewsChannelBean("电影","T1348648650048","list");
 
                 List<NewsChannelBean> newsChannels = new ArrayList<NewsChannelBean>();
                 newsChannels.add(bean1);
                 newsChannels.add(bean2);
                 newsChannels.add(bean3);
+                newsChannels.add(bean4);
 
                 subscriber.onNext(newsChannels);
                 subscriber.onCompleted();

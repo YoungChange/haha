@@ -51,9 +51,9 @@ public  class BaseRecyclerAdapter extends RecyclerView.Adapter<BaseRecyclerViewH
 //        bindData(holder,position,mData.get(position));
         NewsList item = mData.get(position);
 //        使用GlideUtils
-//        GlideUtils.loadDefault(item.imgsrc, holder.news_summary_photo, null, null, DiskCacheStrategy.RESULT);
+        GlideUtils.loadDefault(item.imgsrc, holder.news_summary_photo, null, null, DiskCacheStrategy.RESULT);
 //        直接使用Glide
-        Glide.with(mContext).load(item.imgsrc).placeholder(R.drawable.ic_loading).into(holder.news_summary_photo);
+//        Glide.with(mContext).load(item.imgsrc).placeholder(R.drawable.ic_loading).into(holder.news_summary_photo);
         holder.news_summary_digest.setText(item.digest);
         holder.news_summary_title.setText(item.title);
         holder.news_summary_ptime.setText(item.ptime);

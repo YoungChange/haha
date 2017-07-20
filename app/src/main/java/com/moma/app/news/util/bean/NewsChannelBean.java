@@ -5,26 +5,47 @@ package com.moma.app.news.util.bean;
  */
 
 public class NewsChannelBean {
-    private String tName;
+    private String tabName;// 头条 科技 。。
 
-    private String tabType;  //T1348647909107
+    private String tabId;// T1348647909107
 
-    public NewsChannelBean(String tName) {
-        this.tName = tName;
-        this.tabType = "T1348647909107";
+    private String tabType;//list  or   headline
+
+    public NewsChannelBean(String tabName) {
+        this.tabName = tabName;
+        this.tabType = "headline";
+        this.tabId = "T1348647909107";
+
     }
 
-    public NewsChannelBean(String tName, String tabType) {
-        this.tName = tName;
+    public NewsChannelBean(String tabName, String tabType) {
+        this.tabName = tabName;
+        this.tabType = tabType;
+        this.tabId = "T1348647909107";
+    }
+
+
+    public NewsChannelBean(String tabName, String tabId, String tabType) {
+        this.tabName = tabName;
+        this.tabId = tabId;
         this.tabType = tabType;
     }
 
-    public String gettName() {
-        return tName;
+    public String getTabName() {
+        return tabName;
     }
 
-    public void settName(String tName) {
-        this.tName = tName;
+    public void setTabName(String tabName) {
+        this.tabName = tabName;
+    }
+
+
+    public String getTabId() {
+        return tabId;
+    }
+
+    public void setTabId(String tabId) {
+        this.tabId = tabId;
     }
 
     public String getTabType() {

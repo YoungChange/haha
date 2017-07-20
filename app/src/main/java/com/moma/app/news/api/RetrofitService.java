@@ -130,6 +130,10 @@ public class RetrofitService {
                 if (sOkHttpClient == null) {
                     // OkHttpClient配置是一样的,静态创建一次即可
                     // 指定缓存路径,缓存大小100Mb
+                    File file =  new File(
+                            NewsApplication
+                            .getContext()
+                            .getCacheDir(), "HttpCache");
                     Cache cache = new Cache(new File(NewsApplication.getContext().getCacheDir(), "HttpCache"), CACHE_FILE_SIZE);
 
                     sOkHttpClient = new OkHttpClient.Builder().cache(cache)

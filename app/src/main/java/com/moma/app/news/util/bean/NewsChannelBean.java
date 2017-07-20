@@ -7,15 +7,14 @@ package com.moma.app.news.util.bean;
 public class NewsChannelBean {
     private String tName;
 
-    // 标签类型，显示是我的频道还是更多频道
-    private int tabType;
+    private String tabType;  //T1348647909107
 
     public NewsChannelBean(String tName) {
         this.tName = tName;
-        this.tabType = 0;
+        this.tabType = "T1348647909107";
     }
 
-    public NewsChannelBean(String tName, int tabType) {
+    public NewsChannelBean(String tName, String tabType) {
         this.tName = tName;
         this.tabType = tabType;
     }
@@ -28,11 +27,11 @@ public class NewsChannelBean {
         this.tName = tName;
     }
 
-    public int getTabType() {
+    public String getTabType() {
         return tabType;
     }
 
-    public void setTabType(int tabType) {
+    public void setTabType(String tabType) {
         this.tabType = tabType;
     }
 }

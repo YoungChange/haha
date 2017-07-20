@@ -31,6 +31,7 @@ public class INewsInteractorImpl implements INewsInteractor<List<NewsChannelBean
             @Override
             public void call(Subscriber<? super List<NewsChannelBean>> subscriber) {
                 NewsChannelBean bean1 = new NewsChannelBean("头条");
+
                 NewsChannelBean bean2 = new NewsChannelBean("体育");
                 NewsChannelBean bean3 = new NewsChannelBean("科技");
 

@@ -9,6 +9,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.RelativeLayout;
+import android.widget.Toast;
 
 import com.moma.app.news.base.presenter.BasePresenter;
 import com.moma.app.news.base.view.BaseView;
@@ -105,8 +106,20 @@ public abstract class BaseFragment<T extends BasePresenter> extends Fragment
 
 
 
+    private Toast mToast;
+    private String msgg;
     @Override
     public void toast(String msg) {
+
+        if(mToast == null){
+            mToast = Toast.makeText(getActivity(),msg,Toast.LENGTH_SHORT);
+            msgg = "";
+        }else{
+            msg = msgg + msg;
+            msgg = msg;
+            mToast.setText(msg);
+        }
+        mToast.show();
     }
 
     @Override

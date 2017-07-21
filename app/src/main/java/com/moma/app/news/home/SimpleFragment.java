@@ -1,8 +1,10 @@
 package com.moma.app.news.home;
 
+import android.graphics.Color;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
@@ -26,6 +28,7 @@ import com.moma.app.news.util.MeasureUtil;
 import com.moma.app.news.util.annotation.ActivityFragmentInject;
 
 import java.util.List;
+import java.util.concurrent.ThreadFactory;
 
 /**
  * Created by moma on 17-7-17.
@@ -42,6 +45,7 @@ public class SimpleFragment extends BaseFragment<INewsListPresenter> implements 
     private String tagName;
     private String tagId;
 
+    private SwipeRefreshLayout mSwipeRefreshLayout;
     private RecyclerView mRecyclerView;
     private RelativeLayout mRelativeLayout;
     private BaseRecyclerAdapter mAdapter;
@@ -84,9 +88,11 @@ public class SimpleFragment extends BaseFragment<INewsListPresenter> implements 
 //        mLoadingView = (ThreePointLoadingView) fragmentRootView.findViewById(R.id.tpl_view);
 //        mLoadingView.setOnClickListener(this);
 
+        mSwipeRefreshLayout = (SwipeRefreshLayout) fragmentRootView.findViewById(R.id.refresh_layout);
+
         mRecyclerView = (RecyclerView) fragmentRootView.findViewById(R.id.recycler_view);
 
-        mRelativeLayout = (RelativeLayout) fragmentRootView.findViewById(R.id.refresh_layout);
+
 
         mPresenter = new INewsListPresenterImpl(this,tagId,tagType);
 
@@ -95,14 +101,61 @@ public class SimpleFragment extends BaseFragment<INewsListPresenter> implements 
 
     @Override
     public void updateNewsList(final List<NewsList> data, String errorMsg, @DataLoadType.DataLoadTypeChecker int type) {
-        Toast.makeText(getActivity(), "data大小:"+data.size(), Toast.LENGTH_SHORT).show();
+//        toast("data的大小："+data.size());
 
         if (mAdapter == null) {
             initNewsList(data);
         }
 
+        switch (type) {
+            case DataLoadType.TYPE_REFRESH_SUCCESS:
+                mAdapter.setmData(data);
+                toast("刷新成功");
+                break;
+            case DataLoadType.TYPE_REFRESH_FAIL:
+                mAdapter.notifyDataSetChanged();
+                break;
+            case DataLoadType.TYPE_LOAD_MORE_SUCCESS:
+                if (data == null || data.size() == 0) {
+                    toast("全部加载完毕");
+                    return;
+                }
+                mAdapter.addMoreData(data);
+                break;
+            case DataLoadType.TYPE_LOAD_MORE_FAIL:
+                toast("加载更多失败");
+                break;
+        }
+        mAdapter.setmData(data);
 
 
+
+//
+//        switch (type) {
+//            case DataLoadType.TYPE_REFRESH_SUCCESS:
+//                mSwipeRefreshLayout.refreshFinish();
+//                mAdapter.enableLoadMore(true);
+//                mAdapter.setData(data);
+//                break;
+//            case DataLoadType.TYPE_REFRESH_FAIL:
+//                mRefreshLayout.refreshFinish();
+//                mAdapter.enableLoadMore(false);
+//                mAdapter.showEmptyView(true, errorMsg);
+//                mAdapter.notifyDataSetChanged();
+//                break;
+//            case DataLoadType.TYPE_LOAD_MORE_SUCCESS:
+//                mAdapter.loadMoreSuccess();
+//                if (data == null || data.size() == 0) {
+//                    mAdapter.enableLoadMore(null);
+//                    toast("全部加载完毕");
+//                    return;
+//                }
+//                mAdapter.addMoreData(data);
+//                break;
+//            case DataLoadType.TYPE_LOAD_MORE_FAIL:
+//                mAdapter.loadMoreFailed(errorMsg);
+//                break;
+//        }
 
 
     }
@@ -111,11 +164,59 @@ public class SimpleFragment extends BaseFragment<INewsListPresenter> implements 
 
     private void initNewsList(final List<NewsList> data) {
 
+
+
+
+
+
+
+
+
+
+        mSwipeRefreshLayout.setColorSchemeColors(Color.RED, Color.BLUE);
+        mSwipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                mPresenter.refreshData();
+                mSwipeRefreshLayout.setRefreshing(false);
+                mAdapter.notifyDataSetChanged();
+            }
+        });
+
+
         mAdapter = new BaseRecyclerAdapter(getActivity(), data);
 
         //设置布局管理器
         final LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false);
         mRecyclerView.setLayoutManager(linearLayoutManager);
+
+        // 在Fragment中给RecyclerView增加滑动监听
+        mRecyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
+
+            @Override
+            public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
+
+                super.onScrolled(recyclerView, dx, dy);
+
+                LinearLayoutManager layoutManager = (LinearLayoutManager) recyclerView.getLayoutManager();
+
+                int totalItemCount = layoutManager.getItemCount();
+
+                int lastVisibleItem = layoutManager.findLastVisibleItemPosition();
+
+                if (totalItemCount < (lastVisibleItem + 3)) {
+                    mPresenter.loadMoreData();
+//                    mRecyclerView.smoothScrollToPosition(mAdapter.getItemCount());
+                }
+            }
+        });
+
+
+
+
+
+
+
 
         mRecyclerView.addItemDecoration(new BaseSpacesItemDecoration(MeasureUtil.dip2px(getActivity(), 4)));
 

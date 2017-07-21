@@ -71,4 +71,30 @@ public  class BaseRecyclerAdapter extends RecyclerView.Adapter<BaseRecyclerViewH
     }
 
 
+    public List<NewsList> getmData() {
+        return mData;
+    }
+
+    //更新数据时调用
+    public void setmData(List<NewsList> mData) {
+        this.mData = mData;
+        notifyDataSetChanged();
+    }
+
+    //加载更多时调用
+    public void addMoreData(List<NewsList> data) {
+        int startPos = mData.size();
+        mData.addAll(data);
+        notifyItemRangeInserted(startPos, data.size());
+    }
+
+
+
+
+
+    //在里面判断每一个Item的类型，是没有图片还是单图片还是多图片
+    @Override
+    public int getItemViewType(int position) {
+        return super.getItemViewType(position);
+    }
 }

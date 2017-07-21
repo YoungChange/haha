@@ -25,7 +25,11 @@ import java.util.List;
 import rx.Observable;
 import rx.functions.Action1;
 
-@ActivityFragmentInject(contentViewId = R.layout.activity_news,handleRefreshLayout = true)
+@ActivityFragmentInject(contentViewId = R.layout.activity_news,
+        handleRefreshLayout = true,
+        toolbarId = R.id.my_toolbar,
+        toolbarTextViewId = R.id.toolbar_title,
+        toolbarTextViewTitle = R.string.moma)
 public class NewsActivity extends BaseActivity<INewsPresenter> implements INewsView {
 
     private TabLayout mTabLayout;

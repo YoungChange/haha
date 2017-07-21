@@ -107,16 +107,12 @@ public abstract class BaseFragment<T extends BasePresenter> extends Fragment
 
 
     private Toast mToast;
-    private String msgg;
     @Override
     public void toast(String msg) {
 
         if(mToast == null){
             mToast = Toast.makeText(getActivity(),msg,Toast.LENGTH_SHORT);
-            msgg = "";
         }else{
-            msg = msgg + msg;
-            msgg = msg;
             mToast.setText(msg);
         }
         mToast.show();

@@ -16,5 +16,9 @@
     <dimen name="app_bar_height">250dp</dimen>
     <dimen name="text_margin">16dp</dimen>
 
+
+    <!--chb-->
+    <dimen name="news_detail_marginleft">25dp</dimen>
+
 </resources>
 

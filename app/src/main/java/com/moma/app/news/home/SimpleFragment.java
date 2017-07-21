@@ -1,8 +1,12 @@
 package com.moma.app.news.home;
 
+import android.app.ActivityOptions;
+import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.v4.app.ActivityCompat;
+import android.support.v4.app.ActivityOptionsCompat;
 import android.support.v4.app.Fragment;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.DefaultItemAnimator;
@@ -21,11 +25,13 @@ import com.moma.app.news.R;
 import com.moma.app.news.base.BaseSpacesItemDecoration;
 import com.moma.app.news.base.DataLoadType;
 import com.moma.app.news.home.adapter.BaseRecyclerAdapter;
+import com.moma.app.news.home.adapter.OnItemClickListener;
 import com.moma.app.news.home.presenter.INewsListPresenter;
 import com.moma.app.news.home.presenter.INewsListPresenterImpl;
 import com.moma.app.news.home.view.INewsListView;
 import com.moma.app.news.util.MeasureUtil;
 import com.moma.app.news.util.annotation.ActivityFragmentInject;
+import com.socks.library.KLog;
 
 import java.util.List;
 import java.util.concurrent.ThreadFactory;
@@ -101,7 +107,6 @@ public class SimpleFragment extends BaseFragment<INewsListPresenter> implements 
 
     @Override
     public void updateNewsList(final List<NewsList> data, String errorMsg, @DataLoadType.DataLoadTypeChecker int type) {
-//        toast("data的大小："+data.size());
 
         if (mAdapter == null) {
             initNewsList(data);
@@ -126,36 +131,7 @@ public class SimpleFragment extends BaseFragment<INewsListPresenter> implements 
                 toast("加载更多失败");
                 break;
         }
-        mAdapter.setmData(data);
 
-
-
-//
-//        switch (type) {
-//            case DataLoadType.TYPE_REFRESH_SUCCESS:
-//                mSwipeRefreshLayout.refreshFinish();
-//                mAdapter.enableLoadMore(true);
-//                mAdapter.setData(data);
-//                break;
-//            case DataLoadType.TYPE_REFRESH_FAIL:
-//                mRefreshLayout.refreshFinish();
-//                mAdapter.enableLoadMore(false);
-//                mAdapter.showEmptyView(true, errorMsg);
-//                mAdapter.notifyDataSetChanged();
-//                break;
-//            case DataLoadType.TYPE_LOAD_MORE_SUCCESS:
-//                mAdapter.loadMoreSuccess();
-//                if (data == null || data.size() == 0) {
-//                    mAdapter.enableLoadMore(null);
-//                    toast("全部加载完毕");
-//                    return;
-//                }
-//                mAdapter.addMoreData(data);
-//                break;
-//            case DataLoadType.TYPE_LOAD_MORE_FAIL:
-//                mAdapter.loadMoreFailed(errorMsg);
-//                break;
-//        }
 
 
     }
@@ -164,15 +140,7 @@ public class SimpleFragment extends BaseFragment<INewsListPresenter> implements 
 
     private void initNewsList(final List<NewsList> data) {
 
-
-
-
-
-
-
-
-
-
+        //刷新监听事件
         mSwipeRefreshLayout.setColorSchemeColors(Color.RED, Color.BLUE);
         mSwipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
@@ -185,6 +153,28 @@ public class SimpleFragment extends BaseFragment<INewsListPresenter> implements 
 
 
         mAdapter = new BaseRecyclerAdapter(getActivity(), data);
+        mAdapter.setOnItemClickListener(new OnItemClickListener(){
+
+            @Override
+            public void onItemClick(View view, int position) {
+
+                Intent intent = new Intent(getActivity(), NewsDetailActivity.class);
+                NewsList newsSummary =  mAdapter.getmData().get(position);
+                intent.putExtra("postid", newsSummary.postid);
+                intent.putExtra("imgsrc", newsSummary.imgsrc);
+
+                try{
+                    startActivity(intent);
+                }catch(Exception e){
+                    e.printStackTrace();
+                }
+            }
+
+            @Override
+            public void onItemLongClick(View view, int position) {
+            }
+        });
+
 
         //设置布局管理器
         final LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false);
@@ -204,7 +194,7 @@ public class SimpleFragment extends BaseFragment<INewsListPresenter> implements 
 
                 int lastVisibleItem = layoutManager.findLastVisibleItemPosition();
 
-                if (totalItemCount < (lastVisibleItem + 3)) {
+                if (totalItemCount < (lastVisibleItem + 2)) {
                     mPresenter.loadMoreData();
 //                    mRecyclerView.smoothScrollToPosition(mAdapter.getItemCount());
                 }

@@ -4,14 +4,91 @@ import android.os.Bundle;
 import android.os.PersistableBundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
+import android.text.TextUtils;
+import android.view.View;
+import android.webkit.WebView;
+import android.widget.ImageView;
+import android.widget.TextView;
+
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
+import com.moma.app.news.R;
+import com.moma.app.news.api.bean.NewsInfo;
+import com.moma.app.news.base.BaseActivity;
+import com.moma.app.news.home.presenter.INewsDetailPresenter;
+import com.moma.app.news.home.presenter.INewsDetailPresenterImpl;
+import com.moma.app.news.home.view.INewsDetailView;
+import com.moma.app.news.util.GlideUtils;
+import com.moma.app.news.util.annotation.ActivityFragmentInject;
+
+import zhou.widget.RichText;
 
 /**
  * Created by moma on 17-7-17.
  */
 
-public class NewsDetailActivity extends AppCompatActivity{
+@ActivityFragmentInject(contentViewId = R.layout.activity_news_detail,
+        handleRefreshLayout = true,
+        toolbarId = R.id.my_news_deatil_toolbar,
+        toolbarBackImageButtonId = R.id.back_imagebutton
+        )
+public class NewsDetailActivity extends BaseActivity<INewsDetailPresenter> implements INewsDetailView {
+
+    private TextView mDetailTitle;
+    private TextView mDetailTime;
+    private RichText mDetailBody;
+    private ImageView mDetailImage;
+
+
     @Override
-    public void onCreate(@Nullable Bundle savedInstanceState, @Nullable PersistableBundle persistentState) {
-        super.onCreate(savedInstanceState, persistentState);
+    protected void initView() {
+
+        mDetailTitle = (TextView) findViewById(R.id.news_detail_title);
+        mDetailTime = (TextView) findViewById(R.id.news_detail_time);
+        mDetailBody = (RichText) findViewById(R.id.news_detail_body);
+        mDetailImage = (ImageView) findViewById(R.id.news_detail_image);
+
+        String mNewsListImgSrc = getIntent().getStringExtra("imgsrc");
+        String mNewsListPostId = getIntent().getStringExtra("postid");
+
+        GlideUtils.loadDefault(mNewsListImgSrc, mDetailImage, null, null, DiskCacheStrategy.RESULT);
+
+        mPresenter = new INewsDetailPresenterImpl(this,mNewsListPostId);
+
     }
+
+    @Override
+    public void initNewsDetail(final NewsInfo data) {
+
+        mDetailTitle.setText(data.title);
+        mDetailTime.setText(data.ptime);
+
+
+
+        if (!TextUtils.isEmpty(data.body)) {
+            mDetailBody.setRichText(data.body);
+        }
+
+    }
+
+    @Override
+    public void onClick(View v) {
+        switch(v.getId()){
+            case R.id.back_imagebutton:
+                this.finish();
+                break;
+            default:
+                toast("不知道你点击了啥");
+        }
+    }
+
+    @Override
+    public void showProgress() {
+    }
+
+    @Override
+    public void hideProgress() {
+    }
+
+
+
 }

@@ -6,9 +6,11 @@ import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
+import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.moma.app.news.R;
 import com.moma.app.news.base.presenter.BasePresenter;
 import com.moma.app.news.base.view.BaseView;
 import com.moma.app.news.util.annotation.ActivityFragmentInject;
@@ -48,6 +50,11 @@ public abstract class BaseActivity<T extends BasePresenter> extends AppCompatAct
      */
     private int mToolbarTextViewTitle;
 
+    private int mToolbarBackImageButtonId;
+
+
+
+
     /**
      * 结束Activity的可观测对象
      */
@@ -67,13 +74,23 @@ public abstract class BaseActivity<T extends BasePresenter> extends AppCompatAct
             mToolbarId  = anno.toolbarId();
             mToolbarTextViewId = anno.toolbarTextViewId();
             mToolbarTextViewTitle = anno.toolbarTextViewTitle();
+            mToolbarBackImageButtonId = anno.toolbarBackImageButtonId();
+
         } else {
             throw new RuntimeException("Class must add annotations of ActivityFragmentInitParams.class");
         }
 
-        setContentView(mContentViewId);
+        try {
+            setContentView(mContentViewId);
+        }catch(Exception e){
+            e.printStackTrace();
+        }
 
-        Toolbar myToolbar = initToolbar(mToolbarId,mToolbarTextViewId,mToolbarTextViewTitle);
+        if(mToolbarBackImageButtonId == -1){
+            Toolbar myToolbar = initToolbar(mToolbarId,mToolbarTextViewId,mToolbarTextViewTitle);
+        }else {
+            Toolbar myToolbar = initDetailActivityToolbar(mToolbarId,mToolbarBackImageButtonId);
+        }
 
         initView();
 
@@ -101,6 +118,28 @@ public abstract class BaseActivity<T extends BasePresenter> extends AppCompatAct
         }
         return toolbar;
     }
+
+
+    public Toolbar initDetailActivityToolbar(int toolBarId,int toolbarBackImageButtonId ) {
+        Toolbar toolbar = (Toolbar) findViewById(toolBarId);
+        ImageButton imageButton = (ImageButton) findViewById(toolbarBackImageButtonId);
+        imageButton.setOnClickListener(this);
+        AppCompatActivity activity = this;
+        activity.setSupportActionBar(toolbar);
+        android.support.v7.app.ActionBar actionBar = activity.getSupportActionBar();
+        if (actionBar != null){
+            actionBar.setDisplayHomeAsUpEnabled(false);
+            actionBar.setDisplayShowTitleEnabled(false);
+        }
+        return toolbar;
+    }
+
+
+
+
+
+
+
 
     @Override
     public void toast(String msg) {

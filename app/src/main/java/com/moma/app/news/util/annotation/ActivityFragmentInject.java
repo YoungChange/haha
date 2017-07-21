@@ -48,4 +48,13 @@ public @interface ActivityFragmentInject {
      */
     int toolbarTextViewTitle() default R.string.news;
 
+
+    int toolbarBackImageButtonId() default -1;
+
+
+    int toolbarAllImageButtonId() default  -1;
+
+
+
+
 }

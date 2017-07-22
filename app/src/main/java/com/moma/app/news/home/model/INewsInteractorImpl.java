@@ -36,10 +36,10 @@ public class INewsInteractorImpl implements INewsInteractor<List<NewsChannelBean
 //                NewsChannelBean bean3 = new NewsChannelBean("科技");
 
 
-                NewsChannelBean bean1 = new NewsChannelBean("头条","T1348647909107","headline");
-                NewsChannelBean bean2 = new NewsChannelBean("体育","T1348649079062","list");
+                NewsChannelBean bean1 = new NewsChannelBean("熱點","T1348647909107","headline");
+                NewsChannelBean bean2 = new NewsChannelBean("體育","T1348649079062","list");
                 NewsChannelBean bean3 = new NewsChannelBean("科技","T1348649580692","list");
-                NewsChannelBean bean4 = new NewsChannelBean("电影","T1348648650048","list");
+                NewsChannelBean bean4 = new NewsChannelBean("電影","T1348648650048","list");
 
                 List<NewsChannelBean> newsChannels = new ArrayList<NewsChannelBean>();
                 newsChannels.add(bean1);

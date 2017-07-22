@@ -40,8 +40,6 @@ public class INewsListInteractorImpl implements INewsListInteractor<List<NewsLis
                     }
                 }).subscribe(new BaseSubscriber<List<NewsList>>(callback));
 
-
-
         return subscription;
 
     }

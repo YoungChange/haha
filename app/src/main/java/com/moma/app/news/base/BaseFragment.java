@@ -50,11 +50,7 @@ public abstract class BaseFragment<T extends BasePresenter> extends Fragment
                         "Class must add annotations of ActivityFragmentInitParams.class");
             }
 
-            try{
-                mFragmentRootView = inflater.inflate(mContentViewId, container, false);
-            }catch (Exception e){
-                throw e;
-            }
+            mFragmentRootView = inflater.inflate(mContentViewId, container, false);
 
             if (mHandleRefreshLayout) {
                 initRefreshLayoutOrRecyclerViewEvent();
@@ -74,28 +70,7 @@ public abstract class BaseFragment<T extends BasePresenter> extends Fragment
      * 订阅事件处理RefreshLayout
      */
     private void initRefreshLayoutOrRecyclerViewEvent() {
-//        mRefreshLayout = (RelativeLayout) mFragmentRootView.findViewById(R.id.refresh_layout);
-//        if (mRefreshLayout != null) {
-//
-//            final RecyclerView recyclerView = (RecyclerView) mFragmentRootView
-//                    .findViewById(R.id.recycler_view);
-//
-//            mAppbarOffsetObservable = RxBus.get()
-//                    .register("enableRefreshLayoutOrScrollRecyclerView", Object.class);
-//            mAppbarOffsetObservable.subscribe(new Action1<Object>() {
-//                @Override
-//                public void call(Object obj) {
-//                    if (obj instanceof Integer) {
-//                        if (!mIsStop && recyclerView != null && (Integer) obj == mPosition) {
-//                            // 当前Fragment所在的Activity可见并且是选中的Fragment才处理事件
-//                            recyclerView.smoothScrollToPosition(0);
-//                        }
-//                    } else if (obj instanceof Boolean) {
-//                        mRefreshLayout.setRefreshable((Boolean) obj);
-//                    }
-//                }
-//            });
-//        }
+
     }
 
 

@@ -15,8 +15,6 @@ import com.moma.app.news.R;
 
 public class BaseRecyclerViewHolder extends RecyclerView.ViewHolder {
 
-    //集合类，layout里包含的View,以view的id作为key，value是view对象
-    protected SparseArray<View> mViews;
     //上下文对象
     protected Context mContext;
 
@@ -38,8 +36,6 @@ public class BaseRecyclerViewHolder extends RecyclerView.ViewHolder {
     public BaseRecyclerViewHolder(Context context, View itemView) {
         this(itemView);
         mContext = context;
-
-//        mViews = new SparseArray<View>();
     }
 
 

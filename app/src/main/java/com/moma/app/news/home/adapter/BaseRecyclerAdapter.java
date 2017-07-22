@@ -25,8 +25,8 @@ import java.util.List;
 
 public  class BaseRecyclerAdapter extends RecyclerView.Adapter<BaseRecyclerViewHolder> {
 
-    protected OnItemClickListener mClickListener;
 
+    protected OnItemClickListener mClickListener;
     protected List<NewsList> mData;
     protected Context mContext;
     private RecyclerView.LayoutManager mLayoutManager;
@@ -45,7 +45,17 @@ public  class BaseRecyclerAdapter extends RecyclerView.Adapter<BaseRecyclerViewH
 
     @Override
     public BaseRecyclerViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        final BaseRecyclerViewHolder holder = new BaseRecyclerViewHolder(mContext, mInflater.inflate(R.layout.item_news_summary, parent, false));
+        final BaseRecyclerViewHolder holder;
+        if(viewType == ItemViewType.NOIMAGE){
+            holder = new BaseRecyclerViewHolder(mContext, mInflater.inflate(R.layout.item_news_summary, parent, false));
+        }else if(viewType == ItemViewType.ONEIMAGE){
+            holder = new BaseRecyclerViewHolder(mContext, mInflater.inflate(R.layout.item_news_summary, parent, false));
+        }else if(viewType == ItemViewType.TWOIMAGE){
+            holder = new BaseRecyclerViewHolder(mContext, mInflater.inflate(R.layout.item_news_summary, parent, false));
+        }else{
+            holder = new BaseRecyclerViewHolder(mContext, mInflater.inflate(R.layout.item_news_summary, parent, false));
+        }
+
         if (mClickListener != null) {
             holder.itemView.setOnClickListener(new View.OnClickListener(){
                 @Override
@@ -66,9 +76,7 @@ public  class BaseRecyclerAdapter extends RecyclerView.Adapter<BaseRecyclerViewH
 
     @Override
     public void onBindViewHolder(BaseRecyclerViewHolder holder, int position) {
-        //bindData(holder,position,mData.get(position));
         NewsList item = mData.get(position);
-        //使用GlideUtils
         GlideUtils.loadDefault(item.imgsrc, holder.news_summary_photo, null, null, DiskCacheStrategy.RESULT);
         //直接使用Glide
         //Glide.with(mContext).load(item.imgsrc).placeholder(R.drawable.ic_loading).into(holder.news_summary_photo);
@@ -76,12 +84,6 @@ public  class BaseRecyclerAdapter extends RecyclerView.Adapter<BaseRecyclerViewH
         holder.news_summary_title.setText(item.title);
         holder.news_summary_ptime.setText(item.ptime);
     }
-
-
-    public void bindData(BaseRecyclerViewHolder holder, int position, NewsList item){
-
-    }
-
 
     @Override
     public int getItemCount() {
@@ -119,7 +121,18 @@ public  class BaseRecyclerAdapter extends RecyclerView.Adapter<BaseRecyclerViewH
      */
     @Override
     public int getItemViewType(int position) {
+
         return super.getItemViewType(position);
+
+//        if(mData.get(position).imgextra.size() == 0){
+//            return ItemViewType.NOIMAGE;
+//        }else if (mData.get(position).imgextra.size() == 1){
+//            return ItemViewType.ONEIMAGE;
+//        }else if(mData.get(position).imgextra.size() == 2){
+//            return ItemViewType.TWOIMAGE;
+//        }else{
+//            return ItemViewType.THREEIMAGE;
+//        }
     }
 
 

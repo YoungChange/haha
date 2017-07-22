@@ -96,7 +96,6 @@ public class NewsActivity extends BaseActivity<INewsPresenter> implements INewsV
             }
 
             if (mNewsViewpager.getAdapter() == null) {
-                // 初始化ViewPager
                 BaseFragmentAdapter adapter = new BaseFragmentAdapter(getSupportFragmentManager(),
                         fragments, title);
                 mNewsViewpager.setAdapter(adapter);

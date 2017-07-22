@@ -21,9 +21,7 @@
 
     <!--CHB-->
     <style name="CTabLayout" parent="AppTheme">
-        <item name="android:textSize">15px</item>
-
-
+        <item name="android:textSize">18sp</item>
     </style>
 
 </resources>

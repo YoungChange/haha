@@ -8,6 +8,5 @@ public class ItemViewType {
     // RecyclerView 中 Item的类型
     public static final int NOIMAGE = 0;
     public static final int ONEIMAGE = 1;
-    public static final int TWOIMAGE = 2;
-    public static final int THREEIMAGE = 3;
+    public static final int THREEIMAGE = 2;
 }

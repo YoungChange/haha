@@ -3,6 +3,7 @@ package com.moma.app.news.home.adapter;
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.RecyclerView.ViewHolder;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,7 +17,10 @@ import com.moma.app.news.api.bean.NewsList;
 import com.moma.app.news.util.GlideUtils;
 import com.socks.library.KLog;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -47,13 +51,11 @@ public  class BaseRecyclerAdapter extends RecyclerView.Adapter<BaseRecyclerViewH
     public BaseRecyclerViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         final BaseRecyclerViewHolder holder;
         if(viewType == ItemViewType.NOIMAGE){
-            holder = new BaseRecyclerViewHolder(mContext, mInflater.inflate(R.layout.item_news_summary, parent, false));
+            holder = new RecyclerNoImageViewHolder(mContext, mInflater.inflate(R.layout.item_news_no_image, parent, false));
         }else if(viewType == ItemViewType.ONEIMAGE){
-            holder = new BaseRecyclerViewHolder(mContext, mInflater.inflate(R.layout.item_news_summary, parent, false));
-        }else if(viewType == ItemViewType.TWOIMAGE){
-            holder = new BaseRecyclerViewHolder(mContext, mInflater.inflate(R.layout.item_news_summary, parent, false));
+            holder = new RecyclerOneImageViewHolder(mContext, mInflater.inflate(R.layout.item_news_one_image, parent, false));
         }else{
-            holder = new BaseRecyclerViewHolder(mContext, mInflater.inflate(R.layout.item_news_summary, parent, false));
+            holder = new RecyclerThreeImageViewHolder(mContext, mInflater.inflate(R.layout.item_news_three_image, parent, false));
         }
 
         if (mClickListener != null) {
@@ -77,12 +79,24 @@ public  class BaseRecyclerAdapter extends RecyclerView.Adapter<BaseRecyclerViewH
     @Override
     public void onBindViewHolder(BaseRecyclerViewHolder holder, int position) {
         NewsList item = mData.get(position);
-        GlideUtils.loadDefault(item.imgsrc, holder.news_summary_photo, null, null, DiskCacheStrategy.RESULT);
+
+        if(holder instanceof  RecyclerNoImageViewHolder){
+            ((RecyclerNoImageViewHolder) holder).news_summary_title.setText(item.title);
+            ((RecyclerNoImageViewHolder) holder).news_summary_time.setText(time2Time(item.ptime));
+        }else if(holder instanceof  RecyclerOneImageViewHolder){
+            ((RecyclerOneImageViewHolder) holder).news_summary_title.setText(item.title);
+            ((RecyclerOneImageViewHolder) holder).news_summary_time.setText(time2Time(item.ptime));
+            GlideUtils.loadDefault(item.imgsrc, ((RecyclerOneImageViewHolder) holder).news_summary_photo, null, null, DiskCacheStrategy.RESULT);
+        }else{
+            ((RecyclerThreeImageViewHolder) holder).news_summary_title.setText(item.title);
+            ((RecyclerThreeImageViewHolder) holder).news_summary_time.setText(time2Time(item.ptime));
+            GlideUtils.loadDefault(item.imgsrc, ((RecyclerThreeImageViewHolder) holder).news_summary_photo1, null, null, DiskCacheStrategy.RESULT);
+            GlideUtils.loadDefault(item.imgsrc, ((RecyclerThreeImageViewHolder) holder).news_summary_photo2, null, null, DiskCacheStrategy.RESULT);
+            GlideUtils.loadDefault(item.imgsrc, ((RecyclerThreeImageViewHolder) holder).news_summary_photo3, null, null, DiskCacheStrategy.RESULT);
+        }
+
         //直接使用Glide
         //Glide.with(mContext).load(item.imgsrc).placeholder(R.drawable.ic_loading).into(holder.news_summary_photo);
-        holder.news_summary_digest.setText(item.digest);
-        holder.news_summary_title.setText(item.title);
-        holder.news_summary_ptime.setText(item.ptime);
     }
 
     @Override
@@ -121,8 +135,8 @@ public  class BaseRecyclerAdapter extends RecyclerView.Adapter<BaseRecyclerViewH
      */
     @Override
     public int getItemViewType(int position) {
-
-        return super.getItemViewType(position);
+        int type = position % 3;
+        return type;
 
 //        if(mData.get(position).imgextra.size() == 0){
 //            return ItemViewType.NOIMAGE;
@@ -138,6 +152,43 @@ public  class BaseRecyclerAdapter extends RecyclerView.Adapter<BaseRecyclerViewH
 
     public void setOnItemClickListener(OnItemClickListener listener) {
         mClickListener = listener;
+    }
+
+
+    public String time2Time(String str){
+
+        String returnValue;
+
+        long nd = 1000 * 24 * 60 * 60;
+        long nh = 1000 * 60 * 60;
+        long nm = 1000 * 60;
+
+        SimpleDateFormat simpleDateFormat  =   new  SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        try{
+            Date newsdate = simpleDateFormat.parse(str);
+            Date nowDate  = new Date();
+            // 获得两个时间的毫秒时间差异
+            long diff = nowDate.getTime() - newsdate.getTime();
+            // 计算差多少天
+            long day = diff / nd;
+            // 计算差多少小时
+            long hour = diff % nd / nh;
+            // 计算差多少分钟
+            long min = diff % nd % nh / nm;
+
+            if(day != 0){
+                returnValue = (day+"天前");
+            }else if(hour != 0){
+                returnValue = (hour+"小時前");
+            }else{
+                returnValue = (min+"分鐘前");
+            }
+
+        }catch(ParseException e){
+            returnValue = str;
+        }
+
+        return returnValue;
     }
 
 

@@ -17,8 +17,4 @@
 
     <include layout="@layout/content_news_detail"/>
 
-
-
-
-
 </android.support.design.widget.CoordinatorLayout>

@@ -13,6 +13,15 @@
         android:layout_height="44dp"
         android:background="#f24444">
 
+        <ImageButton
+            android:id="@+id/back_imagebutton"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_marginLeft="15dp"
+            android:src="@drawable/menu"
+            android:background="#f24444"/>
+            />
+
         <TextView
             android:id="@+id/toolbar_title"
             android:layout_width="wrap_content"

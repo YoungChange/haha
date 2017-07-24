@@ -4,7 +4,7 @@ import android.content.Context;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 
-import com.moma.app.news.api.bean.NewsList;
+import com.moma.app.news.api.bean.NewsItem;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -18,12 +18,12 @@ public abstract class BaseRecyclerAdapter extends RecyclerView.Adapter<BaseRecyc
     protected Context mContext;
     protected RecyclerView.LayoutManager mLayoutManager;
     protected LayoutInflater mInflater;
-    protected List<NewsList> mData;
+    protected List<NewsItem> mData;
 
-    public BaseRecyclerAdapter(Context context, List<NewsList> data, RecyclerView.LayoutManager layoutManager) {
+    public BaseRecyclerAdapter(Context context, List<NewsItem> data, RecyclerView.LayoutManager layoutManager) {
         mContext = context;
         mLayoutManager = layoutManager;
-        mData = data == null ? new ArrayList<NewsList>() : data;
+        mData = data == null ? new ArrayList<NewsItem>() : data;
         mInflater = LayoutInflater.from(context);
     }
 
@@ -33,7 +33,7 @@ public abstract class BaseRecyclerAdapter extends RecyclerView.Adapter<BaseRecyc
     }
 
 
-    public List<NewsList> getmData() {
+    public List<NewsItem> getmData() {
         return mData;
     }
 
@@ -41,7 +41,7 @@ public abstract class BaseRecyclerAdapter extends RecyclerView.Adapter<BaseRecyc
      * 刷新数据时调用
      * @param mData
      */
-    public void setmData(List<NewsList> mData) {
+    public void setmData(List<NewsItem> mData) {
         this.mData = mData;
         notifyDataSetChanged();
     }
@@ -50,7 +50,7 @@ public abstract class BaseRecyclerAdapter extends RecyclerView.Adapter<BaseRecyc
      * 加载更多数据时调用
      * @param data
      */
-    public void addMoreData(List<NewsList> data) {
+    public void addMoreData(List<NewsItem> data) {
         int startPos = mData.size();
         mData.addAll(data);
         notifyItemRangeInserted(startPos, data.size());

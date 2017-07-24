@@ -8,7 +8,7 @@ import android.view.ViewGroup;
 
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.moma.app.news.R;
-import com.moma.app.news.api.bean.NewsList;
+import com.moma.app.news.api.bean.NewsItem;
 import com.moma.app.news.util.GlideUtils;
 import com.socks.library.KLog;
 
@@ -24,7 +24,7 @@ import java.util.List;
 
 public  class RecyclerNewsListAdapter extends BaseRecyclerAdapter {
 
-    public RecyclerNewsListAdapter(Context context, List<NewsList> data) {
+    public RecyclerNewsListAdapter(Context context, List<NewsItem> data) {
         super(context, data, null);
     }
 
@@ -59,21 +59,21 @@ public  class RecyclerNewsListAdapter extends BaseRecyclerAdapter {
 
     @Override
     public void onBindViewHolder(BaseRecyclerViewHolder holder, int position) {
-        NewsList item = mData.get(position);
+        NewsItem item = mData.get(position);
 
         if(holder instanceof  RecyclerNoImageViewHolder){
-            ((RecyclerNoImageViewHolder) holder).news_summary_title.setText(item.title);
-            ((RecyclerNoImageViewHolder) holder).news_summary_time.setText(time2Time(item.ptime));
+            ((RecyclerNoImageViewHolder) holder).news_summary_title.setText(item.post_title);
+            ((RecyclerNoImageViewHolder) holder).news_summary_time.setText(time2Time(item.post_date));
         }else if(holder instanceof  RecyclerOneImageViewHolder){
-            ((RecyclerOneImageViewHolder) holder).news_summary_title.setText(item.title);
-            ((RecyclerOneImageViewHolder) holder).news_summary_time.setText(time2Time(item.ptime));
-            GlideUtils.loadDefault(item.imgsrc, ((RecyclerOneImageViewHolder) holder).news_summary_photo, null, null, DiskCacheStrategy.RESULT);
+            ((RecyclerOneImageViewHolder) holder).news_summary_title.setText(item.post_title);
+            ((RecyclerOneImageViewHolder) holder).news_summary_time.setText(time2Time(item.post_date));
+            GlideUtils.loadDefault(item.post_image, ((RecyclerOneImageViewHolder) holder).news_summary_photo, null, null, DiskCacheStrategy.RESULT);
         }else{
-            ((RecyclerThreeImageViewHolder) holder).news_summary_title.setText(item.title);
-            ((RecyclerThreeImageViewHolder) holder).news_summary_time.setText(time2Time(item.ptime));
-            GlideUtils.loadDefault(item.imgsrc, ((RecyclerThreeImageViewHolder) holder).news_summary_photo1, null, null, DiskCacheStrategy.RESULT);
-            GlideUtils.loadDefault(item.imgsrc, ((RecyclerThreeImageViewHolder) holder).news_summary_photo2, null, null, DiskCacheStrategy.RESULT);
-            GlideUtils.loadDefault(item.imgsrc, ((RecyclerThreeImageViewHolder) holder).news_summary_photo3, null, null, DiskCacheStrategy.RESULT);
+            ((RecyclerThreeImageViewHolder) holder).news_summary_title.setText(item.post_title);
+            ((RecyclerThreeImageViewHolder) holder).news_summary_time.setText(time2Time(item.post_date));
+            GlideUtils.loadDefault(item.post_image, ((RecyclerThreeImageViewHolder) holder).news_summary_photo1, null, null, DiskCacheStrategy.RESULT);
+            GlideUtils.loadDefault(item.post_image, ((RecyclerThreeImageViewHolder) holder).news_summary_photo2, null, null, DiskCacheStrategy.RESULT);
+            GlideUtils.loadDefault(item.post_image, ((RecyclerThreeImageViewHolder) holder).news_summary_photo3, null, null, DiskCacheStrategy.RESULT);
         }
 
         //直接使用Glide

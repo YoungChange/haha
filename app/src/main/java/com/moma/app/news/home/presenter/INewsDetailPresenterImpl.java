@@ -1,6 +1,6 @@
 package com.moma.app.news.home.presenter;
 
-import com.moma.app.news.api.bean.NewsInfo;
+import com.moma.app.news.api.bean.NewsDetail;
 import com.moma.app.news.base.presenter.BasePresenterImpl;
 import com.moma.app.news.home.model.INewsDetailInteractor;
 import com.moma.app.news.home.model.INewsDetailInteractorImpl;
@@ -14,17 +14,17 @@ import com.moma.app.news.home.view.INewsDetailView;
  * UpdateUser: <p>
  * UpdateDate: <p>
  */
-public class INewsDetailPresenterImpl extends BasePresenterImpl<INewsDetailView, NewsInfo>
+public class INewsDetailPresenterImpl extends BasePresenterImpl<INewsDetailView, NewsDetail>
         implements INewsDetailPresenter {
 
     public INewsDetailPresenterImpl(INewsDetailView newsDetailView, String postId) {
         super(newsDetailView);
-        INewsDetailInteractor<NewsInfo> newsDetailInteractor = new INewsDetailInteractorImpl();
+        INewsDetailInteractor<NewsDetail> newsDetailInteractor = new INewsDetailInteractorImpl();
         mSubscription = newsDetailInteractor.requestNewsDetail(this, postId);
     }
 
     @Override
-    public void requestSuccess(NewsInfo data) {
+    public void requestSuccess(NewsDetail data) {
         mView.initNewsDetail(data);
     }
 

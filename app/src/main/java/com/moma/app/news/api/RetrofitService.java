@@ -5,8 +5,8 @@ import android.net.Network;
 import android.util.SparseArray;
 
 import com.moma.app.news.NewsApplication;
-import com.moma.app.news.api.bean.NewsInfo;
-import com.moma.app.news.api.bean.NewsList;
+import com.moma.app.news.api.bean.NewsDetail;
+import com.moma.app.news.api.bean.NewsItem;
 import com.moma.app.news.util.NetworkUtil;
 import com.socks.library.KLog;
 
@@ -113,6 +113,8 @@ public class RetrofitService {
                 KLog.v("--------------------------------------------开始打印返回数据----------------------------------------------------");
                 KLog.json(buffer.clone().readString(charset));
                 KLog.v("--------------------------------------------结束打印返回数据----------------------------------------------------");
+            } else {
+                KLog.e("---------------------------error--------------------------");
             }
 
             return response;
@@ -136,12 +138,13 @@ public class RetrofitService {
                             .getCacheDir(), "HttpCache");
                     Cache cache = new Cache(new File(NewsApplication.getContext().getCacheDir(), "HttpCache"), CACHE_FILE_SIZE);
 
-                    sOkHttpClient = new OkHttpClient.Builder().cache(cache)
+                    sOkHttpClient = new OkHttpClient.Builder()
+                            .cache(cache)
                             .addNetworkInterceptor(mRewriteCacheControlInterceptor)
                             .addInterceptor(mRewriteCacheControlInterceptor)
                             .addInterceptor(mLoggingInterceptor)
                             .retryOnConnectionFailure(true)
-                            .connectTimeout(30, TimeUnit.SECONDS)
+                            .connectTimeout(3, TimeUnit.SECONDS)
                             .build();
 
                 }
@@ -188,9 +191,11 @@ public class RetrofitService {
      * @param startPage 开始的页码
      * @return 被观察对象
      */
-    public Observable<Map<String, List<NewsList>>> getNewsListObservable(String type, String id, int startPage) {
+    public Observable<Map<String, List<NewsItem>>> getNewsListObservable(String type, String id, int startPage) {
+        KLog.e("新闻列表：" + type + "; id=" + id+"; startpage="+startPage);
         return mNewsAPI.getNewsList(type, id, startPage)
-                .compose(new BaseSchedulerTransformer<Map<String, List<NewsList>>>());
+        //return mNewsAPI.getNewsList()
+                .compose(new BaseSchedulerTransformer<Map<String, List<NewsItem>>>());
     }
 
     /**
@@ -199,9 +204,11 @@ public class RetrofitService {
      * @param postId 新闻详情的id
      * @return 被观察对象
      */
-    public Observable<Map<String, NewsInfo>> getNewsDetailObservable(String postId) {
+    public Observable<Map<String, NewsDetail>> getNewsDetailObservable(String postId) {
+        KLog.e("newsinfo , id="+postId);
         return mNewsAPI.getNewsDetail(postId)
-                .compose(new BaseSchedulerTransformer<Map<String, NewsInfo>>());
+        //return mNewsAPI.getNewsDetail()
+                .compose(new BaseSchedulerTransformer<Map<String, NewsDetail>>());
     }
 
 }

@@ -2,12 +2,13 @@ package com.moma.app.news.home.presenter;
 
 
 
-import com.moma.app.news.api.bean.NewsList;
+import com.moma.app.news.api.bean.NewsItem;
 import com.moma.app.news.base.DataLoadType;
 import com.moma.app.news.base.presenter.BasePresenterImpl;
 import com.moma.app.news.home.model.INewsListInteractor;
 import com.moma.app.news.home.model.INewsListInteractorImpl;
 import com.moma.app.news.home.view.INewsListView;
+import com.socks.library.KLog;
 
 import java.util.List;
 
@@ -18,12 +19,12 @@ import java.util.List;
  * UpdateUser: <p>
  * UpdateDate: <p>
  */
-public class INewsListPresenterImpl extends BasePresenterImpl<INewsListView, List<NewsList>> implements INewsListPresenter {
+public class INewsListPresenterImpl extends BasePresenterImpl<INewsListView, List<NewsItem>> implements INewsListPresenter {
 
-    private INewsListInteractor<List<NewsList>> mNewsListInteractor;
+    private INewsListInteractor<List<NewsItem>> mNewsListInteractor;
     private String mNewsType;
     private String mNewsId;
-    private int mStartPage;
+    private int mStartPage = 1;
 
     private boolean mIsRefresh = true;
     private boolean mHasInit;
@@ -46,12 +47,14 @@ public class INewsListPresenterImpl extends BasePresenterImpl<INewsListView, Lis
 
     @Override
     public void requestError(String e) {
+        KLog.e("request.......error.....e="+e);
         super.requestError(e);
-        mView.updateNewsList(null, e, mIsRefresh ? DataLoadType.TYPE_REFRESH_FAIL : DataLoadType.TYPE_LOAD_MORE_FAIL);
+        //mView.updateNewsList(null, e, mIsRefresh ? DataLoadType.TYPE_REFRESH_FAIL : DataLoadType.TYPE_LOAD_MORE_FAIL);
     }
 
     @Override
-    public void requestSuccess(List<NewsList> data) {
+    public void requestSuccess(List<NewsItem> data) {
+        KLog.e("request.......bailei.....mStartpage="+mStartPage);
         if (data != null) {
             mStartPage += 20;
         }
@@ -61,13 +64,16 @@ public class INewsListPresenterImpl extends BasePresenterImpl<INewsListView, Lis
 
     @Override
     public void refreshData() {
-        mStartPage = 0;
+        //bailei modify 0 to 1
+        KLog.e("refreshData().......bailei.....");
+        mStartPage = 1;
         mIsRefresh = true;
         mSubscription = mNewsListInteractor.requestNewsList(this, mNewsType, mNewsId, mStartPage);
     }
 
     @Override
     public void loadMoreData() {
+        KLog.e("loadMoreData().......bailei.....");
         mIsRefresh = false;
         mSubscription = mNewsListInteractor.requestNewsList(this, mNewsType, mNewsId, mStartPage);
     }

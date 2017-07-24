@@ -1,7 +1,7 @@
 package com.moma.app.news.home.model;
 
 import com.moma.app.news.api.RetrofitService;
-import com.moma.app.news.api.bean.NewsInfo;
+import com.moma.app.news.api.bean.NewsDetail;
 import com.moma.app.news.base.BaseSubscriber;
 import com.moma.app.news.util.callback.RequestCallback;
 
@@ -18,15 +18,15 @@ import rx.functions.Func1;
  * UpdateUser: <p>
  * UpdateDate: <p>
  */
-public class INewsDetailInteractorImpl implements INewsDetailInteractor<NewsInfo> {
+public class INewsDetailInteractorImpl implements INewsDetailInteractor<NewsDetail> {
 
     @Override
-    public Subscription requestNewsDetail(final RequestCallback<NewsInfo> callback, final String id) {
+    public Subscription requestNewsDetail(final RequestCallback<NewsDetail> callback, final String id) {
         return RetrofitService.getInstance(1).getNewsDetailObservable(id)
-                .map(new Func1<Map<String, NewsInfo>, NewsInfo>() {
+                .map(new Func1<Map<String, NewsDetail>, NewsDetail>() {
                     @Override
-                    public NewsInfo call(Map<String, NewsInfo> map) {
-                        return map.get(id);
+                    public NewsDetail call(Map<String, NewsDetail> map) {
+                        return map.get("data");
                     }
                 }).subscribe(new BaseSubscriber<>(callback));
     }

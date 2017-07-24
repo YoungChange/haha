@@ -45,6 +45,7 @@ public class BaseSubscriber<T> extends Subscriber<T> {
     @CallSuper
     @Override
     public void onError(Throwable e) {
+        KLog.e("onError, e="+e);
         if (mRequestCallback != null) {
             mRequestCallback.requestError("请求错误：");
         }

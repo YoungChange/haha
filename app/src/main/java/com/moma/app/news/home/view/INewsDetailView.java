@@ -1,7 +1,7 @@
 package com.moma.app.news.home.view;
 
 
-import com.moma.app.news.api.bean.NewsInfo;
+import com.moma.app.news.api.bean.NewsDetail;
 import com.moma.app.news.base.view.BaseView;
 
 /**
@@ -14,6 +14,6 @@ import com.moma.app.news.base.view.BaseView;
  */
 public interface INewsDetailView extends BaseView {
 
-    void initNewsDetail(NewsInfo data);
+    void initNewsDetail(NewsDetail data);
 
 }

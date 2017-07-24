@@ -12,7 +12,7 @@ import android.widget.TextView;
 
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.moma.app.news.R;
-import com.moma.app.news.api.bean.NewsInfo;
+import com.moma.app.news.api.bean.NewsDetail;
 import com.moma.app.news.base.BaseActivity;
 import com.moma.app.news.home.presenter.INewsDetailPresenter;
 import com.moma.app.news.home.presenter.INewsDetailPresenterImpl;
@@ -47,8 +47,8 @@ public class NewsDetailActivity extends BaseActivity<INewsDetailPresenter> imple
         mDetailBody = (RichText) findViewById(R.id.news_detail_body);
         mDetailImage = (ImageView) findViewById(R.id.news_detail_image);
 
-        String mNewsListImgSrc = getIntent().getStringExtra("imgsrc");
         String mNewsListPostId = getIntent().getStringExtra("postid");
+        String mNewsListImgSrc = getIntent().getStringExtra("imgsrc");
 
         GlideUtils.loadDefault(mNewsListImgSrc, mDetailImage, null, null, DiskCacheStrategy.RESULT);
 
@@ -57,13 +57,15 @@ public class NewsDetailActivity extends BaseActivity<INewsDetailPresenter> imple
     }
 
     @Override
-    public void initNewsDetail(final NewsInfo data) {
+    public void initNewsDetail(final NewsDetail data) {
 
         mDetailTitle.setText(data.title);
-        mDetailTime.setText(data.ptime);
+        mDetailTime.setText(data.date);
 
-        if (!TextUtils.isEmpty(data.body)) {
-            mDetailBody.setRichText(data.body);
+
+
+        if (!TextUtils.isEmpty(data.content)) {
+            mDetailBody.setRichText(data.content);
         }
 
     }

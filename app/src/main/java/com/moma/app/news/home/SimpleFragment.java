@@ -10,7 +10,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.RelativeLayout;
 
-import com.moma.app.news.api.bean.NewsList;
+import com.moma.app.news.api.bean.NewsItem;
 import com.moma.app.news.base.BaseFragment;
 import com.moma.app.news.R;
 import com.moma.app.news.base.BaseRecycleViewDivider;
@@ -22,6 +22,7 @@ import com.moma.app.news.home.presenter.INewsListPresenterImpl;
 import com.moma.app.news.home.view.INewsListView;
 import com.moma.app.news.util.MeasureUtil;
 import com.moma.app.news.util.annotation.ActivityFragmentInject;
+import com.socks.library.KLog;
 
 import java.util.List;
 
@@ -84,7 +85,7 @@ public class SimpleFragment extends BaseFragment<INewsListPresenter> implements 
     }
 
     @Override
-    public void updateNewsList(final List<NewsList> data, String errorMsg, @DataLoadType.DataLoadTypeChecker int type) {
+    public void updateNewsList(final List<NewsItem> data, String errorMsg, @DataLoadType.DataLoadTypeChecker int type) {
 
         if (mAdapter == null) {
             initNewsList(data);
@@ -116,7 +117,7 @@ public class SimpleFragment extends BaseFragment<INewsListPresenter> implements 
 
 
 
-    private void initNewsList(final List<NewsList> data) {
+    private void initNewsList(final List<NewsItem> data) {
 
         //刷新监听事件
         mSwipeRefreshLayout.setColorSchemeColors(Color.RED, Color.BLUE);
@@ -137,11 +138,16 @@ public class SimpleFragment extends BaseFragment<INewsListPresenter> implements 
             public void onItemClick(View view, int position) {
 
                 Intent intent = new Intent(getActivity(), NewsDetailActivity.class);
-                NewsList newsSummary =  mAdapter.getmData().get(position);
-                intent.putExtra("postid", newsSummary.postid);
-                intent.putExtra("imgsrc", newsSummary.imgsrc);
+                NewsItem newsItem =  mAdapter.getmData().get(position);
+                KLog.e("onItemClick, position="+position+"; id="+newsItem.id+"; img="+newsItem.post_image);
+                intent.putExtra("postid", String.valueOf(newsItem.id));
+                intent.putExtra("imgsrc", newsItem.post_image);
 
-                startActivity(intent);
+                try{
+                    startActivity(intent);
+                }catch(Exception e){
+                    e.printStackTrace();
+                }
             }
 
             @Override

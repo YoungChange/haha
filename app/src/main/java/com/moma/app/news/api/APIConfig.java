@@ -10,7 +10,8 @@ package com.moma.app.news.api;
  */
 public class APIConfig {
 
-    public static final String HOST_NAME = "https://c.m.163.com/";
+    //public static final String HOST_NAME = "https://c.m.163.com/";
+    public static final String HOST_NAME = "http://192.168.8.232:8000/api/";
     public static final String END_URL = "-20.html";
     public static final String ENDDETAIL_URL = "/full.html";
 

@@ -9,7 +9,57 @@ import java.util.List;
  * Fuction: 新闻列表
  */
 @JsonIgnoreProperties(ignoreUnknown = true)
-public class NewsList {
+public class NewsItem {
+    @JsonProperty("id")
+    public int id;
+    @JsonProperty("user_id")
+    public int user_id;
+    @JsonProperty("post_author")
+    public String post_author;
+    @JsonProperty("post_title")
+    public String post_title;
+    @JsonProperty("post_excerpt")
+    public String post_excerpt;
+    @JsonProperty("post_content")
+    public String post_content;
+    @JsonProperty("post_status")
+    public String post_status;
+    @JsonProperty("post_slug")
+    public String post_slug;
+    @JsonProperty("post_date")
+    public String post_date;
+    @JsonProperty("post_modified")
+    public String post_modified;
+    @JsonProperty("post_type")
+    public String post_type;
+    @JsonProperty("post_image")
+    public String post_image;
+    @JsonProperty("comment_count")
+    public int comment_count;
+    @JsonProperty("votes")
+    public int votes;
+    @JsonProperty("keywords")
+    public String keywords;
+    @JsonProperty("description")
+    public String description;
+    @JsonProperty("source_url")
+    public String source_url;
+    @JsonProperty("created_at")
+    public String created_at;
+    @JsonProperty("updated_at")
+    public String updated_at;
+    @JsonProperty("pivot")
+    public IVotEntity pivot;
+
+    @JsonIgnoreProperties(ignoreUnknown = true)
+    public static class IVotEntity {
+        @JsonProperty("category_id")
+        public int category_id;
+        @JsonProperty("post_id")
+        public int post_id;
+    }
+
+    /*
     @JsonProperty("postid")
     public String postid;
     @JsonProperty("hasCover")
@@ -60,19 +110,11 @@ public class NewsList {
     public String ename;
     @JsonProperty("ptime")
     public String ptime;
-    /**
-     * title : 哈萨克斯坦中亚在建第1高楼爆炸起火
-     * tag : photoset
-     * imgsrc : http://img5.cache.netease.com/3g/2016/2/13/2016021318005710210.jpg
-     * subtitle :
-     * url : 00AN0001|110630
-     */
+
 
     @JsonProperty("ads")
     public List<AdsEntity> ads;
-    /**
-     * imgsrc : http://img5.cache.netease.com/3g/2016/2/13/201602131446132dc50.jpg
-     */
+    //imgsrc : http://img5.cache.netease.com/3g/2016/2/13/201602131446132dc50.jpg
 
     @JsonProperty("imgextra")
     public List<ImgextraEntity> imgextra;
@@ -96,4 +138,5 @@ public class NewsList {
         @JsonProperty("imgsrc")
         public String imgsrc;
     }
+    */
 }

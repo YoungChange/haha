@@ -15,7 +15,7 @@ import com.moma.app.news.base.BaseFragment;
 import com.moma.app.news.R;
 import com.moma.app.news.base.BaseRecycleViewDivider;
 import com.moma.app.news.base.DataLoadType;
-import com.moma.app.news.home.adapter.RecyclerNewsListAdapter;
+import com.moma.app.news.home.adapter.NewsListAdapter;
 import com.moma.app.news.home.adapter.OnItemClickListener;
 import com.moma.app.news.home.presenter.INewsListPresenter;
 import com.moma.app.news.home.presenter.INewsListPresenterImpl;
@@ -44,7 +44,7 @@ public class SimpleFragment extends BaseFragment<INewsListPresenter> implements 
     private SwipeRefreshLayout mSwipeRefreshLayout;
     private RecyclerView mRecyclerView;
     private RelativeLayout mRelativeLayout;
-    private RecyclerNewsListAdapter mAdapter;
+    private NewsListAdapter mAdapter;
 
 
     /**
@@ -131,7 +131,7 @@ public class SimpleFragment extends BaseFragment<INewsListPresenter> implements 
         });
 
 
-        mAdapter = new RecyclerNewsListAdapter(getActivity(), data);
+        mAdapter = new NewsListAdapter(getActivity(), data);
         mAdapter.setOnItemClickListener(new OnItemClickListener(){
 
             @Override

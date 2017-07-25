@@ -13,19 +13,21 @@ public class NewsDetail {
 
     @JsonProperty("id")
     public int id;
-    @JsonProperty("title")
+    @JsonProperty("post_title")
     public String title;
-    @JsonProperty("excerpt")
+    @JsonProperty("post_slug")
+    public String slug;
+    @JsonProperty("post_excerpt")
     public String excerpt;
-    @JsonProperty("date")
+    @JsonProperty("post_date")
     public String date;
     @JsonProperty("comment_count")
     public int comment_count;
-    @JsonProperty("image")
+    @JsonProperty("post_image")
     public String image;
-    @JsonProperty("content")
+    @JsonProperty("post_content")
     public String content;
-    @JsonProperty("author")
+    @JsonProperty("post_author")
     public String author;
 
 }

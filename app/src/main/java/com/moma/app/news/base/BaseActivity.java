@@ -1,20 +1,36 @@
 package com.moma.app.news.base;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.TabLayout;
+import android.support.v4.view.GravityCompat;
 import android.support.v4.view.ViewPager;
+import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.widget.ImageButton;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.moma.app.news.R;
+import com.moma.app.news.api.bean.NewsItem;
 import com.moma.app.news.base.presenter.BasePresenter;
 import com.moma.app.news.base.view.BaseView;
+import com.moma.app.news.contract.ContractUsActivity;
+import com.moma.app.news.home.adapter.OnItemClickListener;
+import com.moma.app.news.home.adapter.RecyclerNavigationAdapter;
+import com.moma.app.news.home.adapter.RecyclerNewsListAdapter;
+import com.moma.app.news.util.MeasureUtil;
 import com.moma.app.news.util.annotation.ActivityFragmentInject;
 import com.moma.app.news.util.RxBus;
+import com.moma.app.news.util.bean.NavigationItem;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import rx.Observable;
 
@@ -52,6 +68,15 @@ public abstract class BaseActivity<T extends BasePresenter> extends AppCompatAct
 
     private int mToolbarBackImageButtonId;
 
+    private boolean mHasNavigationView;
+
+    //滑动布局
+    protected DrawerLayout mDrawerLayout;
+
+    //
+    private RecyclerNavigationAdapter mNavAdapter;
+
+
 
 
 
@@ -75,21 +100,23 @@ public abstract class BaseActivity<T extends BasePresenter> extends AppCompatAct
             mToolbarTextViewId = anno.toolbarTextViewId();
             mToolbarTextViewTitle = anno.toolbarTextViewTitle();
             mToolbarBackImageButtonId = anno.toolbarBackImageButtonId();
+            mHasNavigationView = anno.hasNavigationView();
 
         } else {
             throw new RuntimeException("Class must add annotations of ActivityFragmentInitParams.class");
         }
 
-        try {
-            setContentView(mContentViewId);
-        }catch(Exception e){
-            e.printStackTrace();
+        setContentView(mContentViewId);
+
+
+        if (mHasNavigationView) {
+            initNavigationView();
         }
 
         if(mToolbarBackImageButtonId == -1){
             Toolbar myToolbar = initToolbar(mToolbarId,mToolbarTextViewId,mToolbarTextViewTitle);
         }else {
-            Toolbar myToolbar = initDetailActivityToolbar(mToolbarId,mToolbarBackImageButtonId);
+            Toolbar myToolbar = initBackActivityToolbar(mToolbarId,mToolbarBackImageButtonId);
         }
 
         initView();
@@ -106,9 +133,15 @@ public abstract class BaseActivity<T extends BasePresenter> extends AppCompatAct
      * @return  返回toolbar
      */
     public Toolbar initToolbar(int id, int titleId, int titleString) {
+
         Toolbar toolbar = (Toolbar) findViewById(id);
+
         TextView textView = (TextView) findViewById(titleId);
         textView.setText(titleString);
+
+        ImageButton menuImageButton = (ImageButton) findViewById(R.id.menu_imagebutton);
+        menuImageButton.setOnClickListener(this);
+
         AppCompatActivity activity = this;
         activity.setSupportActionBar(toolbar);
         android.support.v7.app.ActionBar actionBar = activity.getSupportActionBar();
@@ -120,10 +153,13 @@ public abstract class BaseActivity<T extends BasePresenter> extends AppCompatAct
     }
 
 
-    public Toolbar initDetailActivityToolbar(int toolBarId,int toolbarBackImageButtonId ) {
+    public Toolbar initBackActivityToolbar(int toolBarId,int toolbarBackImageButtonId ) {
+
         Toolbar toolbar = (Toolbar) findViewById(toolBarId);
+
         ImageButton imageButton = (ImageButton) findViewById(toolbarBackImageButtonId);
         imageButton.setOnClickListener(this);
+
         AppCompatActivity activity = this;
         activity.setSupportActionBar(toolbar);
         android.support.v7.app.ActionBar actionBar = activity.getSupportActionBar();
@@ -137,7 +173,74 @@ public abstract class BaseActivity<T extends BasePresenter> extends AppCompatAct
 
 
 
+    private void initNavigationView() {
 
+        mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
+//        LinearLayout navigation_view = (LinearLayout) findViewById(R.id.navigation_view);
+        RecyclerView nav_recycler_view = (RecyclerView) findViewById(R.id.nav_recycler_view);
+        // 设置DrawerLayout的响应
+        mDrawerLayout.addDrawerListener(new DrawerLayout.DrawerListener() {
+            @Override
+            public void onDrawerSlide(View drawerView, float slideOffset) {
+
+            }
+
+            @Override
+            public void onDrawerOpened(View drawerView) {
+                drawerView.setClickable(true);
+            }
+
+            @Override
+            public void onDrawerClosed(View drawerView) {
+
+            }
+
+            @Override
+            public void onDrawerStateChanged(int newState) {
+
+            }
+        });
+
+        List<NavigationItem> data = new ArrayList<NavigationItem>();
+        data.add(new NavigationItem(R.string.contract_us,R.drawable.contact));
+
+        if(mNavAdapter == null){
+            mNavAdapter = new RecyclerNavigationAdapter(this,data);
+        }
+        mNavAdapter.setOnItemClickListener(new OnItemClickListener() {
+
+            @Override
+            public void onItemClick(View view, int position) {
+                switch (position){
+                    case 0:
+                        mDrawerLayout.closeDrawer(GravityCompat.START);
+                        Intent intent = new Intent(BaseActivity.this, ContractUsActivity.class);
+                        startActivity(intent);
+                        break;
+                    default:
+                        Toast.makeText(BaseActivity.this, "不知道你点击了什么东西", Toast.LENGTH_SHORT).show();
+                        break;
+                }
+            }
+
+            @Override
+            public void onItemLongClick(View view, int position) {
+
+            }
+        });
+
+        //添加分割线
+        nav_recycler_view.addItemDecoration(
+                new BaseRecycleViewDivider(
+                        this,
+                        LinearLayoutManager.HORIZONTAL,
+                        MeasureUtil.dip2px(this,1),
+                        getResources().getColor(R.color.divide_newslist)));
+
+        nav_recycler_view.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false));
+        nav_recycler_view.setAdapter(mNavAdapter);
+
+    }
 
 
 

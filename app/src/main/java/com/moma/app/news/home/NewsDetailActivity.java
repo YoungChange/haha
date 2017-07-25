@@ -6,6 +6,7 @@ import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.text.TextUtils;
 import android.view.View;
+import android.view.WindowManager;
 import android.webkit.WebView;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -27,8 +28,7 @@ import zhou.widget.RichText;
  */
 
 @ActivityFragmentInject(contentViewId = R.layout.activity_news_detail,
-        handleRefreshLayout = true,
-        toolbarId = R.id.my_news_deatil_toolbar,
+        toolbarId = R.id.back_toolbar,
         toolbarBackImageButtonId = R.id.back_imagebutton
         )
 public class NewsDetailActivity extends BaseActivity<INewsDetailPresenter> implements INewsDetailView {
@@ -67,7 +67,6 @@ public class NewsDetailActivity extends BaseActivity<INewsDetailPresenter> imple
         if (!TextUtils.isEmpty(data.content)) {
             mDetailBody.setRichText(data.content);
         }
-
     }
 
     @Override

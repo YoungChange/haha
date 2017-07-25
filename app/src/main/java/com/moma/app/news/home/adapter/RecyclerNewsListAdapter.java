@@ -22,7 +22,7 @@ import java.util.List;
  * Created by moma on 17-7-20.
  */
 
-public  class RecyclerNewsListAdapter extends BaseRecyclerAdapter {
+public  class RecyclerNewsListAdapter extends BaseRecyclerAdapter<NewsItem> {
 
     public RecyclerNewsListAdapter(Context context, List<NewsItem> data) {
         super(context, data, null);

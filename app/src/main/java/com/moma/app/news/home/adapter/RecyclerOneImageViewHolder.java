@@ -14,14 +14,9 @@ import com.moma.app.news.R;
 
 public class RecyclerOneImageViewHolder  extends BaseRecyclerViewHolder{
 
-    //上下文对象
-    protected Context mContext;
-
     ImageView news_summary_photo;
     TextView news_summary_title;
     TextView news_summary_time;
-
-
 
     public RecyclerOneImageViewHolder(View itemView) {
         super(itemView);

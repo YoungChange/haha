@@ -14,6 +14,10 @@ import com.moma.app.news.R;
  */
 
 public class BaseRecyclerViewHolder extends RecyclerView.ViewHolder {
+
+    //上下文对象
+    protected Context mContext;
+
     public BaseRecyclerViewHolder(View itemView) {
         super(itemView);
     }

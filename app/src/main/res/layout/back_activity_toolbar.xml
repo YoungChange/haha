@@ -4,7 +4,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <android.support.v7.widget.Toolbar
-        android:id="@+id/my_news_deatil_toolbar"
+        android:id="@+id/back_toolbar"
         android:layout_width="match_parent"
         android:layout_height="44dp"
         android:background="#f7f7f7">

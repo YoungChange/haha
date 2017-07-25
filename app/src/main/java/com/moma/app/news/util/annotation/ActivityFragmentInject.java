@@ -54,7 +54,10 @@ public @interface ActivityFragmentInject {
 
     int toolbarAllImageButtonId() default  -1;
 
-
-
+    /**
+     * 判断是否含有侧滑菜单【list 页面有，Detail 页面没有】
+     * @return
+     */
+    boolean hasNavigationView() default false;
 
 }

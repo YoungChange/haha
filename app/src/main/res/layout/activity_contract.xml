@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <android.support.design.widget.AppBarLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <include layout="@layout/back_activity_toolbar"/>
+
+    </android.support.design.widget.AppBarLayout>
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:scrollbars="none">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginLeft="15dp"
+            android:layout_marginRight="15dp"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/email_textview"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:textSize="19sp"
+                android:textColor="#202020"
+                android:text="@string/email_address"/>
+
+            <EditText
+                android:id="@+id/email_editview"
+                android:layout_width="match_parent"
+                android:layout_height="44dp"
+                android:layout_marginTop="10dp"
+                android:layout_below="@+id/email_textview"
+                android:hint="@string/email_address_example"
+                android:lines="1"
+                android:background="@drawable/bg_edittext_singleline"/>
+
+            <TextView
+                android:id="@+id/feedback_textview"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/email_editview"
+                android:layout_marginTop="25dp"
+                android:textSize="19sp"
+                android:textColor="#202020"
+                android:text="@string/feedback"/>
+
+            <EditText
+                android:id="@+id/feedback_editview"
+                android:layout_width="match_parent"
+                android:layout_height="200dp"
+                android:layout_marginTop="10dp"
+                android:gravity="top|left"
+                android:layout_below="@+id/feedback_textview"
+                android:background="@drawable/bg_edittext_multiline"/>
+
+            <Button
+                android:id="@+id/send_button"
+                android:layout_width="200dp"
+                android:layout_height="44dp"
+                android:layout_marginTop="40dp"
+                android:text="@string/submit"
+                android:textSize="19sp"
+                android:textColor="#ffffff"
+                android:background="#f24444"
+                android:layout_centerHorizontal="true"
+                android:layout_below="@+id/feedback_editview"/>
+
+        </RelativeLayout>
+
+    </ScrollView>
+
+
+</LinearLayout>

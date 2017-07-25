@@ -80,7 +80,7 @@ public class SimpleFragment extends BaseFragment<INewsListPresenter> implements 
     protected void initView(View fragmentRootView) {
 
         mSwipeRefreshLayout = (SwipeRefreshLayout) fragmentRootView.findViewById(R.id.refresh_layout);
-        mRecyclerView = (RecyclerView) fragmentRootView.findViewById(R.id.recycler_view);
+        mRecyclerView = (RecyclerView) fragmentRootView.findViewById(R.id.newslist_recycler_view);
         mPresenter = new INewsListPresenterImpl(this,tagId,tagType);
     }
 
@@ -179,7 +179,12 @@ public class SimpleFragment extends BaseFragment<INewsListPresenter> implements 
         });
 
         //添加分割线
-        mRecyclerView.addItemDecoration(new BaseRecycleViewDivider(getActivity(), LinearLayoutManager.HORIZONTAL, MeasureUtil.dip2px(getActivity(),1), getResources().getColor(R.color.divide_newslist)));
+        mRecyclerView.addItemDecoration(
+                new BaseRecycleViewDivider(
+                        getActivity(),
+                        LinearLayoutManager.HORIZONTAL,
+                        MeasureUtil.dip2px(getActivity(),1),
+                        getResources().getColor(R.color.divide_newslist)));
 
         //设置Item增加、移除动画
         mRecyclerView.setItemAnimator(new DefaultItemAnimator());

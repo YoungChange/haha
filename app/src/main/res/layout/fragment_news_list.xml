@@ -9,7 +9,7 @@
     android:paddingRight="15dp">
 
     <android.support.v7.widget.RecyclerView
-        android:id="@+id/recycler_view"
+        android:id="@+id/newslist_recycler_view"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="#ffffff"/>

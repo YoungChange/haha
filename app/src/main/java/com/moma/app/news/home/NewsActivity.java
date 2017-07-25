@@ -3,7 +3,9 @@ package com.moma.app.news.home;
 
 import android.content.Intent;
 import android.support.design.widget.TabLayout;
+import android.support.v4.view.GravityCompat;
 import android.support.v4.view.ViewPager;
+import android.support.v4.widget.DrawerLayout;
 import android.view.View;
 import android.widget.ImageButton;
 
@@ -29,7 +31,8 @@ import rx.functions.Action1;
         handleRefreshLayout = true,
         toolbarId = R.id.my_toolbar,
         toolbarTextViewId = R.id.toolbar_title,
-        toolbarTextViewTitle = R.string.moma)
+        toolbarTextViewTitle = R.string.moma,
+        hasNavigationView = true)
 public class NewsActivity extends BaseActivity<INewsPresenter> implements INewsView {
 
     private TabLayout mTabLayout;
@@ -73,7 +76,10 @@ public class NewsActivity extends BaseActivity<INewsPresenter> implements INewsV
     }
     @Override
     public void onClick(View view) {
-
+        switch (view.getId()){
+            case R.id.menu_imagebutton:
+                this.mDrawerLayout.openDrawer(GravityCompat.START);
+        }
     }
     @Override
     public void initViewPager(List<NewsChannelBean> newsChannels) {

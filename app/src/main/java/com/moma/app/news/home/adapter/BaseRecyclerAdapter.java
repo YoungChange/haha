@@ -13,17 +13,17 @@ import java.util.List;
  * Created by moma on 17-7-24.
  */
 
-public abstract class BaseRecyclerAdapter extends RecyclerView.Adapter<BaseRecyclerViewHolder>{
+public abstract class BaseRecyclerAdapter<T> extends RecyclerView.Adapter<BaseRecyclerViewHolder>{
     protected OnItemClickListener mClickListener;
     protected Context mContext;
     protected RecyclerView.LayoutManager mLayoutManager;
     protected LayoutInflater mInflater;
-    protected List<NewsItem> mData;
+    protected List<T> mData;
 
-    public BaseRecyclerAdapter(Context context, List<NewsItem> data, RecyclerView.LayoutManager layoutManager) {
+    public BaseRecyclerAdapter(Context context, List<T> data, RecyclerView.LayoutManager layoutManager) {
         mContext = context;
         mLayoutManager = layoutManager;
-        mData = data == null ? new ArrayList<NewsItem>() : data;
+        mData = data == null ? new ArrayList<T>() : data;
         mInflater = LayoutInflater.from(context);
     }
 
@@ -33,7 +33,7 @@ public abstract class BaseRecyclerAdapter extends RecyclerView.Adapter<BaseRecyc
     }
 
 
-    public List<NewsItem> getmData() {
+    public List<T> getmData() {
         return mData;
     }
 
@@ -41,7 +41,7 @@ public abstract class BaseRecyclerAdapter extends RecyclerView.Adapter<BaseRecyc
      * 刷新数据时调用
      * @param mData
      */
-    public void setmData(List<NewsItem> mData) {
+    public void setmData(List<T> mData) {
         this.mData = mData;
         notifyDataSetChanged();
     }
@@ -50,7 +50,7 @@ public abstract class BaseRecyclerAdapter extends RecyclerView.Adapter<BaseRecyc
      * 加载更多数据时调用
      * @param data
      */
-    public void addMoreData(List<NewsItem> data) {
+    public void addMoreData(List<T> data) {
         int startPos = mData.size();
         mData.addAll(data);
         notifyItemRangeInserted(startPos, data.size());

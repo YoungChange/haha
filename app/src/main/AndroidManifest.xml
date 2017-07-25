@@ -30,6 +30,11 @@
         <activity android:name=".home.NewsDetailActivity">
 
         </activity>
+
+        <activity android:name=".contract.ContractUsActivity">
+
+        </activity>
+
     </application>
 
 </manifest>

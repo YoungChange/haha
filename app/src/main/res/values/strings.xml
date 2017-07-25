@@ -1,6 +1,12 @@
 <resources>
-    <string name="app_name">News</string>
-    <string name="news">新闻</string>
-    <string name="moma">moma头条</string>
+    <string name="app_name">傳聲筒</string>
+    <string name="news">新聞</string>
+    <string name="moma">moma頭條</string>
+    <string name="contract_us">聯繫我們</string>
+    <string name="email_address">郵箱</string>
+    <string name="email_address_example">1234@gmail.com</string>
+    <string name="feedback">反饋意見</string>
+    <string name="verification_code">驗證碼</string>
+    <string name="submit">提交</string>
 
 </resources>

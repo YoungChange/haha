@@ -2,20 +2,13 @@ package com.moma.app.news.home.adapter;
 
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
-import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.moma.app.news.R;
 import com.moma.app.news.api.bean.NewsItem;
-import com.moma.app.news.util.GlideUtils;
 import com.socks.library.KLog;
 
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 /**
@@ -30,14 +23,17 @@ public  class RecyclerNewsListAdapter extends BaseRecyclerAdapter<NewsItem> {
 
     @Override
     public BaseRecyclerViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        final BaseRecyclerViewHolder holder;
-        if(viewType == ItemViewType.NOIMAGE){
-            holder = new RecyclerNoImageViewHolder(mContext, mInflater.inflate(R.layout.item_news_no_image, parent, false));
+        final ListItemViewHolder holder;
+        View view;
+
+        if(viewType == ItemViewType.THREEIMAGE){
+            view =  mInflater.inflate(R.layout.item_news_three_image, parent, false);
         }else if(viewType == ItemViewType.ONEIMAGE){
-            holder = new RecyclerOneImageViewHolder(mContext, mInflater.inflate(R.layout.item_news_one_image, parent, false));
+            view =  mInflater.inflate(R.layout.item_news_one_image, parent, false);
         }else{
-            holder = new RecyclerThreeImageViewHolder(mContext, mInflater.inflate(R.layout.item_news_three_image, parent, false));
+            view =  mInflater.inflate(R.layout.item_news_no_image, parent, false);
         }
+        holder = new ListItemViewHolder(mContext, view, viewType);
 
         if (mClickListener != null) {
             holder.itemView.setOnClickListener(new View.OnClickListener(){
@@ -61,26 +57,9 @@ public  class RecyclerNewsListAdapter extends BaseRecyclerAdapter<NewsItem> {
     public void onBindViewHolder(BaseRecyclerViewHolder holder, int position) {
         NewsItem item = mData.get(position);
 
-        if(holder instanceof  RecyclerNoImageViewHolder){
-            ((RecyclerNoImageViewHolder) holder).news_summary_title.setText(item.post_title);
-            ((RecyclerNoImageViewHolder) holder).news_summary_time.setText(time2Time(item.post_date));
-        }else if(holder instanceof  RecyclerOneImageViewHolder){
-            ((RecyclerOneImageViewHolder) holder).news_summary_title.setText(item.post_title);
-            ((RecyclerOneImageViewHolder) holder).news_summary_time.setText(time2Time(item.post_date));
-            //GlideUtils.loadDefault(item.post_image, ((RecyclerOneImageViewHolder) holder).news_summary_photo, null, null, DiskCacheStrategy.RESULT);
-            GlideUtils.loadDefault(item.post_image, ((RecyclerOneImageViewHolder) holder).news_summary_photo, false, null, DiskCacheStrategy.RESULT);
-        }else{
-            ((RecyclerThreeImageViewHolder) holder).news_summary_title.setText(item.post_title);
-            ((RecyclerThreeImageViewHolder) holder).news_summary_time.setText(time2Time(item.post_date));
-            /*
-            GlideUtils.loadDefault(item.post_image, ((RecyclerThreeImageViewHolder) holder).news_summary_photo1, null, null, DiskCacheStrategy.RESULT);
-            GlideUtils.loadDefault(item.post_image, ((RecyclerThreeImageViewHolder) holder).news_summary_photo2, null, null, DiskCacheStrategy.RESULT);
-            GlideUtils.loadDefault(item.post_image, ((RecyclerThreeImageViewHolder) holder).news_summary_photo3, null, null, DiskCacheStrategy.RESULT);
-            */
-            GlideUtils.loadDefault(item.post_image, ((RecyclerThreeImageViewHolder) holder).news_summary_photo1, false, null, DiskCacheStrategy.RESULT);
-            GlideUtils.loadDefault(item.post_image, ((RecyclerThreeImageViewHolder) holder).news_summary_photo1, false, null, DiskCacheStrategy.RESULT);
-            GlideUtils.loadDefault(item.post_image, ((RecyclerThreeImageViewHolder) holder).news_summary_photo1, false, null, DiskCacheStrategy.RESULT);
-        }
+        ((ListItemViewHolder) holder).setTitle(item.post_title);
+        ((ListItemViewHolder) holder).setDate(item.post_date);
+        ((ListItemViewHolder) holder).setImage(item.post_image);
 
         //直接使用Glide
         //Glide.with(mContext).load(item.imgsrc).placeholder(R.drawable.ic_loading).into(holder.news_summary_photo);
@@ -110,46 +89,7 @@ public  class RecyclerNewsListAdapter extends BaseRecyclerAdapter<NewsItem> {
     }
 
 
-    /**
-     * 求yyyy-MM-dd HH:mm:ss格式的时间 字符串 与当前时间的间隔
-     * @param str yyyy-MM-dd HH:mm:ss格式的时间
-     * @return
-     */
-    public String time2Time(String str){
 
-        String returnValue;
-
-        long nd = 1000 * 24 * 60 * 60;
-        long nh = 1000 * 60 * 60;
-        long nm = 1000 * 60;
-
-        SimpleDateFormat simpleDateFormat  =   new  SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-        try{
-            Date newsdate = simpleDateFormat.parse(str);
-            Date nowDate  = new Date();
-            // 获得两个时间的毫秒时间差异
-            long diff = nowDate.getTime() - newsdate.getTime();
-            // 计算差多少天
-            long day = diff / nd;
-            // 计算差多少小时
-            long hour = diff % nd / nh;
-            // 计算差多少分钟
-            long min = diff % nd % nh / nm;
-
-            if(day != 0){
-                returnValue = (day+"天前");
-            }else if(hour != 0){
-                returnValue = (hour+"小時前");
-            }else{
-                returnValue = (min+"分鐘前");
-            }
-
-        }catch(ParseException e){
-            returnValue = str;
-        }
-
-        return returnValue;
-    }
 
 
 }

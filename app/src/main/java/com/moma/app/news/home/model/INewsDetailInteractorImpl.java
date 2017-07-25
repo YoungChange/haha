@@ -1,5 +1,6 @@
 package com.moma.app.news.home.model;
 
+import com.moma.app.news.api.APIConfig;
 import com.moma.app.news.api.RetrofitService;
 import com.moma.app.news.api.bean.NewsDetail;
 import com.moma.app.news.base.BaseSubscriber;
@@ -22,11 +23,11 @@ public class INewsDetailInteractorImpl implements INewsDetailInteractor<NewsDeta
 
     @Override
     public Subscription requestNewsDetail(final RequestCallback<NewsDetail> callback, final String id) {
-        return RetrofitService.getInstance(1).getNewsDetailObservable(id)
+        return RetrofitService.getInstance(APIConfig.HOST_TYPE_NEWS).getNewsDetailObservable(id)
                 .map(new Func1<Map<String, NewsDetail>, NewsDetail>() {
                     @Override
                     public NewsDetail call(Map<String, NewsDetail> map) {
-                        return map.get("data");
+                        return map.get(APIConfig.NEWS_DATA_JSON_KEY);
                     }
                 }).subscribe(new BaseSubscriber<>(callback));
     }

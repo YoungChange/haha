@@ -67,13 +67,19 @@ public  class RecyclerNewsListAdapter extends BaseRecyclerAdapter<NewsItem> {
         }else if(holder instanceof  RecyclerOneImageViewHolder){
             ((RecyclerOneImageViewHolder) holder).news_summary_title.setText(item.post_title);
             ((RecyclerOneImageViewHolder) holder).news_summary_time.setText(time2Time(item.post_date));
-            GlideUtils.loadDefault(item.post_image, ((RecyclerOneImageViewHolder) holder).news_summary_photo, null, null, DiskCacheStrategy.RESULT);
+            //GlideUtils.loadDefault(item.post_image, ((RecyclerOneImageViewHolder) holder).news_summary_photo, null, null, DiskCacheStrategy.RESULT);
+            GlideUtils.loadDefault(item.post_image, ((RecyclerOneImageViewHolder) holder).news_summary_photo, false, null, DiskCacheStrategy.RESULT);
         }else{
             ((RecyclerThreeImageViewHolder) holder).news_summary_title.setText(item.post_title);
             ((RecyclerThreeImageViewHolder) holder).news_summary_time.setText(time2Time(item.post_date));
+            /*
             GlideUtils.loadDefault(item.post_image, ((RecyclerThreeImageViewHolder) holder).news_summary_photo1, null, null, DiskCacheStrategy.RESULT);
             GlideUtils.loadDefault(item.post_image, ((RecyclerThreeImageViewHolder) holder).news_summary_photo2, null, null, DiskCacheStrategy.RESULT);
             GlideUtils.loadDefault(item.post_image, ((RecyclerThreeImageViewHolder) holder).news_summary_photo3, null, null, DiskCacheStrategy.RESULT);
+            */
+            GlideUtils.loadDefault(item.post_image, ((RecyclerThreeImageViewHolder) holder).news_summary_photo1, false, null, DiskCacheStrategy.RESULT);
+            GlideUtils.loadDefault(item.post_image, ((RecyclerThreeImageViewHolder) holder).news_summary_photo1, false, null, DiskCacheStrategy.RESULT);
+            GlideUtils.loadDefault(item.post_image, ((RecyclerThreeImageViewHolder) holder).news_summary_photo1, false, null, DiskCacheStrategy.RESULT);
         }
 
         //直接使用Glide

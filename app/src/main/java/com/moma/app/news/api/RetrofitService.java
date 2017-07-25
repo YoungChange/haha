@@ -180,34 +180,28 @@ public class RetrofitService {
 
 
     /**
-     * 网易新闻列表 例子：http://c.m.163.com/nc/article/headline/T1348647909107/0-20.html
-     * <p>
+     * 网易新闻列表
      * 对API调用了observeOn(MainThread)之后，线程会跑在主线程上，包括onComplete也是，
      * unsubscribe也在主线程，然后如果这时候调用call.cancel会导致NetworkOnMainThreadException
      * 加一句unsubscribeOn(io)
      *
-     * @param type      新闻类别：headline为头条,list为其他
-     * @param id        新闻类别id
-     * @param startPage 开始的页码
-     * @return 被观察对象
+     * @param catid        新闻类别id
+     * @param startPage 第几页
      */
-    public Observable<Map<String, List<NewsItem>>> getNewsListObservable(String type, String id, int startPage) {
-        KLog.e("新闻列表：" + type + "; id=" + id+"; startpage="+startPage);
-        return mNewsAPI.getNewsList(type, id, startPage)
-        //return mNewsAPI.getNewsList()
+    public Observable<Map<String, List<NewsItem>>> getNewsListObservable(String catid, int startPage) {
+        KLog.e("新闻列表：catid=" + catid+"; startpage="+startPage);
+        return mNewsAPI.getNewsList(catid, APIConfig.GET_TOKEN, APIConfig.LIST_ITEMS_PER_PAGE, startPage)
                 .compose(new BaseSchedulerTransformer<Map<String, List<NewsItem>>>());
     }
 
     /**
-     * 网易新闻详情：例子：http://c.m.163.com/nc/article/BG6CGA9M00264N2N/full.html
+     * 获取新闻详情
      *
      * @param postId 新闻详情的id
-     * @return 被观察对象
      */
     public Observable<Map<String, NewsDetail>> getNewsDetailObservable(String postId) {
         KLog.e("newsinfo , id="+postId);
-        return mNewsAPI.getNewsDetail(postId)
-        //return mNewsAPI.getNewsDetail()
+        return mNewsAPI.getNewsDetail(postId, APIConfig.GET_TOKEN)
                 .compose(new BaseSchedulerTransformer<Map<String, NewsDetail>>());
     }
 

@@ -8,6 +8,7 @@ import java.util.Map;
 
 import retrofit2.http.GET;
 import retrofit2.http.Path;
+import retrofit2.http.Query;
 import rx.Observable;
 
 /**
@@ -17,40 +18,32 @@ import rx.Observable;
 public interface INewsAPI {
 
     /**
-     * 请求新闻列表 例子：http://c.m.163.com/nc/article/headline/T1348647909107/0-20.html
+     * 请求新闻列表 :
      * 192.168.8.234:8000/api/category/1/posts?token=7rRltNoGUM2TLA0avUeXbEyDPKvtYQMD&per_page=20&page=1
      *
-     * @param type      新闻类别：headline为头条,local为北京本地,fangchan为房产,list为其他
-     * @param id        新闻类别id
-     * @param startPage 开始的页码
-     * @return 被观察对象
+     * @param catid     category id
+     * @param token     token
+     * @param perPage   每次请求获取的新闻数量
+     * @param pageNumber 请求的第几页
      */
-    /*
-    @GET("nc/article/{type}/{id}/{startPage}-20.html")
-    Observable<Map<String, List<NewsList>>> getNewsList(
-            @Path("type") String type,
-            @Path("id") String id,
-            @Path("startPage") int startPage);
-    */
-    //@GET("{type}/{id}/posts?token=7rRltNoGUM2TLA0avUeXbEyDPKvtYQMD&per_page=20&page={startPage}")
-    //@GET("{type}/{id}/posts/10/{startpage}")
-    //@GET("category/1/posts/10/1")
-    @GET("{type}/{id}/posts/10/{startPage}")
+    @GET("category/{catid}/posts")
     Observable<Map<String, List<NewsItem>>> getNewsList(
-            @Path("type") String type,
-            @Path("id") String id,
-            @Path("startPage") int startPage
+            @Path("catid") String catid,
+            @Query("token") String token,
+            @Query("per_page") int perPage,
+            @Query("pageNumber") int pageNumber
     );
 
     /**
-     * 新闻详情：例子：http://c.m.163.com/nc/article/BFNFMVO800034JAU/full.html
-     *
+     * 新闻详情：
+     * 192.168.8.234:8000/api/post/2?token=7rRltNoGUM2TLA0avUeXbEyDPKvtYQMD
      * @param postId 新闻详情的id
-     * @return 被观察对象
+     * @param token token
      */
     @GET("post/{postId}")
     Observable<Map<String, NewsDetail>> getNewsDetail(
-            @Path("postId") String postId
+            @Path("postId") String postId,
+            @Query("token") String token
     );
 
 

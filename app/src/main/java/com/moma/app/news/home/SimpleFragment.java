@@ -180,11 +180,11 @@ public class SimpleFragment extends BaseFragment<INewsListPresenter> implements 
 
         //添加分割线
         mRecyclerView.addItemDecoration(
-                new BaseRecycleViewDivider(
-                        getActivity(),
-                        LinearLayoutManager.HORIZONTAL,
-                        MeasureUtil.dip2px(getActivity(),1),
-                        getResources().getColor(R.color.divide_newslist)));
+            new BaseRecycleViewDivider(
+                    getActivity(),
+                    LinearLayoutManager.HORIZONTAL,
+                    MeasureUtil.dip2px(getActivity(),1),
+                    getResources().getColor(R.color.divide_newslist)));
 
         //设置Item增加、移除动画
         mRecyclerView.setItemAnimator(new DefaultItemAnimator());

@@ -21,8 +21,9 @@ import com.moma.app.news.home.view.INewsDetailView;
 import com.moma.app.news.util.GlideUtils;
 import com.moma.app.news.util.annotation.ActivityFragmentInject;
 
-import zhou.widget.RichText;
-
+//import zhou.widget.RichText;
+import com.zzhoujay.richtext.RichText;
+import com.zzhoujay.richtext.RichText;
 /**
  * Created by moma on 17-7-17.
  */
@@ -35,7 +36,8 @@ public class NewsDetailActivity extends BaseActivity<INewsDetailPresenter> imple
 
     private TextView mDetailTitle;
     private TextView mDetailTime;
-    private RichText mDetailBody;
+    //private RichText mDetailBody;
+    private TextView mDetailBody;
     private ImageView mDetailImage;
 
 
@@ -44,13 +46,15 @@ public class NewsDetailActivity extends BaseActivity<INewsDetailPresenter> imple
 
         mDetailTitle = (TextView) findViewById(R.id.news_detail_title);
         mDetailTime = (TextView) findViewById(R.id.news_detail_time);
-        mDetailBody = (RichText) findViewById(R.id.news_detail_body);
+        mDetailBody = (TextView) findViewById(R.id.news_detail_body);
         mDetailImage = (ImageView) findViewById(R.id.news_detail_image);
+
+        //mDetailBody.setLayerType(View.LAYER_TYPE_SOFTWARE, null);
 
         String mNewsListPostId = getIntent().getStringExtra("postid");
         String mNewsListImgSrc = getIntent().getStringExtra("imgsrc");
 
-        GlideUtils.loadDefault(mNewsListImgSrc, mDetailImage, null, null, DiskCacheStrategy.RESULT);
+        //GlideUtils.loadDefault(mNewsListImgSrc, mDetailImage, null, null, DiskCacheStrategy.RESULT);
 
         mPresenter = new INewsDetailPresenterImpl(this,mNewsListPostId);
 
@@ -61,9 +65,12 @@ public class NewsDetailActivity extends BaseActivity<INewsDetailPresenter> imple
 
         mDetailTitle.setText(data.title);
         mDetailTime.setText(data.date);
-        
+
         if (!TextUtils.isEmpty(data.content)) {
-            mDetailBody.setRichText(data.content);
+            //mDetailBody.setRichText(data.content);
+            RichText.fromHtml(data.content)
+                    //.autoPlay(true)
+                    .into(mDetailBody);
         }
     }
 

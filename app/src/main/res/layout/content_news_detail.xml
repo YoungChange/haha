@@ -41,7 +41,7 @@
             android:scaleType="centerCrop"
             tools:src="@drawable/ic_header"/>
 
-        <zhou.widget.RichText
+        <TextView
             android:id="@+id/news_detail_body"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"

@@ -17,13 +17,11 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.moma.app.news.R;
-import com.moma.app.news.api.bean.NewsItem;
 import com.moma.app.news.base.presenter.BasePresenter;
 import com.moma.app.news.base.view.BaseView;
 import com.moma.app.news.contract.ContractUsActivity;
 import com.moma.app.news.home.adapter.OnItemClickListener;
 import com.moma.app.news.home.adapter.RecyclerNavigationAdapter;
-import com.moma.app.news.home.adapter.RecyclerNewsListAdapter;
 import com.moma.app.news.util.MeasureUtil;
 import com.moma.app.news.util.annotation.ActivityFragmentInject;
 import com.moma.app.news.util.RxBus;

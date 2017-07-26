@@ -10,5 +10,7 @@
     <string name="submit">提交</string>
     <string name="network_conn_error">WiFi和移動數據已斷開</string>
     <string name="retry">點擊重試</string>
+    <string name="mychannel">我的頻道</string>
+    <string name="news_detail">新聞詳情</string>
 
 </resources>

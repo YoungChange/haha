@@ -23,14 +23,15 @@ import com.moma.app.news.util.annotation.ActivityFragmentInject;
 
 //import zhou.widget.RichText;
 import com.zzhoujay.richtext.RichText;
-import com.zzhoujay.richtext.RichText;
 /**
  * Created by moma on 17-7-17.
  */
 
 @ActivityFragmentInject(contentViewId = R.layout.activity_news_detail,
         toolbarId = R.id.back_toolbar,
-        toolbarBackImageButtonId = R.id.back_imagebutton
+        toolbarBackImageButtonId = R.id.back_imagebutton,
+        toolbarTextViewId = R.id.toolbar_title,
+        toolbarTextViewTitle = R.string.news_detail
         )
 public class NewsDetailActivity extends BaseActivity<INewsDetailPresenter> implements INewsDetailView {
 

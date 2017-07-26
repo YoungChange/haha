@@ -114,7 +114,7 @@ public abstract class BaseActivity<T extends BasePresenter> extends AppCompatAct
         if(mToolbarBackImageButtonId == -1){
             Toolbar myToolbar = initToolbar(mToolbarId,mToolbarTextViewId,mToolbarTextViewTitle);
         }else {
-            Toolbar myToolbar = initBackActivityToolbar(mToolbarId,mToolbarBackImageButtonId);
+            Toolbar myToolbar = initBackActivityToolbar(mToolbarId,mToolbarBackImageButtonId,mToolbarTextViewId,mToolbarTextViewTitle);
         }
 
         initView();
@@ -151,12 +151,15 @@ public abstract class BaseActivity<T extends BasePresenter> extends AppCompatAct
     }
 
 
-    public Toolbar initBackActivityToolbar(int toolBarId,int toolbarBackImageButtonId ) {
+    public Toolbar initBackActivityToolbar(int toolBarId,int toolbarBackImageButtonId, int titleId, int titleString) {
 
         Toolbar toolbar = (Toolbar) findViewById(toolBarId);
 
         ImageButton imageButton = (ImageButton) findViewById(toolbarBackImageButtonId);
         imageButton.setOnClickListener(this);
+
+        TextView textView = (TextView) findViewById(titleId);
+        textView.setText(titleString);
 
         AppCompatActivity activity = this;
         activity.setSupportActionBar(toolbar);

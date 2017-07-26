@@ -25,7 +25,9 @@ import com.moma.app.news.util.bean.FeedBackMessage;
 @ActivityFragmentInject(contentViewId = R.layout.activity_contract,
         handleRefreshLayout = true,
         toolbarId = R.id.back_toolbar,
-        toolbarBackImageButtonId = R.id.back_imagebutton
+        toolbarBackImageButtonId = R.id.back_imagebutton,
+        toolbarTextViewId = R.id.toolbar_title,
+        toolbarTextViewTitle = R.string.contract_us
 )
 public class ContractUsActivity extends BaseActivity<IContractUsPresenter> implements IContractUsView{
 

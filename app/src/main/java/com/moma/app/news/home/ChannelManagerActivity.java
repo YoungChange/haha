@@ -9,6 +9,7 @@ import com.moma.app.news.R;
  * Created by moma on 17-7-17.
  */
 
+
 public class ChannelManagerActivity extends AppCompatActivity {
 
 

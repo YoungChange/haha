@@ -8,5 +8,7 @@
     <string name="feedback">反饋意見</string>
     <string name="verification_code">驗證碼</string>
     <string name="submit">提交</string>
+    <string name="network_conn_error">WiFi和移動數據已斷開</string>
+    <string name="retry">點擊重試</string>
 
 </resources>

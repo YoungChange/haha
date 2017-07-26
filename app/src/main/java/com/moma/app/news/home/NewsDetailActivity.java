@@ -61,9 +61,7 @@ public class NewsDetailActivity extends BaseActivity<INewsDetailPresenter> imple
 
         mDetailTitle.setText(data.title);
         mDetailTime.setText(data.date);
-
-
-
+        
         if (!TextUtils.isEmpty(data.content)) {
             mDetailBody.setRichText(data.content);
         }

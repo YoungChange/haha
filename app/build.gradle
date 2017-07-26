@@ -1,6 +1,16 @@
 apply plugin: 'com.android.application'
 
 android {
+
+//    signingConfigs {
+//        config {
+//            keyAlias 'maker'
+//            keyPassword 'moma'
+//            storeFile file('/Users/Nevermore/AndroidStudioProjects/Blog/jks/makeapp.jks')
+//            storePassword 'moma'
+//        }
+//    }
+
     compileSdkVersion 26
     buildToolsVersion "26.0.0"
     defaultConfig {
@@ -12,11 +22,34 @@ android {
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
     }
     buildTypes {
-        release {
+        debug {
             minifyEnabled false
+            debuggable true
+        }
+
+        release {
+            minifyEnabled true
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+//            signingConfig signingConfigs.config
+            debuggable false
         }
     }
+
+//    productFlavors {
+//        uc {
+//            manifestPlaceholders = [UMENG_CHANNEL_VALUE: "uc"]
+//        }
+//        _360 {
+//            manifestPlaceholders = [UMENG_CHANNEL_VALUE: "360"]
+//        }
+//        baidu {
+//            manifestPlaceholders = [UMENG_CHANNEL_VALUE: "baidu"]
+//        }
+//        yyb {
+//            manifestPlaceholders = [UMENG_CHANNEL_VALUE: "yyb"]
+//        }
+//    }
+
 
     packagingOptions {
         exclude 'META-INF/DEPENDENCIES'
@@ -37,7 +70,6 @@ dependencies {
     compile 'com.android.support:design:26.+'
     compile 'com.android.support.constraint:constraint-layout:1.0.2'
     testCompile 'junit:junit:4.12'
-    compile project(path: ':channelmanager')
     compile project(path: ':channelmanager')
     compile 'com.google.code.gson:gson:2.8.1'
     compile 'com.github.Aspsine:IRecyclerView:0.0.5'

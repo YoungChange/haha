@@ -10,4 +10,5 @@
         android:gravity="center"
         android:text="Channel Manager"/>
 
+
 </LinearLayout>

@@ -59,7 +59,7 @@ public  class NewsListAdapter extends BaseRecyclerAdapter<NewsItem> {
 
         ((ListItemViewHolder) holder).setTitle(item.post_title);
         ((ListItemViewHolder) holder).setDate(item.post_date);
-        ((ListItemViewHolder) holder).setImage(item.post_image);
+        ((ListItemViewHolder) holder).setImage(item);
 
         //直接使用Glide
         //Glide.with(mContext).load(item.imgsrc).placeholder(R.drawable.ic_loading).into(holder.news_summary_photo);
@@ -74,7 +74,16 @@ public  class NewsListAdapter extends BaseRecyclerAdapter<NewsItem> {
      */
     @Override
     public int getItemViewType(int position) {
-        int type = position % 3;
+        //默认有一张图片
+        int type = ItemViewType.ONEIMAGE;
+
+        NewsItem item = mData.get(position);
+        if (item.post_image_list != null && item.post_image_list.size()>0) {
+            type = ItemViewType.THREEIMAGE;
+        } else if (item.post_image == null || item.post_image.size() == 0) {
+            type = ItemViewType.NOIMAGE;
+        }
+
         return type;
 
 //        if(mData.get(position).imgextra.size() == 0){

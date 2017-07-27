@@ -23,11 +23,8 @@ public class NewsDetail {
     public String date;
     @JsonProperty("comment_count")
     public int comment_count;
-    @JsonProperty("post_image")
-    public String image;
-    @JsonProperty("post_content")
-    public String content;
     @JsonProperty("post_author")
     public String author;
-
+    @JsonProperty("post_content")
+    public String content;
 }

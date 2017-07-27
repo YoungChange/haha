@@ -7,6 +7,7 @@ import android.widget.TextView;
 
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.moma.app.news.R;
+import com.moma.app.news.api.bean.NewsItem;
 import com.moma.app.news.util.FuncUtil;
 import com.moma.app.news.util.GlideUtils;
 
@@ -50,17 +51,17 @@ public class ListItemViewHolder  extends BaseRecyclerViewHolder{
         news_summary_time.setText(FuncUtil.time2Time(date));
     }
 
-    public void setImage(Object obj) {
-        if (obj == null) {
+    public void setImage(NewsItem item) {
+        if (item == null) {
             return;
         }
         //图片加载，如果是gif图片只加载第一帧, 设置asGif为false
         if (mViewType == ItemViewType.ONEIMAGE) {
-            GlideUtils.loadDefault(obj, news_summary_photo1, false, null, DiskCacheStrategy.RESULT);
+            GlideUtils.loadDefault(item.post_image.get("small").imageUrl, news_summary_photo1, false, null, DiskCacheStrategy.RESULT);
         } else if (mViewType == ItemViewType.THREEIMAGE) {
-            GlideUtils.loadDefault(obj, news_summary_photo1, false, null, DiskCacheStrategy.RESULT);
-            GlideUtils.loadDefault(obj, news_summary_photo2, false, null, DiskCacheStrategy.RESULT);
-            GlideUtils.loadDefault(obj, news_summary_photo3, false, null, DiskCacheStrategy.RESULT);
+            GlideUtils.loadDefault(item.post_image_list.get(0).imageUrl, news_summary_photo1, false, null, DiskCacheStrategy.RESULT);
+            GlideUtils.loadDefault(item.post_image_list.get(1).imageUrl, news_summary_photo2, false, null, DiskCacheStrategy.RESULT);
+            GlideUtils.loadDefault(item.post_image_list.get(2).imageUrl, news_summary_photo3, false, null, DiskCacheStrategy.RESULT);
         }
     }
 }

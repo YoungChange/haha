@@ -2,15 +2,6 @@ apply plugin: 'com.android.application'
 
 android {
 
-//    signingConfigs {
-//        config {
-//            keyAlias 'maker'
-//            keyPassword 'moma'
-//            storeFile file('/Users/Nevermore/AndroidStudioProjects/Blog/jks/makeapp.jks')
-//            storePassword 'moma'
-//        }
-//    }
-
     compileSdkVersion 26
     buildToolsVersion "26.0.0"
     defaultConfig {
@@ -31,25 +22,11 @@ android {
         release {
             minifyEnabled true
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
-//            signingConfig signingConfigs.config
             debuggable true
         }
     }
 
-//    productFlavors {
-//        uc {
-//            manifestPlaceholders = [UMENG_CHANNEL_VALUE: "uc"]
-//        }
-//        _360 {
-//            manifestPlaceholders = [UMENG_CHANNEL_VALUE: "360"]
-//        }
-//        baidu {
-//            manifestPlaceholders = [UMENG_CHANNEL_VALUE: "baidu"]
-//        }
-//        yyb {
-//            manifestPlaceholders = [UMENG_CHANNEL_VALUE: "yyb"]
-//        }
-//    }
+
 
 
     packagingOptions {

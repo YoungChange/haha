@@ -24,6 +24,7 @@ android {
     buildTypes {
         debug {
             minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
             debuggable true
         }
 
@@ -31,7 +32,7 @@ android {
             minifyEnabled true
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
 //            signingConfig signingConfigs.config
-            debuggable false
+            debuggable true
         }
     }
 
@@ -71,6 +72,7 @@ dependencies {
     compile 'com.android.support.constraint:constraint-layout:1.0.2'
     testCompile 'junit:junit:4.12'
     compile project(path: ':channelmanager')
+
     compile 'com.google.code.gson:gson:2.8.1'
     compile 'com.github.Aspsine:IRecyclerView:0.0.5'
 

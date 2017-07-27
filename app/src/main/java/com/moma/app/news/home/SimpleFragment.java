@@ -94,20 +94,20 @@ public class SimpleFragment extends BaseFragment<INewsListPresenter> implements 
         switch (type) {
             case DataLoadType.TYPE_REFRESH_SUCCESS:
                 mAdapter.setmData(data);
-                toast("刷新成功");
+                toast(getActivity().getString(R.string.refresh_success));
                 break;
             case DataLoadType.TYPE_REFRESH_FAIL:
                 mAdapter.notifyDataSetChanged();
                 break;
             case DataLoadType.TYPE_LOAD_MORE_SUCCESS:
                 if (data == null || data.size() == 0) {
-                    toast("全部加载完毕");
+                    toast(getActivity().getString(R.string.all_loaded));
                     return;
                 }
                 mAdapter.addMoreData(data);
                 break;
             case DataLoadType.TYPE_LOAD_MORE_FAIL:
-                toast("加载更多失败");
+                toast(getActivity().getString(R.string.load_more_fail));
                 break;
         }
 

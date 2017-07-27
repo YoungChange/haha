@@ -4,11 +4,11 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 
 import com.moma.app.news.R;
+import com.moma.app.news.util.annotation.ActivityFragmentInject;
 
 /**
  * Created by moma on 17-7-17.
  */
-
 
 public class ChannelManagerActivity extends AppCompatActivity {
 

@@ -11,8 +11,9 @@
 
         <ImageButton
             android:id="@+id/back_imagebutton"
-            android:layout_width="wrap_content"
+            android:layout_width="55dp"
             android:layout_height="match_parent"
+            android:paddingLeft="-30dp"
             android:layout_marginLeft="15dp"
             android:src="@drawable/back"
             android:background="#f7f7f7"/>
@@ -22,7 +23,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
-            android:singleLine="true"
+            android:lines="1"
+            android:textColor="#202020"
             android:textSize="20sp"
             tools:text="聯繫我們"/>
 

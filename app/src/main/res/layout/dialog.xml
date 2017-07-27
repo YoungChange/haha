@@ -3,28 +3,28 @@
     android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:background="#ffffff">
+    android:background="@drawable/bg_dialog">
 
     <TextView
         android:id="@+id/diagle_textview"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="#ffffff"
-        android:layout_marginTop="40dp"
+        android:layout_marginTop="30dp"
         android:layout_marginLeft="20dp"
         android:layout_marginRight="20dp"
-        android:textColor="#c8c8c8"
+        android:textColor="#808080"
         android:textSize="20sp"
         android:textStyle="bold"
         android:text="@string/fankui"/>
 
     <Button
-
         android:id="@+id/diagle_button"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="#ffffff"
         android:text="关闭"
-        android:textSize="17sp"/>
+        android:textColor="#F24444"
+        android:textSize="19sp"/>
 
 </LinearLayout>

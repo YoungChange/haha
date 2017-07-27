@@ -1,15 +1,20 @@
 package com.moma.app.news.contract;
 
+import android.app.AlertDialog;
+import android.app.Dialog;
 import android.content.Context;
 import android.os.Bundle;
 import android.os.IBinder;
 import android.os.Message;
 import android.view.MotionEvent;
 import android.view.View;
+import android.view.Window;
 import android.view.WindowManager;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TextView;
+import android.widget.Toast;
 
 import com.moma.app.news.R;
 import com.moma.app.news.base.BaseActivity;
@@ -36,6 +41,8 @@ public class ContractUsActivity extends BaseActivity<IContractUsPresenter> imple
     private EditText feedbackEditview;
     private Button sendButton;
     private InputMethodManager manager;
+
+    AlertDialog alertDialog;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -64,6 +71,13 @@ public class ContractUsActivity extends BaseActivity<IContractUsPresenter> imple
                 break;
             case R.id.send_button:
 //                mPresenter = new IContractUsPresenterImpl(this, message);
+                showPopUp();
+                break;
+            case R.id.diagle_button:
+                if(alertDialog != null){
+                    alertDialog.dismiss();
+                }
+                this.finish();
                 break;
             default:
                 toast(this.getString(R.string.what_you_did));
@@ -120,5 +134,19 @@ public class ContractUsActivity extends BaseActivity<IContractUsPresenter> imple
                     InputMethodManager.HIDE_NOT_ALWAYS);
         }
     }
+
+
+    private void showPopUp(){
+        alertDialog = new AlertDialog.Builder(this).create();
+        alertDialog.show();
+        Window window = alertDialog.getWindow();
+        window.setContentView(R.layout.dialog);
+        TextView tv_title = (TextView) window.findViewById(R.id.diagle_textview);
+        Button button = (Button) window.findViewById(R.id.diagle_button);
+        button.setOnClickListener(this);
+    }
+
+
+
 
 }

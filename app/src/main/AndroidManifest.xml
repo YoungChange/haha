@@ -15,7 +15,9 @@
         android:roundIcon="@drawable/icon"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".home.NewsActivity">
+        <activity
+            android:name=".home.NewsActivity"
+            android:configChanges="orientation|keyboardHidden|screenSize">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -27,7 +29,9 @@
 
         </activity>
 
-        <activity android:name=".home.NewsDetailActivity">
+        <activity
+            android:name=".home.NewsDetailActivity"
+            android:configChanges="orientation|keyboardHidden|screenSize">
 
         </activity>
 

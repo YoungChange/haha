@@ -5,23 +5,23 @@ package com.moma.app.news.util.bean;
  */
 
 public class NewsChannelBean {
-    private String tabName;// 头条 科技 。。
+    private String tabName;
 
-    private String tabId;// T1348647909107
+    private String tabId;
 
-    private String tabType;//list  or   headline
+    private String tabType;
 
     public NewsChannelBean(String tabName) {
         this.tabName = tabName;
-        this.tabType = "headline";
-        this.tabId = "T1348647909107";
+        this.tabType = "category";
+        this.tabId = "0";
 
     }
 
     public NewsChannelBean(String tabName, String tabType) {
         this.tabName = tabName;
         this.tabType = tabType;
-        this.tabId = "T1348647909107";
+        this.tabId = "0";
     }
 
 

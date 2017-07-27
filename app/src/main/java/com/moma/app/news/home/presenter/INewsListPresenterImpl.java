@@ -2,6 +2,7 @@ package com.moma.app.news.home.presenter;
 
 
 
+import com.moma.app.news.api.APIConfig;
 import com.moma.app.news.api.bean.NewsItem;
 import com.moma.app.news.base.DataLoadType;
 import com.moma.app.news.base.presenter.BasePresenterImpl;
@@ -24,7 +25,7 @@ public class INewsListPresenterImpl extends BasePresenterImpl<INewsListView, Lis
     private INewsListInteractor<List<NewsItem>> mNewsListInteractor;
     private String mNewsType;
     private String mNewsId;
-    private int mStartPage = 1;
+    private int mStartPage = 0;
 
     private boolean mIsRefresh = true;
     private boolean mHasInit;
@@ -56,8 +57,9 @@ public class INewsListPresenterImpl extends BasePresenterImpl<INewsListView, Lis
     public void requestSuccess(List<NewsItem> data) {
         KLog.e("request.......bailei.....mStartpage="+mStartPage);
         if (data != null) {
-            mStartPage += 20;
+            mStartPage += APIConfig.LIST_ITEMS_PER_PAGE;
         }
+
         mView.updateNewsList(data, "", mIsRefresh ? DataLoadType.TYPE_REFRESH_SUCCESS : DataLoadType.TYPE_LOAD_MORE_SUCCESS);
 
     }
@@ -73,7 +75,7 @@ public class INewsListPresenterImpl extends BasePresenterImpl<INewsListView, Lis
 
     @Override
     public void loadMoreData() {
-        KLog.e("loadMoreData().......bailei.....");
+        KLog.e("request.......bailei.....mNewsType="+mNewsType+", mNewsId="+mNewsId);
         mIsRefresh = false;
         mSubscription = mNewsListInteractor.requestNewsList(this, mNewsType, mNewsId, mStartPage);
     }

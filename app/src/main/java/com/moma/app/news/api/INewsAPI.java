@@ -31,7 +31,7 @@ public interface INewsAPI {
             @Path("catid") String catid,
             @Query("token") String token,
             @Query("per_page") int perPage,
-            @Query("pageNumber") int pageNumber
+            @Query("page") int pageNumber
     );
 
     /**

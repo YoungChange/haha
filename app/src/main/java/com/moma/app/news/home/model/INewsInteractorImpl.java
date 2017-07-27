@@ -31,20 +31,10 @@ public class INewsInteractorImpl implements INewsInteractor<List<NewsChannelBean
             @Override
             public void call(Subscriber<? super List<NewsChannelBean>> subscriber) {
 
-//                NewsChannelBean bean1 = new NewsChannelBean("头条");
-//                NewsChannelBean bean2 = new NewsChannelBean("体育");
-//                NewsChannelBean bean3 = new NewsChannelBean("科技");
-
-/*bailei
-                NewsChannelBean bean1 = new NewsChannelBean("头条","T1348647909107","headline");
-                NewsChannelBean bean2 = new NewsChannelBean("体育","T1348649079062","list");
-                NewsChannelBean bean3 = new NewsChannelBean("科技","T1348649580692","list");
-                NewsChannelBean bean4 = new NewsChannelBean("电影","T1348648650048","list");
-*/
-                NewsChannelBean bean1 = new NewsChannelBean("頭條","1","category");
+                NewsChannelBean bean1 = new NewsChannelBean("头条","0","category");
+                NewsChannelBean bean4 = new NewsChannelBean("社會","6","category");
                 NewsChannelBean bean2 = new NewsChannelBean("體育","2","category");
-                NewsChannelBean bean3 = new NewsChannelBean("科技","3","category");
-                NewsChannelBean bean4 = new NewsChannelBean("電影","4","category");
+                NewsChannelBean bean3 = new NewsChannelBean("科技","1","category");
 
 
                 List<NewsChannelBean> newsChannels = new ArrayList<NewsChannelBean>();

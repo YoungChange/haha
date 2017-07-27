@@ -22,7 +22,7 @@
             android:layout_height="wrap_content"
             android:layout_marginBottom="15dp"
             android:textAppearance="@style/TextAppearance.AppCompat.Title"
-            tools:text="首照全家福首照全家福云南投毒案女子首照全家福"/>
+            tools:text="test"/>
 
         <TextView
             android:id="@+id/news_detail_time"
@@ -48,8 +48,8 @@
             android:layout_below="@+id/news_detail_image"
             android:layout_marginTop="10dp"
             android:textAppearance="@style/TextAppearance.AppCompat.Body1"
-            android:textSize="16sp"
-            tools:text="asas"/>
+            android:textSize="17sp"
+            tools:text="detail"/>
 
 
     </RelativeLayout>

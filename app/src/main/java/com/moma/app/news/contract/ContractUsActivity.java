@@ -66,20 +66,9 @@ public class ContractUsActivity extends BaseActivity<IContractUsPresenter> imple
 //                mPresenter = new IContractUsPresenterImpl(this, message);
                 break;
             default:
-                toast("不知道你点击了啥");
+                toast(this.getString(R.string.what_you_did));
         }
     }
-
-//    @Override
-//    public boolean onTouchEvent(MotionEvent event) {
-//        // TODO Auto-generated method stub
-//        if(event.getAction() == MotionEvent.ACTION_DOWN){
-//            if(getCurrentFocus()!=null && getCurrentFocus().getWindowToken()!=null){
-//                manager.hideSoftInputFromWindow(getCurrentFocus().getWindowToken(), InputMethodManager.HIDE_NOT_ALWAYS);
-//            }
-//        }
-//        return super.onTouchEvent(event);
-//    }
 
     @Override
     public boolean dispatchTouchEvent(MotionEvent ev) {
@@ -121,8 +110,7 @@ public class ContractUsActivity extends BaseActivity<IContractUsPresenter> imple
     }
 
     /**
-     * 多种隐藏软件盘方法的其中一种
-     *
+     * 隐藏软件盘方法
      * @param token
      */
     private void hideSoftInput(IBinder token) {

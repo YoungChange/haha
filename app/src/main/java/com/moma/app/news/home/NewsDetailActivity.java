@@ -82,7 +82,7 @@ public class NewsDetailActivity extends BaseActivity<INewsDetailPresenter> imple
                 this.finish();
                 break;
             default:
-                toast("不知道你点击了啥");
+                toast(this.getString(R.string.what_you_did));
         }
     }
 

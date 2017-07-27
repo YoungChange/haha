@@ -117,7 +117,7 @@ public class NewsActivity extends BaseActivity<INewsPresenter> implements INewsV
             setOnTabSelectEvent(mNewsViewpager, mTabLayout);
 
         } else {
-            toast("数据异常");
+            toast(this.getString(R.string.data_error));
         }
 
 

@@ -10,7 +10,7 @@ import android.widget.ImageButton;
 
 import com.hailer.news.base.BaseActivity;
 import com.hailer.news.base.BaseFragment;
-import com.moma.app.news.R;
+import com.hailer.news.R;
 import com.hailer.news.base.BaseFragmentAdapter;
 import com.hailer.news.home.presenter.INewsPresenter;
 import com.hailer.news.home.presenter.INewsPresenterImpl;

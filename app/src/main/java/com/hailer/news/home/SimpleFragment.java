@@ -12,7 +12,7 @@ import android.widget.RelativeLayout;
 
 import com.hailer.news.api.bean.NewsItem;
 import com.hailer.news.base.BaseFragment;
-import com.moma.app.news.R;
+import com.hailer.news.R;
 import com.hailer.news.base.BaseRecycleViewDivider;
 import com.hailer.news.base.DataLoadType;
 import com.hailer.news.home.adapter.NewsListAdapter;

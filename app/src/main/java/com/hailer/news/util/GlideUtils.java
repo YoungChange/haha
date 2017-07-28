@@ -17,8 +17,8 @@ import com.bumptech.glide.load.Transformation;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.bumptech.glide.request.RequestListener;
 import com.bumptech.glide.request.target.Target;
-import com.moma.app.news.BuildConfig;
-import com.moma.app.news.R;
+import com.hailer.news.BuildConfig;
+import com.hailer.news.R;
 
 import java.io.File;
 

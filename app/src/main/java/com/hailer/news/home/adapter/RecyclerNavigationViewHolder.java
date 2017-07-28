@@ -4,8 +4,7 @@ import android.content.Context;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
-
-import com.moma.app.news.R;
+import com.hailer.news.R;
 
 public class RecyclerNavigationViewHolder extends BaseRecyclerViewHolder{
 

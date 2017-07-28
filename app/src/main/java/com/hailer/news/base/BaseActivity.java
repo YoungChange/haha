@@ -15,7 +15,7 @@ import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.moma.app.news.R;
+import com.hailer.news.R;
 import com.hailer.news.base.presenter.BasePresenter;
 import com.hailer.news.base.view.BaseView;
 import com.hailer.news.contract.ContractUsActivity;

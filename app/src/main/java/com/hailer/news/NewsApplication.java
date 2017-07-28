@@ -3,7 +3,7 @@ package com.hailer.news;
 import android.app.Application;
 import android.content.Context;
 
-import com.moma.app.news.BuildConfig;
+import com.hailer.news.BuildConfig;
 import com.socks.library.KLog;
 
 

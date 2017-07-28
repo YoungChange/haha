@@ -11,7 +11,7 @@ import android.view.WindowManager;
 import android.widget.ListAdapter;
 import android.widget.ListView;
 
-import com.moma.app.news.R;
+import com.hailer.news.R;
 import com.socks.library.KLog;
 
 

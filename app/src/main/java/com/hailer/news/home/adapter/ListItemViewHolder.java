@@ -6,7 +6,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
-import com.moma.app.news.R;
+import com.hailer.news.R;
 import com.hailer.news.api.bean.NewsItem;
 import com.hailer.news.util.FuncUtil;
 import com.hailer.news.util.GlideUtils;

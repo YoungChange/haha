@@ -1,6 +1,6 @@
 package com.hailer.news.util.annotation;
 
-import com.moma.app.news.R;
+import com.hailer.news.R;
 
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;

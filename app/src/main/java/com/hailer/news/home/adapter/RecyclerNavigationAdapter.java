@@ -5,7 +5,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.moma.app.news.R;
+import com.hailer.news.R;
 import com.hailer.news.util.bean.NavigationItem;
 import com.socks.library.KLog;
 

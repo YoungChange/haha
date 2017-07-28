@@ -1,7 +1,5 @@
 package com.moma.app.news.api;
 
-
-import android.net.Network;
 import android.util.SparseArray;
 
 import com.moma.app.news.NewsApplication;
@@ -47,7 +45,7 @@ public class RetrofitService {
     private static SparseArray<RetrofitService> sInstanceManager = new SparseArray<>(1);
     private INewsAPI mNewsAPI;
 
-    //bailei
+    //cache size
     private static final long CACHE_FILE_SIZE = 1024*1024*100;
 
     // 云端响应头拦截器，用来配置缓存策略
@@ -87,7 +85,7 @@ public class RetrofitService {
 
             final Response response = chain.proceed(request);
 
-            KLog.e("请求网址: \n" + request.url() + " \n " + "请求头部信息：\n" + request.headers() + "响应头部信息：\n" + response.headers());
+            KLog.v("请求网址: \n" + request.url() + " \n " + "请求头部信息：\n" + request.headers() + "响应头部信息：\n" + response.headers());
 
             final ResponseBody responseBody = response.body();
             final long contentLength = responseBody.contentLength();
@@ -188,7 +186,6 @@ public class RetrofitService {
      * @param startPage 第几页
      */
     public Observable<Map<String, List<NewsItem>>> getNewsListObservable(String catid, int startPage) {
-        KLog.e("新闻列表：catid=" + catid+"; startpage="+startPage);
         return mNewsAPI.getNewsList(catid, APIConfig.GET_TOKEN, APIConfig.LIST_ITEMS_PER_PAGE, startPage)
                 .compose(new BaseSchedulerTransformer<Map<String, List<NewsItem>>>());
     }
@@ -199,7 +196,6 @@ public class RetrofitService {
      * @param postId 新闻详情的id
      */
     public Observable<Map<String, NewsDetail>> getNewsDetailObservable(String postId) {
-        KLog.e("newsinfo , id="+postId);
         return mNewsAPI.getNewsDetail(postId, APIConfig.GET_TOKEN)
                 .compose(new BaseSchedulerTransformer<Map<String, NewsDetail>>());
     }

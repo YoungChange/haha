@@ -46,6 +46,8 @@ public class SimpleFragment extends BaseFragment<INewsListPresenter> implements 
     private RelativeLayout mRelativeLayout;
     private NewsListAdapter mAdapter;
 
+    private Boolean mLoading = false;
+
 
     /**
      *
@@ -87,6 +89,8 @@ public class SimpleFragment extends BaseFragment<INewsListPresenter> implements 
     @Override
     public void updateNewsList(final List<NewsItem> data, String errorMsg, @DataLoadType.DataLoadTypeChecker int type) {
 
+        mLoading = false;
+
         if (mAdapter == null) {
             initNewsList(data);
         }
@@ -110,8 +114,6 @@ public class SimpleFragment extends BaseFragment<INewsListPresenter> implements 
                 toast(getActivity().getString(R.string.load_more_fail));
                 break;
         }
-
-
 
     }
 
@@ -172,7 +174,9 @@ public class SimpleFragment extends BaseFragment<INewsListPresenter> implements 
                 int totalItemCount = layoutManager.getItemCount();
                 int lastVisibleItem = layoutManager.findLastVisibleItemPosition();
 
-                if (totalItemCount < (lastVisibleItem + 2)) {
+                //mLoading 防止多次加载同一批数据
+                if (!mLoading && totalItemCount < (lastVisibleItem + 2)) {
+                    mLoading = true;
                     mPresenter.loadMoreData();
                 }
             }

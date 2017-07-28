@@ -35,7 +35,6 @@ public class INewsListInteractorImpl implements INewsListInteractor<List<NewsIte
                         return Observable.from(stringListMap.get(APIConfig.NEWS_DATA_JSON_KEY));
                     }
                 })
-                //bailei
                 .toSortedList(new Func2<NewsItem, NewsItem, Integer>() {
                     // 按时间先后排序
                     @Override

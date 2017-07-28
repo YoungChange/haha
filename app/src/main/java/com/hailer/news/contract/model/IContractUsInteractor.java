@@ -10,5 +10,5 @@ import rx.Subscription;
  */
 
 public interface IContractUsInteractor<T> {
-    Subscription submitMeaaage(RequestCallback<T> callback, FeedBackMessage message);
+    Subscription submitMeaaage(RequestCallback<T> callback, String email, String feedback);
 }

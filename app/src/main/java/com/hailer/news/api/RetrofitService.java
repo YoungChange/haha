@@ -200,4 +200,15 @@ public class RetrofitService {
                 .compose(new BaseSchedulerTransformer<Map<String, NewsDetail>>());
     }
 
+    /**
+     * 获取新闻详情
+     *
+     * @param postId 新闻详情的id
+     */
+    public Observable<String> postFeedbackObservable(String email, String feedback) {
+        KLog.i("------------email="+email+", feedback="+feedback);
+        return mNewsAPI.postFeedback(email, feedback, APIConfig.GET_TOKEN)
+                .compose(new BaseSchedulerTransformer<String>());
+    }
+
 }

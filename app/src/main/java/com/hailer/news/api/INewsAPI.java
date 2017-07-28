@@ -6,7 +6,10 @@ import com.hailer.news.api.bean.NewsItem;
 import java.util.List;
 import java.util.Map;
 
+import retrofit2.http.Field;
+import retrofit2.http.FormUrlEncoded;
 import retrofit2.http.GET;
+import retrofit2.http.POST;
 import retrofit2.http.Path;
 import retrofit2.http.Query;
 import rx.Observable;
@@ -42,6 +45,20 @@ public interface INewsAPI {
     @GET("post/{postId}")
     Observable<Map<String, NewsDetail>> getNewsDetail(
             @Path("postId") String postId,
+            @Query("token") String token
+    );
+
+    /**
+     * 用户反馈：
+     * hailer.news/api/feedback/store/?token=7rRltNoGUM2TLA0avUeXbEyDPKvtYQMD
+     * @param email 用户地址
+     * @param feedback 用户反馈
+     */
+    @FormUrlEncoded
+    @POST("feedback/store/")
+    Observable<String> postFeedback(
+            @Field("email") String email,
+            @Field("content") String feedback,
             @Query("token") String token
     );
 

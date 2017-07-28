@@ -16,6 +16,7 @@ import android.widget.TextView;
 import com.hailer.news.R;
 import com.hailer.news.base.BaseActivity;
 import com.hailer.news.contract.presenter.IContractUsPresenter;
+import com.hailer.news.contract.presenter.IContractUsPresenterImpl;
 import com.hailer.news.contract.view.IContractUsView;
 import com.hailer.news.util.annotation.ActivityFragmentInject;
 import com.hailer.news.util.bean.FeedBackMessage;
@@ -65,7 +66,9 @@ public class ContractUsActivity extends BaseActivity<IContractUsPresenter> imple
                 this.finish();
                 break;
             case R.id.send_button:
-//                mPresenter = new IContractUsPresenterImpl(this, message);
+                message.setUserEmail(emailEditview.getText().toString());
+                message.setMessageContent(feedbackEditview.getText().toString());
+                mPresenter = new IContractUsPresenterImpl(this, message);
                 showPopUp();
                 break;
             case R.id.diagle_button:

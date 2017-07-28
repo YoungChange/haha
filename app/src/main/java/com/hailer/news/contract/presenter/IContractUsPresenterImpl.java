@@ -18,7 +18,7 @@ public class IContractUsPresenterImpl extends BasePresenterImpl<IContractUsView,
     public IContractUsPresenterImpl(IContractUsView view,FeedBackMessage message) {
         super(view);
         mContractUsInteractor = new IContractUsInteractorImpl();
-        mSubscription = mContractUsInteractor.submitMeaaage(this,message);
+        mSubscription = mContractUsInteractor.submitMeaaage(this, message.getUserEmail(), message.getMessageContent());
     }
 
     @Override

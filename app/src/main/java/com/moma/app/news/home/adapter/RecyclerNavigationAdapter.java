@@ -6,15 +6,11 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.moma.app.news.R;
-import com.moma.app.news.api.bean.NewsItem;
 import com.moma.app.news.util.bean.NavigationItem;
 import com.socks.library.KLog;
 
 import java.util.List;
 
-/**
- * Created by moma on 17-7-24.
- */
 
 public class RecyclerNavigationAdapter extends BaseRecyclerAdapter<NavigationItem>{
 

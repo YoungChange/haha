@@ -1,8 +1,5 @@
 package com.moma.app.news.util.bean;
 
-/**
- * Created by moma on 17-7-18.
- */
 
 public class NewsChannelBean {
     private String tabName;

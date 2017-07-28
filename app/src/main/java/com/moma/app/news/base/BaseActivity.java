@@ -11,6 +11,7 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
+import android.view.WindowManager;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -32,9 +33,6 @@ import java.util.List;
 
 import rx.Observable;
 
-/**
- * Created by moma on 17-7-17.
- */
 
 public abstract class BaseActivity<T extends BasePresenter> extends AppCompatActivity implements View.OnClickListener, BaseView {
 
@@ -71,12 +69,7 @@ public abstract class BaseActivity<T extends BasePresenter> extends AppCompatAct
     //滑动布局
     protected DrawerLayout mDrawerLayout;
 
-    //
     private RecyclerNavigationAdapter mNavAdapter;
-
-
-
-
 
     /**
      * 结束Activity的可观测对象

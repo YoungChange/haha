@@ -7,10 +7,6 @@ import android.database.sqlite.SQLiteDatabase;
 import com.socks.library.KLog;
 
 
-/**
- * Application
- * 2017-07-19
- */
 public class NewsApplication extends Application {
 
     private static Context sApplicationContext;

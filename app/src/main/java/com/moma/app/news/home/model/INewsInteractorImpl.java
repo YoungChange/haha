@@ -15,12 +15,7 @@ import rx.functions.Action0;
 import rx.schedulers.Schedulers;
 
 /**
- * ClassName: INewsInteractorImpl<p>
- * Author: oubowu<p>
  * Fuction: 新闻Model层接口实现,数据库操作，第一次初始化频道，之后查询选中的频道<p>
- * CreateDate: 2016/2/20 15:05<p>
- * UpdateUser: <p>
- * UpdateDate: <p>
  */
 public class INewsInteractorImpl implements INewsInteractor<List<NewsChannelBean>> {
 
@@ -31,7 +26,7 @@ public class INewsInteractorImpl implements INewsInteractor<List<NewsChannelBean
             @Override
             public void call(Subscriber<? super List<NewsChannelBean>> subscriber) {
 
-                NewsChannelBean bean1 = new NewsChannelBean("頭條","0","category");
+                NewsChannelBean bean1 = new NewsChannelBean("即時","0","category");
                 NewsChannelBean bean4 = new NewsChannelBean("社會","6","category");
                 NewsChannelBean bean2 = new NewsChannelBean("體育","2","category");
                 NewsChannelBean bean3 = new NewsChannelBean("科技","1","category");

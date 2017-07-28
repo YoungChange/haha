@@ -12,7 +12,7 @@ import com.socks.library.KLog;
 import java.util.List;
 
 /**
- * Created by moma on 17-7-20.
+ * NewsList的adapter类
  */
 
 public  class NewsListAdapter extends BaseRecyclerAdapter<NewsItem> {

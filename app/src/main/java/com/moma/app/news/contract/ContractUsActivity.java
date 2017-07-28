@@ -41,7 +41,6 @@ public class ContractUsActivity extends BaseActivity<IContractUsPresenter> imple
     private EditText feedbackEditview;
     private Button sendButton;
     private InputMethodManager manager;
-
     AlertDialog alertDialog;
 
     @Override
@@ -88,7 +87,6 @@ public class ContractUsActivity extends BaseActivity<IContractUsPresenter> imple
     public boolean dispatchTouchEvent(MotionEvent ev) {
         if (ev.getAction() == MotionEvent.ACTION_DOWN) {
 
-            // 获得当前得到焦点的View，一般情况下就是EditText（特殊情况就是轨迹求或者实体案件会移动焦点）
             View v = getCurrentFocus();
 
             if (isShouldHideInput(v, ev)) {
@@ -100,10 +98,6 @@ public class ContractUsActivity extends BaseActivity<IContractUsPresenter> imple
 
     /**
      * 根据EditText所在坐标和用户点击的坐标相对比，来判断是否隐藏键盘，因为当用户点击EditText时没必要隐藏
-     *
-     * @param v
-     * @param event
-     * @return
      */
     private boolean isShouldHideInput(View v, MotionEvent event) {
         if (v != null && (v instanceof EditText)) {
@@ -113,19 +107,17 @@ public class ContractUsActivity extends BaseActivity<IContractUsPresenter> imple
                     + v.getWidth();
             if (event.getX() > left && event.getX() < right
                     && event.getY() > top && event.getY() < bottom) {
-                // 点击EditText的事件，忽略它。
                 return false;
             } else {
                 return true;
             }
         }
-        // 如果焦点不是EditText则忽略，这个发生在视图刚绘制完，第一个焦点不在EditView上，和用户用轨迹球选择其他的焦点
+
         return false;
     }
 
     /**
      * 隐藏软件盘方法
-     * @param token
      */
     private void hideSoftInput(IBinder token) {
         if (token != null) {
@@ -135,7 +127,9 @@ public class ContractUsActivity extends BaseActivity<IContractUsPresenter> imple
         }
     }
 
-
+    /**
+     * 弹出弹框的方法
+     */
     private void showPopUp(){
         alertDialog = new AlertDialog.Builder(this).create();
         alertDialog.show();

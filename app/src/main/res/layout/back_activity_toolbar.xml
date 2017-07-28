@@ -16,7 +16,7 @@
             android:paddingLeft="-30dp"
             android:layout_marginLeft="15dp"
             android:src="@drawable/back"
-            android:background="#f7f7f7"/>
+            android:background="@android:color/transparent"/>
 
         <TextView
             android:id="@+id/toolbar_title"

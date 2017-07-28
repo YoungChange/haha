@@ -13,7 +13,6 @@ import rx.Observable;
 
 /**
  * Fuction: 数据请求API接口<p>
- * CreateDate:2017-07-19<p>
  */
 public interface INewsAPI {
 

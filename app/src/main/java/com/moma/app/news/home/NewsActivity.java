@@ -1,11 +1,9 @@
 package com.moma.app.news.home;
 
 
-import android.content.Intent;
 import android.support.design.widget.TabLayout;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.view.ViewPager;
-import android.support.v4.widget.DrawerLayout;
 import android.view.View;
 import android.widget.ImageButton;
 
@@ -55,23 +53,6 @@ public class NewsActivity extends BaseActivity<INewsPresenter> implements INewsV
     }
 
     public void initListener() {
-//        mTabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
-//            @Override
-//            public void onTabSelected(TabLayout.Tab tab) {
-//
-//            }
-//
-//            @Override
-//            public void onTabUnselected(TabLayout.Tab tab) {
-//
-//            }
-//
-//            @Override
-//            public void onTabReselected(TabLayout.Tab tab) {
-//
-//            }
-//        });
-
         mChange_channel.setOnClickListener(this);
     }
     @Override
@@ -120,10 +101,7 @@ public class NewsActivity extends BaseActivity<INewsPresenter> implements INewsV
             toast(this.getString(R.string.data_error));
         }
 
-
-        //注册响应事件
         initListener();
-
     }
     @Override
     public void initRxBusEvent() {

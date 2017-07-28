@@ -7,10 +7,6 @@ import android.widget.TextView;
 
 import com.moma.app.news.R;
 
-/**
- * Created by moma on 17-7-24.
- */
-
 public class RecyclerNavigationViewHolder extends BaseRecyclerViewHolder{
 
     ImageView itemImageView;

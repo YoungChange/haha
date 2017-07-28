@@ -16,6 +16,11 @@ import rx.functions.Func1;
 import rx.functions.Func2;
 import com.socks.library.KLog;
 
+
+/**
+ * Fuction: 新闻列表的Model层接口实现<p>
+ */
+
 public class INewsListInteractorImpl implements INewsListInteractor<List<NewsItem>> {
 
     @Override

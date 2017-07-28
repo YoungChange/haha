@@ -34,7 +34,6 @@ import rx.Observable;
 
 /**
  * Fuction: Retrofit请求管理类<p>
- * CreateDate:2016/2/13 20:34<p>
  */
 public class RetrofitService {
 

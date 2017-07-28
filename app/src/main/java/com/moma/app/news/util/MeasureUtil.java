@@ -16,7 +16,6 @@ import com.socks.library.KLog;
 
 
 /**
- * ClassName：MeasureUtil<p>
  * Fuction：测量工具类<p>
  */
 public class MeasureUtil {

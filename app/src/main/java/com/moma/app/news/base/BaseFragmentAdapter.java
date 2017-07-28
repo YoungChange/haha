@@ -9,11 +9,7 @@ import android.support.v4.app.FragmentTransaction;
 import java.util.List;
 
 /**
- * ClassName: FragmentAdapter<p>
  * Fuction: 装载Fragment的ViewPager适配器<p>
- * CreateDate: 2016/2/17 20:36<p>
- * UpdateUser: <p>
- * UpdateDate: <p>
  */
 public class BaseFragmentAdapter extends FragmentPagerAdapter {
 

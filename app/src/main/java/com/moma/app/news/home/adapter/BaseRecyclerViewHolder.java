@@ -9,13 +9,10 @@ import android.widget.TextView;
 
 import com.moma.app.news.R;
 
-/**
- * Created by moma on 17-7-20.
- */
+
 
 public class BaseRecyclerViewHolder extends RecyclerView.ViewHolder {
 
-    //上下文对象
     protected Context mContext;
 
     public BaseRecyclerViewHolder(View itemView) {

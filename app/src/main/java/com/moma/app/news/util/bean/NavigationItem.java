@@ -1,8 +1,5 @@
 package com.moma.app.news.util.bean;
 
-/**
- * Created by moma on 17-7-24.
- */
 
 public class NavigationItem {
     private int itemTitle;

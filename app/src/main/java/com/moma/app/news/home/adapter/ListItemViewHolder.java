@@ -12,7 +12,7 @@ import com.moma.app.news.util.FuncUtil;
 import com.moma.app.news.util.GlideUtils;
 
 /**
- * Created by moma on 17-7-22.
+ * NewsList的ViewHolder类
  */
 
 public class ListItemViewHolder  extends BaseRecyclerViewHolder{

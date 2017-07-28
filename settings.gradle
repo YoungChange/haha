@@ -1,1 +1,1 @@
-include ':app','channelmanager'
+include ':app'

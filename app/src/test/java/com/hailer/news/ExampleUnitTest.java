@@ -1,4 +1,4 @@
-package com.moma.app.news;
+package com.hailer.news;
 
 import org.junit.Test;
 

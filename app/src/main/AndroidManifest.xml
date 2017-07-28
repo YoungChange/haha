@@ -30,11 +30,13 @@
 
         <activity
             android:name=".home.NewsDetailActivity"
-            android:configChanges="orientation|keyboardHidden|screenSize">
+            android:configChanges="orientation|keyboardHidden|screenSize"
+            android:theme="@style/AppThemeBack">
 
         </activity>
 
-        <activity android:name=".contract.ContractUsActivity">
+        <activity android:name=".contract.ContractUsActivity"
+            android:theme="@style/AppThemeBack">
 
         </activity>
 

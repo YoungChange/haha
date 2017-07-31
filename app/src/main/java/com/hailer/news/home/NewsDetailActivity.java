@@ -1,6 +1,7 @@
 package com.hailer.news.home;
 
 
+import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
 import android.view.View;
 import android.widget.ImageView;
@@ -15,6 +16,9 @@ import com.hailer.news.home.view.INewsDetailView;
 import com.hailer.news.util.annotation.ActivityFragmentInject;
 
 import com.zzhoujay.richtext.RichText;
+
+import java.util.List;
+
 /**
  * Created by moma on 17-7-17.
  */
@@ -32,6 +36,8 @@ public class NewsDetailActivity extends BaseActivity<INewsDetailPresenter> imple
     private TextView mDetailBody;
     private ImageView mDetailImage;
 
+    private RecyclerView mRecyclerView;
+//    private List<NewsComment> newsComments;
 
     @Override
     protected void initView() {
@@ -43,6 +49,8 @@ public class NewsDetailActivity extends BaseActivity<INewsDetailPresenter> imple
 
         String mNewsListPostId = getIntent().getStringExtra("postid");
         String mNewsListImgSrc = getIntent().getStringExtra("imgsrc");
+
+        mRecyclerView = (RecyclerView)findViewById(R.id.comment_list_RecyclerView);
 
         mPresenter = new INewsDetailPresenterImpl(this,mNewsListPostId);
 
@@ -60,6 +68,14 @@ public class NewsDetailActivity extends BaseActivity<INewsDetailPresenter> imple
                     //.autoPlay(true)
                     .into(mDetailBody);
         }
+
+        initCommentList(data);
+    }
+
+    private void initCommentList(final NewsDetail data) {
+
+
+
     }
 
     @Override

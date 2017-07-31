@@ -55,4 +55,7 @@ public @interface ActivityFragmentInject {
      */
     boolean hasNavigationView() default false;
 
+
+    int toolbarType() default  0;
+
 }

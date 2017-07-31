@@ -19,6 +19,8 @@ import com.hailer.news.R;
 import com.hailer.news.base.presenter.BasePresenter;
 import com.hailer.news.base.view.BaseView;
 import com.hailer.news.contract.ContractUsActivity;
+import com.hailer.news.home.LoginActivity;
+import com.hailer.news.home.LoginByFacebookActivity;
 import com.hailer.news.home.adapter.OnItemClickListener;
 import com.hailer.news.home.adapter.RecyclerNavigationAdapter;
 import com.hailer.news.util.MeasureUtil;
@@ -195,6 +197,7 @@ public abstract class BaseActivity<T extends BasePresenter> extends AppCompatAct
 
         List<NavigationItem> data = new ArrayList<NavigationItem>();
         data.add(new NavigationItem(R.string.contract_us,R.drawable.contact));
+        data.add(new NavigationItem(R.string.facebook_login,R.drawable.contact));
 
         if(mNavAdapter == null){
             mNavAdapter = new RecyclerNavigationAdapter(this,data);
@@ -203,14 +206,21 @@ public abstract class BaseActivity<T extends BasePresenter> extends AppCompatAct
 
             @Override
             public void onItemClick(View view, int position) {
+
+                mDrawerLayout.closeDrawer(GravityCompat.START);
+                Intent intent ;
                 switch (position){
                     case 0:
-                        mDrawerLayout.closeDrawer(GravityCompat.START);
-                        Intent intent = new Intent(BaseActivity.this, ContractUsActivity.class);
+                        intent = new Intent(BaseActivity.this, ContractUsActivity.class);
                         startActivity(intent);
                         break;
+                    case 1:
+                        intent = new Intent(BaseActivity.this, LoginByFacebookActivity.class);
+                        startActivity(intent);
+                        break;
+
                     default:
-                        Toast.makeText(BaseActivity.this, "不知道你点击了什么东西", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(BaseActivity.this, R.string.what_you_did, Toast.LENGTH_SHORT).show();
                         break;
                 }
             }
@@ -236,9 +246,17 @@ public abstract class BaseActivity<T extends BasePresenter> extends AppCompatAct
 
 
 
+    private Toast toast;
     @Override
     public void toast(String msg) {
-        Toast.makeText(this, msg, Toast.LENGTH_SHORT).show();
+        if(toast==null){
+            toast = Toast.makeText(this, msg, Toast.LENGTH_SHORT);
+            toast.show();
+        }else{
+            toast.cancel();
+            toast = Toast.makeText(this, msg, Toast.LENGTH_SHORT);
+            toast.show();
+        }
     }
 
     @Override

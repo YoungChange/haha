@@ -3,6 +3,12 @@
     <string name="news">新聞</string>
     <string name="moma">moma頭條</string>
     <string name="contract_us">聯繫我們</string>
+    <string name="login_or_register">登錄/註冊</string>
+    <string name="login">登錄</string>
+    <string name="register">註冊</string>
+    <string name="facebook_login">Fackbook登錄</string>
+
+
     <string name="email_address">郵箱</string>
     <string name="email_address_example">1234@gmail.com</string>
     <string name="feedback">反饋意見</string>
@@ -24,4 +30,19 @@
 
     <string name="fankui">感謝您的反饋，我們的工作人員會儘快對您的反饋做出回覆，感謝您對傳聲筒的支持。</string>
 
+
+
+    <!--登录注册页面-->
+    <string name="user_name">用户名</string>
+    <string name="password">密码</string>
+
+
+
+
+
+    <!--facebook-->
+    <string name="facebook_app_id">132649974009524</string>
+    <string name="fb_login_protocol_scheme">fb132649974009524</string>
+
 </resources>
+    <!--app id:132649974009524                    app secret: f6a54a3e44325fb8192957a8ea840e5e-->

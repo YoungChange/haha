@@ -41,8 +41,12 @@
 
 
     <!--facebook-->
-    <string name="facebook_app_id">132649974009524</string>
-    <string name="fb_login_protocol_scheme">fb132649974009524</string>
+    942325942577010
+    <string name="facebook_app_id">942325942577010</string>
+    <string name="fb_login_protocol_scheme">fb942325942577010</string>
+
+    <!--<string name="facebook_app_id">132649974009524</string>-->
+    <!--<string name="fb_login_protocol_scheme">fb132649974009524</string>-->
 
 </resources>
     <!--app id:132649974009524                    app secret: f6a54a3e44325fb8192957a8ea840e5e-->

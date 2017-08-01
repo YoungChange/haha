@@ -50,6 +50,7 @@ public class NewsDetailActivity extends BaseActivity<INewsDetailPresenter> imple
         String mNewsListPostId = getIntent().getStringExtra("postid");
         String mNewsListImgSrc = getIntent().getStringExtra("imgsrc");
 
+
         mRecyclerView = (RecyclerView)findViewById(R.id.comment_list_RecyclerView);
 
         mPresenter = new INewsDetailPresenterImpl(this,mNewsListPostId);
@@ -73,8 +74,6 @@ public class NewsDetailActivity extends BaseActivity<INewsDetailPresenter> imple
     }
 
     private void initCommentList(final NewsDetail data) {
-
-
 
     }
 

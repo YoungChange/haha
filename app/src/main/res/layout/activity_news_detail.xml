@@ -1,10 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.design.widget.CoordinatorLayout
+<LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:fitsSystemWindows="true"
     tools:context="com.hailer.news.home.NewsDetailActivity">
 
     <android.support.design.widget.AppBarLayout
@@ -15,6 +17,38 @@
 
     </android.support.design.widget.AppBarLayout>
 
-    <include layout="@layout/content_news_detail"/>
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
 
-</android.support.design.widget.CoordinatorLayout>
+        <include layout="@layout/content_news_detail"
+            android:layout_height="match_parent"
+            android:layout_width="match_parent"/>
+
+        <LinearLayout
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:padding="10dp"
+            android:gravity="bottom"
+            android:background="@color/colorPrimaryBack"
+            android:layout_alignParentBottom="true"
+            android:orientation="horizontal">
+            <EditText
+                android:id="@+id/comment_edittext"
+                android:layout_width="200dp"
+                android:layout_weight="1"
+                android:layout_height="match_parent"
+                android:hint="@string/publish_comment"
+                android:background="@drawable/bg_edittext_comment"/>
+            <ImageButton
+                android:id="@+id/comment_button"
+                android:layout_width="100dp"
+                android:layout_height="40dp"
+                android:src="@drawable/contact"
+                android:focusable="false"
+                android:background="@color/colorPrimaryBack"/>
+        </LinearLayout>
+        
+    </RelativeLayout>
+
+</LinearLayout>

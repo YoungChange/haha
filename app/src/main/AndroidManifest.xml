@@ -34,8 +34,8 @@
 
         <activity
             android:name="com.hailer.news.home.NewsDetailActivity"
-            android:configChanges="orientation|keyboardHidden|screenSize"
-            android:theme="@style/AppThemeBack">
+            android:theme="@style/AppThemeBack"
+            android:windowSoftInputMode="adjustResize">
 
         </activity>
 
@@ -50,6 +50,11 @@
         </activity>
 
         <activity android:name="com.hailer.news.home.LoginByFacebookActivity"
+            android:theme="@style/AppThemeBack">
+
+        </activity>
+
+        <activity android:name=".home.NewsCommentListActivity"
             android:theme="@style/AppThemeBack">
 
         </activity>

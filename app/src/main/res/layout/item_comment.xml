@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:orientation="horizontal">
+
+    <RelativeLayout
+        android:layout_width="100dp"
+        android:layout_height="wrap_content">
+
+        <ImageView
+            android:id="@+id/comment_userpicture"
+            android:layout_width="match_parent"
+            android:layout_height="100dp"
+            tools:src="@drawable/ic_header"/>
+        
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingLeft="20dp">
+
+        <TextView
+            android:id="@+id/comment_username"
+            android:layout_width="match_parent"
+            android:layout_height="30dp"
+            android:gravity="center_vertical"
+            android:textSize="15sp"
+            android:textColor="#ff0000"
+            tools:text="让黑白染上点色彩" />
+
+        <TextView
+            android:id="@+id/comment_content"
+            android:layout_marginTop="10dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/comment_username"
+            android:textSize="20sp"
+            tools:text="什么时候全球的国家联合起来制裁美国,什么时候全球的国家联合起来制裁美国。"/>
+
+        <TextView
+            android:id="@+id/comment_time"
+            android:layout_marginTop="10dp"
+            android:layout_width="match_parent"
+            android:layout_height="20dp"
+            android:layout_below="@+id/comment_content"
+            tools:text="07-14 09:25"/>
+
+    </RelativeLayout>
+
+
+
+</LinearLayout>

@@ -17,7 +17,7 @@ public class DataLoadType {
     public static final int TYPE_REFRESH_SUCCESS = 1;
 
     /**
-     * 属性失败
+     * 刷新失败
      */
     @DataLoadTypeChecker
     public static final int TYPE_REFRESH_FAIL = 2;

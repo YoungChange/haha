@@ -20,6 +20,7 @@
 
     <string name="mychannel">我的頻道</string>
     <string name="news_detail">新聞詳情</string>
+    <string name="news_comment">文章評論</string>
 
     <string name="refresh_success">已更新</string>
     <string name="all_loaded">已加載所有</string>
@@ -33,10 +34,10 @@
 
 
     <!--登录注册页面-->
-    <string name="user_name">用户名</string>
-    <string name="password">密码</string>
+    <string name="user_name">用戶名</string>
+    <string name="password">密碼</string>
 
-
+    <string name="publish_comment">發表評論...</string>
 
 
 

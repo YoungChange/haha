@@ -1,5 +1,6 @@
 package com.hailer.news.api;
 
+import com.hailer.news.api.bean.LoginInfo;
 import com.hailer.news.api.bean.NewsDetail;
 import com.hailer.news.api.bean.NewsItem;
 
@@ -60,6 +61,20 @@ public interface INewsAPI {
             @Field("email") String email,
             @Field("content") String feedback,
             @Query("token") String token
+    );
+
+    /**
+     * 用户反馈：
+     * hailer.news/api/feedback/store/?token=7rRltNoGUM2TLA0avUeXbEyDPKvtYQMD
+     * @param email 用户地址
+     * @param feedback 用户反馈
+     */
+    @FormUrlEncoded
+    @POST("auth/login/")
+    Observable<LoginInfo> login(
+            @Field("fb_token") String token,
+            @Field("email") String email,
+            @Field("password") String passwd
     );
 
 

@@ -1,6 +1,7 @@
 package com.hailer.news.home;
 
 
+import android.os.Bundle;
 import android.support.design.widget.TabLayout;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.view.ViewPager;
@@ -9,16 +10,20 @@ import android.view.View;
 import android.widget.ImageButton;
 
 
+import com.hailer.news.UserManager;
 import com.hailer.news.base.BaseActivity;
 import com.hailer.news.base.BaseFragment;
 import com.hailer.news.R;
 import com.hailer.news.base.BaseFragmentAdapter;
+import com.hailer.news.home.presenter.ILoginPresenterImpl;
 import com.hailer.news.home.presenter.INewsPresenter;
 import com.hailer.news.home.presenter.INewsPresenterImpl;
+import com.hailer.news.home.view.ILoginView;
 import com.hailer.news.home.view.INewsView;
 import com.hailer.news.util.RxBus;
 import com.hailer.news.util.annotation.ActivityFragmentInject;
 import com.hailer.news.util.bean.NewsChannelBean;
+import com.hailer.news.util.bean.UserInfo;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -32,7 +37,7 @@ import rx.functions.Action1;
         toolbarTextViewId = R.id.toolbar_title,
         toolbarTextViewTitle = R.string.moma,
         hasNavigationView = true)
-public class NewsActivity extends BaseActivity<INewsPresenter> implements INewsView {
+public class NewsActivity extends BaseActivity<INewsPresenter> implements INewsView, ILoginView{
 
     private TabLayout mTabLayout;
     private ViewPager mNewsViewpager;
@@ -41,6 +46,27 @@ public class NewsActivity extends BaseActivity<INewsPresenter> implements INewsV
     private BaseFragment baseFragment;
 
     private Observable<Boolean> mChannelObservable;
+
+    private ILoginPresenterImpl mLoginPresenter;
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+
+        UserManager.getInstance().requestFBInfo();
+
+        UserInfo userInfo = UserManager.getInstance().getUserinfo();
+        if (userInfo.getPlatformToken() != null) {
+            mLoginPresenter = new ILoginPresenterImpl(this, userInfo);
+        }
+/*
+        AccessToken accessToken = AccessToken.getCurrentAccessToken();
+        Profile profile = Profile.getCurrentProfile();
+        KLog.e("111111111 accessToken = "+accessToken+", profile="+profile);
+        if (accessToken != null)
+            KLog.e("bailei","11111111111 accessToken ="+accessToken+", token="+accessToken.getToken());
+            */
+    }
 
     @Override
     protected void onDestroy() {
@@ -135,5 +161,10 @@ public class NewsActivity extends BaseActivity<INewsPresenter> implements INewsV
                 break;
         }
         return super.onKeyUp(keyCode, event);
+    }
+
+    @Override
+    public void loginSuccess() {
+        //do something
     }
 }

@@ -1,32 +1,60 @@
 package com.hailer.news.util.bean;
 
+import android.net.Uri;
+
 /**
  * Created by moma on 17-7-31.
  */
 
 public class UserInfo {
 
-    private String Name;
-    private String password;
+    private String platformId;
+    private String name;
+    private String platformToken;
+    private Uri iconUri;
+    private String serverToken;
 
     public String getName() {
-        return Name;
+        return this.name;
     }
 
     public void setName(String name) {
-        Name = name;
+        this.name = name;
     }
 
-    public String getPassword() {
-        return password;
+    public String getPlatformToken() {
+        return this.platformToken;
     }
 
-    public void setPassword(String password) {
-        this.password = password;
+    public void setPlatformToken(String token) {
+        this.platformToken = token;
     }
 
-    public UserInfo(String name, String password) {
-        Name = name;
-        this.password = password;
+    public String getPlatformId() {
+        return this.platformId;
+    }
+
+    public void setPlatformId(String id) {
+        this.platformId = id;
+    }
+
+    public Uri getIconUri() {
+        return this.iconUri;
+    }
+
+    public void setIconUri(Uri iconUri) {
+        this.iconUri = iconUri;
+    }
+
+    public String getServerToken() {
+        return this.serverToken;
+    }
+
+    public void setServerToken(String token) {
+        this.serverToken = token;
+    }
+
+    public UserInfo() {
+
     }
 }

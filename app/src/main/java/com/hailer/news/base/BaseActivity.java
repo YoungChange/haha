@@ -19,7 +19,6 @@ import com.hailer.news.R;
 import com.hailer.news.base.presenter.BasePresenter;
 import com.hailer.news.base.view.BaseView;
 import com.hailer.news.contract.ContractUsActivity;
-import com.hailer.news.home.LoginActivity;
 import com.hailer.news.home.LoginByFacebookActivity;
 import com.hailer.news.home.adapter.OnItemClickListener;
 import com.hailer.news.home.adapter.RecyclerNavigationAdapter;

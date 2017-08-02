@@ -7,6 +7,4 @@ import com.hailer.news.base.presenter.BasePresenter;
  */
 
 public interface ILoginPresenter extends BasePresenter {
-
-    String IsCorrect();
 }

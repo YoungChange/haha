@@ -3,9 +3,11 @@ package com.hailer.news.api;
 import android.util.SparseArray;
 
 import com.hailer.news.NewsApplication;
+import com.hailer.news.api.bean.LoginInfo;
 import com.hailer.news.api.bean.NewsDetail;
 import com.hailer.news.api.bean.NewsItem;
 import com.hailer.news.util.NetworkUtil;
+import com.hailer.news.util.bean.UserInfo;
 import com.socks.library.KLog;
 
 import java.io.File;
@@ -201,14 +203,21 @@ public class RetrofitService {
     }
 
     /**
-     * 获取新闻详情
-     *
-     * @param postId 新闻详情的id
+     * 反馈
      */
     public Observable<String> postFeedbackObservable(String email, String feedback) {
         KLog.i("------------email="+email+", feedback="+feedback);
         return mNewsAPI.postFeedback(email, feedback, APIConfig.GET_TOKEN)
                 .compose(new BaseSchedulerTransformer<String>());
+    }
+
+    /**
+     * 登录
+     */
+    public Observable<LoginInfo> login(UserInfo userInfo) {
+        KLog.i("------bailei------token="+userInfo.getPlatformToken());
+        return mNewsAPI.login(userInfo.getPlatformToken(), "123@test.com", "123")
+                .compose(new BaseSchedulerTransformer<LoginInfo>());
     }
 
 }

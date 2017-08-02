@@ -7,4 +7,5 @@ import com.hailer.news.base.view.BaseView;
  */
 
 public interface ILoginView extends BaseView{
+    void loginSuccess();
 }

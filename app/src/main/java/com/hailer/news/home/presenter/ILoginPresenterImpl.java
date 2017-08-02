@@ -1,6 +1,9 @@
 package com.hailer.news.home.presenter;
 
+import com.hailer.news.UserManager;
 import com.hailer.news.base.presenter.BasePresenterImpl;
+import com.hailer.news.home.model.ILoginInteractor;
+import com.hailer.news.home.model.ILoginInteractorImpl;
 import com.hailer.news.home.view.ILoginView;
 import com.hailer.news.util.bean.UserInfo;
 
@@ -11,44 +14,23 @@ import java.util.regex.Pattern;
  * Created by moma on 17-7-31.
  */
 
-public class ILoginPresenterImpl extends BasePresenterImpl<ILoginView,UserInfo> implements ILoginPresenter {
+public class ILoginPresenterImpl extends BasePresenterImpl<ILoginView, String> implements ILoginPresenter {
 
 //    IContractUsInteractor<UserInfo> mContractUsInteractor;
 
     private UserInfo userinfo;
+    private ILoginInteractor<String> mLoginInteractor;
 
     public ILoginPresenterImpl(ILoginView view, UserInfo userinfo) {
         super(view);
         this.userinfo = userinfo;
-    }
-
-    private boolean isEmail(String email){
-        final String patternStr = "^([a-z0-9A-Z]+[-|//.]?)+[a-z0-9A-Z]@([a-z0-9A-Z]+(-[a-z0-9A-Z]+)?//.)+[a-zA-Z]{2,}$";
-        final Pattern pattern = Pattern.compile(patternStr);
-        final Matcher mat = pattern.matcher(email);
-        if (!mat.find()) {
-            return false;
-        }
-        return true;
-    }
-
-    private boolean isPhoneNumber(String str){
-        return false;
-    }
-
-
-    @Override
-    public void onResume() {
-
+        mLoginInteractor = new ILoginInteractorImpl();
+        mSubscription = mLoginInteractor.login(this, userinfo);
     }
 
     @Override
-    public void onDestroy() {
-
+    public void requestSuccess(String token) {
+       UserManager.getInstance().setServerToken(token);
     }
 
-    @Override
-    public String IsCorrect() {
-        return null;
-    }
 }

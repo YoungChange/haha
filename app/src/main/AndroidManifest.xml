@@ -44,11 +44,6 @@
 
         </activity>
 
-        <activity android:name="com.hailer.news.home.LoginActivity"
-            android:theme="@style/AppThemeBack">
-
-        </activity>
-
         <activity android:name="com.hailer.news.home.LoginByFacebookActivity"
             android:theme="@style/AppThemeBack">
 

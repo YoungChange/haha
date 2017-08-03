@@ -12,10 +12,10 @@ public class ISendCommentPresenterImpl extends BasePresenterImpl<INewsDetailView
 
     ISendCommentInteractor<String> mSendCommentInteractor;
 
-    public ISendCommentPresenterImpl(INewsDetailView view,String commentContent) {
+    public ISendCommentPresenterImpl(INewsDetailView view,String postId, String token, String commentContent) {
         super(view);
         mSendCommentInteractor = new ISendCommentInteractorImpl();
-        mSendCommentInteractor.submitComment(this,commentContent);
+        mSendCommentInteractor.submitComment(this,postId, token, commentContent);
     }
 
     @Override

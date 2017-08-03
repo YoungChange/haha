@@ -1,14 +1,13 @@
 package com.hailer.news.home.presenter;
 
 import com.hailer.news.api.APIConfig;
-import com.hailer.news.api.bean.NewsItem;
+import com.hailer.news.api.bean.CommentInfo;
 import com.hailer.news.base.DataLoadType;
 import com.hailer.news.base.presenter.BasePresenterImpl;
-import com.hailer.news.home.model.INewsCommentListInteractor;
-import com.hailer.news.home.model.INewsCommentListInteractorImpl;
+import com.hailer.news.home.model.ICommentsListInteractor;
+import com.hailer.news.home.model.ICommentsListInteractorImpl;
 import com.hailer.news.home.view.INewsCommentListView;
 import com.hailer.news.util.bean.NewsComment;
-import com.socks.library.KLog;
 
 import java.util.List;
 
@@ -16,9 +15,9 @@ import java.util.List;
  * 新闻评论列表
  */
 
-public class INewsCommentListPresenterImpl extends BasePresenterImpl<INewsCommentListView,List<NewsComment>> implements INewsCommentListPresenter{
+public class ICommentsListPresenterImpl extends BasePresenterImpl<INewsCommentListView,List<CommentInfo>> implements ICommentsListPresenter {
 
-    private INewsCommentListInteractor<List<NewsComment>> mNewsCommentListInteractor;
+    private ICommentsListInteractor<List<CommentInfo>> mNewsCommentListInteractor;
 
     private int mStartPage = 0;
     private String mNewsPostId;
@@ -26,9 +25,9 @@ public class INewsCommentListPresenterImpl extends BasePresenterImpl<INewsCommen
     private boolean mIsRefresh = true;
     private boolean mHasInit;
 
-    public INewsCommentListPresenterImpl(INewsCommentListView newsCommentListView, String newsPostId) {
+    public ICommentsListPresenterImpl(INewsCommentListView newsCommentListView, String newsPostId) {
         super(newsCommentListView);
-        mNewsCommentListInteractor = new INewsCommentListInteractorImpl();
+        mNewsCommentListInteractor = new ICommentsListInteractorImpl();
         mSubscription = mNewsCommentListInteractor.requestNewsCommentList(this, newsPostId, mStartPage);
         mNewsPostId = newsPostId;
     }
@@ -48,7 +47,7 @@ public class INewsCommentListPresenterImpl extends BasePresenterImpl<INewsCommen
     }
 
     @Override
-    public void requestSuccess(List<NewsComment> data) {
+    public void requestSuccess(List<CommentInfo> data) {
         if (data != null) {
             mStartPage += APIConfig.LIST_ITEMS_PER_PAGE;
         }

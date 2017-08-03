@@ -16,21 +16,21 @@ import rx.functions.Func1;
 /**
  * Fuction: 新闻详情的Model层接口实现<p>
  */
-public class ILoginInteractorImpl implements ILoginInteractor<String> {
+public class ILoginInteractorImpl implements ILoginInteractor<LoginInfo> {
 
     @Override
-    public Subscription login(final RequestCallback<String> callback, final UserInfo userInfo) {
-        return RetrofitService.getInstance(APIConfig.HOST_TYPE_NEWS).login(userInfo)
+    public Subscription login(final RequestCallback<LoginInfo> callback, final UserInfo userInfo) {
+        return RetrofitService.getInstance(APIConfig.HOST_TYPE_NEWS).loginObservable(userInfo)
 
-                .map(new Func1<LoginInfo, String>() {
-                    @Override
-                    public String call(LoginInfo info) {
-                        KLog.e("-----------bailei---success, token="+info.token);
-                        return info.token;
-                    }
-                })
+//                .map(new Func1<LoginInfo, String>() {
+//                    @Override
+//                    public String call(LoginInfo info) {
+//                        KLog.e("-----------bailei---success, token="+info.token);
+//                        return info.token;
+//                    }
+//                })
 
-                .subscribe(new BaseSubscriber<String>(callback));
+                .subscribe(new BaseSubscriber<LoginInfo>(callback));
     }
 
 }

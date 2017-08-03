@@ -4,6 +4,7 @@ import android.net.Uri;
 
 import com.facebook.AccessToken;
 import com.facebook.Profile;
+import com.hailer.news.api.bean.LoginInfo;
 import com.hailer.news.util.bean.UserInfo;
 import com.socks.library.KLog;
 
@@ -65,11 +66,36 @@ public class UserManager {
 
     }
 
+    public Boolean requestFBToken(){
+        AccessToken accessToken = AccessToken.getCurrentAccessToken();
+         if (accessToken == null ) {
+            KLog.d("bailei----need login");
+            //userInfo.setFBToken(null);
+            return false;
+        }
+
+        setUserInfo(null, null, null, accessToken.getToken());
+        KLog.d("bailei----getFBInfo,  token="+accessToken.getToken()+", id="+accessToken.getToken());
+        return true;
+
+    }
+
+    public void setPlatformToken(String platformToken){
+        userinfo.setPlatformToken(platformToken);
+    }
+
+
     public void setUserInfo(String platformId, String name, Uri iconUri, String platformToken){
         userinfo.setName(name);
         userinfo.setPlatformId(platformId);
-        userinfo.setIconUri(iconUri);
+        //userinfo.setIconUri(iconUri);
         userinfo.setPlatformToken(platformToken);
+    }
+
+    public void setUserInfo(String platformId, String name, String iconUri){
+        userinfo.setName(name);
+        userinfo.setPlatformId(platformId);
+        userinfo.setIconUri(iconUri);
     }
 
     public void setServerToken(String token) {
@@ -86,9 +112,14 @@ public class UserManager {
         return userinfo.getName();
     }
 
-    public Uri getIconUri() {
+    public String getIconUri() {
         return userinfo.getIconUri();
     }
 
+    public void saveUserInfo(LoginInfo loginInfo){
+        setServerToken(loginInfo.token);
+        setUserInfo(loginInfo.userInfo.platformId,
+                loginInfo.userInfo.name, loginInfo.userInfo.avatar);
+    }
 
 }

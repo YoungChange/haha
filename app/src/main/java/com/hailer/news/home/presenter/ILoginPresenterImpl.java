@@ -1,6 +1,7 @@
 package com.hailer.news.home.presenter;
 
 import com.hailer.news.UserManager;
+import com.hailer.news.api.bean.LoginInfo;
 import com.hailer.news.base.presenter.BasePresenterImpl;
 import com.hailer.news.home.model.ILoginInteractor;
 import com.hailer.news.home.model.ILoginInteractorImpl;
@@ -14,12 +15,12 @@ import java.util.regex.Pattern;
  * Created by moma on 17-7-31.
  */
 
-public class ILoginPresenterImpl extends BasePresenterImpl<ILoginView, String> implements ILoginPresenter {
+public class ILoginPresenterImpl extends BasePresenterImpl<ILoginView, LoginInfo> implements ILoginPresenter {
 
 //    IContractUsInteractor<UserInfo> mContractUsInteractor;
 
     private UserInfo userinfo;
-    private ILoginInteractor<String> mLoginInteractor;
+    private ILoginInteractor<LoginInfo> mLoginInteractor;
 
     public ILoginPresenterImpl(ILoginView view, UserInfo userinfo) {
         super(view);
@@ -29,8 +30,8 @@ public class ILoginPresenterImpl extends BasePresenterImpl<ILoginView, String> i
     }
 
     @Override
-    public void requestSuccess(String token) {
-       UserManager.getInstance().setServerToken(token);
+    public void requestSuccess(LoginInfo loginInfo) {
+        UserManager.getInstance().saveUserInfo(loginInfo);
         mView.loginSuccess();
     }
 

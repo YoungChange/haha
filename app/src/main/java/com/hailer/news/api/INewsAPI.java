@@ -1,5 +1,6 @@
 package com.hailer.news.api;
 
+import com.hailer.news.api.bean.CommentInfo;
 import com.hailer.news.api.bean.LoginInfo;
 import com.hailer.news.api.bean.NewsDetail;
 import com.hailer.news.api.bean.NewsItem;
@@ -66,8 +67,6 @@ public interface INewsAPI {
     /**
      * 用户反馈：
      * hailer.news/api/feedback/store/?token=7rRltNoGUM2TLA0avUeXbEyDPKvtYQMD
-     * @param email 用户地址
-     * @param feedback 用户反馈
      */
     @FormUrlEncoded
     @POST("auth/login/")
@@ -75,6 +74,30 @@ public interface INewsAPI {
             @Field("fb_token") String token,
             @Field("email") String email,
             @Field("password") String passwd
+    );
+
+    /**
+     * 用户反馈：
+     * hailer.news/api/feedback/store/?token=7rRltNoGUM2TLA0avUeXbEyDPKvtYQMD
+     */
+    @FormUrlEncoded
+    @POST("comment/store/{postId}")
+    Observable<String> postCommnet(
+            @Path("postId") String postId,
+            @Query("token") String token,
+            @Field("comment") String comment
+    );
+
+    /**
+     * 用户反馈：
+     * hailer.news/api/feedback/store/?token=7rRltNoGUM2TLA0avUeXbEyDPKvtYQMD
+     */
+    @GET("post/{postId}/comments")
+    Observable<Map<String, List<CommentInfo>>> getCommentsList(
+            @Path("postId") String postId,
+            @Query("token") String token,
+            @Query("per_page") int perPage,
+            @Query("page") int pageNumber
     );
 
 

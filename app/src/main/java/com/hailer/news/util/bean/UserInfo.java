@@ -11,7 +11,7 @@ public class UserInfo {
     private String platformId;
     private String name;
     private String platformToken;
-    private Uri iconUri;
+    private String iconUri;
     private String serverToken;
 
     public String getName() {
@@ -38,11 +38,11 @@ public class UserInfo {
         this.platformId = id;
     }
 
-    public Uri getIconUri() {
+    public String getIconUri() {
         return this.iconUri;
     }
 
-    public void setIconUri(Uri iconUri) {
+    public void setIconUri(String iconUri) {
         this.iconUri = iconUri;
     }
 

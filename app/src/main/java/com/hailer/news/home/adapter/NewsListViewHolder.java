@@ -10,12 +10,13 @@ import com.hailer.news.R;
 import com.hailer.news.api.bean.NewsItem;
 import com.hailer.news.util.FuncUtil;
 import com.hailer.news.util.GlideUtils;
+import com.socks.library.KLog;
 
 /**
  * NewsList的ViewHolder类
  */
 
-public class ListItemViewHolder  extends BaseRecyclerViewHolder{
+public class NewsListViewHolder extends BaseRecyclerViewHolder{
 
     ImageView news_summary_photo1 = null;
     ImageView news_summary_photo2 = null;
@@ -24,7 +25,7 @@ public class ListItemViewHolder  extends BaseRecyclerViewHolder{
     TextView news_summary_time;
     int mViewType;
 
-    public ListItemViewHolder(Context context, View itemView, int viewType) {
+    public NewsListViewHolder(Context context, View itemView, int viewType) {
         super(itemView);
 
         mContext = context;
@@ -33,9 +34,9 @@ public class ListItemViewHolder  extends BaseRecyclerViewHolder{
         news_summary_title = itemView.findViewById(R.id.news_summary_title);
         news_summary_time = itemView.findViewById(R.id.news_summary_time);
 
-        if (viewType == ItemViewType.ONEIMAGE) {
+        if (viewType == NewsItemViewType.ONEIMAGE) {
             news_summary_photo1 = itemView.findViewById(R.id.news_summary_photo);
-        } else if (viewType == ItemViewType.THREEIMAGE) {
+        } else if (viewType == NewsItemViewType.THREEIMAGE) {
             news_summary_photo1 = itemView.findViewById(R.id.news_summary_photo1);
             news_summary_photo2 = itemView.findViewById(R.id.news_summary_photo2);
             news_summary_photo3 = itemView.findViewById(R.id.news_summary_photo3);
@@ -56,9 +57,11 @@ public class ListItemViewHolder  extends BaseRecyclerViewHolder{
             return;
         }
         //图片加载，如果是gif图片只加载第一帧, 设置asGif为false
-        if (mViewType == ItemViewType.ONEIMAGE) {
+        if (mViewType == NewsItemViewType.ONEIMAGE) {
+            KLog.e("---------bailei oneimage, url="+item.post_image.get("small").imageUrl);
             GlideUtils.loadDefault(item.post_image.get("small").imageUrl, news_summary_photo1, false, null, DiskCacheStrategy.RESULT);
-        } else if (mViewType == ItemViewType.THREEIMAGE) {
+        } else if (mViewType == NewsItemViewType.THREEIMAGE) {
+            KLog.e("---------bailei 3image, url="+item.post_image_list.get(0).imageUrl);
             GlideUtils.loadDefault(item.post_image_list.get(0).imageUrl, news_summary_photo1, false, null, DiskCacheStrategy.RESULT);
             GlideUtils.loadDefault(item.post_image_list.get(1).imageUrl, news_summary_photo2, false, null, DiskCacheStrategy.RESULT);
             GlideUtils.loadDefault(item.post_image_list.get(2).imageUrl, news_summary_photo3, false, null, DiskCacheStrategy.RESULT);

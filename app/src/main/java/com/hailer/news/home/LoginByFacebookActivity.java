@@ -58,7 +58,7 @@ public class LoginByFacebookActivity extends BaseActivity<ILoginPresenter> imple
             public void onSuccess(LoginResult loginResult) {
                 // App code  如果登录成功，LoginResult 参数将拥有新的 AccessToken 及最新授予或拒绝的权限。
                 toast("onSuccess");
-                UserManager.getInstance().requestFBInfo();
+                UserManager.getInstance().requestFBToken();
 
                 UserInfo userInfo = UserManager.getInstance().getUserinfo();
                 if (userInfo.getPlatformToken() != null) {

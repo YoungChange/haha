@@ -14,13 +14,13 @@ import rx.Subscription;
 public class ISendCommentInteractorImpl implements ISendCommentInteractor<String>{
 
     @Override
-    public Subscription submitComment(RequestCallback callback, String commentContent) {
-//        Subscription subscription = RetrofitService.getInstance(APIConfig.HOST_TYPE_NEWS)
-//                .postCommentObservable(commentContent)
-//                .subscribe(new BaseSubscriber<String>(callback));
-//
-//        return subscription;
+    public Subscription submitComment(RequestCallback callback, String postId, String token, String commentContent) {
+        Subscription subscription = RetrofitService.getInstance(APIConfig.HOST_TYPE_NEWS)
+                .postCommentObservable(postId, token, commentContent)
+                .subscribe(new BaseSubscriber<>(callback));
 
-        return null;
+        return subscription;
+
+     //   return null;
     }
 }

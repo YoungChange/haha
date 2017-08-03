@@ -9,18 +9,17 @@ import android.support.v7.widget.RecyclerView;
 import android.view.View;
 
 import com.hailer.news.R;
+import com.hailer.news.api.bean.CommentInfo;
 import com.hailer.news.base.BaseActivity;
 import com.hailer.news.base.BaseRecycleViewDivider;
 import com.hailer.news.base.DataLoadType;
-import com.hailer.news.home.adapter.NewsCommentListAdapter;
-import com.hailer.news.home.presenter.INewsCommentListPresenter;
-import com.hailer.news.home.presenter.INewsCommentListPresenterImpl;
+import com.hailer.news.home.adapter.CommentsListAdapter;
+import com.hailer.news.home.presenter.ICommentsListPresenter;
+import com.hailer.news.home.presenter.ICommentsListPresenterImpl;
 import com.hailer.news.home.view.INewsCommentListView;
 import com.hailer.news.util.MeasureUtil;
 import com.hailer.news.util.annotation.ActivityFragmentInject;
-import com.hailer.news.util.bean.NewsComment;
 
-import java.util.ArrayList;
 import java.util.List;
 
 @ActivityFragmentInject(contentViewId = R.layout.activity_news_comment_list,
@@ -29,11 +28,11 @@ import java.util.List;
         toolbarTextViewId = R.id.toolbar_title,
         toolbarTextViewTitle = R.string.news_comment
 )
-public class NewsCommentListActivity extends BaseActivity<INewsCommentListPresenter> implements INewsCommentListView{
+public class CommentsListActivity extends BaseActivity<ICommentsListPresenter> implements INewsCommentListView{
 
     private String postId;
 
-    private NewsCommentListAdapter newsCommentListAdapter;
+    private CommentsListAdapter newsCommentListAdapter;
     private RecyclerView mRecyclerView;
     private SwipeRefreshLayout mSwipeRefreshLayout;
 
@@ -45,7 +44,7 @@ public class NewsCommentListActivity extends BaseActivity<INewsCommentListPresen
         mRecyclerView = (RecyclerView) findViewById(R.id.newscommentlist_recycler_view);
         mSwipeRefreshLayout = (SwipeRefreshLayout) findViewById(R.id.comment_refresh_layout);
         postId = getIntent().getStringExtra("postId");
-        mPresenter = new INewsCommentListPresenterImpl(this,postId);
+        mPresenter = new ICommentsListPresenterImpl(this,postId);
     }
 
     @Override
@@ -60,7 +59,7 @@ public class NewsCommentListActivity extends BaseActivity<INewsCommentListPresen
     }
 
     @Override
-    public void updateNewsCommentList(List<NewsComment> data, @NonNull String errorMsg, @DataLoadType.DataLoadTypeChecker int type) {
+    public void updateNewsCommentList(List<CommentInfo> data, @NonNull String errorMsg, @DataLoadType.DataLoadTypeChecker int type) {
 
 
         mLoading = false;
@@ -90,7 +89,7 @@ public class NewsCommentListActivity extends BaseActivity<INewsCommentListPresen
         }
     }
 
-    private void initCommentList(final List<NewsComment> newsCommentList) {
+    private void initCommentList(final List<CommentInfo> newsCommentList) {
 
         //刷新监听事件
         mSwipeRefreshLayout.setColorSchemeColors(Color.RED, Color.BLUE);
@@ -103,7 +102,7 @@ public class NewsCommentListActivity extends BaseActivity<INewsCommentListPresen
             }
         });
 
-        newsCommentListAdapter = new NewsCommentListAdapter(this, newsCommentList);
+        newsCommentListAdapter = new CommentsListAdapter(this, newsCommentList);
 
         final LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false);
         mRecyclerView.setLayoutManager(linearLayoutManager);

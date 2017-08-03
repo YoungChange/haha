@@ -8,6 +8,6 @@ import rx.Subscription;
  * Fuction: 新闻评论Model层接口<p>
  */
 
-public interface INewsCommentListInteractor<T> {
+public interface ICommentsListInteractor<T> {
     Subscription requestNewsCommentList(RequestCallback<T> callback, String newsPostId, int startPage);
 }

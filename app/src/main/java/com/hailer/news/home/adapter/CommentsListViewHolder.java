@@ -8,13 +8,14 @@ import android.widget.TextView;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.hailer.news.R;
 import com.hailer.news.util.GlideUtils;
+import com.socks.library.KLog;
 
 
 /**
  * Created by moma on 17-8-1.
  */
 
-public class NewsCommentListViewHolder extends BaseRecyclerViewHolder{
+public class CommentsListViewHolder extends BaseRecyclerViewHolder{
 
     private ImageView commentUserPic;
     private TextView commentUserName;
@@ -22,7 +23,7 @@ public class NewsCommentListViewHolder extends BaseRecyclerViewHolder{
     private TextView commentTime;
 
 
-    public NewsCommentListViewHolder(Context context, View itemView) {
+    public CommentsListViewHolder(Context context, View itemView) {
         super(itemView);
 
         mContext = context;
@@ -35,6 +36,7 @@ public class NewsCommentListViewHolder extends BaseRecyclerViewHolder{
 
 
     public void setCommentUserPic(String userPicURL) {
+        KLog.e("--------------bailei, userPicURL="+ userPicURL);
         GlideUtils.loadDefault(userPicURL, commentUserPic, false, null, DiskCacheStrategy.RESULT);
     }
 

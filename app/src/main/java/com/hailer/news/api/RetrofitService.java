@@ -3,6 +3,7 @@ package com.hailer.news.api;
 import android.util.SparseArray;
 
 import com.hailer.news.NewsApplication;
+import com.hailer.news.api.bean.CommentInfo;
 import com.hailer.news.api.bean.LoginInfo;
 import com.hailer.news.api.bean.NewsDetail;
 import com.hailer.news.api.bean.NewsItem;
@@ -214,10 +215,27 @@ public class RetrofitService {
     /**
      * 登录
      */
-    public Observable<LoginInfo> login(UserInfo userInfo) {
+    public Observable<LoginInfo> loginObservable(UserInfo userInfo) {
         KLog.i("------bailei------token="+userInfo.getPlatformToken());
         return mNewsAPI.login(userInfo.getPlatformToken(), "123@test.com", "123")
                 .compose(new BaseSchedulerTransformer<LoginInfo>());
+    }
+
+    /**
+     * 登录
+     */
+    public Observable<String> postCommentObservable(String postId, String serverToken, String comment) {
+        KLog.i("------bailei------serverToken="+ serverToken);
+        return mNewsAPI.postCommnet(postId, serverToken, comment)
+                .compose(new BaseSchedulerTransformer<String>());
+    }
+
+    /**
+     * 登录
+     */
+    public Observable<Map<String, List<CommentInfo>>> getCommentsListObservable(String postId, int startPage) {
+        return mNewsAPI.getCommentsList(postId, APIConfig.GET_TOKEN, APIConfig.LIST_ITEMS_PER_PAGE, startPage)
+                .compose(new BaseSchedulerTransformer<Map<String, List<CommentInfo>>>());
     }
 
 }

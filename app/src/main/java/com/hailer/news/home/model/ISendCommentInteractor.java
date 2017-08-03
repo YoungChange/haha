@@ -9,5 +9,5 @@ import rx.Subscription;
  */
 
 public interface ISendCommentInteractor<T> {
-    Subscription submitComment(RequestCallback<T> callback, String commentContent);
+    Subscription submitComment(RequestCallback<T> callback, String postId, String token, String commentContent);
 }

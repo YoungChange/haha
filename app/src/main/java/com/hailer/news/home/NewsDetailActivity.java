@@ -3,16 +3,11 @@ package com.hailer.news.home;
 
 import android.content.Context;
 import android.content.Intent;
-import android.os.Bundle;
 import android.os.IBinder;
-import android.support.v7.widget.DefaultItemAnimator;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
-import android.view.ViewTreeObserver;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 import android.widget.ImageButton;
@@ -21,23 +16,18 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.hailer.news.R;
+import com.hailer.news.UserManager;
 import com.hailer.news.api.bean.NewsDetail;
 import com.hailer.news.base.BaseActivity;
-import com.hailer.news.base.BaseRecycleViewDivider;
-import com.hailer.news.home.adapter.NewsCommentListAdapter;
 import com.hailer.news.home.presenter.INewsDetailPresenter;
 import com.hailer.news.home.presenter.INewsDetailPresenterImpl;
 import com.hailer.news.home.presenter.ISendCommentPresenter;
 import com.hailer.news.home.presenter.ISendCommentPresenterImpl;
 import com.hailer.news.home.view.INewsDetailView;
-import com.hailer.news.util.MeasureUtil;
 import com.hailer.news.util.annotation.ActivityFragmentInject;
 
-import com.hailer.news.util.bean.NewsComment;
+import com.socks.library.KLog;
 import com.zzhoujay.richtext.RichText;
-
-import java.util.ArrayList;
-import java.util.List;
 
 /**
  * Created by moma on 17-7-17.
@@ -64,7 +54,7 @@ public class NewsDetailActivity extends BaseActivity<INewsDetailPresenter> imple
     LinearLayout  commentButtonLinearLayout;
     LayoutInflater inflater;
 
-    String postId;
+    String mPostId;
 
     ISendCommentPresenter mSendCommentPresenter;
 
@@ -87,7 +77,7 @@ public class NewsDetailActivity extends BaseActivity<INewsDetailPresenter> imple
         mCommentEditText.setOnFocusChangeListener(this);
 
         String mNewsDetailPostId = getIntent().getStringExtra("postid");
-        postId = mNewsDetailPostId;
+        mPostId = mNewsDetailPostId;
 
         mPresenter = new INewsDetailPresenterImpl(this,mNewsDetailPostId);
     }
@@ -114,13 +104,26 @@ public class NewsDetailActivity extends BaseActivity<INewsDetailPresenter> imple
                 this.finish();
                 break;
             case R.id.jumptocommentlist_button:
-                Intent intent = new Intent(this,NewsCommentListActivity.class);
-                intent.putExtra("postId",postId);
-                startActivity(intent);
+                String comment = mCommentEditText.getText().toString();
+                String token = UserManager.getInstance().getServerToken();
+                KLog.e("bailei, comment="+comment+", token="+token);
+                if (comment != null && !comment.isEmpty()
+                        && token != null && !token.isEmpty()) {
+                    mSendCommentPresenter = new ISendCommentPresenterImpl(this, mPostId, token, comment);
+                } else {
+                    Intent intent = new Intent(this, CommentsListActivity.class);
+                    intent.putExtra("postId", mPostId);
+                    startActivity(intent);
+                }
                 break;
             case R.id.sendcomment_button:
                 toast("发送comment！");
-                mSendCommentPresenter = new ISendCommentPresenterImpl(this, "评论内容");
+                /*
+                String comment = mCommentEditText.getText().toString();
+                String token = UserManager.getInstance().getServerToken();
+                if (comment != null && token != null)
+                mSendCommentPresenter = new ISendCommentPresenterImpl(this, mPostId, token, comment);
+                */
 //                mPresenter = new ISendCommentPresenterImpl(this, "评论内容");
                 break;
             default:

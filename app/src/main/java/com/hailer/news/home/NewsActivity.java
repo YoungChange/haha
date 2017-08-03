@@ -53,7 +53,8 @@ public class NewsActivity extends BaseActivity<INewsPresenter> implements INewsV
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        UserManager.getInstance().requestFBInfo();
+        //UserManager.getInstance().requestFBInfo();
+        UserManager.getInstance().requestFBToken();
 
         UserInfo userInfo = UserManager.getInstance().getUserinfo();
         if (userInfo.getPlatformToken() != null) {

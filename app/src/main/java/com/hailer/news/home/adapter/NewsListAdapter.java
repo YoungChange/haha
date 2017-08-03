@@ -23,17 +23,17 @@ public  class NewsListAdapter extends BaseRecyclerAdapter<NewsItem> {
 
     @Override
     public BaseRecyclerViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        final ListItemViewHolder holder;
+        final NewsListViewHolder holder;
         View view;
 
-        if(viewType == ItemViewType.THREEIMAGE){
+        if(viewType == NewsItemViewType.THREEIMAGE){
             view =  mInflater.inflate(R.layout.item_news_three_image, parent, false);
-        }else if(viewType == ItemViewType.ONEIMAGE){
+        }else if(viewType == NewsItemViewType.ONEIMAGE){
             view =  mInflater.inflate(R.layout.item_news_one_image, parent, false);
         }else{
             view =  mInflater.inflate(R.layout.item_news_no_image, parent, false);
         }
-        holder = new ListItemViewHolder(mContext, view, viewType);
+        holder = new NewsListViewHolder(mContext, view, viewType);
 
         if (mClickListener != null) {
             holder.itemView.setOnClickListener(new View.OnClickListener(){
@@ -57,9 +57,9 @@ public  class NewsListAdapter extends BaseRecyclerAdapter<NewsItem> {
     public void onBindViewHolder(BaseRecyclerViewHolder holder, int position) {
         NewsItem item = mData.get(position);
 
-        ((ListItemViewHolder) holder).setTitle(item.post_title);
-        ((ListItemViewHolder) holder).setDate(item.post_date);
-        ((ListItemViewHolder) holder).setImage(item);
+        ((NewsListViewHolder) holder).setTitle(item.post_title);
+        ((NewsListViewHolder) holder).setDate(item.post_date);
+        ((NewsListViewHolder) holder).setImage(item);
 
         //直接使用Glide
         //Glide.with(mContext).load(item.imgsrc).placeholder(R.drawable.ic_loading).into(holder.news_summary_photo);
@@ -75,25 +75,25 @@ public  class NewsListAdapter extends BaseRecyclerAdapter<NewsItem> {
     @Override
     public int getItemViewType(int position) {
         //默认有一张图片
-        int type = ItemViewType.ONEIMAGE;
+        int type = NewsItemViewType.ONEIMAGE;
 
         NewsItem item = mData.get(position);
         if (item.post_image_list != null && item.post_image_list.size()>0) {
-            type = ItemViewType.THREEIMAGE;
+            type = NewsItemViewType.THREEIMAGE;
         } else if (item.post_image == null || item.post_image.size() == 0) {
-            type = ItemViewType.NOIMAGE;
+            type = NewsItemViewType.NOIMAGE;
         }
 
         return type;
 
 //        if(mData.get(position).imgextra.size() == 0){
-//            return ItemViewType.NOIMAGE;
+//            return NewsItemViewType.NOIMAGE;
 //        }else if (mData.get(position).imgextra.size() == 1){
-//            return ItemViewType.ONEIMAGE;
+//            return NewsItemViewType.ONEIMAGE;
 //        }else if(mData.get(position).imgextra.size() == 2){
-//            return ItemViewType.TWOIMAGE;
+//            return NewsItemViewType.TWOIMAGE;
 //        }else{
-//            return ItemViewType.THREEIMAGE;
+//            return NewsItemViewType.THREEIMAGE;
 //        }
     }
 

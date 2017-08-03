@@ -6,6 +6,7 @@ import android.os.PersistableBundle;
 import android.support.annotation.Nullable;
 import android.util.Log;
 import android.view.View;
+import android.widget.ImageButton;
 
 import com.facebook.AccessToken;
 import com.facebook.CallbackManager;
@@ -20,6 +21,7 @@ import com.facebook.login.widget.LoginButton;
 import com.hailer.news.R;
 import com.hailer.news.UserManager;
 import com.hailer.news.base.BaseActivity;
+import com.hailer.news.base.ToolBarType;
 import com.hailer.news.home.presenter.ILoginPresenter;
 import com.hailer.news.home.presenter.ILoginPresenterImpl;
 import com.hailer.news.home.view.ILoginView;
@@ -31,16 +33,13 @@ import com.socks.library.KLog;
  * Created by moma on 17-7-31.
  */
 @ActivityFragmentInject(contentViewId = R.layout.activity_login_by_facebook,
-        handleRefreshLayout = true,
-        toolbarId = R.id.back_toolbar,
-        toolbarBackImageButtonId = R.id.back_imagebutton,
-        toolbarTextViewId = R.id.toolbar_title,
-        toolbarTextViewTitle = R.string.login_or_register
+                toolbarType = ToolBarType.NoToolbar
 )
 public class LoginByFacebookActivity extends BaseActivity<ILoginPresenter> implements ILoginView{
 
     CallbackManager callbackManager;
     LoginButton loginButton;
+    ImageButton deleteImageButton;
     ProfileTracker profileTracker;
 
     @Override
@@ -49,6 +48,9 @@ public class LoginByFacebookActivity extends BaseActivity<ILoginPresenter> imple
 
         Log.d("bailei","LoginByFacebookActivity onCreate");
         //LoginManager.getInstance().logOut();
+
+        deleteImageButton = (ImageButton) findViewById(R.id.delete_button);
+        deleteImageButton.setOnClickListener(this);
 
         callbackManager = CallbackManager.Factory.create();
         loginButton = (LoginButton) findViewById(R.id.login_button);
@@ -89,7 +91,7 @@ public class LoginByFacebookActivity extends BaseActivity<ILoginPresenter> imple
     @Override
     public void onClick(View v) {
         switch(v.getId()){
-            case R.id.back_imagebutton:
+            case R.id.delete_button:
                 this.finish();
                 break;
             default:
@@ -104,6 +106,10 @@ public class LoginByFacebookActivity extends BaseActivity<ILoginPresenter> imple
 
     @Override
     public void loginSuccess() {
-        //do something
+        UserManager.getInstance().requestFBInfo();
+        boolean isLoginSuccess=true;
+        Intent intent = new Intent();
+        intent.putExtra("isLoginSuccess",isLoginSuccess);
+        setResult(2,intent);
     }
 }

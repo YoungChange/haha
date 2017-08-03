@@ -1,6 +1,7 @@
 package com.hailer.news.util.annotation;
 
 import com.hailer.news.R;
+import com.hailer.news.base.ToolBarType;
 
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;
@@ -56,6 +57,6 @@ public @interface ActivityFragmentInject {
     boolean hasNavigationView() default false;
 
 
-    int toolbarType() default  0;
+    int toolbarType() default ToolBarType.HasBackButton;
 
 }

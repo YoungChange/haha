@@ -65,6 +65,8 @@ public abstract class BaseActivity<T extends BasePresenter> extends AppCompatAct
 
     private boolean mHasNavigationView;
 
+    private int mToolBarType;
+
     //滑动布局
     protected DrawerLayout mDrawerLayout;
 
@@ -91,7 +93,7 @@ public abstract class BaseActivity<T extends BasePresenter> extends AppCompatAct
             mToolbarTextViewTitle = anno.toolbarTextViewTitle();
             mToolbarBackImageButtonId = anno.toolbarBackImageButtonId();
             mHasNavigationView = anno.hasNavigationView();
-
+            mToolBarType = anno.toolbarType();
         } else {
             throw new RuntimeException("Class must add annotations of ActivityFragmentInitParams.class");
         }
@@ -103,10 +105,12 @@ public abstract class BaseActivity<T extends BasePresenter> extends AppCompatAct
             initNavigationView();
         }
 
-        if(mToolbarBackImageButtonId == -1){
+        if(mToolBarType == ToolBarType.HasMenuButton){
             Toolbar myToolbar = initToolbar(mToolbarId,mToolbarTextViewId,mToolbarTextViewTitle);
-        }else {
+        }else if(mToolBarType == ToolBarType.HasBackButton){
             Toolbar myToolbar = initBackActivityToolbar(mToolbarId,mToolbarBackImageButtonId,mToolbarTextViewId,mToolbarTextViewTitle);
+        }else{
+
         }
 
         initView();
@@ -131,6 +135,9 @@ public abstract class BaseActivity<T extends BasePresenter> extends AppCompatAct
 
         ImageButton menuImageButton = (ImageButton) findViewById(R.id.menu_imagebutton);
         menuImageButton.setOnClickListener(this);
+
+        ImageButton loginImageButton = (ImageButton) findViewById(R.id.login_imagebutton);
+        loginImageButton.setOnClickListener(this);
 
         AppCompatActivity activity = this;
         activity.setSupportActionBar(toolbar);
@@ -196,7 +203,6 @@ public abstract class BaseActivity<T extends BasePresenter> extends AppCompatAct
 
         List<NavigationItem> data = new ArrayList<NavigationItem>();
         data.add(new NavigationItem(R.string.contract_us,R.drawable.contact));
-        data.add(new NavigationItem(R.string.facebook_login,R.drawable.contact));
 
         if(mNavAdapter == null){
             mNavAdapter = new RecyclerNavigationAdapter(this,data);
@@ -213,11 +219,6 @@ public abstract class BaseActivity<T extends BasePresenter> extends AppCompatAct
                         intent = new Intent(BaseActivity.this, ContractUsActivity.class);
                         startActivity(intent);
                         break;
-                    case 1:
-                        intent = new Intent(BaseActivity.this, LoginByFacebookActivity.class);
-                        startActivity(intent);
-                        break;
-
                     default:
                         Toast.makeText(BaseActivity.this, R.string.what_you_did, Toast.LENGTH_SHORT).show();
                         break;

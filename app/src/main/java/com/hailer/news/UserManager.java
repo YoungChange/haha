@@ -53,6 +53,7 @@ public class UserManager {
         Profile profile = Profile.getCurrentProfile();
 
         if (accessToken == null || profile == null) {
+//            userinfo = new UserInfo();
             KLog.d("bailei----need login");
             //userInfo.setFBToken(null);
             return false;

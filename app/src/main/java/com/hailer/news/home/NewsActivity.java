@@ -1,6 +1,7 @@
 package com.hailer.news.home;
 
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.TabLayout;
 import android.support.v4.view.GravityCompat;
@@ -10,16 +11,19 @@ import android.view.View;
 import android.widget.ImageButton;
 
 
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.hailer.news.UserManager;
 import com.hailer.news.base.BaseActivity;
 import com.hailer.news.base.BaseFragment;
 import com.hailer.news.R;
 import com.hailer.news.base.BaseFragmentAdapter;
+import com.hailer.news.base.ToolBarType;
 import com.hailer.news.home.presenter.ILoginPresenterImpl;
 import com.hailer.news.home.presenter.INewsPresenter;
 import com.hailer.news.home.presenter.INewsPresenterImpl;
 import com.hailer.news.home.view.ILoginView;
 import com.hailer.news.home.view.INewsView;
+import com.hailer.news.util.GlideUtils;
 import com.hailer.news.util.RxBus;
 import com.hailer.news.util.annotation.ActivityFragmentInject;
 import com.hailer.news.util.bean.NewsChannelBean;
@@ -36,7 +40,8 @@ import rx.functions.Action1;
         toolbarId = R.id.my_toolbar,
         toolbarTextViewId = R.id.toolbar_title,
         toolbarTextViewTitle = R.string.moma,
-        hasNavigationView = true)
+        hasNavigationView = true,
+        toolbarType = ToolBarType.HasMenuButton)
 public class NewsActivity extends BaseActivity<INewsPresenter> implements INewsView, ILoginView{
 
     private TabLayout mTabLayout;
@@ -49,11 +54,17 @@ public class NewsActivity extends BaseActivity<INewsPresenter> implements INewsV
 
     private ILoginPresenterImpl mLoginPresenter;
 
+    ImageButton loginImageButton;
+
+    //登录的状态
+    boolean mLoginStatus = false;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        
+        loginImageButton = (ImageButton) findViewById(R.id.login_imagebutton);
 
-        //UserManager.getInstance().requestFBInfo();
         UserManager.getInstance().requestFBToken();
 
         UserInfo userInfo = UserManager.getInstance().getUserinfo();
@@ -88,6 +99,11 @@ public class NewsActivity extends BaseActivity<INewsPresenter> implements INewsV
         switch (view.getId()){
             case R.id.menu_imagebutton:
                 this.mDrawerLayout.openDrawer(GravityCompat.START);
+                break;
+            case R.id.login_imagebutton:
+                    Intent intent = new Intent(NewsActivity.this, LoginByFacebookActivity.class);
+                    startActivityForResult(intent,0);
+                break;
         }
     }
     @Override
@@ -166,6 +182,26 @@ public class NewsActivity extends BaseActivity<INewsPresenter> implements INewsV
 
     @Override
     public void loginSuccess() {
-        //do something
+        //换头像
+        UserManager.getInstance().requestFBInfo();
+        UserInfo userInfo = UserManager.getInstance().getUserinfo();
+        if(userInfo.getIconUri()!=null){
+            mLoginStatus = true;
+            GlideUtils.loadDefault(userInfo.getIconUri(), loginImageButton, false, null, DiskCacheStrategy.RESULT);
+        }
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if(requestCode == 0 && resultCode == 0){
+            if (data == null) {
+                loginSuccess();
+            }else{
+                if(data.getExtras().getBoolean("isLoginSuccess")){
+                    loginSuccess();
+                }
+            }
+        }
     }
 }

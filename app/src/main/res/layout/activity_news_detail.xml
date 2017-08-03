@@ -33,6 +33,7 @@
             android:gravity="bottom"
             android:background="@color/colorPrimaryBack"
             android:layout_alignParentBottom="true"
+            android:focusableInTouchMode="true"
             android:orientation="horizontal">
             <EditText
                 android:id="@+id/comment_edittext"
@@ -50,7 +51,6 @@
                 <ImageButton
                     android:id="@+id/jumptocommentlist_button"
                     android:focusableInTouchMode="false"
-                    android:focusable="false"
                     android:layout_width="100dp"
                     android:layout_height="40dp"
                     android:src="@drawable/com_facebook_tooltip_black_background"

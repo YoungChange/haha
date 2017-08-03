@@ -99,11 +99,13 @@ public class NewsDetailActivity extends BaseActivity<INewsDetailPresenter> imple
 
     @Override
     public void onClick(View v) {
+        KLog.e("-------------bailei onclick , id ="+ v.getId());
         switch(v.getId()){
             case R.id.back_imagebutton:
                 this.finish();
                 break;
             case R.id.jumptocommentlist_button:
+                KLog.e("-------------bailei onclick , to comment list..............");
                 String comment = mCommentEditText.getText().toString();
                 String token = UserManager.getInstance().getServerToken();
                 KLog.e("bailei, comment="+comment+", token="+token);
@@ -117,6 +119,7 @@ public class NewsDetailActivity extends BaseActivity<INewsDetailPresenter> imple
                 }
                 break;
             case R.id.sendcomment_button:
+                KLog.e("-------------bailei onclick , send comment..............");
                 toast("发送comment！");
                 /*
                 String comment = mCommentEditText.getText().toString();
@@ -133,24 +136,26 @@ public class NewsDetailActivity extends BaseActivity<INewsDetailPresenter> imple
 
     @Override
     public void onFocusChange(View v, boolean hasFocus) {
+        KLog.e("--------------bailei.........onFocusChange, hasFocus="+hasFocus+", id="+v.getId());
         switch(v.getId()){
             case R.id.comment_edittext:
+                KLog.e("--------------bailei.........onFocusChange, edittext");
                 if(hasFocus==true){
 //                    toast("获得焦点");
                     View view = inflater.inflate(R.layout.button_sendcomment, null);
-                    LinearLayout sendCommentLinearLayout = (LinearLayout) view.findViewById(R.id.sendcomment_layout);
-                    commentButtonLinearLayout.removeAllViews();
-                    commentButtonLinearLayout.addView(sendCommentLinearLayout);
-                    mCommentButton = (ImageButton) findViewById(R.id.sendcomment_button);
+                    //LinearLayout sendCommentLinearLayout = (LinearLayout) view.findViewById(R.id.sendcomment_layout);
+                    //commentButtonLinearLayout.removeAllViews();
+                    //commentButtonLinearLayout.addView(sendCommentLinearLayout);
+                    //mCommentButton = (ImageButton) findViewById(R.id.sendcomment_button);
                     mCommentButton.setOnClickListener(this);
                     break;
                 }else{
 //                    toast("失去焦点");
-                    View view = inflater.inflate(R.layout.button_jumptocommentlist, null);
-                    LinearLayout jumpToCommentListLinearLayout = (LinearLayout) view.findViewById(R.id.jumptocommentlist_layout);
-                    commentButtonLinearLayout.removeAllViews();
-                    commentButtonLinearLayout.addView(jumpToCommentListLinearLayout);
-                    mCommentButton = (ImageButton) findViewById(R.id.jumptocommentlist_button);
+//                    View view = inflater.inflate(R.layout.button_jumptocommentlist, null);
+//                    LinearLayout jumpToCommentListLinearLayout = (LinearLayout) view.findViewById(R.id.jumptocommentlist_layout);
+//                    commentButtonLinearLayout.removeAllViews();
+//                    commentButtonLinearLayout.addView(jumpToCommentListLinearLayout);
+                    //mCommentButton = (ImageButton) findViewById(R.id.jumptocommentlist_button);
                     mCommentButton.setOnClickListener(this);
                     break;
                 }

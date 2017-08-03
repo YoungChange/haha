@@ -1,16 +1,31 @@
 package com.hailer.news.home.presenter;
 
 import com.hailer.news.base.presenter.BasePresenterImpl;
+import com.hailer.news.home.model.ISendCommentInteractor;
+import com.hailer.news.home.model.ISendCommentInteractorImpl;
 import com.hailer.news.home.view.INewsDetailView;
 import com.hailer.news.util.bean.NewsComment;
 
-/**
- * Created by moma on 17-8-2.
- */
 
-public class ISendCommentPresenterImpl extends BasePresenterImpl<INewsDetailView,NewsComment> implements ISendCommentPresenter{
+
+public class ISendCommentPresenterImpl extends BasePresenterImpl<INewsDetailView,String> implements ISendCommentPresenter{
+
+    ISendCommentInteractor<String> mSendCommentInteractor;
+
     public ISendCommentPresenterImpl(INewsDetailView view,String commentContent) {
         super(view);
+        mSendCommentInteractor = new ISendCommentInteractorImpl();
+        mSendCommentInteractor.submitComment(this,commentContent);
+    }
+
+    @Override
+    public void onResume() {
+
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
     }
 
 

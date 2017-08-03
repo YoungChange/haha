@@ -31,6 +31,7 @@ public class ILoginPresenterImpl extends BasePresenterImpl<ILoginView, String> i
     @Override
     public void requestSuccess(String token) {
        UserManager.getInstance().setServerToken(token);
+        mView.loginSuccess();
     }
 
 }

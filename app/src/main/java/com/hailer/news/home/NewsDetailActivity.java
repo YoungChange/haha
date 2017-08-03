@@ -27,6 +27,7 @@ import com.hailer.news.base.BaseRecycleViewDivider;
 import com.hailer.news.home.adapter.NewsCommentListAdapter;
 import com.hailer.news.home.presenter.INewsDetailPresenter;
 import com.hailer.news.home.presenter.INewsDetailPresenterImpl;
+import com.hailer.news.home.presenter.ISendCommentPresenter;
 import com.hailer.news.home.presenter.ISendCommentPresenterImpl;
 import com.hailer.news.home.view.INewsDetailView;
 import com.hailer.news.util.MeasureUtil;
@@ -64,6 +65,8 @@ public class NewsDetailActivity extends BaseActivity<INewsDetailPresenter> imple
     LayoutInflater inflater;
 
     String postId;
+
+    ISendCommentPresenter mSendCommentPresenter;
 
     @Override
     protected void initView() {
@@ -117,6 +120,7 @@ public class NewsDetailActivity extends BaseActivity<INewsDetailPresenter> imple
                 break;
             case R.id.sendcomment_button:
                 toast("发送comment！");
+                mSendCommentPresenter = new ISendCommentPresenterImpl(this, "评论内容");
 //                mPresenter = new ISendCommentPresenterImpl(this, "评论内容");
                 break;
             default:

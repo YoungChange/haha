@@ -12,7 +12,7 @@ import rx.Subscription;
  * Created by moma on 17-7-25.
  */
 
-public class IContractUsInteractorImpl implements IContractUsInteractor{
+public class IContractUsInteractorImpl implements IContractUsInteractor<String>{
     @Override
     public Subscription submitMeaaage(RequestCallback callback, String email, String feedback) {
 

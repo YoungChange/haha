@@ -97,17 +97,9 @@ public abstract class BaseFragment<T extends BasePresenter> extends Fragment
     protected abstract void initView(View fragmentRootView);
 
 
-
-    private Toast mToast;
     @Override
     public void toast(String msg) {
-
-        if(mToast == null){
-            mToast = Toast.makeText(getActivity(),msg,Toast.LENGTH_SHORT);
-        }else{
-            mToast.setText(msg);
-        }
-        mToast.show();
+        ((BaseActivity)getActivity()).toast(msg);
     }
 
     @Override

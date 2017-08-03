@@ -3,6 +3,7 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/activity_newsdetail_rootview"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
@@ -40,13 +41,23 @@
                 android:layout_height="match_parent"
                 android:hint="@string/publish_comment"
                 android:background="@drawable/bg_edittext_comment"/>
-            <ImageButton
-                android:id="@+id/comment_button"
+
+            <LinearLayout
+                android:id="@+id/commentbutton_layout"
                 android:layout_width="100dp"
-                android:layout_height="40dp"
-                android:src="@drawable/contact"
-                android:focusable="false"
-                android:background="@color/colorPrimaryBack"/>
+                android:layout_height="40dp">
+
+                <ImageButton
+                    android:id="@+id/jumptocommentlist_button"
+                    android:focusableInTouchMode="false"
+                    android:focusable="false"
+                    android:layout_width="100dp"
+                    android:layout_height="40dp"
+                    android:src="@drawable/com_facebook_tooltip_black_background"
+                    android:background="@color/colorPrimaryBack"/>
+
+            </LinearLayout>
+
         </LinearLayout>
         
     </RelativeLayout>

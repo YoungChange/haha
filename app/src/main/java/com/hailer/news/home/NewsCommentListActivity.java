@@ -20,6 +20,7 @@ import com.hailer.news.util.MeasureUtil;
 import com.hailer.news.util.annotation.ActivityFragmentInject;
 import com.hailer.news.util.bean.NewsComment;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @ActivityFragmentInject(contentViewId = R.layout.activity_news_comment_list,
@@ -42,7 +43,7 @@ public class NewsCommentListActivity extends BaseActivity<INewsCommentListPresen
     protected void initView() {
 
         mRecyclerView = (RecyclerView) findViewById(R.id.newscommentlist_recycler_view);
-        mSwipeRefreshLayout = (SwipeRefreshLayout) findViewById(R.id.refresh_layout);
+        mSwipeRefreshLayout = (SwipeRefreshLayout) findViewById(R.id.comment_refresh_layout);
         postId = getIntent().getStringExtra("postId");
         mPresenter = new INewsCommentListPresenterImpl(this,postId);
     }
@@ -61,9 +62,6 @@ public class NewsCommentListActivity extends BaseActivity<INewsCommentListPresen
     @Override
     public void updateNewsCommentList(List<NewsComment> data, @NonNull String errorMsg, @DataLoadType.DataLoadTypeChecker int type) {
 
-//        NewsComment newsCommentItem = new NewsComment("2017-9-8 8:8:8","这个问题困扰")
-
-
 
         mLoading = false;
 
@@ -74,7 +72,7 @@ public class NewsCommentListActivity extends BaseActivity<INewsCommentListPresen
         switch (type) {
             case DataLoadType.TYPE_REFRESH_SUCCESS:
                 newsCommentListAdapter.setmData(data);
-                toast(this.getString(R.string.refresh_success));
+//                toast(this.getString(R.string.refresh_success));
                 break;
             case DataLoadType.TYPE_REFRESH_FAIL:
                 newsCommentListAdapter.notifyDataSetChanged();
@@ -110,7 +108,7 @@ public class NewsCommentListActivity extends BaseActivity<INewsCommentListPresen
         final LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false);
         mRecyclerView.setLayoutManager(linearLayoutManager);
 
-        // 在Fragment中给RecyclerView增加滑动监听
+        // 给RecyclerView增加滑动监听
         mRecyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
 
             @Override

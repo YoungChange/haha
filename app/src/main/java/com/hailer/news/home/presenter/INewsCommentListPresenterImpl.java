@@ -53,7 +53,6 @@ public class INewsCommentListPresenterImpl extends BasePresenterImpl<INewsCommen
             mStartPage += APIConfig.LIST_ITEMS_PER_PAGE;
         }
 
-
         mView.updateNewsCommentList(data, "", mIsRefresh ? DataLoadType.TYPE_REFRESH_SUCCESS : DataLoadType.TYPE_LOAD_MORE_SUCCESS);
     }
 

@@ -151,11 +151,11 @@ public class NewsActivity extends BaseActivity<INewsPresenter> implements INewsV
         {
             case KeyEvent.KEYCODE_BACK:
                 long secondTime = System.currentTimeMillis();
-                if (secondTime - firstTime > 2000) {                                         //如果两次按键时间间隔大于2秒，则不退出
-                    toast("再按一次退出程序");
-                    firstTime = secondTime;//更新firstTime
+                if (secondTime - firstTime > 2000) {
+                    toast(getString(R.string.press_again_to_exit));
+                    firstTime = secondTime;
                     return true;
-                } else {                                                    //两次按键小于2秒时，退出应用
+                } else {
                     System.exit(0);
                 }
                 break;

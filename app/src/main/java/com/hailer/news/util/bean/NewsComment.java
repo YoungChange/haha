@@ -8,6 +8,7 @@ import java.util.StringTokenizer;
  */
 
 public class NewsComment {
+
     private String time;
     private String content;
     private String userName;

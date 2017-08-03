@@ -34,6 +34,7 @@
 
         <activity
             android:name="com.hailer.news.home.NewsDetailActivity"
+            android:configChanges="orientation|keyboardHidden|screenSize"
             android:theme="@style/AppThemeBack"
             android:windowSoftInputMode="adjustResize">
 

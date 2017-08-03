@@ -26,8 +26,7 @@ public class NewsCommentListAdapter extends BaseRecyclerAdapter<NewsComment>{
         View view = mInflater.inflate(R.layout.item_comment, parent, false);
         final NewsCommentListViewHolder holder = new NewsCommentListViewHolder(mContext, view);
 
-
-        return null;
+        return holder;
     }
 
     @Override

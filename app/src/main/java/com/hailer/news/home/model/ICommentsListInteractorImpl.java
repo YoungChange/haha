@@ -43,7 +43,7 @@ public class ICommentsListInteractorImpl implements ICommentsListInteractor<List
                     // 按时间先后排序
                     @Override
                     public Integer call(CommentInfo newsComment, CommentInfo newsComment2) {
-                        return newsComment2.comment_date.compareTo(newsComment.comment_date);
+                        return newsComment2.getDate().compareTo(newsComment.getDate());
                     }
                 }).subscribe(new BaseSubscriber<List<CommentInfo>>(callback));
         return subscription;

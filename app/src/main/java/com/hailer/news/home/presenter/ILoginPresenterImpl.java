@@ -8,16 +8,11 @@ import com.hailer.news.home.model.ILoginInteractorImpl;
 import com.hailer.news.home.view.ILoginView;
 import com.hailer.news.util.bean.UserInfo;
 
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
-
 /**
  * Created by moma on 17-7-31.
  */
 
 public class ILoginPresenterImpl extends BasePresenterImpl<ILoginView, LoginInfo> implements ILoginPresenter {
-
-//    IContractUsInteractor<UserInfo> mContractUsInteractor;
 
     private UserInfo userinfo;
     private ILoginInteractor<LoginInfo> mLoginInteractor;

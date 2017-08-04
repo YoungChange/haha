@@ -141,8 +141,9 @@ public class SimpleFragment extends BaseFragment<INewsListPresenter> implements 
 
                 Intent intent = new Intent(getActivity(), NewsDetailActivity.class);
                 NewsItem newsItem =  mAdapter.getmData().get(position);
-                KLog.e("onItemClick, position="+position+"; id="+newsItem.id+"; img="+newsItem.post_image);
-                intent.putExtra("postid", String.valueOf(newsItem.id));
+                //KLog.e("onItemClick, position="+position+"; id="+newsItem.id+"; img="+newsItem.post_image);
+                intent.putExtra("postid", String.valueOf(newsItem.getPostId()));
+
                 //intent.putExtra("imgsrc", newsItem.post_image);
 
                 try{

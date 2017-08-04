@@ -1,28 +1,33 @@
 package com.hailer.news.api.bean;
 
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import com.fasterxml.jackson.annotation.JsonProperty;
 
 /**
- * Fuction: 每条新闻的详情<p>
+ * Fuction: 每条新闻的详情
  */
-@JsonIgnoreProperties(ignoreUnknown = true)
 public class NewsDetail {
+    private int id;
+    private String post_title;
+    private String post_date;
+    private int comment_count;
+    private String post_content;
 
-    @JsonProperty("id")
-    public int id;
-    @JsonProperty("post_title")
-    public String title;
-    @JsonProperty("post_slug")
-    public String slug;
-    @JsonProperty("post_excerpt")
-    public String excerpt;
-    @JsonProperty("post_date")
-    public String date;
-    @JsonProperty("comment_count")
-    public int comment_count;
-    @JsonProperty("post_author")
-    public String author;
-    @JsonProperty("post_content")
-    public String content;
+    public int getId() {
+        return id;
+    }
+
+    public String getTitle(){
+        return post_title;
+    }
+
+    public String getDate(){
+        return post_date;
+    }
+
+    public int getCommentsCount(){
+        return comment_count;
+    }
+
+    public String getContent() {
+        return post_content;
+    }
 }

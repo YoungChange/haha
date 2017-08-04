@@ -30,7 +30,7 @@ import okio.Buffer;
 import okio.BufferedSource;
 import retrofit2.Retrofit;
 import retrofit2.adapter.rxjava.RxJavaCallAdapterFactory;
-import retrofit2.converter.jackson.JacksonConverterFactory;
+import retrofit2.converter.gson.GsonConverterFactory;
 import rx.Observable;
 
 /**
@@ -154,7 +154,7 @@ public class RetrofitService {
         Retrofit retrofit = new Retrofit.Builder()
                 .baseUrl(APIConfig.HOST_NAME)
                 .client(sOkHttpClient)
-                .addConverterFactory(JacksonConverterFactory.create())
+                .addConverterFactory(GsonConverterFactory.create())
                 .addCallAdapterFactory(RxJavaCallAdapterFactory.create())
                 .build();
 
@@ -207,7 +207,6 @@ public class RetrofitService {
      * 反馈
      */
     public Observable<String> postFeedbackObservable(String email, String feedback) {
-        KLog.i("------------email="+email+", feedback="+feedback);
         return mNewsAPI.postFeedback(email, feedback, APIConfig.GET_TOKEN)
                 .compose(new BaseSchedulerTransformer<String>());
     }
@@ -216,8 +215,7 @@ public class RetrofitService {
      * 登录
      */
     public Observable<LoginInfo> loginObservable(UserInfo userInfo) {
-        KLog.i("------bailei------token="+userInfo.getPlatformToken());
-        return mNewsAPI.login(userInfo.getPlatformToken(), "123@test.com", "123")
+        return mNewsAPI.login(userInfo.getPlatformToken(), "test", "test")
                 .compose(new BaseSchedulerTransformer<LoginInfo>());
     }
 
@@ -225,7 +223,6 @@ public class RetrofitService {
      * 登录
      */
     public Observable<String> postCommentObservable(String postId, String serverToken, String comment) {
-        KLog.i("------bailei------serverToken="+ serverToken);
         return mNewsAPI.postCommnet(postId, serverToken, comment)
                 .compose(new BaseSchedulerTransformer<String>());
     }

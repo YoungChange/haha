@@ -28,6 +28,7 @@ import com.hailer.news.util.RxBus;
 import com.hailer.news.util.annotation.ActivityFragmentInject;
 import com.hailer.news.util.bean.NewsChannelBean;
 import com.hailer.news.util.bean.UserInfo;
+import com.socks.library.KLog;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -68,7 +69,9 @@ public class NewsActivity extends BaseActivity<INewsPresenter> implements INewsV
         UserManager.getInstance().requestFBToken();
 
         UserInfo userInfo = UserManager.getInstance().getUserinfo();
-        if (userInfo.getPlatformToken() != null) {
+        Boolean loggedIn = userInfo.getPlatformToken() != null;
+        KLog.e("facebook 登录状态："+loggedIn);
+        if (loggedIn) {
             mLoginPresenter = new ILoginPresenterImpl(this, userInfo);
         }
 /*

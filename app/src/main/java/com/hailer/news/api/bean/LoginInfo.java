@@ -1,28 +1,32 @@
 package com.hailer.news.api.bean;
 
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import com.fasterxml.jackson.annotation.JsonProperty;
-import com.fasterxml.jackson.databind.introspect.ClassIntrospector;
-
 /**
  * Fuction: 登录信息
  */
-@JsonIgnoreProperties(ignoreUnknown = true)
 public class LoginInfo {
-    @JsonProperty("status")
-    public String status;
-    @JsonProperty("token")
-    public String token;
-    @JsonProperty("user")
-    public User userInfo;
+    private String status;
+    private String token;
+    private User user;
 
-    @JsonIgnoreProperties(ignoreUnknown = true)
     public static class User{
-        @JsonProperty("facebook_id")
-        public String platformId;
-        @JsonProperty("avatar")
+        public String facebook_id;
         public String avatar;
-        @JsonProperty("name")
         public String name;
+    }
+
+    public String getToken(){
+        return token;
+    }
+
+    public String getUserAvatar(){
+        return user.avatar;
+    }
+
+    public String getUserName() {
+        return user.name;
+    }
+
+    public String getUserId(){
+        return user.facebook_id;
     }
 }

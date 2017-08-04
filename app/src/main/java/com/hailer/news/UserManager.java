@@ -8,10 +8,6 @@ import com.hailer.news.api.bean.LoginInfo;
 import com.hailer.news.util.bean.UserInfo;
 import com.socks.library.KLog;
 
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.Date;
-
 /**
  * 跟网络相关的工具类
  */
@@ -53,16 +49,11 @@ public class UserManager {
         Profile profile = Profile.getCurrentProfile();
 
         if (accessToken == null || profile == null) {
-//            userinfo = new UserInfo();
-            KLog.d("bailei----need login");
-            //userInfo.setFBToken(null);
+            KLog.d("---need login");
             return false;
         }
 
         setUserInfo(profile.getId(), profile.getName(), profile.getProfilePictureUri(100,100),accessToken.getToken());
-        KLog.d("bailei----getFBInfo,  token="+accessToken.getToken()+", id="+profile.getId());
-        KLog.d("bailei----getFBInfo,  name="+profile.getName());
-        KLog.d("bailei----getFBInfo,  linkuri="+profile.getLinkUri()+", picuri="+profile.getProfilePictureUri(100,100));
         return true;
 
     }
@@ -70,13 +61,11 @@ public class UserManager {
     public Boolean requestFBToken(){
         AccessToken accessToken = AccessToken.getCurrentAccessToken();
          if (accessToken == null ) {
-            KLog.d("bailei----need login");
-            //userInfo.setFBToken(null);
+            KLog.d("---need login");
             return false;
         }
 
         setUserInfo(null, null, null, accessToken.getToken());
-        KLog.d("bailei----getFBInfo,  token="+accessToken.getToken()+", id="+accessToken.getToken());
         return true;
 
     }
@@ -100,12 +89,10 @@ public class UserManager {
     }
 
     public void setServerToken(String token) {
-        //userinfo.setServerToken(token);
         mServerToken = token;
     }
 
     public String getServerToken() {
-        //userinfo.getServerToken();
         return mServerToken;
     }
 
@@ -118,9 +105,9 @@ public class UserManager {
     }
 
     public void saveUserInfo(LoginInfo loginInfo){
-        setServerToken(loginInfo.token);
-        setUserInfo(loginInfo.userInfo.platformId,
-                loginInfo.userInfo.name, loginInfo.userInfo.avatar);
+        setServerToken(loginInfo.getToken());
+        setUserInfo(loginInfo.getUserId(),
+                loginInfo.getUserName(), loginInfo.getUserAvatar());
     }
 
 }

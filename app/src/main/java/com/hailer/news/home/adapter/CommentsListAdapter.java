@@ -33,10 +33,10 @@ public class CommentsListAdapter extends BaseRecyclerAdapter<CommentInfo>{
         CommentInfo item = mData.get(position);
 
 
-        ((CommentsListViewHolder) holder).setCommentUserPic(item.commnetUser.avatar);
-        ((CommentsListViewHolder) holder).setCommentUserName(item.commnetUser.name);
-        ((CommentsListViewHolder) holder).setCommentContent(item.comment_content);
-        ((CommentsListViewHolder) holder).setCommentTime(item.comment_date);
+        ((CommentsListViewHolder) holder).setCommentUserPic(item.getUserAvatar());
+        ((CommentsListViewHolder) holder).setCommentUserName(item.getUserName());
+        ((CommentsListViewHolder) holder).setCommentContent(item.getComment());
+        ((CommentsListViewHolder) holder).setCommentTime(item.getDate());
 
     }
 

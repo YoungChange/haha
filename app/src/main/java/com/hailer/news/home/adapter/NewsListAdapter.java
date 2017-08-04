@@ -9,6 +9,7 @@ import com.hailer.news.R;
 import com.hailer.news.api.bean.NewsItem;
 import com.socks.library.KLog;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -57,12 +58,9 @@ public  class NewsListAdapter extends BaseRecyclerAdapter<NewsItem> {
     public void onBindViewHolder(BaseRecyclerViewHolder holder, int position) {
         NewsItem item = mData.get(position);
 
-        ((NewsListViewHolder) holder).setTitle(item.post_title);
-        ((NewsListViewHolder) holder).setDate(item.post_date);
+        ((NewsListViewHolder) holder).setTitle(item.getPostTitle());
+        ((NewsListViewHolder) holder).setDate(item.getDate());
         ((NewsListViewHolder) holder).setImage(item);
-
-        //直接使用Glide
-        //Glide.with(mContext).load(item.imgsrc).placeholder(R.drawable.ic_loading).into(holder.news_summary_photo);
     }
 
 
@@ -75,30 +73,18 @@ public  class NewsListAdapter extends BaseRecyclerAdapter<NewsItem> {
     @Override
     public int getItemViewType(int position) {
         //默认有一张图片
-        int type = NewsItemViewType.ONEIMAGE;
-
+        int type;
         NewsItem item = mData.get(position);
-        if (item.post_image_list != null && item.post_image_list.size()>0) {
-            type = NewsItemViewType.THREEIMAGE;
-        } else if (item.post_image == null || item.post_image.size() == 0) {
+
+        ArrayList<String> imageList = item.getImageList();
+        if (imageList == null) {
             type = NewsItemViewType.NOIMAGE;
+        } else if (imageList.size() == 3) {
+            type = NewsItemViewType.THREEIMAGE;
+        } else {
+            type = NewsItemViewType.ONEIMAGE;
         }
 
         return type;
-
-//        if(mData.get(position).imgextra.size() == 0){
-//            return NewsItemViewType.NOIMAGE;
-//        }else if (mData.get(position).imgextra.size() == 1){
-//            return NewsItemViewType.ONEIMAGE;
-//        }else if(mData.get(position).imgextra.size() == 2){
-//            return NewsItemViewType.TWOIMAGE;
-//        }else{
-//            return NewsItemViewType.THREEIMAGE;
-//        }
     }
-
-
-
-
-
 }

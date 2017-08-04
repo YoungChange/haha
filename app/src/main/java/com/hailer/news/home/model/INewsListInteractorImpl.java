@@ -40,7 +40,7 @@ public class INewsListInteractorImpl implements INewsListInteractor<List<NewsIte
                     // 按时间先后排序
                     @Override
                     public Integer call(NewsItem newsSummary, NewsItem newsSummary2) {
-                        return newsSummary2.post_date.compareTo(newsSummary.post_date);
+                        return newsSummary2.getDate().compareTo(newsSummary.getDate());
                     }
                 }).subscribe(new BaseSubscriber<List<NewsItem>>(callback));
 

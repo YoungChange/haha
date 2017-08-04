@@ -85,12 +85,13 @@ public class NewsDetailActivity extends BaseActivity<INewsDetailPresenter> imple
     @Override
     public void initNewsDetail(final NewsDetail data) {
 
-        mDetailTitle.setText(data.title);
-        mDetailTime.setText(data.date);
+        mDetailTitle.setText(data.getTitle());
+        mDetailTime.setText(data.getDate());
 
-        if (!TextUtils.isEmpty(data.content)) {
+        String content = data.getContent();
+        if (!TextUtils.isEmpty(content)) {
             //mDetailBody.setRichText(data.content);
-            RichText.fromHtml(data.content)
+            RichText.fromHtml(content)
                     //.autoPlay(true)
                     .into(mDetailBody);
         }
@@ -99,13 +100,11 @@ public class NewsDetailActivity extends BaseActivity<INewsDetailPresenter> imple
 
     @Override
     public void onClick(View v) {
-        KLog.e("-------------bailei onclick , id ="+ v.getId());
         switch(v.getId()){
             case R.id.back_imagebutton:
                 this.finish();
                 break;
             case R.id.jumptocommentlist_button:
-                KLog.e("-------------bailei onclick , to comment list..............");
                 String comment = mCommentEditText.getText().toString();
                 String token = UserManager.getInstance().getServerToken();
                 KLog.e("bailei, comment="+comment+", token="+token);
@@ -119,7 +118,6 @@ public class NewsDetailActivity extends BaseActivity<INewsDetailPresenter> imple
                 }
                 break;
             case R.id.sendcomment_button:
-                KLog.e("-------------bailei onclick , send comment..............");
                 toast("发送comment！");
                 /*
                 String comment = mCommentEditText.getText().toString();

@@ -76,14 +76,13 @@ dependencies {
     compile 'com.github.bumptech.glide:okhttp3-integration:1.4.0@aar'
     //retrofit
     compile 'com.squareup.retrofit2:retrofit:2.3.0'
-    compile 'com.squareup.retrofit2:converter-jackson:2.1.0'
+    compile 'com.squareup.retrofit2:converter-gson:2.3.0'
     compile 'com.squareup.retrofit2:adapter-rxjava:2.1.0'
     //okhttp
     compile 'com.squareup.okhttp3:okhttp:3.8.1'
     //compile 'com.squareup.okhttp3:logging-interceptor:3.4.1'
     compile 'com.github.zhaokaiqiang.klog:library:1.5.0'
     //RichText控件
-    //compile 'zhou.widget:richtext:1.0.4'
     compile 'com.zzhoujay.richtext:richtext:2.5.4'
     //facebook sdk
     compile 'com.facebook.android:facebook-android-sdk:[4,5)'

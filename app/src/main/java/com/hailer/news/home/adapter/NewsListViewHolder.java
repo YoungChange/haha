@@ -58,13 +58,11 @@ public class NewsListViewHolder extends BaseRecyclerViewHolder{
         }
         //图片加载，如果是gif图片只加载第一帧, 设置asGif为false
         if (mViewType == NewsItemViewType.ONEIMAGE) {
-            KLog.e("---------bailei oneimage, url="+item.post_image.get("small").imageUrl);
-            GlideUtils.loadDefault(item.post_image.get("small").imageUrl, news_summary_photo1, false, null, DiskCacheStrategy.RESULT);
+            GlideUtils.loadDefault(item.getImageList().get(0), news_summary_photo1, false, null, DiskCacheStrategy.RESULT);
         } else if (mViewType == NewsItemViewType.THREEIMAGE) {
-            KLog.e("---------bailei 3image, url="+item.post_image_list.get(0).imageUrl);
-            GlideUtils.loadDefault(item.post_image_list.get(0).imageUrl, news_summary_photo1, false, null, DiskCacheStrategy.RESULT);
-            GlideUtils.loadDefault(item.post_image_list.get(1).imageUrl, news_summary_photo2, false, null, DiskCacheStrategy.RESULT);
-            GlideUtils.loadDefault(item.post_image_list.get(2).imageUrl, news_summary_photo3, false, null, DiskCacheStrategy.RESULT);
+            GlideUtils.loadDefault(item.getImageList().get(0), news_summary_photo1, false, null, DiskCacheStrategy.RESULT);
+            GlideUtils.loadDefault(item.getImageList().get(1), news_summary_photo2, false, null, DiskCacheStrategy.RESULT);
+            GlideUtils.loadDefault(item.getImageList().get(2), news_summary_photo3, false, null, DiskCacheStrategy.RESULT);
         }
     }
 }

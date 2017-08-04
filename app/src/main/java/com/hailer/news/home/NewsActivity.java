@@ -12,6 +12,9 @@ import android.widget.ImageButton;
 
 
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
+import com.google.android.gms.analytics.HitBuilders;
+import com.google.android.gms.analytics.Tracker;
+import com.hailer.news.NewsApplication;
 import com.hailer.news.UserManager;
 import com.hailer.news.base.BaseActivity;
 import com.hailer.news.base.BaseFragment;
@@ -35,6 +38,9 @@ import java.util.List;
 
 import rx.Observable;
 import rx.functions.Action1;
+
+import com.crashlytics.android.Crashlytics;
+import io.fabric.sdk.android.Fabric;
 
 @ActivityFragmentInject(contentViewId = R.layout.activity_news,
         handleRefreshLayout = true,
@@ -60,6 +66,8 @@ public class NewsActivity extends BaseActivity<INewsPresenter> implements INewsV
     //登录的状态
     boolean mLoginStatus = false;
 
+    Tracker mTracker;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -74,13 +82,14 @@ public class NewsActivity extends BaseActivity<INewsPresenter> implements INewsV
         if (loggedIn) {
             mLoginPresenter = new ILoginPresenterImpl(this, userInfo);
         }
-/*
-        AccessToken accessToken = AccessToken.getCurrentAccessToken();
-        Profile profile = Profile.getCurrentProfile();
-        KLog.e("111111111 accessToken = "+accessToken+", profile="+profile);
-        if (accessToken != null)
-            KLog.e("bailei","11111111111 accessToken ="+accessToken+", token="+accessToken.getToken());
-            */
+
+        NewsApplication application = (NewsApplication) getApplication();
+        mTracker = application.getDefaultTracker();
+        mTracker.setScreenName("News list Screen");
+        mTracker.send(new HitBuilders.ScreenViewBuilder().build());
+
+        Fabric.with(this, new Crashlytics());
+
     }
 
     @Override
@@ -121,6 +130,7 @@ public class NewsActivity extends BaseActivity<INewsPresenter> implements INewsV
         int i = 0;
         if (newsChannels != null) {
             // 有除了固定的其他频道被选中，添加
+
             for (NewsChannelBean news : newsChannels) {
                 final SimpleFragment fragment = SimpleFragment
                         .newInstance(news.getTabType(), news.getTabName(),news.getTabId());

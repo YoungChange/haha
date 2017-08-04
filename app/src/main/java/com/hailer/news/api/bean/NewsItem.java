@@ -46,11 +46,11 @@ public class NewsItem {
             return mImageList;
         }
 
-        if (post_image_list != null && post_image_list.size() != 0) {
+        if (post_image_list != null && !post_image_list.isEmpty()) {
             mImageList.add(post_image_list.get(0).url);
             mImageList.add(post_image_list.get(1).url);
             mImageList.add(post_image_list.get(2).url);
-        } else {
+        } else if (post_image != null && !post_image.isEmpty()){
             mImageList.add(post_image.get("small").url);
         }
         return mImageList;

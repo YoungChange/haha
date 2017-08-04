@@ -6,10 +6,16 @@ import android.content.Context;
 import com.hailer.news.BuildConfig;
 import com.socks.library.KLog;
 
+import com.google.android.gms.analytics.GoogleAnalytics;
+import com.google.android.gms.analytics.Tracker;
+
 
 public class NewsApplication extends Application {
 
     private static Context sApplicationContext;
+
+    private static GoogleAnalytics sAnalytics;
+    private static Tracker sTracker;
 
     @Override
     public void onCreate() {
@@ -21,11 +27,26 @@ public class NewsApplication extends Application {
         //setupDatabase();
         sApplicationContext = this;
         KLog.init(BuildConfig.DEBUG);
+
+        sAnalytics = GoogleAnalytics.getInstance(this);
     }
 
     // 获取ApplicationContext
     public static Context getContext() {
         return sApplicationContext;
+    }
+
+    /**
+     * Gets the default {@link Tracker} for this {@link Application}.
+     * @return tracker
+     */
+    synchronized public Tracker getDefaultTracker() {
+        // To enable debug logging use: adb shell setprop log.tag.GAv4 DEBUG
+        if (sTracker == null) {
+            sTracker = sAnalytics.newTracker(R.xml.global_tracker);
+        }
+
+        return sTracker;
     }
 
 

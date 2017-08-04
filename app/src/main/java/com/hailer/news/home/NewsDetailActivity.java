@@ -95,6 +95,7 @@ public class NewsDetailActivity extends BaseActivity<INewsDetailPresenter> imple
                     //.autoPlay(true)
                     .into(mDetailBody);
         }
+
     }
 
 

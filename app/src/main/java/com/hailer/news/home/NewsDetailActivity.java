@@ -49,15 +49,14 @@ import com.zzhoujay.richtext.RichText;
         )
 public class NewsDetailActivity extends BaseActivity<INewsDetailPresenter> implements INewsDetailView {
 
-    int commentCount = 0;
+    private int commentCount = 0;
 
     private TextView mDetailTitle;
     private TextView mDetailTime;
     private TextView mDetailBody;
-    private ImageView mDetailImage;
 
-    LinearLayout sendCommentBar;
-    LinearLayout gotoCommentListBar;
+    private LinearLayout sendCommentBar;
+    private LinearLayout gotoCommentListBar;
 
 
     private EditText mSendCommentEditText;
@@ -82,7 +81,6 @@ public class NewsDetailActivity extends BaseActivity<INewsDetailPresenter> imple
         mDetailTitle = (TextView) findViewById(R.id.news_detail_title);
         mDetailTime = (TextView) findViewById(R.id.news_detail_time);
         mDetailBody = (TextView) findViewById(R.id.news_detail_body);
-        mDetailImage = (ImageView) findViewById(R.id.news_detail_image);
 
         mSendCommentButton = (Button) findViewById(R.id.send_comment_button);
         mSendCommentButton.setOnClickListener(this);
@@ -152,29 +150,28 @@ public class NewsDetailActivity extends BaseActivity<INewsDetailPresenter> imple
                 break;
 
             case R.id.send_comment_button:
-                    KLog.e("-------------onclick , send comment ..............");
-                    String comment = mSendCommentEditText.getText().toString();
-                    String token = UserManager.getInstance().getServerToken();
-                    KLog.e(" comment="+comment+", token="+token);
+                KLog.e("-------------onclick , send comment ..............");
+                String comment = mSendCommentEditText.getText().toString();
+                String token = UserManager.getInstance().getServerToken();
+                KLog.e(" comment="+comment+", token="+token);
 
-                    if(token == null || token.isEmpty()){
-                        KLog.e("--------------not login");
-                        Intent intent = new Intent(NewsDetailActivity.this, LoginByFacebookActivity.class);
-                        startActivityForResult(intent,3);
+                if(token == null || token.isEmpty()){
+                    KLog.e("--------------not login");
+                    Intent intent = new Intent(NewsDetailActivity.this, LoginByFacebookActivity.class);
+                    startActivity(intent);
 
-                    }else if(comment==null || comment.isEmpty()){
-                        KLog.e("--------------Comment is null");
-                        toast(getString(R.string.comment_is_null));
-                    }else{
-                        KLog.e("--------------send Comment");
-                        mSendCommentPresenter = new ISendCommentPresenterImpl(this, mPostId, token, comment);
-                        hideSoftInput(this.getCurrentFocus().getWindowToken());
-                        toast(getString(R.string.send_uccess));
-                        KLog.e("--------------send Comment Over");
+                }else if(comment==null || comment.isEmpty()){
+                    KLog.e("--------------Comment is null");
+                    toast(getString(R.string.comment_is_null));
+                }else{
+                    KLog.e("--------------send Comment");
+                    mSendCommentPresenter = new ISendCommentPresenterImpl(this, mPostId, token, comment);
+                    hideSoftInput(this.getCurrentFocus().getWindowToken());
+                    toast(getString(R.string.send_uccess));
+                    mSendCommentEditText.setText("");
+                    KLog.e("--------------send Comment Over");
+                }
 
-                    }
-
-                mSendCommentEditText.setText("");
                 break;
             case R.id.goto_comment_list_button:
                 KLog.e("------------- onclick , to comment list..............");
@@ -245,38 +242,5 @@ public class NewsDetailActivity extends BaseActivity<INewsDetailPresenter> imple
                     InputMethodManager.HIDE_NOT_ALWAYS);
         }
     }
-
-
-
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-        KLog.e("------NewsDeatailActivity-----onActivityResult------requestCode:"+requestCode+";resultCode:"+resultCode);
-        if(requestCode == 3 && resultCode == 2){
-            if (data == null) {
-
-            }else{
-                KLog.e("------NewsDeatailActivity-----onActivityResult------isLogin:"+data.getExtras().getBoolean("isLogin"));
-                if(data.getExtras().getBoolean("isLogin")){
-                    loginSuccess();
-                }else{
-                    logoutSuccess();
-                }
-            }
-        }
-    }
-
-
-    public void loginSuccess() {
-
-    }
-
-
-    public void logoutSuccess() {
-
-
-    }
-
-
 
 }

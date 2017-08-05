@@ -51,7 +51,6 @@ public class ICommentsListPresenterImpl extends BasePresenterImpl<INewsCommentLi
         if (data != null) {
             mStartPage += APIConfig.LIST_ITEMS_PER_PAGE;
         }
-
         mView.updateNewsCommentList(data, "", mIsRefresh ? DataLoadType.TYPE_REFRESH_SUCCESS : DataLoadType.TYPE_LOAD_MORE_SUCCESS);
     }
 
@@ -59,7 +58,7 @@ public class ICommentsListPresenterImpl extends BasePresenterImpl<INewsCommentLi
 
     @Override
     public void refreshData() {
-        mStartPage = 1;
+        mStartPage = 0;
         mIsRefresh = true;
         mSubscription = mNewsCommentListInteractor.requestNewsCommentList(this, mNewsPostId, mStartPage);
     }

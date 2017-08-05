@@ -32,6 +32,7 @@ public class ILoginPresenterImpl extends BasePresenterImpl<ILoginView, LoginInfo
 
     @Override
     public void requestError(String msg ) {
+        //如果登录Facebook成功，但是登录自己的服务器失败的操作
         super.requestError(msg);
     }
 

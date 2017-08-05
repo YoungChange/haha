@@ -26,6 +26,7 @@ import com.hailer.news.util.MeasureUtil;
 import com.hailer.news.util.annotation.ActivityFragmentInject;
 import com.hailer.news.util.RxBus;
 import com.hailer.news.util.bean.NavigationItem;
+import com.socks.library.KLog;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -254,14 +255,14 @@ public abstract class BaseActivity<T extends BasePresenter> extends AppCompatAct
 
 
 
-    private Toast toast;
+    protected Toast toast;
     @Override
     public void toast(String msg) {
         if(toast==null){
             toast = Toast.makeText(this, msg, Toast.LENGTH_SHORT);
             toast.show();
         }else{
-//            toast.cancel();
+            toast.cancel();
             toast = Toast.makeText(this, msg, Toast.LENGTH_SHORT);
             toast.show();
         }
@@ -297,6 +298,14 @@ public abstract class BaseActivity<T extends BasePresenter> extends AppCompatAct
     }
 
 
-
+    //当Activity失去了焦点时，删除它的Toast
+    @Override
+    protected void onPause() {
+        super.onPause();
+        KLog.e("---------Which Activity："+this.getClass().getName());
+        if(toast!=null){
+            toast.cancel();
+        }
+    }
 
 }

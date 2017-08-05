@@ -65,9 +65,6 @@ public class NewsActivity extends BaseActivity<INewsPresenter> implements INewsV
 
     CircleImageView loginImageButton;
 
-    //登录的状态
-    boolean mLoginStatus = false;
-
     Tracker mTracker;
 
     @Override
@@ -80,7 +77,7 @@ public class NewsActivity extends BaseActivity<INewsPresenter> implements INewsV
 
         UserInfo userInfo = UserManager.getInstance().getUserinfo();
         Boolean loggedIn = userInfo.getPlatformToken() != null;
-        KLog.e(""+loggedIn);
+        KLog.e("loggedInstate"+loggedIn);
         if (loggedIn) {
             mLoginPresenter = new ILoginPresenterImpl(this, userInfo);
         }
@@ -92,6 +89,18 @@ public class NewsActivity extends BaseActivity<INewsPresenter> implements INewsV
 
         Fabric.with(this, new Crashlytics());
 
+    }
+
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        UserInfo userInfo = UserManager.getInstance().getUserinfo();
+        if(userInfo.getIconUri()==null || userInfo.getIconUri()==""){
+            loginImageButton.setImageResource(R.drawable.login);
+        }else{
+            GlideUtils.loadDefault(userInfo.getIconUri(), loginImageButton, false, null, DiskCacheStrategy.RESULT);
+        }
     }
 
     @Override
@@ -116,10 +125,10 @@ public class NewsActivity extends BaseActivity<INewsPresenter> implements INewsV
                 this.mDrawerLayout.openDrawer(GravityCompat.START);
                 break;
             case R.id.login_imagebutton:
-                if(UserManager.getInstance().getServerToken()==null || UserManager.getInstance().getServerToken().isEmpty()){
+//                if(UserManager.getInstance().getServerToken()==null || UserManager.getInstance().getServerToken().isEmpty()){
                     Intent intent = new Intent(NewsActivity.this, LoginByFacebookActivity.class);
-                    startActivityForResult(intent,1);
-                }
+                    startActivity(intent);
+//                }
                 break;
         }
     }
@@ -201,38 +210,7 @@ public class NewsActivity extends BaseActivity<INewsPresenter> implements INewsV
 
     @Override
     public void loginSuccess() {
-        //换头像
-        UserInfo userInfo = UserManager.getInstance().getUserinfo();
-        if(userInfo.getIconUri()!=null){
-            mLoginStatus = true;
-            GlideUtils.loadDefault(userInfo.getIconUri(), loginImageButton, false, null, DiskCacheStrategy.RESULT);
-        }
+       this.onResume();
     }
 
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-        KLog.e("------NewsActivity-----onActivityResult------requestCode:"+requestCode+";resultCode:"+resultCode);
-        if(requestCode == 1 && resultCode == 2){
-            if (data == null) {
-
-            }else{
-                KLog.e("------NewsActivity-----onActivityResult----isLogin:"+data.getExtras().getBoolean("isLogin"));
-                if(data.getExtras().getBoolean("isLogin")){
-                    loginSuccess();
-                }else{
-                    logoutSuccess();
-                }
-            }
-        }
-    }
-
-    public void logoutSuccess() {
-        UserInfo userInfo = UserManager.getInstance().getUserinfo();
-        if(userInfo.getIconUri()==null){
-            mLoginStatus = false;
-//            GlideUtils.loadDefault(userInfo.getIconUri(), loginImageButton, false, null, DiskCacheStrategy.RESULT);
-            loginImageButton.setImageResource(R.drawable.login);
-        }
-    }
 }

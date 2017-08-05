@@ -51,7 +51,7 @@ public class LoginByFacebookActivity extends BaseActivity<ILoginPresenter> imple
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        //LoginManager.getInstance().logOut();
+//        LoginManager.getInstance().logOut();
 
         deleteImageButton = (ImageButton) findViewById(R.id.delete_button);
         deleteImageButton.setOnClickListener(this);
@@ -92,7 +92,6 @@ public class LoginByFacebookActivity extends BaseActivity<ILoginPresenter> imple
                     KLog.d("------------currentAccessToken==null");
                     UserManager.getInstance().setUserInfo(null,null,null,null);
                     UserManager.getInstance().setServerToken(null);
-                    logoutSuccess();
                 }
 
             }
@@ -127,17 +126,7 @@ public class LoginByFacebookActivity extends BaseActivity<ILoginPresenter> imple
 
     @Override
     public void loginSuccess() {
-        boolean isLogin=true;
-        Intent intent = new Intent();
-        intent.putExtra("isLogin",isLogin);
-        setResult(2,intent);
         deleteImageButton.callOnClick();
     }
 
-    public void logoutSuccess() {
-        boolean isLogin=false;
-        Intent intent = new Intent();
-        intent.putExtra("isLogin",isLogin);
-        setResult(2,intent);
-    }
 }

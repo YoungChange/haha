@@ -43,7 +43,7 @@
                 android:layout_marginTop="5dp"
                 android:layout_marginBottom="5dp"
                 android:layout_marginLeft="15dp"
-                android:hint="@string/publish_comment"
+                android:hint="@string/post_comment_msg"
                 android:background="@drawable/bg_edittext_comment"/>
 
             <Button
@@ -52,7 +52,7 @@
                 android:layout_width="70dp"
                 android:layout_height="40dp"
                 android:background="@drawable/bg_comment_button"
-                tools:text="@string/release"
+                tools:text="@string/post_comment"
                 android:textSize="16sp"
                 android:textColor="#808080"/>
         </LinearLayout>

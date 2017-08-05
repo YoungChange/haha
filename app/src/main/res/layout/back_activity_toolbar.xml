@@ -26,7 +26,7 @@
             android:lines="1"
             android:textColor="#202020"
             android:textSize="20sp"
-            tools:text="聯繫我們"/>
+            tools:text="@string/contract_us"/>
 
     </android.support.v7.widget.Toolbar>
 

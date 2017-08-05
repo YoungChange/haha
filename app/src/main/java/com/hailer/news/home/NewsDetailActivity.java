@@ -87,14 +87,12 @@ public class NewsDetailActivity extends BaseActivity<INewsDetailPresenter> imple
                     case InputMethodLayout.KEYBOARD_STATE_SHOW:
                         isSoftInputOpen = true;
                         KLog.e("-------------changhongbo onKeyBoardStateChange , isSoftInputOpen = true; ..............");
-                        toast("打开软键盘"+isSoftInputOpen);
-                        mCommentButton.setText(R.string.release);
+                        mCommentButton.setText(R.string.post_comment);
                         mCommentButton.setBackground(null);
                         break;
                     case InputMethodLayout.KEYBOARD_STATE_HIDE:
                         isSoftInputOpen = false;
                         KLog.e("-------------changhongbo onKeyBoardStateChange , isSoftInputOpen = false; ..............");
-                        toast("关闭软键盘"+isSoftInputOpen);
                         mCommentButton.setText("");
                         mCommentButton.setBackgroundResource(R.drawable.bg_comment_button);
                         break;
@@ -137,11 +135,9 @@ public class NewsDetailActivity extends BaseActivity<INewsDetailPresenter> imple
                     String token = UserManager.getInstance().getServerToken();
                     KLog.e("bailei, comment="+comment+", token="+token);
                     if(comment==null || comment.isEmpty()){
-                        toast("发送失败，评论为空");
                         KLog.e("------changhongbo--------未填写Comment;isSoftInputOpen:"+isSoftInputOpen);
                     }else if(token == null || token.isEmpty()){
                         KLog.e("------changhongbo--------未登录;isSoftInputOpen:"+isSoftInputOpen);
-                        toast("发送失败，未登录");
                     }else{
                         mSendCommentPresenter = new ISendCommentPresenterImpl(this, mPostId, token, comment);
                     }
@@ -175,7 +171,6 @@ public class NewsDetailActivity extends BaseActivity<INewsDetailPresenter> imple
 //                KLog.e("-------------bailei onclick , to comment list..............");
 //                String comment = mCommentEditText.getText().toString();
 //                String token = UserManager.getInstance().getServerToken();
-//                KLog.e("bailei, comment="+comment+", token="+token);
 //                if (comment != null && !comment.isEmpty()
 //                        && token != null && !token.isEmpty()) {
 //                    mSendCommentPresenter = new ISendCommentPresenterImpl(this, mPostId, token, comment);
@@ -187,7 +182,6 @@ public class NewsDetailActivity extends BaseActivity<INewsDetailPresenter> imple
 //                break;
 //            case R.id.sendcomment_button:
 //                KLog.e("-------------bailei onclick , send comment..............");
-//                toast("发送comment！");
 //
 //                String comment = mCommentEditText.getText().toString();
 //                String token = UserManager.getInstance().getServerToken();
@@ -195,7 +189,7 @@ public class NewsDetailActivity extends BaseActivity<INewsDetailPresenter> imple
 //                mSendCommentPresenter = new ISendCommentPresenterImpl(this, mPostId, token, comment);
 
             default:
-                toast(this.getString(R.string.what_you_did));
+                toast(this.getString(R.string.unknow_error));
         }
     }
 

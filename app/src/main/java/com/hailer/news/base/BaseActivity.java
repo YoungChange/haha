@@ -228,7 +228,7 @@ public abstract class BaseActivity<T extends BasePresenter> extends AppCompatAct
                         startActivity(intent);
                         break;
                     default:
-                        Toast.makeText(BaseActivity.this, R.string.what_you_did, Toast.LENGTH_SHORT).show();
+                        Toast.makeText(BaseActivity.this, R.string.unknow_error, Toast.LENGTH_SHORT).show();
                         break;
                 }
             }

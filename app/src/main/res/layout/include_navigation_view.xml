@@ -30,7 +30,7 @@
             android:layout_below="@+id/logo"
             android:layout_marginRight="30dp"
             android:layout_marginTop="20dp"
-            android:text="傳聲筒"
+            android:text="@string/app_name"
             android:textSize="25sp"/>
         
         <TextView

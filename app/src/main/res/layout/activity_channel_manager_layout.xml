@@ -18,7 +18,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:textSize="19sp"
-        tools:text="我的頻道"/>
+        tools:text="@string/channel_str"/>
 
 
 

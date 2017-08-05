@@ -78,7 +78,7 @@ public class ContractUsActivity extends BaseActivity<IContractUsPresenter> imple
                 this.finish();
                 break;
             default:
-                toast(this.getString(R.string.what_you_did));
+                toast(this.getString(R.string.unknow_error));
         }
     }
 

@@ -54,7 +54,7 @@ public class CommentsListActivity extends BaseActivity<ICommentsListPresenter> i
                 this.finish();
                 break;
             default:
-                toast(this.getString(R.string.what_you_did));
+                toast(this.getString(R.string.unknow_error));
         }
     }
 
@@ -84,7 +84,7 @@ public class CommentsListActivity extends BaseActivity<ICommentsListPresenter> i
                 newsCommentListAdapter.addMoreData(data);
                 break;
             case DataLoadType.TYPE_LOAD_MORE_FAIL:
-                toast(this.getString(R.string.load_more_fail));
+                toast(this.getString(R.string.load_more_error));
                 break;
         }
     }

@@ -48,7 +48,7 @@ import io.fabric.sdk.android.Fabric;
         handleRefreshLayout = true,
         toolbarId = R.id.my_toolbar,
         toolbarTextViewId = R.id.toolbar_title,
-        toolbarTextViewTitle = R.string.moma,
+        toolbarTextViewTitle = R.string.app_name,
         hasNavigationView = true,
         toolbarType = ToolBarType.HasMenuButton)
 public class NewsActivity extends BaseActivity<INewsPresenter> implements INewsView, ILoginView{
@@ -186,7 +186,7 @@ public class NewsActivity extends BaseActivity<INewsPresenter> implements INewsV
             case KeyEvent.KEYCODE_BACK:
                 long secondTime = System.currentTimeMillis();
                 if (secondTime - firstTime > 2000) {
-                    toast(getString(R.string.press_again_to_exit));
+                    toast(getString(R.string.exit_msg));
                     firstTime = secondTime;
                     return true;
                 } else {

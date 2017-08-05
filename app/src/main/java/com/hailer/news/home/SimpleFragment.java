@@ -111,13 +111,11 @@ public class SimpleFragment extends BaseFragment<INewsListPresenter> implements 
                 mAdapter.addMoreData(data);
                 break;
             case DataLoadType.TYPE_LOAD_MORE_FAIL:
-                toast(getActivity().getString(R.string.load_more_fail));
+                toast(getActivity().getString(R.string.load_more_error));
                 break;
         }
 
     }
-
-
 
     private void initNewsList(final List<NewsItem> data) {
 

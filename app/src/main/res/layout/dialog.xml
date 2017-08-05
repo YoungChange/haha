@@ -16,14 +16,14 @@
         android:textColor="#808080"
         android:textSize="20sp"
         android:textStyle="bold"
-        android:text="@string/fankui"/>
+        android:text="@string/feedback_success"/>
 
     <Button
         android:id="@+id/diagle_button"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="#ffffff"
-        android:text="关闭"
+        android:text="@string/close"
         android:textColor="#F24444"
         android:textSize="19sp"/>
 

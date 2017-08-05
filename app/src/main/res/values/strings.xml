@@ -46,11 +46,8 @@
     <string name="press_again_to_exit">再按一次退出程序</string>
     <string name="login_to_talk">登錄後立即暢談</string>
 
-
-
     <!--facebook-->
-    942325942577010
-    <string name="facebook_app_id">942325942577010</string>
+    <string name="facebook_app_id">1603100136407243</string>
     <string name="fb_login_protocol_scheme">fb942325942577010</string>
 
     <!--<string name="facebook_app_id">132649974009524</string>-->

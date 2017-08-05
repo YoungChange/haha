@@ -77,9 +77,7 @@ public  class NewsListAdapter extends BaseRecyclerAdapter<NewsItem> {
         NewsItem item = mData.get(position);
 
         ArrayList<String> imageList = item.getImageList();
-        if (imageList == null) {
-            type = NewsItemViewType.NOIMAGE;
-        }else if(imageList.size() == 0){
+        if (imageList == null || imageList.isEmpty()) {
             type = NewsItemViewType.NOIMAGE;
         }
         else if (imageList.size() == 3) {

@@ -23,7 +23,7 @@ public class InputMethodLayout extends LinearLayout{
     // 是否为初始化状态
     private boolean isInit;
     // 标识是否打开了软键盘
-    private boolean hasKeybord;
+    private static boolean hasKeybord;
     // 布局高度
     private onKeyboardsChangeListener keyboarddsChangeListener;// 键盘状态监听
     private int viewHeight;
@@ -91,5 +91,9 @@ public class InputMethodLayout extends LinearLayout{
      */
     public interface onKeyboardsChangeListener {
         public void onKeyBoardStateChange(int state);
+    }
+
+    public static boolean isHasKeybord() {
+        return hasKeybord;
     }
 }

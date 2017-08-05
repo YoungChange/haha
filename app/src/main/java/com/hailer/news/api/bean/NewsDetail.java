@@ -8,7 +8,7 @@ public class NewsDetail {
     private int id;
     private String post_title;
     private String post_date;
-    private int comment_count;
+    public int comment_count;
     private String post_content;
 
     public int getId() {

@@ -46,17 +46,25 @@ import com.zzhoujay.richtext.RichText;
         )
 public class NewsDetailActivity extends BaseActivity<INewsDetailPresenter> implements INewsDetailView {
 
+    int commentCount = 0;
+
     private TextView mDetailTitle;
     private TextView mDetailTime;
     private TextView mDetailBody;
     private ImageView mDetailImage;
 
+    LinearLayout sendCommentBar;
+    LinearLayout gotoCommentListBar;
 
-    private EditText mCommentEditText;
-    private Button mCommentButton;
+
+    private EditText mSendCommentEditText;
+    private Button mSendCommentButton;
+
+    private Button mGotoCommentListButton;
+    private Button mEditviewButton;
+    private TextView mCommentCountTextView;
 
     private String mPostId;
-    private boolean isSoftInputOpen = false;
 
     ISendCommentPresenter mSendCommentPresenter;
 
@@ -65,14 +73,25 @@ public class NewsDetailActivity extends BaseActivity<INewsDetailPresenter> imple
     @Override
     protected void initView() {
 
+        sendCommentBar = (LinearLayout) findViewById(R.id.send_comment_layout);
+        gotoCommentListBar = (LinearLayout) findViewById(R.id.goto_comment_list_layout);
+
         mDetailTitle = (TextView) findViewById(R.id.news_detail_title);
         mDetailTime = (TextView) findViewById(R.id.news_detail_time);
         mDetailBody = (TextView) findViewById(R.id.news_detail_body);
         mDetailImage = (ImageView) findViewById(R.id.news_detail_image);
 
-        mCommentButton = (Button) findViewById(R.id.comment_button);
-        mCommentButton.setOnClickListener(this);
-        mCommentEditText = (EditText) findViewById(R.id.comment_edittext);
+        mSendCommentButton = (Button) findViewById(R.id.send_comment_button);
+        mSendCommentButton.setOnClickListener(this);
+        mSendCommentEditText = (EditText) findViewById(R.id.comment_edittext);
+
+
+        mGotoCommentListButton = (Button) findViewById(R.id.goto_comment_list_button);
+        mEditviewButton = (Button) findViewById(R.id.editview_button);
+        mCommentCountTextView = (TextView) findViewById(R.id.comment_count_textview);
+        mGotoCommentListButton.setOnClickListener(this);
+        mEditviewButton.setOnClickListener(this);
+
 
         String mNewsDetailPostId = getIntent().getStringExtra("postid");
         mPostId = mNewsDetailPostId;
@@ -85,16 +104,14 @@ public class NewsDetailActivity extends BaseActivity<INewsDetailPresenter> imple
                 // TODO Auto-generated method stub
                 switch (state) {
                     case InputMethodLayout.KEYBOARD_STATE_SHOW:
-                        isSoftInputOpen = true;
                         KLog.e("-------------changhongbo onKeyBoardStateChange , isSoftInputOpen = true; ..............");
-                        mCommentButton.setText(R.string.post_comment);
-                        mCommentButton.setBackground(null);
+                        sendCommentBar.setVisibility(View.VISIBLE);
+                        gotoCommentListBar.setVisibility(View.GONE);
                         break;
                     case InputMethodLayout.KEYBOARD_STATE_HIDE:
-                        isSoftInputOpen = false;
                         KLog.e("-------------changhongbo onKeyBoardStateChange , isSoftInputOpen = false; ..............");
-                        mCommentButton.setText("");
-                        mCommentButton.setBackgroundResource(R.drawable.bg_comment_button);
+                        sendCommentBar.setVisibility(View.GONE);
+                        gotoCommentListBar.setVisibility(View.VISIBLE);
                         break;
                 }
             }
@@ -109,6 +126,7 @@ public class NewsDetailActivity extends BaseActivity<INewsDetailPresenter> imple
 
         mDetailTitle.setText(data.getTitle());
         mDetailTime.setText(data.getDate());
+        commentCount = data.getCommentsCount();
 
         String content = data.getContent();
         if (!TextUtils.isEmpty(content)) {
@@ -117,6 +135,8 @@ public class NewsDetailActivity extends BaseActivity<INewsDetailPresenter> imple
                     //.autoPlay(true)
                     .into(mDetailBody);
         }
+
+        mCommentCountTextView.setText(""+commentCount);
 
     }
 
@@ -128,66 +148,34 @@ public class NewsDetailActivity extends BaseActivity<INewsDetailPresenter> imple
                 this.finish();
                 break;
 
-            case R.id.comment_button:
-                if(isSoftInputOpen){
+            case R.id.send_comment_button:
                     KLog.e("-------------changhongbo onclick , send comment ..............");
-                    String comment = mCommentEditText.getText().toString();
+                    String comment = mSendCommentEditText.getText().toString();
                     String token = UserManager.getInstance().getServerToken();
                     KLog.e("bailei, comment="+comment+", token="+token);
-                    if(comment==null || comment.isEmpty()){
-                        KLog.e("------changhongbo--------未填写Comment;isSoftInputOpen:"+isSoftInputOpen);
-                    }else if(token == null || token.isEmpty()){
-                        KLog.e("------changhongbo--------未登录;isSoftInputOpen:"+isSoftInputOpen);
+
+                    if(token == null || token.isEmpty()){
+                        KLog.e("------changhongbo--------未登录");
+                    }else if(comment==null || comment.isEmpty()){
+                        KLog.e("------changhongbo--------未填写Comment");
                     }else{
                         mSendCommentPresenter = new ISendCommentPresenterImpl(this, mPostId, token, comment);
+                        hideSoftInput(this.getCurrentFocus().getWindowToken());
+
                     }
-                    KLog.e("-------------changhongbo onclick , send comment , isSoftInputOpen "+isSoftInputOpen+" ..............");
 
-//                    if (comment != null && !comment.isEmpty()
-//                            && token != null && !token.isEmpty()) {
-//                        mSendCommentPresenter = new ISendCommentPresenterImpl(this, mPostId, token, comment);
-//                    } else {
-//                    }
-
-                    isSoftInputOpen = false;
-                    toast("isSoftInputOpen:"+isSoftInputOpen);
-                    mCommentEditText.setText("");
-                }else{
-                    KLog.e("-------------changhongbo onclick , to comment list , isSoftInputOpen "+isSoftInputOpen+" ..............");
-                    KLog.e("-------------changhongbo onclick , to comment list..............");
-                    Intent intent = new Intent(this, CommentsListActivity.class);
-                    intent.putExtra("postId", mPostId);
-                    startActivity(intent);
-                }
+                mSendCommentEditText.setText("");
                 break;
-
-//                if(mCommentEditText.hasFocus()){
-//
-//                }else{
-//                    Intent intent = new Intent(this, CommentsListActivity.class);
-//                    intent.putExtra("postId", mPostId);
-//                    startActivity(intent);
-//                }
-//                KLog.e("-------------bailei onclick , to comment list..............");
-//                String comment = mCommentEditText.getText().toString();
-//                String token = UserManager.getInstance().getServerToken();
-//                if (comment != null && !comment.isEmpty()
-//                        && token != null && !token.isEmpty()) {
-//                    mSendCommentPresenter = new ISendCommentPresenterImpl(this, mPostId, token, comment);
-//                } else {
-//                    Intent intent = new Intent(this, CommentsListActivity.class);
-//                    intent.putExtra("postId", mPostId);
-//                    startActivity(intent);
-//                }
-//                break;
-//            case R.id.sendcomment_button:
-//                KLog.e("-------------bailei onclick , send comment..............");
-//
-//                String comment = mCommentEditText.getText().toString();
-//                String token = UserManager.getInstance().getServerToken();
-//                if (comment != null && token != null)
-//                mSendCommentPresenter = new ISendCommentPresenterImpl(this, mPostId, token, comment);
-
+            case R.id.goto_comment_list_button:
+                KLog.e("-------------changhongbo onclick , to comment list..............");
+                Intent intent = new Intent(this, CommentsListActivity.class);
+                intent.putExtra("postId", mPostId);
+                startActivity(intent);
+                break;
+            case R.id.editview_button:
+                InputMethodManager imm = (InputMethodManager)getSystemService(Context.INPUT_METHOD_SERVICE);
+                imm.toggleSoftInput(InputMethodManager.SHOW_IMPLICIT, InputMethodManager.HIDE_NOT_ALWAYS);
+                break;
             default:
                 toast(this.getString(R.string.unknow_error));
         }
@@ -240,7 +228,6 @@ public class NewsDetailActivity extends BaseActivity<INewsDetailPresenter> imple
      */
     private void hideSoftInput(IBinder token) {
 
-        mCommentEditText.clearFocus();
 
         if (token != null) {
             InputMethodManager im = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);

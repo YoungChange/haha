@@ -79,7 +79,10 @@ public  class NewsListAdapter extends BaseRecyclerAdapter<NewsItem> {
         ArrayList<String> imageList = item.getImageList();
         if (imageList == null) {
             type = NewsItemViewType.NOIMAGE;
-        } else if (imageList.size() == 3) {
+        }else if(imageList.size() == 0){
+            type = NewsItemViewType.NOIMAGE;
+        }
+        else if (imageList.size() == 3) {
             type = NewsItemViewType.THREEIMAGE;
         } else {
             type = NewsItemViewType.ONEIMAGE;

@@ -137,9 +137,11 @@ public class NewsDetailActivity extends BaseActivity<INewsDetailPresenter> imple
                     String token = UserManager.getInstance().getServerToken();
                     KLog.e("bailei, comment="+comment+", token="+token);
                     if(comment==null || comment.isEmpty()){
-                        toast("未填写Comment"+isSoftInputOpen);
+                        toast("发送失败，评论为空");
+                        KLog.e("------changhongbo--------未填写Comment;isSoftInputOpen:"+isSoftInputOpen);
                     }else if(token == null || token.isEmpty()){
-                        toast("未登录"+isSoftInputOpen);
+                        KLog.e("------changhongbo--------未登录;isSoftInputOpen:"+isSoftInputOpen);
+                        toast("发送失败，未登录");
                     }else{
                         mSendCommentPresenter = new ISendCommentPresenterImpl(this, mPostId, token, comment);
                     }

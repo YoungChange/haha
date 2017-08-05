@@ -215,7 +215,7 @@ public class RetrofitService {
      * 登录
      */
     public Observable<LoginInfo> loginObservable(UserInfo userInfo) {
-        return mNewsAPI.login(userInfo.getPlatformToken(), "test", "test")
+        return mNewsAPI.login(userInfo.getPlatformToken(), "test@magicmoma.com", "test")
                 .compose(new BaseSchedulerTransformer<LoginInfo>());
     }
 

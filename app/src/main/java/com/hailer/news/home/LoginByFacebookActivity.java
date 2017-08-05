@@ -51,7 +51,6 @@ public class LoginByFacebookActivity extends BaseActivity<ILoginPresenter> imple
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        Log.d("bailei","LoginByFacebookActivity onCreate");
         //LoginManager.getInstance().logOut();
 
         deleteImageButton = (ImageButton) findViewById(R.id.delete_button);
@@ -64,7 +63,7 @@ public class LoginByFacebookActivity extends BaseActivity<ILoginPresenter> imple
             @Override
             public void onSuccess(LoginResult loginResult) {
                 // App code  如果登录成功，LoginResult 参数将拥有新的 AccessToken 及最新授予或拒绝的权限。
-                KLog.e("------changhongbo-------facebook login onSuccess()");
+                KLog.e("-------------facebook login onSuccess()");
                 UserManager.getInstance().requestFBToken();
 
                 UserInfo userInfo = UserManager.getInstance().getUserinfo();
@@ -90,7 +89,7 @@ public class LoginByFacebookActivity extends BaseActivity<ILoginPresenter> imple
                     AccessToken oldAccessToken,
                     AccessToken currentAccessToken) {
                 if(currentAccessToken==null){
-                    KLog.d("------changhongbo------currentAccessToken==null");
+                    KLog.d("------------currentAccessToken==null");
                     UserManager.getInstance().setUserInfo(null,null,null,null);
                     UserManager.getInstance().setServerToken(null);
                     logoutSuccess();

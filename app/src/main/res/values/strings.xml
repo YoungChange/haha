@@ -44,5 +44,7 @@
     <string name="data_error">數據異常</string>
     <string name="exit_msg">再按一次退出程序</string>
     <string name="unknow_error">未知錯誤</string>
+    <string name="send_uccess">發送成功</string>
+    <string name="comment_is_null">評論內容不能爲空</string>
 
 </resources>

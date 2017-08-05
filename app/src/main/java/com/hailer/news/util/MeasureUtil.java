@@ -56,13 +56,13 @@ public class MeasureUtil {
 
         int rid = resources.getIdentifier("config_showNavigationBar", "bool", "android");
         if (rid > 0) {
-            KLog.e("获取导航栏是否显示true or false" + resources
-                    .getBoolean(rid) + ""); //获取导航栏是否显示true or false
+            KLog.e("true or false" + resources
+                    .getBoolean(rid) + "");
         }
 
         int resourceId = resources.getIdentifier("navigation_bar_height", "dimen", "android");
         if (resourceId > 0) {
-            KLog.e("获取导航栏高度 " + resources.getDimensionPixelSize(resourceId) + ""); //获取高度
+            KLog.e("" + resources.getDimensionPixelSize(resourceId) + ""); //获取高度
             return resources.getDimensionPixelSize(resourceId);
         }
 

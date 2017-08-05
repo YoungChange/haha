@@ -44,7 +44,7 @@ public  class NewsListAdapter extends BaseRecyclerAdapter<NewsItem> {
                         try{
                             mClickListener.onItemClick(view,holder.getLayoutPosition());
                         }catch(Exception e){
-                            KLog.d("设置ItemView 监听点击事件失败");
+                            KLog.d("set ItemView listener failed");
                             e.printStackTrace();
                         }
                     }

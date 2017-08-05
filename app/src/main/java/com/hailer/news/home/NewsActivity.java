@@ -80,7 +80,7 @@ public class NewsActivity extends BaseActivity<INewsPresenter> implements INewsV
 
         UserInfo userInfo = UserManager.getInstance().getUserinfo();
         Boolean loggedIn = userInfo.getPlatformToken() != null;
-        KLog.e("facebook 登录状态："+loggedIn);
+        KLog.e(""+loggedIn);
         if (loggedIn) {
             mLoginPresenter = new ILoginPresenterImpl(this, userInfo);
         }
@@ -108,6 +108,7 @@ public class NewsActivity extends BaseActivity<INewsPresenter> implements INewsV
     public void initListener() {
         mChange_channel.setOnClickListener(this);
     }
+
     @Override
     public void onClick(View view) {
         switch (view.getId()){
@@ -117,11 +118,12 @@ public class NewsActivity extends BaseActivity<INewsPresenter> implements INewsV
             case R.id.login_imagebutton:
                 if(UserManager.getInstance().getServerToken()==null || UserManager.getInstance().getServerToken().isEmpty()){
                     Intent intent = new Intent(NewsActivity.this, LoginByFacebookActivity.class);
-                    startActivityForResult(intent,0);
+                    startActivityForResult(intent,1);
                 }
                 break;
         }
     }
+
     @Override
     public void initViewPager(List<NewsChannelBean> newsChannels) {
 
@@ -210,10 +212,12 @@ public class NewsActivity extends BaseActivity<INewsPresenter> implements INewsV
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if(requestCode == 0 && resultCode == 2){
+        KLog.e("------NewsActivity-----onActivityResult------requestCode:"+requestCode+";resultCode:"+resultCode);
+        if(requestCode == 1 && resultCode == 2){
             if (data == null) {
 
             }else{
+                KLog.e("------NewsActivity-----onActivityResult----isLogin:"+data.getExtras().getBoolean("isLogin"));
                 if(data.getExtras().getBoolean("isLogin")){
                     loginSuccess();
                 }else{

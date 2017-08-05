@@ -33,7 +33,7 @@ public class RecyclerNavigationAdapter extends BaseRecyclerAdapter<NavigationIte
                         try{
                             mClickListener.onItemClick(view,holder.getLayoutPosition());
                         }catch(Exception e){
-                            KLog.d("设置ItemView 监听点击事件失败");
+                            KLog.d("set ItemView Listener failed");
                             e.printStackTrace();
                         }
                     }

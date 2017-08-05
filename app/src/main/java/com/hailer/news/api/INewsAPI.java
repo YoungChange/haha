@@ -97,7 +97,7 @@ public interface INewsAPI {
             @Path("postId") String postId,
             @Query("token") String token,
             @Query("per_page") int perPage,
-            @Query("page") int pageNumber
+            @Query("page_num") int pageNumber
     );
 
 

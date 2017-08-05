@@ -29,7 +29,7 @@ public class ICommentsListInteractorImpl implements ICommentsListInteractor<List
 
     @Override
     public Subscription requestNewsCommentList(final RequestCallback<List<CommentInfo>> callback,final String newsPostId,final int startPage) {
-        KLog.e("新闻评论postID" + newsPostId);
+        KLog.e("postID" + newsPostId);
 
         Subscription subscription = RetrofitService.getInstance(APIConfig.HOST_TYPE_NEWS)
                 .getCommentsListObservable(newsPostId, startPage)

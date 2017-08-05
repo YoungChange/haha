@@ -66,13 +66,13 @@ public class InputMethodLayout extends LinearLayout{
             if(hasKeybord == false){
                 hasKeybord = true;
                 keyboardSateChange(KEYBOARD_STATE_SHOW);
-                KLog.w(TAG, "显示软键盘");
+                KLog.w(TAG, "softinput display");
             }
         }
         if (isInit && hasKeybord && viewHeight == b) {
             hasKeybord = false;
             keyboardSateChange(KEYBOARD_STATE_HIDE);
-            KLog.w(TAG, "隐藏软键盘");
+            KLog.w(TAG, "softinput not display");
         }
     }
 

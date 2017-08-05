@@ -53,9 +53,9 @@ public class UserManager {
             return false;
         }
 
-        KLog.d("bailei----getFBInfo,  token="+accessToken.getToken()+", id="+profile.getId());
-        KLog.d("bailei----getFBInfo,  name="+profile.getName());
-        KLog.d("bailei----getFBInfo,  linkuri="+profile.getLinkUri()+", picuri="+profile.getProfilePictureUri(100,100));
+        KLog.d("----getFBInfo,  token="+accessToken.getToken()+", id="+profile.getId());
+        KLog.d("----getFBInfo,  name="+profile.getName());
+        KLog.d("----getFBInfo,  linkuri="+profile.getLinkUri()+", picuri="+profile.getProfilePictureUri(100,100));
 
 //        setUserInfo(profile.getId(), profile.getName(), profile.getProfilePictureUri(100,100),accessToken.getToken());
 

@@ -32,10 +32,16 @@ public class CommentInfo {
     }
 
     public String getUserName() {
+        if (user == null) {
+            return null;
+        }
         return user.name;
     }
 
     public String getUserAvatar(){
+        if (user == null) {
+            return null;
+        }
         return user.avatar;
     }
 }

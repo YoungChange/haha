@@ -26,7 +26,7 @@ public class INewsListInteractorImpl implements INewsListInteractor<List<NewsIte
 
     @Override
     public Subscription requestNewsList(final RequestCallback<List<NewsItem>> callback, String type, final String id, int startPage) {
-        KLog.e("新闻列表：" + type + ";" + id);
+        KLog.e("：" + type + ";" + id);
 
         Subscription subscription = RetrofitService.getInstance(APIConfig.HOST_TYPE_NEWS)
                 .getNewsListObservable(id, startPage)

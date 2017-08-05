@@ -18,6 +18,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.hailer.news.R;
 import com.hailer.news.UserManager;
 import com.hailer.news.api.bean.NewsDetail;
@@ -27,10 +28,12 @@ import com.hailer.news.home.presenter.INewsDetailPresenterImpl;
 import com.hailer.news.home.presenter.ISendCommentPresenter;
 import com.hailer.news.home.presenter.ISendCommentPresenterImpl;
 import com.hailer.news.home.view.INewsDetailView;
+import com.hailer.news.util.GlideUtils;
 import com.hailer.news.util.InputMethodLayout;
 import com.hailer.news.util.InputMethodLayout.onKeyboardsChangeListener;
 import com.hailer.news.util.annotation.ActivityFragmentInject;
 
+import com.hailer.news.util.bean.UserInfo;
 import com.socks.library.KLog;
 import com.zzhoujay.richtext.RichText;
 
@@ -104,12 +107,12 @@ public class NewsDetailActivity extends BaseActivity<INewsDetailPresenter> imple
                 // TODO Auto-generated method stub
                 switch (state) {
                     case InputMethodLayout.KEYBOARD_STATE_SHOW:
-                        KLog.e("-------------changhongbo onKeyBoardStateChange , isSoftInputOpen = true; ..............");
+                        KLog.e("------------- onKeyBoardStateChange , isSoftInputOpen = true; ..............");
                         sendCommentBar.setVisibility(View.VISIBLE);
                         gotoCommentListBar.setVisibility(View.GONE);
                         break;
                     case InputMethodLayout.KEYBOARD_STATE_HIDE:
-                        KLog.e("-------------changhongbo onKeyBoardStateChange , isSoftInputOpen = false; ..............");
+                        KLog.e("------------- onKeyBoardStateChange , isSoftInputOpen = false; ..............");
                         sendCommentBar.setVisibility(View.GONE);
                         gotoCommentListBar.setVisibility(View.VISIBLE);
                         break;
@@ -149,25 +152,32 @@ public class NewsDetailActivity extends BaseActivity<INewsDetailPresenter> imple
                 break;
 
             case R.id.send_comment_button:
-                    KLog.e("-------------changhongbo onclick , send comment ..............");
+                    KLog.e("-------------onclick , send comment ..............");
                     String comment = mSendCommentEditText.getText().toString();
                     String token = UserManager.getInstance().getServerToken();
-                    KLog.e("bailei, comment="+comment+", token="+token);
+                    KLog.e(" comment="+comment+", token="+token);
 
                     if(token == null || token.isEmpty()){
-                        KLog.e("------changhongbo--------未登录");
+                        KLog.e("--------------not login");
+                        Intent intent = new Intent(NewsDetailActivity.this, LoginByFacebookActivity.class);
+                        startActivityForResult(intent,3);
+
                     }else if(comment==null || comment.isEmpty()){
-                        KLog.e("------changhongbo--------未填写Comment");
+                        KLog.e("--------------Comment is null");
+                        toast(getString(R.string.comment_is_null));
                     }else{
+                        KLog.e("--------------send Comment");
                         mSendCommentPresenter = new ISendCommentPresenterImpl(this, mPostId, token, comment);
                         hideSoftInput(this.getCurrentFocus().getWindowToken());
+                        toast(getString(R.string.send_uccess));
+                        KLog.e("--------------send Comment Over");
 
                     }
 
                 mSendCommentEditText.setText("");
                 break;
             case R.id.goto_comment_list_button:
-                KLog.e("-------------changhongbo onclick , to comment list..............");
+                KLog.e("------------- onclick , to comment list..............");
                 Intent intent = new Intent(this, CommentsListActivity.class);
                 intent.putExtra("postId", mPostId);
                 startActivity(intent);
@@ -234,6 +244,37 @@ public class NewsDetailActivity extends BaseActivity<INewsDetailPresenter> imple
             im.hideSoftInputFromWindow(token,
                     InputMethodManager.HIDE_NOT_ALWAYS);
         }
+    }
+
+
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        KLog.e("------NewsDeatailActivity-----onActivityResult------requestCode:"+requestCode+";resultCode:"+resultCode);
+        if(requestCode == 3 && resultCode == 2){
+            if (data == null) {
+
+            }else{
+                KLog.e("------NewsDeatailActivity-----onActivityResult------isLogin:"+data.getExtras().getBoolean("isLogin"));
+                if(data.getExtras().getBoolean("isLogin")){
+                    loginSuccess();
+                }else{
+                    logoutSuccess();
+                }
+            }
+        }
+    }
+
+
+    public void loginSuccess() {
+
+    }
+
+
+    public void logoutSuccess() {
+
+
     }
 
 

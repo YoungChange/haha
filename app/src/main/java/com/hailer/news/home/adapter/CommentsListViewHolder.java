@@ -36,7 +36,7 @@ public class CommentsListViewHolder extends BaseRecyclerViewHolder{
 
 
     public void setCommentUserPic(String userPicURL) {
-        KLog.e("--------------bailei, userPicURL="+ userPicURL);
+        KLog.e("--------------, userPicURL="+ userPicURL);
         GlideUtils.loadDefault(userPicURL, commentUserPic, false, null, DiskCacheStrategy.RESULT);
     }
 

@@ -88,7 +88,7 @@ public class RetrofitService {
 
             final Response response = chain.proceed(request);
 
-            KLog.v("请求网址: \n" + request.url() + " \n " + "请求头部信息：\n" + request.headers() + "响应头部信息：\n" + response.headers());
+            KLog.v("request.url() \n" + request.url() + " \n " + "request.headers()：\n" + request.headers() + "response.headers()：\n" + response.headers());
 
             final ResponseBody responseBody = response.body();
             final long contentLength = responseBody.contentLength();
@@ -111,7 +111,7 @@ public class RetrofitService {
 
             if (contentLength != 0) {
                 KLog.v("--------------------------------------------开始打印返回数据----------------------------------------------------");
-                KLog.json(buffer.clone().readString(charset));
+//                KLog.json(buffer.clone().readString(charset));
                 KLog.v("--------------------------------------------结束打印返回数据----------------------------------------------------");
             } else {
                 KLog.e("---------------------------error--------------------------");
@@ -215,6 +215,7 @@ public class RetrofitService {
      * 登录
      */
     public Observable<LoginInfo> loginObservable(UserInfo userInfo) {
+        KLog.e("------------------loginObservable---userInfo.getPlatformToken():"+userInfo.getPlatformToken());
         return mNewsAPI.login(userInfo.getPlatformToken(), "test@magicmoma.com", "test")
                 .compose(new BaseSchedulerTransformer<LoginInfo>());
     }

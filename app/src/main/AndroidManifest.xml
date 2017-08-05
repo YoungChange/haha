@@ -50,7 +50,7 @@
         </activity>
 
         <activity android:name="com.hailer.news.home.LoginByFacebookActivity"
-            android:theme="@style/ActivityDialogTheme">
+            android:theme="@style/AppCompatActivityDialogTheme">
 
         </activity>
 

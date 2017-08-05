@@ -1,33 +1,39 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="200dp">
 
     <ImageButton
+        android:padding="10dp"
         android:id="@+id/delete_button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="right"
-        android:src="@drawable/delete"/>
+        android:background="@color/white"
+        android:src="@drawable/close"/>
 
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="44dp"
+        android:layout_marginTop="24dp"
         android:gravity="center"
         android:textSize="16sp"
         android:textColor="#202020"
         android:text="@string/login_to_talk"/>
 
 
-
     <com.facebook.login.widget.LoginButton
+        xmlns:facebook="http://schemas.android.com/apk/res-auto"
         android:id="@+id/login_button"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="210dp"
+        android:layout_height="40dp"
         android:layout_gravity="center_horizontal"
         android:layout_marginTop="40dp"
-        android:layout_marginBottom="30dp" />
+        android:layout_marginBottom="30dp"
+        style="@style/FacebookLoginButton"
+        facebook:com_facebook_login_text="@string/facebook_login"
+        facebook:com_facebook_logout_text="@string/facebook_logout"/>
 
 </LinearLayout>

@@ -30,4 +30,9 @@ public class ILoginPresenterImpl extends BasePresenterImpl<ILoginView, LoginInfo
         mView.loginSuccess();
     }
 
+    @Override
+    public void requestError(String msg ) {
+        super.requestError(msg);
+    }
+
 }

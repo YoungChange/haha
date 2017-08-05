@@ -6,9 +6,11 @@ import android.os.PersistableBundle;
 import android.support.annotation.Nullable;
 import android.util.Log;
 import android.view.View;
+import android.view.Window;
 import android.widget.ImageButton;
 
 import com.facebook.AccessToken;
+import com.facebook.AccessTokenTracker;
 import com.facebook.CallbackManager;
 import com.facebook.FacebookCallback;
 import com.facebook.FacebookException;
@@ -42,6 +44,9 @@ public class LoginByFacebookActivity extends BaseActivity<ILoginPresenter> imple
     ImageButton deleteImageButton;
     ProfileTracker profileTracker;
 
+    AccessTokenTracker accessTokenTracker;
+    AccessToken accessToken;
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -59,7 +64,8 @@ public class LoginByFacebookActivity extends BaseActivity<ILoginPresenter> imple
             @Override
             public void onSuccess(LoginResult loginResult) {
                 // App code  如果登录成功，LoginResult 参数将拥有新的 AccessToken 及最新授予或拒绝的权限。
-                toast("onSuccess");
+//                toast("onSuccess");
+                KLog.e("------changhongbo-------facebook login onSuccess()");
                 UserManager.getInstance().requestFBToken();
 
                 UserInfo userInfo = UserManager.getInstance().getUserinfo();
@@ -78,6 +84,23 @@ public class LoginByFacebookActivity extends BaseActivity<ILoginPresenter> imple
                 // App code
             }
         });
+
+        accessTokenTracker = new AccessTokenTracker() {
+            @Override
+            protected void onCurrentAccessTokenChanged(
+                    AccessToken oldAccessToken,
+                    AccessToken currentAccessToken) {
+                if(currentAccessToken==null){
+                    KLog.d("------changhongbo------currentAccessToken==null");
+                    UserManager.getInstance().setUserInfo(null,null,null,null);
+                    UserManager.getInstance().setServerToken(null);
+                    logoutSuccess();
+                }
+
+            }
+        };
+        // If the access token is available already assign it.
+        accessToken = AccessToken.getCurrentAccessToken();
 
     }
 
@@ -106,10 +129,17 @@ public class LoginByFacebookActivity extends BaseActivity<ILoginPresenter> imple
 
     @Override
     public void loginSuccess() {
-        UserManager.getInstance().requestFBInfo();
-        boolean isLoginSuccess=true;
+        boolean isLogin=true;
         Intent intent = new Intent();
-        intent.putExtra("isLoginSuccess",isLoginSuccess);
+        intent.putExtra("isLogin",isLogin);
+        setResult(2,intent);
+        deleteImageButton.callOnClick();
+    }
+
+    public void logoutSuccess() {
+        boolean isLogin=false;
+        Intent intent = new Intent();
+        intent.putExtra("isLogin",isLogin);
         setResult(2,intent);
     }
 }

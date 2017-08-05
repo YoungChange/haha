@@ -30,6 +30,7 @@ import com.hailer.news.util.bean.NavigationItem;
 import java.util.ArrayList;
 import java.util.List;
 
+import de.hdodenhof.circleimageview.CircleImageView;
 import rx.Observable;
 
 
@@ -98,6 +99,7 @@ public abstract class BaseActivity<T extends BasePresenter> extends AppCompatAct
             throw new RuntimeException("Class must add annotations of ActivityFragmentInitParams.class");
         }
 
+
         setContentView(mContentViewId);
 
 
@@ -110,7 +112,13 @@ public abstract class BaseActivity<T extends BasePresenter> extends AppCompatAct
         }else if(mToolBarType == ToolBarType.HasBackButton){
             Toolbar myToolbar = initBackActivityToolbar(mToolbarId,mToolbarBackImageButtonId,mToolbarTextViewId,mToolbarTextViewTitle);
         }else{
-
+            AppCompatActivity activity = this;
+            activity.setSupportActionBar(null);
+            android.support.v7.app.ActionBar actionBar = activity.getSupportActionBar();
+            if (actionBar != null){
+                actionBar.setDisplayHomeAsUpEnabled(false);
+                actionBar.setDisplayShowTitleEnabled(false);
+            }
         }
 
         initView();
@@ -136,7 +144,7 @@ public abstract class BaseActivity<T extends BasePresenter> extends AppCompatAct
         ImageButton menuImageButton = (ImageButton) findViewById(R.id.menu_imagebutton);
         menuImageButton.setOnClickListener(this);
 
-        ImageButton loginImageButton = (ImageButton) findViewById(R.id.login_imagebutton);
+        CircleImageView loginImageButton = (CircleImageView) findViewById(R.id.login_imagebutton);
         loginImageButton.setOnClickListener(this);
 
         AppCompatActivity activity = this;
@@ -253,7 +261,7 @@ public abstract class BaseActivity<T extends BasePresenter> extends AppCompatAct
             toast = Toast.makeText(this, msg, Toast.LENGTH_SHORT);
             toast.show();
         }else{
-            toast.cancel();
+//            toast.cancel();
             toast = Toast.makeText(this, msg, Toast.LENGTH_SHORT);
             toast.show();
         }

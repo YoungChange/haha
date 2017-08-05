@@ -8,12 +8,15 @@ import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
+import android.view.ViewTreeObserver;
 import android.view.inputmethod.InputMethodManager;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.hailer.news.R;
 import com.hailer.news.UserManager;
@@ -24,6 +27,8 @@ import com.hailer.news.home.presenter.INewsDetailPresenterImpl;
 import com.hailer.news.home.presenter.ISendCommentPresenter;
 import com.hailer.news.home.presenter.ISendCommentPresenterImpl;
 import com.hailer.news.home.view.INewsDetailView;
+import com.hailer.news.util.InputMethodLayout;
+import com.hailer.news.util.InputMethodLayout.onKeyboardsChangeListener;
 import com.hailer.news.util.annotation.ActivityFragmentInject;
 
 import com.socks.library.KLog;
@@ -39,7 +44,7 @@ import com.zzhoujay.richtext.RichText;
         toolbarTextViewId = R.id.toolbar_title,
         toolbarTextViewTitle = R.string.news_detail
         )
-public class NewsDetailActivity extends BaseActivity<INewsDetailPresenter> implements INewsDetailView , View.OnFocusChangeListener{
+public class NewsDetailActivity extends BaseActivity<INewsDetailPresenter> implements INewsDetailView {
 
     private TextView mDetailTitle;
     private TextView mDetailTime;
@@ -48,15 +53,14 @@ public class NewsDetailActivity extends BaseActivity<INewsDetailPresenter> imple
 
 
     private EditText mCommentEditText;
-    private ImageButton mCommentButton;
-    private View rootView;
+    private Button mCommentButton;
 
-    LinearLayout  commentButtonLinearLayout;
-    LayoutInflater inflater;
-
-    String mPostId;
+    private String mPostId;
+    private boolean isSoftInputOpen = false;
 
     ISendCommentPresenter mSendCommentPresenter;
+
+    private InputMethodLayout layout;
 
     @Override
     protected void initView() {
@@ -66,18 +70,38 @@ public class NewsDetailActivity extends BaseActivity<INewsDetailPresenter> imple
         mDetailBody = (TextView) findViewById(R.id.news_detail_body);
         mDetailImage = (ImageView) findViewById(R.id.news_detail_image);
 
-        commentButtonLinearLayout= (LinearLayout) findViewById(R.id.commentbutton_layout);
-        inflater = LayoutInflater.from(this);
-
-        mCommentButton = (ImageButton) findViewById(R.id.jumptocommentlist_button);
+        mCommentButton = (Button) findViewById(R.id.comment_button);
         mCommentButton.setOnClickListener(this);
-
-
         mCommentEditText = (EditText) findViewById(R.id.comment_edittext);
-        mCommentEditText.setOnFocusChangeListener(this);
 
         String mNewsDetailPostId = getIntent().getStringExtra("postid");
         mPostId = mNewsDetailPostId;
+
+        layout = (InputMethodLayout) findViewById(R.id.activity_newsdetail_rootview);
+        layout.setOnkeyboarddStateListener(new onKeyboardsChangeListener() {// 监听软键盘状态
+
+            @Override
+            public void onKeyBoardStateChange(int state) {
+                // TODO Auto-generated method stub
+                switch (state) {
+                    case InputMethodLayout.KEYBOARD_STATE_SHOW:
+                        isSoftInputOpen = true;
+                        KLog.e("-------------changhongbo onKeyBoardStateChange , isSoftInputOpen = true; ..............");
+                        toast("打开软键盘"+isSoftInputOpen);
+                        mCommentButton.setText(R.string.release);
+                        mCommentButton.setBackground(null);
+                        break;
+                    case InputMethodLayout.KEYBOARD_STATE_HIDE:
+                        isSoftInputOpen = false;
+                        KLog.e("-------------changhongbo onKeyBoardStateChange , isSoftInputOpen = false; ..............");
+                        toast("关闭软键盘"+isSoftInputOpen);
+                        mCommentButton.setText("");
+                        mCommentButton.setBackgroundResource(R.drawable.bg_comment_button);
+                        break;
+                }
+            }
+        });
+
 
         mPresenter = new INewsDetailPresenterImpl(this,mNewsDetailPostId);
     }
@@ -105,62 +129,71 @@ public class NewsDetailActivity extends BaseActivity<INewsDetailPresenter> imple
             case R.id.back_imagebutton:
                 this.finish();
                 break;
-            case R.id.jumptocommentlist_button:
-                String comment = mCommentEditText.getText().toString();
-                String token = UserManager.getInstance().getServerToken();
-                KLog.e("bailei, comment="+comment+", token="+token);
-                if (comment != null && !comment.isEmpty()
-                        && token != null && !token.isEmpty()) {
-                    mSendCommentPresenter = new ISendCommentPresenterImpl(this, mPostId, token, comment);
-                } else {
+
+            case R.id.comment_button:
+                if(isSoftInputOpen){
+                    KLog.e("-------------changhongbo onclick , send comment ..............");
+                    String comment = mCommentEditText.getText().toString();
+                    String token = UserManager.getInstance().getServerToken();
+                    KLog.e("bailei, comment="+comment+", token="+token);
+                    if(comment==null || comment.isEmpty()){
+                        toast("未填写Comment"+isSoftInputOpen);
+                    }else if(token == null || token.isEmpty()){
+                        toast("未登录"+isSoftInputOpen);
+                    }else{
+                        mSendCommentPresenter = new ISendCommentPresenterImpl(this, mPostId, token, comment);
+                    }
+                    KLog.e("-------------changhongbo onclick , send comment , isSoftInputOpen "+isSoftInputOpen+" ..............");
+
+//                    if (comment != null && !comment.isEmpty()
+//                            && token != null && !token.isEmpty()) {
+//                        mSendCommentPresenter = new ISendCommentPresenterImpl(this, mPostId, token, comment);
+//                    } else {
+//                    }
+
+                    isSoftInputOpen = false;
+                    toast("isSoftInputOpen:"+isSoftInputOpen);
+                    mCommentEditText.setText("");
+                }else{
+                    KLog.e("-------------changhongbo onclick , to comment list , isSoftInputOpen "+isSoftInputOpen+" ..............");
+                    KLog.e("-------------changhongbo onclick , to comment list..............");
                     Intent intent = new Intent(this, CommentsListActivity.class);
                     intent.putExtra("postId", mPostId);
                     startActivity(intent);
                 }
                 break;
-            case R.id.sendcomment_button:
-                toast("发送comment！");
-                /*
-                String comment = mCommentEditText.getText().toString();
-                String token = UserManager.getInstance().getServerToken();
-                if (comment != null && token != null)
-                mSendCommentPresenter = new ISendCommentPresenterImpl(this, mPostId, token, comment);
-                */
-//                mPresenter = new ISendCommentPresenterImpl(this, "评论内容");
-                break;
+
+//                if(mCommentEditText.hasFocus()){
+//
+//                }else{
+//                    Intent intent = new Intent(this, CommentsListActivity.class);
+//                    intent.putExtra("postId", mPostId);
+//                    startActivity(intent);
+//                }
+//                KLog.e("-------------bailei onclick , to comment list..............");
+//                String comment = mCommentEditText.getText().toString();
+//                String token = UserManager.getInstance().getServerToken();
+//                KLog.e("bailei, comment="+comment+", token="+token);
+//                if (comment != null && !comment.isEmpty()
+//                        && token != null && !token.isEmpty()) {
+//                    mSendCommentPresenter = new ISendCommentPresenterImpl(this, mPostId, token, comment);
+//                } else {
+//                    Intent intent = new Intent(this, CommentsListActivity.class);
+//                    intent.putExtra("postId", mPostId);
+//                    startActivity(intent);
+//                }
+//                break;
+//            case R.id.sendcomment_button:
+//                KLog.e("-------------bailei onclick , send comment..............");
+//                toast("发送comment！");
+//
+//                String comment = mCommentEditText.getText().toString();
+//                String token = UserManager.getInstance().getServerToken();
+//                if (comment != null && token != null)
+//                mSendCommentPresenter = new ISendCommentPresenterImpl(this, mPostId, token, comment);
+
             default:
                 toast(this.getString(R.string.what_you_did));
-        }
-    }
-
-    @Override
-    public void onFocusChange(View v, boolean hasFocus) {
-        KLog.e("--------------bailei.........onFocusChange, hasFocus="+hasFocus+", id="+v.getId());
-        switch(v.getId()){
-            case R.id.comment_edittext:
-                KLog.e("--------------bailei.........onFocusChange, edittext");
-                if(hasFocus==true){
-//                    toast("获得焦点");
-                    View view = inflater.inflate(R.layout.button_sendcomment, null);
-                    //LinearLayout sendCommentLinearLayout = (LinearLayout) view.findViewById(R.id.sendcomment_layout);
-                    //commentButtonLinearLayout.removeAllViews();
-                    //commentButtonLinearLayout.addView(sendCommentLinearLayout);
-                    //mCommentButton = (ImageButton) findViewById(R.id.sendcomment_button);
-                    mCommentButton.setOnClickListener(this);
-                    break;
-                }else{
-//                    toast("失去焦点");
-//                    View view = inflater.inflate(R.layout.button_jumptocommentlist, null);
-//                    LinearLayout jumpToCommentListLinearLayout = (LinearLayout) view.findViewById(R.id.jumptocommentlist_layout);
-//                    commentButtonLinearLayout.removeAllViews();
-//                    commentButtonLinearLayout.addView(jumpToCommentListLinearLayout);
-                    //mCommentButton = (ImageButton) findViewById(R.id.jumptocommentlist_button);
-                    mCommentButton.setOnClickListener(this);
-                    break;
-                }
-            default:
-                toast(getString(R.string.what_you_did));
-                break;
         }
     }
 
@@ -219,5 +252,7 @@ public class NewsDetailActivity extends BaseActivity<INewsDetailPresenter> imple
                     InputMethodManager.HIDE_NOT_ALWAYS);
         }
     }
+
+
 
 }

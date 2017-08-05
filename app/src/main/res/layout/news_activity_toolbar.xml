@@ -39,27 +39,16 @@
             android:background="@android:color/transparent"
             />
 
-        <LinearLayout
-            android:id="@+id/login_imagebutton_layout"
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:orientation="horizontal"
+
+        <de.hdodenhof.circleimageview.CircleImageView
+            android:id="@+id/login_imagebutton"
+            android:layout_width="42dp"
+            android:layout_height="42dp"
             android:layout_gravity="right"
-            android:paddingLeft="20dp"
-            android:paddingRight="20dp"
-            android:src="@drawable/login"
-            android:background="@android:color/transparent">
-
-            <ImageButton
-                android:id="@+id/login_imagebutton"
-                android:layout_width="22dp"
-                android:layout_height="22dp"
-                android:layout_gravity="center"
-                android:src="@drawable/login"
-                android:background="@android:color/transparent"/>
-            />
-
-        </LinearLayout>
+            android:padding="5dp"
+            android:clickable="true"
+            android:src="@drawable/login"/>
+        />
 
 
     </android.support.v7.widget.Toolbar>

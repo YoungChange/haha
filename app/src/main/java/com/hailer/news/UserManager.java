@@ -53,7 +53,12 @@ public class UserManager {
             return false;
         }
 
-        setUserInfo(profile.getId(), profile.getName(), profile.getProfilePictureUri(100,100),accessToken.getToken());
+        KLog.d("bailei----getFBInfo,  token="+accessToken.getToken()+", id="+profile.getId());
+        KLog.d("bailei----getFBInfo,  name="+profile.getName());
+        KLog.d("bailei----getFBInfo,  linkuri="+profile.getLinkUri()+", picuri="+profile.getProfilePictureUri(100,100));
+
+//        setUserInfo(profile.getId(), profile.getName(), profile.getProfilePictureUri(100,100),accessToken.getToken());
+
         return true;
 
     }
@@ -75,12 +80,13 @@ public class UserManager {
     }
 
 
-    public void setUserInfo(String platformId, String name, Uri iconUri, String platformToken){
+    public void setUserInfo(String platformId, String name, String iconUri, String platformToken){
         userinfo.setName(name);
         userinfo.setPlatformId(platformId);
-        //userinfo.setIconUri(iconUri);
+        userinfo.setIconUri(iconUri);
         userinfo.setPlatformToken(platformToken);
     }
+
 
     public void setUserInfo(String platformId, String name, String iconUri){
         userinfo.setName(name);

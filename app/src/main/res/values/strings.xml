@@ -6,7 +6,11 @@
     <string name="login_or_register">登錄/註冊</string>
     <string name="login">登錄</string>
     <string name="register">註冊</string>
-    <string name="facebook_login">Fackbook登錄</string>
+
+    <string name="facebook_login">Facebook登錄</string>
+    <string name="facebook_logout">Facebook登出</string>
+
+    <string name="release">發佈</string>
 
 
     <string name="email_address">郵箱</string>
@@ -41,6 +45,8 @@
 
     <string name="press_again_to_exit">再按一次退出程序</string>
     <string name="login_to_talk">登錄後立即暢談</string>
+
+
 
     <!--facebook-->
     942325942577010

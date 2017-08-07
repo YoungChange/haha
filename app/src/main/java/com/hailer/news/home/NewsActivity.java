@@ -77,7 +77,7 @@ public class NewsActivity extends BaseActivity<INewsPresenter> implements INewsV
 
         UserInfo userInfo = UserManager.getInstance().getUserinfo();
         Boolean loggedIn = userInfo.getPlatformToken() != null;
-        KLog.e("loggedInstate"+loggedIn);
+        KLog.e("loggedIn  state"+loggedIn);
         if (loggedIn) {
             mLoginPresenter = new ILoginPresenterImpl(this, userInfo);
         }

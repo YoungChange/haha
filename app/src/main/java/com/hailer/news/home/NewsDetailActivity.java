@@ -4,7 +4,9 @@ package com.hailer.news.home;
 import android.content.Context;
 import android.content.Intent;
 import android.os.IBinder;
+import android.text.Editable;
 import android.text.TextUtils;
+import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
@@ -63,7 +65,7 @@ public class NewsDetailActivity extends BaseActivity<INewsDetailPresenter> imple
     private Button mSendCommentButton;
 
     private Button mGotoCommentListButton;
-    private Button mEditviewButton;
+    private EditText mEditviewButton;
     private TextView mCommentCountTextView;
 
     private String mPostId;
@@ -85,10 +87,32 @@ public class NewsDetailActivity extends BaseActivity<INewsDetailPresenter> imple
         mSendCommentButton = (Button) findViewById(R.id.send_comment_button);
         mSendCommentButton.setOnClickListener(this);
         mSendCommentEditText = (EditText) findViewById(R.id.comment_edittext);
+        mSendCommentEditText.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                KLog.e("-------mSendCommentEditText------onTextChanged:"+s.toString());
+
+                if(s.length()==0){
+                    mSendCommentButton.setTextColor(getResources().getColor(R.color.colorTextIsNull));
+                }else{
+                    mSendCommentButton.setTextColor(getResources().getColor(R.color.colorTextNotNull));
+                }
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+
+            }
+        });
 
 
         mGotoCommentListButton = (Button) findViewById(R.id.goto_comment_list_button);
-        mEditviewButton = (Button) findViewById(R.id.editview_button);
+        mEditviewButton = (EditText) findViewById(R.id.editview_button);
         mCommentCountTextView = (TextView) findViewById(R.id.comment_count_textview);
         mGotoCommentListButton.setOnClickListener(this);
         mEditviewButton.setOnClickListener(this);
@@ -144,6 +168,7 @@ public class NewsDetailActivity extends BaseActivity<INewsDetailPresenter> imple
 
     @Override
     public void onClick(View v) {
+        InputMethodManager imm = (InputMethodManager)getSystemService(Context.INPUT_METHOD_SERVICE);
         switch(v.getId()){
             case R.id.back_imagebutton:
                 this.finish();
@@ -166,9 +191,10 @@ public class NewsDetailActivity extends BaseActivity<INewsDetailPresenter> imple
                 }else{
                     KLog.e("--------------send Comment");
                     mSendCommentPresenter = new ISendCommentPresenterImpl(this, mPostId, token, comment);
-                    hideSoftInput(this.getCurrentFocus().getWindowToken());
+                    //hideSoftInput(this.getCurrentFocus().getWindowToken());
                     toast(getString(R.string.send_uccess));
                     mSendCommentEditText.setText("");
+                    imm.toggleSoftInput(InputMethodManager.SHOW_IMPLICIT, InputMethodManager.HIDE_NOT_ALWAYS);
                     KLog.e("--------------send Comment Over");
                 }
 
@@ -180,7 +206,7 @@ public class NewsDetailActivity extends BaseActivity<INewsDetailPresenter> imple
                 startActivity(intent);
                 break;
             case R.id.editview_button:
-                InputMethodManager imm = (InputMethodManager)getSystemService(Context.INPUT_METHOD_SERVICE);
+//                InputMethodManager imm = (InputMethodManager)getSystemService(Context.INPUT_METHOD_SERVICE);
                 imm.toggleSoftInput(InputMethodManager.SHOW_IMPLICIT, InputMethodManager.HIDE_NOT_ALWAYS);
                 break;
             default:
@@ -201,10 +227,12 @@ public class NewsDetailActivity extends BaseActivity<INewsDetailPresenter> imple
     public boolean dispatchTouchEvent(MotionEvent ev) {
         if (ev.getAction() == MotionEvent.ACTION_DOWN) {
 
-            View v = getCurrentFocus();
+            View viewFocused = getCurrentFocus();
+            View v = sendCommentBar;
+            KLog.e("-------NewsDetailActivity--dispatchTouchEvent---view:"+v.getClass().getName());
 
             if (isShouldHideInput(v, ev)) {
-                hideSoftInput(v.getWindowToken());
+                hideSoftInput(viewFocused.getWindowToken());
             }
         }
         return super.dispatchTouchEvent(ev);
@@ -214,11 +242,12 @@ public class NewsDetailActivity extends BaseActivity<INewsDetailPresenter> imple
      * 根据EditText所在坐标和用户点击的坐标相对比，来判断是否隐藏键盘，因为当用户点击EditText时没必要隐藏
      */
     private boolean isShouldHideInput(View v, MotionEvent event) {
-        if (v != null && (v instanceof EditText)) {
+        if (v != null ) {
             int[] l = { 0, 0 };
             v.getLocationInWindow(l);
             int left = l[0], top = l[1], bottom = top + v.getHeight(), right = left
                     + v.getWidth();
+            KLog.e("-----View v[left:"+left+";top:"+top+";bottom:"+bottom+";right:"+right+"]");
             if (event.getX() > left && event.getX() < right
                     && event.getY() > top && event.getY() < bottom) {
                 return false;

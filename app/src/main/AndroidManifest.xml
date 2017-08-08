@@ -44,6 +44,21 @@
 
         </activity>
 
+        <activity
+            android:name="com.hailer.news.home.DetailActivity"
+            android:configChanges="orientation|keyboardHidden|screenSize"
+            android:theme="@style/AppThemeBack"
+            android:windowSoftInputMode="adjustResize">
+
+        </activity>
+
+        <activity
+            android:name="com.hailer.news.home.CommentsActivity"
+            android:configChanges="orientation|keyboardHidden|screenSize"
+            android:theme="@style/AppThemeBack">
+
+        </activity>
+
         <activity android:name="com.hailer.news.contract.ContractUsActivity"
             android:theme="@style/AppThemeBack">
 

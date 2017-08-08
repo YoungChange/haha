@@ -28,6 +28,7 @@ public class INewsListPresenterImpl extends BasePresenterImpl<INewsListView, Lis
         super(newsListView);
         mNewsListInteractor = new INewsListInteractorImpl();
         mSubscription = mNewsListInteractor.requestNewsList(this, newsType, newsId, mStartPage);
+        KLog.d("bailei isUnsubscribed = "+mSubscription.isUnsubscribed()+", mSubscription="+mSubscription);
         mNewsType = newsType;
         mNewsId = newsId;
     }
@@ -45,6 +46,12 @@ public class INewsListPresenterImpl extends BasePresenterImpl<INewsListView, Lis
         KLog.e("request.......error.....e="+e);
         super.requestError(e);
         mView.updateNewsList(null, e, mIsRefresh ? DataLoadType.TYPE_REFRESH_FAIL : DataLoadType.TYPE_LOAD_MORE_FAIL);
+    }
+
+    @Override
+    public void requestComplete() {
+        KLog.d("bailei requestComplete() isUnsubscribed = "+mSubscription.isUnsubscribed());
+        super.requestComplete();
     }
 
     @Override
@@ -70,6 +77,7 @@ public class INewsListPresenterImpl extends BasePresenterImpl<INewsListView, Lis
     public void loadMoreData() {
         KLog.i("request...........mNewsType="+mNewsType+", mNewsId="+mNewsId);
         mIsRefresh = false;
+        KLog.d("bailei isUnsubscribed = "+mSubscription.isUnsubscribed()+", mSubscription="+mSubscription);
         mSubscription = mNewsListInteractor.requestNewsList(this, mNewsType, mNewsId, mStartPage);
     }
 

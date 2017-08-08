@@ -137,12 +137,11 @@ public class SimpleFragment extends BaseFragment<INewsListPresenter> implements 
             @Override
             public void onItemClick(View view, int position) {
 
-                Intent intent = new Intent(getActivity(), NewsDetailActivity.class);
+//                Intent intent = new Intent(getActivity(), NewsDetailActivity.class);
+                Intent intent = new Intent(getActivity(), DetailActivity.class);
                 NewsItem newsItem =  mAdapter.getmData().get(position);
                 //KLog.e("onItemClick, position="+position+"; id="+newsItem.id+"; img="+newsItem.post_image);
                 intent.putExtra("postid", String.valueOf(newsItem.getPostId()));
-
-                //intent.putExtra("imgsrc", newsItem.post_image);
 
                 try{
                     startActivity(intent);

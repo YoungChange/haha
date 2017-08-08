@@ -70,6 +70,8 @@ public class UserManager {
             return false;
         }
 
+        KLog.e("bailei ------------token =" +accessToken.getToken());
+
         setUserInfo(null, null, null, accessToken.getToken());
         return true;
 

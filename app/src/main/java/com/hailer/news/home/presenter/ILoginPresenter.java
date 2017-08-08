@@ -7,4 +7,15 @@ import com.hailer.news.base.presenter.BasePresenter;
  */
 
 public interface ILoginPresenter extends BasePresenter {
+
+    //String getPlatformToken();
+
+//    void login();
+
+//    void logout();
+
+    //boolean loggedInPlatform();
+
+//    boolean isLoggedin();
+
 }

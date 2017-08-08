@@ -15,6 +15,7 @@ import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.google.android.gms.analytics.HitBuilders;
 import com.google.android.gms.analytics.Tracker;
+import com.hailer.news.BuildConfig;
 import com.hailer.news.NewsApplication;
 import com.hailer.news.UserManager;
 import com.hailer.news.base.BaseActivity;
@@ -82,12 +83,13 @@ public class NewsActivity extends BaseActivity<INewsPresenter> implements INewsV
             mLoginPresenter = new ILoginPresenterImpl(this, userInfo);
         }
 
-        NewsApplication application = (NewsApplication) getApplication();
-        mTracker = application.getDefaultTracker();
-        mTracker.setScreenName("News list Screen");
-        mTracker.send(new HitBuilders.ScreenViewBuilder().build());
-
-        Fabric.with(this, new Crashlytics());
+        if (!BuildConfig.DEBUG) {
+            NewsApplication application = (NewsApplication) getApplication();
+            mTracker = application.getDefaultTracker();
+            mTracker.setScreenName("News list Screen");
+            mTracker.send(new HitBuilders.ScreenViewBuilder().build());
+            Fabric.with(this, new Crashlytics());
+        }
 
     }
 

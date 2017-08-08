@@ -99,10 +99,12 @@ dependencies {
 
     //google analytics
     compile 'com.google.android.gms:play-services-analytics:10.2.4'
-
     compile('com.crashlytics.sdk.android:crashlytics:2.6.8@aar') {
         transitive = true;
     }
+
+    //guava
+    compile 'com.google.guava:guava:22.0-android'
 }
 
 configurations.all {
@@ -114,5 +116,6 @@ configurations.all {
             }
         }
     }
-}
 
+    resolutionStrategy.force 'com.google.code.findbugs:jsr305:1.3.9'
+}

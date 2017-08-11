@@ -28,9 +28,6 @@ public class LoginPresenter implements LoginContract.Presenter {
 
     public LoginPresenter(LoginContract.View view) {
         mView = view;
-        mRemoteData = new RemoteDataSource();
-
-        mFacebookData = new FacebookDataSource(mFacebookLoginCB);
 
         mFacebookLoginCB = new RxCallback<String>() {
             @Override
@@ -57,6 +54,9 @@ public class LoginPresenter implements LoginContract.Presenter {
                 mView.showLoginSuccess();
             }
         };
+
+        mRemoteData = new RemoteDataSource();
+        mFacebookData = new FacebookDataSource(mFacebookLoginCB);
 
     }
 

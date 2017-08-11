@@ -49,7 +49,6 @@ public class CommentsActivity extends BaseActivity<ICommentsListPresenter> imple
         mRecyclerView = (RecyclerView) findViewById(R.id.newscommentlist_recycler_view);
         mSwipeRefreshLayout = (SwipeRefreshLayout) findViewById(R.id.comment_refresh_layout);
         postId = getIntent().getStringExtra("postId");
-//        mPresenter = new ICommentsListPresenterImpl(this,postId);
         mCommentsPresenter = new CommentsPresenter(this);
         mCommentsPresenter.getCommentsList(postId);
     }
@@ -76,40 +75,8 @@ public class CommentsActivity extends BaseActivity<ICommentsListPresenter> imple
 
     @Override
     public void showErrorMsg(int error){
-//        switch (error) {
-//        }
-    }
 
-//    @Override
-//    public void updateNewsCommentList(List<CommentInfo> data, @NonNull String errorMsg, @DataLoadType.DataLoadTypeChecker int type) {
-//
-//
-//        mLoading = false;
-//
-//        if (newsCommentListAdapter == null) {
-//            initCommentList(data);
-//        }
-//
-//        switch (type) {
-//            case DataLoadType.TYPE_REFRESH_SUCCESS:
-//                newsCommentListAdapter.setmData(data);
-////                toast(this.getString(R.string.refresh_success));
-//                break;
-//            case DataLoadType.TYPE_REFRESH_FAIL:
-//                newsCommentListAdapter.notifyDataSetChanged();
-//                break;
-//            case DataLoadType.TYPE_LOAD_MORE_SUCCESS:
-//                if (data == null || data.size() == 0) {
-//                    toast(this.getString(R.string.all_loaded));
-//                    return;
-//                }
-//                newsCommentListAdapter.addMoreData(data);
-//                break;
-//            case DataLoadType.TYPE_LOAD_MORE_FAIL:
-//                toast(this.getString(R.string.load_more_error));
-//                break;
-//        }
-//    }
+    }
 
     private void initCommentList(final List<CommentInfo> newsCommentList) {
 
@@ -118,7 +85,6 @@ public class CommentsActivity extends BaseActivity<ICommentsListPresenter> imple
         mSwipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
-//                mPresenter.refreshData();
                 mCommentsPresenter.refreshData();
                 mSwipeRefreshLayout.setRefreshing(false);
                 newsCommentListAdapter.notifyDataSetChanged();

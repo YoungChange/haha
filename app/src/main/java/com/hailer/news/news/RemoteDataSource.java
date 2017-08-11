@@ -36,7 +36,7 @@ import rx.functions.Func2;
 import static com.google.common.base.Preconditions.checkNotNull;
 
 /**
- * Fuction: 代理的基类<p>
+ * Fuction: 代理的基类
  */
 public class RemoteDataSource extends BaseModel {
     private BaseDataSource.LoginCallback mCallBack;

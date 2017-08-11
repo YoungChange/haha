@@ -18,12 +18,12 @@ import android.support.annotation.NonNull;
 import static com.google.common.base.Preconditions.checkNotNull;
 
 /**
- * Fuction: 代理的基类<p>
+ * Fuction:
  */
 public class FacebookDataSource {
-    private BaseDataSource.LoginCallback mCallBack;
+    private RxCallback mCallBack;
 
-    public FacebookDataSource(@NonNull BaseDataSource.LoginCallback callback){
+    public FacebookDataSource(@NonNull RxCallback callback){
         mCallBack = checkNotNull(callback, "callback cannot be null");
     }
 
@@ -37,26 +37,25 @@ public class FacebookDataSource {
         return accessToken.getToken();
     }
 
-    void login(LoginButton loginButton){
-        CallbackManager callbackManager = CallbackManager.Factory.create();
+    void login(CallbackManager callbackManager, LoginButton loginButton){
         loginButton.setReadPermissions("public_profile");
         loginButton.registerCallback(callbackManager, new FacebookCallback<LoginResult>() {
             @Override
             public void onSuccess(LoginResult loginResult) {
                 // App code  如果登录成功，LoginResult 参数将拥有新的 AccessToken 及最新授予或拒绝的权限。
                 KLog.e("-------------facebook login onSuccess()");
-                UserManager.getInstance().requestFBToken();
-                mCallBack.loginSuccess();
+                //UserManager.getInstance().requestFBToken();
+                mCallBack.requestSuccess(loginResult.getAccessToken());
             }
 
             @Override
             public void onCancel() {
-                mCallBack.loginFailed();
+                mCallBack.requestError(null);
             }
 
             @Override
             public void onError(FacebookException exception) {
-                mCallBack.loginFailed();
+                mCallBack.requestError(null);
             }
         });
 

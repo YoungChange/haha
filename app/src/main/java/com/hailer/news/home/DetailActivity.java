@@ -63,8 +63,6 @@ public class DetailActivity extends BaseActivity<INewsDetailPresenter> implement
 
     private String mPostId;
 
-//    ISendCommentPresenter mSendCommentPresenter;
-
     NewsDetailPresenter mDetailPresenter;
 
     private InputMethodLayout layout;
@@ -137,30 +135,9 @@ public class DetailActivity extends BaseActivity<INewsDetailPresenter> implement
             }
         });
 
-
-//        mPresenter = new INewsDetailPresenterImpl(this,mNewsDetailPostId);
         mDetailPresenter = new NewsDetailPresenter(this);
         mDetailPresenter.getDetail(mNewsDetailPostId);
     }
-
-//    @Override
-//    public void initNewsDetail(final NewsDetail data) {
-//
-//        mDetailTitle.setText(data.getTitle());
-//        mDetailTime.setText(data.getDate());
-//        commentCount = data.getCommentsCount();
-//
-//        String content = data.getContent();
-//        if (!TextUtils.isEmpty(content)) {
-//            //mDetailBody.setRichText(data.content);
-//            RichText.fromHtml(content)
-//                    //.autoPlay(true)
-//                    .into(mDetailBody);
-//        }
-//
-//        mCommentCountTextView.setText(""+commentCount);
-//
-//    }
 
     @Override
     public void showDetail(NewsDetail data){
@@ -170,7 +147,6 @@ public class DetailActivity extends BaseActivity<INewsDetailPresenter> implement
 
         String content = data.getContent();
         if (!TextUtils.isEmpty(content)) {
-            //mDetailBody.setRichText(data.content);
             RichText.fromHtml(content)
                     //.autoPlay(true)
                     .into(mDetailBody);
@@ -195,7 +171,7 @@ public class DetailActivity extends BaseActivity<INewsDetailPresenter> implement
 
     @Override
     public void popLoginDlg(){
-        Intent intent = new Intent(DetailActivity.this, LoginByFacebookActivity.class);
+        Intent intent = new Intent(DetailActivity.this, LoginActivity.class);
         startActivity(intent);
     }
 
@@ -213,30 +189,17 @@ public class DetailActivity extends BaseActivity<INewsDetailPresenter> implement
                 String comment = mSendCommentEditText.getText().toString();
                 String token = UserManager.getInstance().getServerToken();
                 KLog.e(" comment="+comment+", token="+token);
-
-//                if(!mDetailPresenter.isLoggedIn()){
-//                    KLog.e("--------------not login");
-//                    Intent intent = new Intent(DetailActivity.this, LoginByFacebookActivity.class);
-//                    startActivity(intent);
-//
-//                }else
-                    if(comment==null || comment.isEmpty()){
+                if(comment == null || comment.isEmpty()){
                     KLog.e("--------------Comment is null");
                     toast(getString(R.string.comment_is_null));
                 }else{
                     KLog.e("--------------send Comment");
-//                    mSendCommentPresenter = new ISendCommentPresenterImpl(this, mPostId, token, comment);
                     mDetailPresenter.postComment(mPostId,comment);
-//                    toast(getString(R.string.send_uccess));
-//                    mSendCommentEditText.setText("");
-//                    imm.toggleSoftInput(InputMethodManager.SHOW_IMPLICIT, InputMethodManager.HIDE_NOT_ALWAYS);
-                    KLog.e("--------------send Comment Over");
                 }
 
                 break;
             case R.id.goto_comment_list_button:
                 KLog.e("------------- onclick , to comment list..............");
-//                Intent intent = new Intent(this, CommentsListActivity.class);
                 Intent intent = new Intent(this, CommentsActivity.class);
                 intent.putExtra("postId", mPostId);
                 startActivity(intent);

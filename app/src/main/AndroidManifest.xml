@@ -23,8 +23,17 @@
             android:name="io.fabric.ApiKey"
             android:value="bcc36b4f97d2d3d59863f071cbe799d8630d178e"/>
 
+        <!--<activity-->
+            <!--android:name="com.hailer.news.home.NewsActivity"-->
+            <!--android:configChanges="orientation|keyboardHidden|screenSize">-->
+            <!--<intent-filter>-->
+                <!--<action android:name="android.intent.action.MAIN" />-->
+                <!--<category android:name="android.intent.category.LAUNCHER" />-->
+            <!--</intent-filter>-->
+        <!--</activity>-->
+
         <activity
-            android:name="com.hailer.news.home.NewsActivity"
+            android:name="com.hailer.news.home.NewsListActivity"
             android:configChanges="orientation|keyboardHidden|screenSize">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -66,7 +75,10 @@
 
         <activity android:name="com.hailer.news.home.LoginByFacebookActivity"
             android:theme="@style/AppCompatActivityDialogTheme">
+        </activity>
 
+        <activity android:name="com.hailer.news.home.LoginActivity"
+            android:theme="@style/AppCompatActivityDialogTheme">
         </activity>
 
         <activity android:name=".home.CommentsListActivity"

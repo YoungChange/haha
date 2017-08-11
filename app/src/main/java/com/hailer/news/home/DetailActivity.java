@@ -44,7 +44,7 @@ import com.zzhoujay.richtext.RichText;
         )
 public class DetailActivity extends BaseActivity<INewsDetailPresenter> implements NewsDetailContract.View {
 
-    private int commentCount = 0;
+    private int mCommentsCount = 0;
 
     private TextView mDetailTitle;
     private TextView mDetailTime;
@@ -143,7 +143,7 @@ public class DetailActivity extends BaseActivity<INewsDetailPresenter> implement
     public void showDetail(NewsDetail data){
         mDetailTitle.setText(data.getTitle());
         mDetailTime.setText(data.getDate());
-        commentCount = data.getCommentsCount();
+        mCommentsCount = data.getCommentsCount();
 
         String content = data.getContent();
         if (!TextUtils.isEmpty(content)) {
@@ -152,7 +152,7 @@ public class DetailActivity extends BaseActivity<INewsDetailPresenter> implement
                     .into(mDetailBody);
         }
 
-        mCommentCountTextView.setText(""+commentCount);
+        mCommentCountTextView.setText(""+mCommentsCount);
     }
 
     @Override
@@ -200,9 +200,12 @@ public class DetailActivity extends BaseActivity<INewsDetailPresenter> implement
                 break;
             case R.id.goto_comment_list_button:
                 KLog.e("------------- onclick , to comment list..............");
-                Intent intent = new Intent(this, CommentsActivity.class);
-                intent.putExtra("postId", mPostId);
-                startActivity(intent);
+                //有评论的时候跳转到评论列表
+                if (mCommentsCount != 0) {
+                    Intent intent = new Intent(this, CommentsActivity.class);
+                    intent.putExtra("postId", mPostId);
+                    startActivity(intent);
+                }
                 break;
             case R.id.editview_button:
 //                InputMethodManager imm = (InputMethodManager)getSystemService(Context.INPUT_METHOD_SERVICE);

@@ -20,9 +20,9 @@ import com.hailer.news.home.adapter.OnItemClickListener;
 import com.hailer.news.home.presenter.INewsListPresenter;
 import com.hailer.news.home.presenter.INewsListPresenterImpl;
 import com.hailer.news.home.view.INewsListView;
+import com.hailer.news.news.DetailActivity;
 import com.hailer.news.util.MeasureUtil;
 import com.hailer.news.util.annotation.ActivityFragmentInject;
-import com.socks.library.KLog;
 
 import java.util.List;
 

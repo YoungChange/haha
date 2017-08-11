@@ -1,4 +1,4 @@
-package com.hailer.news.home;
+package com.hailer.news.news;
 
 import android.content.Intent;
 import android.os.Bundle;

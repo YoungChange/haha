@@ -11,7 +11,6 @@ import android.view.View;
 import android.widget.ImageButton;
 
 
-import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.google.android.gms.analytics.HitBuilders;
 import com.google.android.gms.analytics.Tracker;
@@ -28,6 +27,7 @@ import com.hailer.news.home.presenter.INewsPresenter;
 import com.hailer.news.home.presenter.INewsPresenterImpl;
 import com.hailer.news.home.view.ILoginView;
 import com.hailer.news.home.view.INewsView;
+import com.hailer.news.news.LoginActivity;
 import com.hailer.news.util.GlideUtils;
 import com.hailer.news.util.RxBus;
 import com.hailer.news.util.annotation.ActivityFragmentInject;

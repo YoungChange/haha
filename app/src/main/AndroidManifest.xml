@@ -33,7 +33,7 @@
         <!--</activity>-->
 
         <activity
-            android:name="com.hailer.news.home.NewsListActivity"
+            android:name="com.hailer.news.news.NewsListActivity"
             android:configChanges="orientation|keyboardHidden|screenSize">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -54,7 +54,7 @@
         </activity>
 
         <activity
-            android:name="com.hailer.news.home.DetailActivity"
+            android:name="com.hailer.news.news.DetailActivity"
             android:configChanges="orientation|keyboardHidden|screenSize"
             android:theme="@style/AppThemeBack"
             android:windowSoftInputMode="adjustResize">
@@ -62,7 +62,7 @@
         </activity>
 
         <activity
-            android:name="com.hailer.news.home.CommentsActivity"
+            android:name="com.hailer.news.news.CommentsActivity"
             android:configChanges="orientation|keyboardHidden|screenSize"
             android:theme="@style/AppThemeBack">
 
@@ -77,7 +77,7 @@
             android:theme="@style/AppCompatActivityDialogTheme">
         </activity>
 
-        <activity android:name="com.hailer.news.home.LoginActivity"
+        <activity android:name="com.hailer.news.news.LoginActivity"
             android:theme="@style/AppCompatActivityDialogTheme">
         </activity>
 

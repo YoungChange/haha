@@ -1,11 +1,10 @@
-package com.hailer.news.home;
+package com.hailer.news.news;
 
 
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.ListFragment;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.view.ViewPager;
 import android.view.KeyEvent;
@@ -21,18 +20,10 @@ import com.hailer.news.NewsApplication;
 import com.hailer.news.R;
 import com.hailer.news.UserManager;
 import com.hailer.news.api.bean.NewsItem;
-import com.hailer.news.base.BaseActivity;
 import com.hailer.news.base.BaseFragment;
-import com.hailer.news.base.BaseFragmentAdapter;
 import com.hailer.news.base.ToolBarType;
 import com.hailer.news.home.presenter.ILoginPresenterImpl;
-import com.hailer.news.home.presenter.INewsPresenter;
-import com.hailer.news.home.presenter.INewsPresenterImpl;
-import com.hailer.news.home.view.ILoginView;
-import com.hailer.news.home.view.INewsView;
 import com.hailer.news.home.view.NewsFragmentAdapter;
-import com.hailer.news.news.NewsContract;
-import com.hailer.news.news.NewsPresenter;
 import com.hailer.news.util.GlideUtils;
 import com.hailer.news.util.RxBus;
 import com.hailer.news.util.annotation.ActivityFragmentInject;
@@ -46,7 +37,6 @@ import java.util.List;
 import de.hdodenhof.circleimageview.CircleImageView;
 import io.fabric.sdk.android.Fabric;
 import rx.Observable;
-import rx.functions.Action1;
 
 @ActivityFragmentInject(contentViewId = R.layout.activity_news,
         handleRefreshLayout = true,
@@ -55,7 +45,7 @@ import rx.functions.Action1;
         toolbarTextViewTitle = R.string.app_name,
         hasNavigationView = true,
         toolbarType = ToolBarType.HasMenuButton)
-public class NewsListActivity extends BaseActivity<INewsPresenter> implements NewsContract.View{
+public class NewsListActivity extends HailerActivity implements NewsContract.View{
 
     private TabLayout mTabLayout;
     private ViewPager mNewsViewpager;
@@ -98,11 +88,6 @@ public class NewsListActivity extends BaseActivity<INewsPresenter> implements Ne
     protected void onDestroy() {
         super.onDestroy();
 //        RxBus.get().unregister("channelChange", mChannelObservable);
-    }
-
-    @Override
-    protected void initView() {
-//        mPresenter = new INewsPresenterImpl(this);
     }
 
     public void initListener() {
@@ -186,7 +171,7 @@ public class NewsListActivity extends BaseActivity<INewsPresenter> implements Ne
 
         initListener();
 
-//        updateCurFragment();
+        displayCurFragment();
     }
 
     @Override
@@ -242,6 +227,33 @@ public class NewsListActivity extends BaseActivity<INewsPresenter> implements Ne
         if (fragment != null) {
             fragment.refreshList();
         }
+    }
+
+    private void displayCurFragment(){
+        NewsListFragment fragment = (NewsListFragment)getCurrentFragment();
+        if (fragment != null) {
+            fragment.display();
+        }
+    }
+
+    private void setOnTabSelectEvent(final ViewPager viewPager, final TabLayout tabLayout) {
+        tabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
+            @Override
+            public void onTabSelected(TabLayout.Tab tab) {
+                viewPager.setCurrentItem(tab.getPosition(), true);
+                displayCurFragment();
+            }
+
+            @Override
+            public void onTabReselected(TabLayout.Tab tab) {
+                RxBus.get().post("enableRefreshLayoutOrScrollRecyclerView", tab.getPosition());
+            }
+
+            @Override
+            public void onTabUnselected(TabLayout.Tab tab) {
+
+            }
+        });
     }
 
 

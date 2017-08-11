@@ -1,4 +1,4 @@
-package com.hailer.news.home;
+package com.hailer.news.news;
 
 
 import android.content.Context;
@@ -20,12 +20,6 @@ import com.hailer.news.UserManager;
 import com.hailer.news.api.bean.NewsDetail;
 import com.hailer.news.base.BaseActivity;
 import com.hailer.news.home.presenter.INewsDetailPresenter;
-import com.hailer.news.home.presenter.INewsDetailPresenterImpl;
-import com.hailer.news.home.presenter.ISendCommentPresenter;
-import com.hailer.news.home.presenter.ISendCommentPresenterImpl;
-import com.hailer.news.home.view.INewsDetailView;
-import com.hailer.news.news.NewsDetailContract;
-import com.hailer.news.news.NewsDetailPresenter;
 import com.hailer.news.util.InputMethodLayout;
 import com.hailer.news.util.InputMethodLayout.onKeyboardsChangeListener;
 import com.hailer.news.util.annotation.ActivityFragmentInject;

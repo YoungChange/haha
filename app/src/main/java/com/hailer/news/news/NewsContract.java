@@ -12,7 +12,7 @@ import java.util.List;
  * Created by moma on 17-8-1.
  */
 public interface NewsContract {
-    interface View extends BaseView {
+    interface View {
         void showChannels(List<NewsChannelBean> data);
 
         void showNewsList(int loadType, List<NewsItem> list);

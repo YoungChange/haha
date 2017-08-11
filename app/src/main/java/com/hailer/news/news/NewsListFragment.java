@@ -1,4 +1,4 @@
-package com.hailer.news.home;
+package com.hailer.news.news;
 
 import android.content.Intent;
 import android.graphics.Color;
@@ -12,20 +12,12 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.RelativeLayout;
 
 import com.hailer.news.R;
 import com.hailer.news.api.bean.NewsItem;
-import com.hailer.news.base.BaseFragment;
 import com.hailer.news.base.BaseRecycleViewDivider;
-import com.hailer.news.base.DataLoadType;
 import com.hailer.news.home.adapter.NewsListAdapter;
 import com.hailer.news.home.adapter.OnItemClickListener;
-import com.hailer.news.home.presenter.INewsListPresenter;
-import com.hailer.news.home.presenter.INewsListPresenterImpl;
-import com.hailer.news.home.view.INewsListView;
-import com.hailer.news.news.LoadType;
-import com.hailer.news.news.NewsContract;
 import com.hailer.news.util.MeasureUtil;
 import com.hailer.news.util.annotation.ActivityFragmentInject;
 import com.socks.library.KLog;
@@ -102,7 +94,7 @@ public class NewsListFragment extends Fragment{
         mSwipeRefreshLayout = (SwipeRefreshLayout) mFragmentRootView.findViewById(R.id.refresh_layout);
         mRecyclerView = (RecyclerView) mFragmentRootView.findViewById(R.id.newslist_recycler_view);
 
-        mPresenter.getNewsList(mCatId);
+        //mPresenter.getNewsList(mCatId);
 
         return mFragmentRootView;
     }
@@ -212,5 +204,11 @@ public class NewsListFragment extends Fragment{
 
     public void refreshList(){
         mPresenter.refreshData(mCatId);
+    }
+
+    public void display(){
+        if (mAdapter == null) {
+            mPresenter.getNewsList(mCatId);
+        }
     }
 }

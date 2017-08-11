@@ -1,4 +1,4 @@
-package com.hailer.news.home;
+package com.hailer.news.news;
 
 import android.graphics.Color;
 import android.support.annotation.NonNull;

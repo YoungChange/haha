@@ -6,8 +6,7 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.app.FragmentTransaction;
 
-import com.hailer.news.base.BaseFragment;
-import com.hailer.news.home.NewsListFragment;
+import com.hailer.news.news.NewsListFragment;
 
 import java.util.List;
 

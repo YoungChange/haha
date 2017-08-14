@@ -14,6 +14,7 @@
     <string name="app_name">傳聲筒</string>
     <string name="news">新聞</string>
     <string name="news_detail">新聞詳情</string>
+    <string name="advice_check_internet">網絡連線不可用，請檢查網路</string>
 
     <!--login-->
     <string name="facebook_login">Facebook登錄</string>
@@ -46,5 +47,6 @@
     <string name="send_uccess">發送成功</string>
     <string name="comment_is_null">評論內容不能爲空</string>
     <string name="net_error">網絡連線不可用，請檢查網絡</string>
+
 
 </resources>

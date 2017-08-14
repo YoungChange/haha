@@ -1,9 +1,7 @@
 package com.hailer.news.news;
 
 import com.hailer.news.api.bean.NewsItem;
-import com.hailer.news.base.presenter.BasePresenter;
-import com.hailer.news.base.presenter.IBasePresenter;
-import com.hailer.news.base.view.BaseView;
+import com.hailer.news.contract.IBasePresenter;
 import com.hailer.news.util.bean.NewsChannelBean;
 
 import java.util.List;

@@ -1,6 +1,6 @@
 package com.hailer.news.contract.view;
 
-import com.hailer.news.base.view.BaseView;
+import com.hailer.news.contract.BaseView;
 
 /**
  * Created by moma on 17-7-25.

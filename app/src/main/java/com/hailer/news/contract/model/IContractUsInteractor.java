@@ -1,7 +1,6 @@
 package com.hailer.news.contract.model;
 
-import com.hailer.news.util.bean.FeedBackMessage;
-import com.hailer.news.util.callback.RequestCallback;
+import com.hailer.news.contract.RequestCallback;
 
 import rx.Subscription;
 

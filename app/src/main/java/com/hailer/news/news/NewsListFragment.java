@@ -15,9 +15,10 @@ import android.view.ViewGroup;
 
 import com.hailer.news.R;
 import com.hailer.news.api.bean.NewsItem;
-import com.hailer.news.base.BaseRecycleViewDivider;
-import com.hailer.news.home.adapter.NewsListAdapter;
-import com.hailer.news.home.adapter.OnItemClickListener;
+import com.hailer.news.common.BaseRecycleViewDivider;
+import com.hailer.news.common.LoadType;
+import com.hailer.news.common.OnItemClickListener;
+import com.hailer.news.newsdetail.DetailActivity;
 import com.hailer.news.util.MeasureUtil;
 import com.hailer.news.util.annotation.ActivityFragmentInject;
 import com.socks.library.KLog;

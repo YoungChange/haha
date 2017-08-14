@@ -1,7 +1,7 @@
 package com.hailer.news.util.annotation;
 
 import com.hailer.news.R;
-import com.hailer.news.base.ToolBarType;
+import com.hailer.news.common.ToolBarType;
 
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;

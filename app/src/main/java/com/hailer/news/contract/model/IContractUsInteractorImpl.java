@@ -2,9 +2,8 @@ package com.hailer.news.contract.model;
 
 import com.hailer.news.api.APIConfig;
 import com.hailer.news.api.RetrofitService;
-import com.hailer.news.base.BaseSubscriber;
-import com.hailer.news.util.bean.FeedBackMessage;
-import com.hailer.news.util.callback.RequestCallback;
+import com.hailer.news.contract.BaseSubscriber;
+import com.hailer.news.contract.RequestCallback;
 
 import rx.Subscription;
 

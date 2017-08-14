@@ -20,10 +20,9 @@ import com.hailer.news.NewsApplication;
 import com.hailer.news.R;
 import com.hailer.news.UserManager;
 import com.hailer.news.api.bean.NewsItem;
-import com.hailer.news.base.BaseFragment;
-import com.hailer.news.base.ToolBarType;
-import com.hailer.news.home.presenter.ILoginPresenterImpl;
-import com.hailer.news.home.view.NewsFragmentAdapter;
+import com.hailer.news.common.ToolBarType;
+import com.hailer.news.common.HailerActivity;
+import com.hailer.news.login.LoginActivity;
 import com.hailer.news.util.GlideUtils;
 import com.hailer.news.util.RxBus;
 import com.hailer.news.util.annotation.ActivityFragmentInject;
@@ -36,7 +35,6 @@ import java.util.List;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 import io.fabric.sdk.android.Fabric;
-import rx.Observable;
 
 @ActivityFragmentInject(contentViewId = R.layout.activity_news,
         handleRefreshLayout = true,
@@ -50,12 +48,6 @@ public class NewsListActivity extends HailerActivity implements NewsContract.Vie
     private TabLayout mTabLayout;
     private ViewPager mNewsViewpager;
     private ImageButton mChange_channel;
-
-    private BaseFragment baseFragment;
-
-    private Observable<Boolean> mChannelObservable;
-
-    private ILoginPresenterImpl mLoginPresenter;
 
     private NewsContract.Presenter mNewsPresenter;
 

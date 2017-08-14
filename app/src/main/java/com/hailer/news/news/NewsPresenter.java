@@ -1,14 +1,12 @@
 package com.hailer.news.news;
 
 import com.hailer.news.UserManager;
-import com.hailer.news.api.APIConfig;
 import com.hailer.news.api.bean.NewsItem;
-import com.hailer.news.base.presenter.BaseModel;
-import com.hailer.news.base.presenter.BasePresenter;
-import com.hailer.news.base.presenter.DataCallback;
-import com.hailer.news.base.presenter.IBasePresenter;
-import com.hailer.news.base.presenter.IBasePresenterImpl;
-import com.hailer.news.base.view.BaseView;
+import com.hailer.news.common.LoadType;
+import com.hailer.news.common.RxCallback;
+import com.hailer.news.model.FacebookDataSource;
+import com.hailer.news.model.LocalDataSource;
+import com.hailer.news.model.RemoteDataSource;
 import com.hailer.news.util.bean.NewsChannelBean;
 import com.socks.library.KLog;
 

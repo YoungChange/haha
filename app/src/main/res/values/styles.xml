@@ -56,12 +56,6 @@
     </style>
 
 
-    <style name="NewsListImage">
-        <item name="android:layout_width">108dp</item>
-        <item name="android:layout_height">70dp</item>
-    </style>
-
-
     <style name="dialog" parent="@android:style/Theme.Dialog">
         <item name="android:windowFrame">@null</item><!--Dialog的windowFrame框为无 -->
         <item name="android:windowIsFloating">true</item><!--是否浮现在activity之上 -->

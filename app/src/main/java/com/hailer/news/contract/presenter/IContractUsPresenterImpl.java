@@ -1,6 +1,6 @@
 package com.hailer.news.contract.presenter;
 
-import com.hailer.news.base.presenter.BasePresenterImpl;
+import com.hailer.news.contract.BasePresenterImpl;
 import com.hailer.news.contract.model.IContractUsInteractor;
 import com.hailer.news.contract.model.IContractUsInteractorImpl;
 import com.hailer.news.contract.view.IContractUsView;

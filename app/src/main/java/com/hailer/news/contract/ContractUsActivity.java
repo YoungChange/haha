@@ -14,7 +14,6 @@ import android.widget.EditText;
 import android.widget.TextView;
 
 import com.hailer.news.R;
-import com.hailer.news.base.BaseActivity;
 import com.hailer.news.contract.presenter.IContractUsPresenter;
 import com.hailer.news.contract.presenter.IContractUsPresenterImpl;
 import com.hailer.news.contract.view.IContractUsView;

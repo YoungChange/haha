@@ -31,8 +31,8 @@ public class LoginPresenter implements LoginContract.Presenter {
 
         mFacebookLoginCB = new RxCallback<String>() {
             @Override
-            public void requestError(String msg) {
-                mView.showLoginFailed(0);
+            public void requestError(int msg) {
+                mView.showLoginFailed(ErrMsg.UNKNOW_ERROR);
             }
 
             @Override
@@ -45,8 +45,8 @@ public class LoginPresenter implements LoginContract.Presenter {
 
         mRemoteLoginCB = new RxCallback<LoginInfo>() {
             @Override
-            public void requestError(String msg) {
-                mView.showLoginFailed(0);
+            public void requestError(int msg) {
+                mView.showLoginFailed(ErrMsg.LOAD_DATA_ERROR);
             }
 
             @Override

@@ -28,7 +28,7 @@ public class CommentsPresenter implements CommentsContract.Presenter {
 
         mGetDataCallback = new RxCallback<List<CommentInfo>>() {
             @Override
-            public void requestError(String msg) {
+            public void requestError(int msg) {
                 int error = ErrMsg.LOAD_DATA_ERROR;
                 mView.showErrorMsg(error);
             }

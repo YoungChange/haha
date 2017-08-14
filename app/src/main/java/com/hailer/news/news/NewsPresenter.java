@@ -33,7 +33,7 @@ public class NewsPresenter implements NewsContract.Presenter {
 
         mLocalCB = new RxCallback<List< NewsChannelBean >>() {
             @Override
-            public void requestError(String msg) {
+            public void requestError(int msg) {
                 mView.showErrorMsg();
             }
 
@@ -45,7 +45,7 @@ public class NewsPresenter implements NewsContract.Presenter {
 
         mGetDataCallback = new RxCallback<List<NewsItem>>() {
             @Override
-            public void requestError(String msg) {
+            public void requestError(int msg) {
                 mView.showErrorMsg();
             }
 
@@ -58,7 +58,7 @@ public class NewsPresenter implements NewsContract.Presenter {
 
         mLoginCallback = new RxCallback() {
             @Override
-            public void requestError(String msg) {
+            public void requestError(int msg) {
                 //mView.showErrorMsg();
             }
 

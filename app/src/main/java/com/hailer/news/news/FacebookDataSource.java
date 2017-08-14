@@ -9,6 +9,7 @@ import com.facebook.login.LoginResult;
 import com.facebook.login.widget.LoginButton;
 import com.hailer.news.R;
 import com.hailer.news.UserManager;
+import com.hailer.news.base.ErrMsg;
 import com.hailer.news.base.presenter.BaseDataSource;
 import com.hailer.news.home.LoginByFacebookActivity;
 import com.hailer.news.home.presenter.ILoginPresenterImpl;
@@ -50,12 +51,12 @@ public class FacebookDataSource {
 
             @Override
             public void onCancel() {
-                mCallBack.requestError(null);
+                mCallBack.requestError(ErrMsg.UNKNOW_ERROR);
             }
 
             @Override
             public void onError(FacebookException exception) {
-                mCallBack.requestError(null);
+                mCallBack.requestError(ErrMsg.UNKNOW_ERROR);
             }
         });
 

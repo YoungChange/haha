@@ -9,6 +9,7 @@ import com.facebook.FacebookException;
 import com.facebook.login.LoginResult;
 import com.facebook.login.widget.LoginButton;
 import com.hailer.news.UserManager;
+import com.hailer.news.base.ErrMsg;
 import com.hailer.news.util.bean.NewsChannelBean;
 import com.socks.library.KLog;
 
@@ -68,7 +69,8 @@ public class LocalDataSource {
 
                     @Override
                     public void onError(Throwable e) {
-                        mCallBack.requestError(e.getLocalizedMessage() + "\n" + e);
+//                        mCallBack.requestError(e.getLocalizedMessage() + "\n" + e);\
+                        mCallBack.requestError(ErrMsg.UNKNOW_ERROR);
                     }
 
                     @Override

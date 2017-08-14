@@ -24,7 +24,7 @@ public class NewsDetailPresenter implements NewsDetailContract.Presenter {
 
         mGetDataCallback = new RxCallback<NewsDetail>() {
             @Override
-            public void requestError(String msg) {
+            public void requestError(int msg) {
                 mView.handleError();
             }
 
@@ -36,7 +36,7 @@ public class NewsDetailPresenter implements NewsDetailContract.Presenter {
 
         mPostDataCallback = new RxCallback() {
             @Override
-            public void requestError(String msg) {
+            public void requestError(int msg) {
                 KLog.e("bailei.........postComment error");
                 //mView.showErrorMsg();
                 mView.showCommentMsg();

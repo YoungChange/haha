@@ -8,9 +8,9 @@ public interface RxCallback<T> {
     /**
      * 请求错误调用
      *
-     * @param msg 错误信息
+     * @param msgType 错误信息
      */
-    void requestError(String msg);
+    void requestError(int msgType);
 
 
     /**

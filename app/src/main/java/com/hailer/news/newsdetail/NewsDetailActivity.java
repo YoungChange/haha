@@ -152,11 +152,6 @@ public class NewsDetailActivity extends BaseActivity implements NewsDetailContra
 
     }
 
-//    @Override
-//    protected void initView() {
-//          内容全部加到了上面onCreate（）中
-//    }
-
     @Override
     public void showDetail(NewsDetail data){
 
@@ -184,7 +179,9 @@ public class NewsDetailActivity extends BaseActivity implements NewsDetailContra
         mSendCommentEditText.setText("");
 
         InputMethodManager imm = (InputMethodManager)getSystemService(Context.INPUT_METHOD_SERVICE);
-        imm.toggleSoftInput(InputMethodManager.SHOW_IMPLICIT, InputMethodManager.HIDE_NOT_ALWAYS);
+        if(imm.isActive()){
+            imm.toggleSoftInput(InputMethodManager.SHOW_IMPLICIT, InputMethodManager.HIDE_NOT_ALWAYS);
+        }
     }
 
     @Override
@@ -196,7 +193,15 @@ public class NewsDetailActivity extends BaseActivity implements NewsDetailContra
     @Override
     public void popLoginDlg(){
         Intent intent = new Intent(NewsDetailActivity.this, LoginActivity.class);
-        startActivity(intent);
+        startActivityForResult(intent,1);
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if(UserManager.getInstance().getServerToken()!=null && !UserManager.getInstance().getServerToken().isEmpty()){
+            mSendCommentButton.callOnClick();
+        }
     }
 
 

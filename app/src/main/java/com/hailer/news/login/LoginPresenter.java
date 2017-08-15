@@ -52,6 +52,7 @@ public class LoginPresenter implements LoginContract.Presenter {
             @Override
             public void requestSuccess(LoginInfo loginInfo) {
                 KLog.e("-----mRemoteLoginCB---requestSuccess");
+                UserManager.getInstance().saveUserInfo(loginInfo);
                 mView.showLoginSuccess();
             }
         };

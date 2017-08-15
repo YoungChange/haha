@@ -24,6 +24,9 @@
     <color name="colorTextIsNull">#808080</color>
     <color name="colorTextNotNull">#f24444</color>
 
+    <!--分割条颜色-->
+    <color name="light_gray">#e6e6e6</color>
+    <color name="dark_blue">#3d75c1</color>
 
 
 </resources>

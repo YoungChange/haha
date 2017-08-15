@@ -31,7 +31,7 @@
                 <!--使用taglayout + viewpager作为滑动页面-->
                 <android.support.design.widget.TabLayout
                     android:id="@+id/tab_layout"
-                    android:layout_width="match_parent"
+                    android:layout_width="0dp"
                     android:layout_weight="1"
                     android:layout_height="36dp"
                     android:background="#f7f7f7"
@@ -45,7 +45,8 @@
                     android:layout_height="36dp"
                     android:layout_gravity="center_vertical"
                     android:background="#ddffffff"
-                    android:src="@drawable/add"/>
+                    android:src="@drawable/add"
+                    tools:ignore="ContentDescription" />
             </LinearLayout>
 
 
@@ -59,10 +60,17 @@
                 android:layout_height="match_parent"
                 android:orientation="vertical">
                 <TextView
+                    android:id="@+id/tv_no_internet_have_data"
                     android:layout_width="match_parent"
                     android:layout_height="20dp"
-                    android:layout_gravity="center"
-                    android:maxLines="1"/>
+                    android:gravity="center"
+                    android:background="@color/light_gray"
+                    android:textColor="@color/dark_blue"
+                    android:textSize="12sp"
+                    android:maxLines="1"
+                    android:text="@string/advice_check_internet"
+                    android:visibility="gone"
+                    />
                 <android.support.v4.view.ViewPager
                     android:id="@+id/news_viewpager"
                     android:layout_width="fill_parent"
@@ -72,9 +80,16 @@
             </LinearLayout>
 
             <TextView
+                android:id="@+id/tv_no_internet_and_data"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:text="@string/advice_check_internet"/>
+                android:background="@color/white"
+                android:gravity="center"
+                android:textColor="@color/colorTextIsNull"
+                android:textSize="18sp"
+                android:maxLines="1"
+                android:text="@string/advice_check_internet"
+                android:visibility="gone"/>
         </FrameLayout>
     </LinearLayout>
 

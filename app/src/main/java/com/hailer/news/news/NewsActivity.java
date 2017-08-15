@@ -59,7 +59,9 @@ public class NewsActivity extends BaseActivity implements NewsContract.View{
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
+        mTabLayout = (TabLayout) findViewById(R.id.tab_layout);
+        mNewsViewpager = (ViewPager) findViewById(R.id.news_viewpager);
+        mChange_channel = (ImageButton) findViewById(R.id.change_channel);
         loginImageButton = (CircleImageView) findViewById(R.id.login_imagebutton);
         mNewsPresenter = new NewsPresenter(this);
         mNewsPresenter.autoLogin();
@@ -123,32 +125,29 @@ public class NewsActivity extends BaseActivity implements NewsContract.View{
 
     @Override
     public void showChannels(List<NewsChannelBean> newsChannels){
-        mTabLayout = (TabLayout) findViewById(R.id.tab_layout);
-        mNewsViewpager = (ViewPager) findViewById(R.id.news_viewpager);
-        mChange_channel = (ImageButton) findViewById(R.id.change_channel);
 
         KLog.e("show channels...");
 
-        List<NewsListFragment> fragments = new ArrayList<>();
+        List<NewsListFragment> fragmentList = new ArrayList<>();
         final List<String> title = new ArrayList<>();
         int i = 0;
         if (newsChannels != null) {
             for (NewsChannelBean news : newsChannels) {
                 final NewsListFragment fragment = NewsListFragment
-                        .newInstance(news.getTabName(),news.getTabId());
+                        .newInstance(news.getTabName(),news.getTabId()); // 使用newInstances比重载的构造方法好在哪里？
 
                 fragment.setPresenter(mNewsPresenter);
-                fragments.add(fragment);
+                fragmentList.add(fragment);
                 title.add(news.getTabName());
             }
 
             if (mNewsViewpager.getAdapter() == null) {
                 NewsFragmentAdapter adapter = new NewsFragmentAdapter(getSupportFragmentManager(),
-                        fragments, title);
+                        fragmentList, title);
                 mNewsViewpager.setAdapter(adapter);
             } else {
                 final NewsFragmentAdapter adapter = (NewsFragmentAdapter) mNewsViewpager.getAdapter();
-                adapter.updateFragments(fragments, title);
+                adapter.updateFragments(fragmentList, title);
             }
             mNewsViewpager.setCurrentItem(0, false);
             mTabLayout.setupWithViewPager(mNewsViewpager);

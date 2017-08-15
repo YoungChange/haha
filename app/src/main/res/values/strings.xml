@@ -1,7 +1,14 @@
 <resources>
     <!--facebook api-->
+    <!--<string name="facebook_app_id">942325942577010</string>-->
+    <!--<string name="fb_login_protocol_scheme">fb942325942577010</string>-->
+
     <string name="facebook_app_id">1603100136407243</string>
-    <string name="fb_login_protocol_scheme">fb942325942577010</string>
+    <string name="fb_login_protocol_scheme">fb1603100136407243</string>
+
+
+
+    <string name="version">V1.1.1</string>
 
     <!--hailer news-->
     <string name="app_name">傳聲筒</string>
@@ -30,6 +37,7 @@
 
     <!--toast -->
     <string name="refresh_success">已更新</string>
+    <string name="retry">點擊重試</string>
     <string name="all_loaded">已加載所有</string>
     <string name="load_more_error">加載更多失敗</string>
     <string name="data_error">數據異常</string>
@@ -37,5 +45,6 @@
     <string name="unknow_error">未知錯誤</string>
     <string name="send_uccess">發送成功</string>
     <string name="comment_is_null">評論內容不能爲空</string>
+    <string name="net_error">網絡連線不可用，請檢查網絡</string>
 
 </resources>

@@ -41,7 +41,7 @@ public class FacebookDataSource {
                 // App code  如果登录成功，LoginResult 参数将拥有新的 AccessToken 及最新授予或拒绝的权限。
                 KLog.e("-------------facebook login onSuccess()");
                 //UserManager.getInstance().requestFBToken();
-                mCallBack.requestSuccess(loginResult.getAccessToken());
+                mCallBack.requestSuccess(loginResult.getAccessToken().getToken());
             }
 
             @Override
@@ -51,6 +51,7 @@ public class FacebookDataSource {
 
             @Override
             public void onError(FacebookException exception) {
+                KLog.e("----FacebookCallback-----onError---exception:"+exception.toString());
                 mCallBack.requestError(ErrMsg.UNKNOW_ERROR);
             }
         });

@@ -23,16 +23,8 @@
             android:name="io.fabric.ApiKey"
             android:value="bcc36b4f97d2d3d59863f071cbe799d8630d178e"/>
 
-        <!--<activity-->
-            <!--android:name="com.hailer.news.home.NewsActivity"-->
-            <!--android:configChanges="orientation|keyboardHidden|screenSize">-->
-            <!--<intent-filter>-->
-                <!--<action android:name="android.intent.action.MAIN" />-->
-                <!--<category android:name="android.intent.category.LAUNCHER" />-->
-            <!--</intent-filter>-->
-        <!--</activity>-->
-
         <activity
+            android:screenOrientation="portrait"
             android:name="com.hailer.news.news.NewsActivity"
             android:configChanges="orientation|keyboardHidden|screenSize">
             <intent-filter>
@@ -41,15 +33,9 @@
             </intent-filter>
         </activity>
 
-        <!--<activity-->
-            <!--android:name="com.hailer.news.home.NewsDetailActivity"-->
-            <!--android:configChanges="orientation|keyboardHidden|screenSize"-->
-            <!--android:theme="@style/AppThemeBack"-->
-            <!--android:windowSoftInputMode="adjustResize">-->
-
-        <!--</activity>-->
 
         <activity
+            android:screenOrientation="portrait"
             android:name="com.hailer.news.newsdetail.NewsDetailActivity"
             android:configChanges="orientation|keyboardHidden|screenSize"
             android:theme="@style/AppThemeBack"
@@ -59,31 +45,26 @@
 
         <activity
             android:name="com.hailer.news.comments.CommentsActivity"
+            android:screenOrientation="portrait"
             android:configChanges="orientation|keyboardHidden|screenSize"
             android:theme="@style/AppThemeBack">
 
         </activity>
 
         <activity android:name="com.hailer.news.feedback.FeedbackActivity"
+            android:screenOrientation="portrait"
             android:theme="@style/AppThemeBack">
 
         </activity>
 
-        <!--<activity android:name="com.hailer.news.home.LoginByFacebookActivity"-->
-            <!--android:theme="@style/AppCompatActivityDialogTheme">-->
-        <!--</activity>-->
 
         <activity android:name="com.hailer.news.login.LoginActivity"
             android:theme="@style/AppCompatActivityDialogTheme">
         </activity>
 
-        <!--<activity android:name=".home.CommentsListActivity"-->
-            <!--android:theme="@style/AppThemeBack">-->
-
-        <!--</activity>-->
-
-
-        <activity android:name="com.facebook.FacebookActivity"
+        <!--android:screenOrientation="portrait"-->
+        <activity
+            android:name="com.facebook.FacebookActivity"
             android:configChanges=
                 "keyboard|keyboardHidden|screenLayout|screenSize|orientation"
             android:label="@string/app_name" />

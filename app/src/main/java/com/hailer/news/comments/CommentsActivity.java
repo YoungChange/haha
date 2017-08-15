@@ -27,6 +27,7 @@ import java.util.List;
 public class CommentsActivity extends BaseActivity implements CommentsContract.View{
 
     private String postId;
+    private int commentCount;
 
     private CommentsListAdapter newsCommentListAdapter;
     private RecyclerView mRecyclerView;
@@ -42,6 +43,8 @@ public class CommentsActivity extends BaseActivity implements CommentsContract.V
         mRecyclerView = (RecyclerView) findViewById(R.id.newscommentlist_recycler_view);
         mSwipeRefreshLayout = (SwipeRefreshLayout) findViewById(R.id.comment_refresh_layout);
         postId = getIntent().getStringExtra("postId");
+        commentCount = getIntent().getIntExtra("commentCount",0);
+        KLog.e("-------CommentsListActivity------postId:"+postId+";------commentCount:"+commentCount);
         mCommentsPresenter = new CommentsPresenter(this);
         mCommentsPresenter.getCommentsList(postId);
     }
@@ -58,12 +61,22 @@ public class CommentsActivity extends BaseActivity implements CommentsContract.V
     }
 
     @Override
-    public void showCommentsList(List<CommentInfo> data){
+    public void showCommentsList(List<CommentInfo> data,boolean isRefresh){
+        mLoading = false;
         KLog.e("showCommentsList...");
         if (newsCommentListAdapter == null) {
             initCommentList(data);
         }
-        newsCommentListAdapter.setmData(data);
+
+        if(isRefresh){
+            newsCommentListAdapter.setmData(data);
+        }else{
+            if (data == null || data.size() == 0) {
+                toast(this.getString(R.string.all_loaded));
+                return;
+            }
+            newsCommentListAdapter.addMoreData(data);
+        }
     }
 
     @Override
@@ -104,7 +117,6 @@ public class CommentsActivity extends BaseActivity implements CommentsContract.V
                 //mLoading 防止多次加载同一批数据
                 if (!mLoading && totalItemCount < (lastVisibleItem + 2)) {
                     mLoading = true;
-//                    mPresenter.loadMoreData();
                     mCommentsPresenter.loadMoreData();
                 }
             }

@@ -57,12 +57,6 @@ public class LoginPresenter implements LoginContract.Presenter {
     }
 
     @Override
-    public void start() {
-        //load data
-        //mDataSource.getNewsList(categoryId, mStartPage);
-    }
-
-    @Override
     public void login(CallbackManager callbackManager, LoginButton button) {
         mFacebookData.login(callbackManager,button);
     }

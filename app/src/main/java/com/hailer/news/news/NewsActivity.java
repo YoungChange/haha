@@ -21,7 +21,7 @@ import com.hailer.news.R;
 import com.hailer.news.UserManager;
 import com.hailer.news.api.bean.NewsItem;
 import com.hailer.news.common.ToolBarType;
-import com.hailer.news.common.HailerActivity;
+import com.hailer.news.common.BaseActivity;
 import com.hailer.news.login.LoginActivity;
 import com.hailer.news.util.GlideUtils;
 import com.hailer.news.util.RxBus;
@@ -43,7 +43,7 @@ import io.fabric.sdk.android.Fabric;
         toolbarTextViewTitle = R.string.app_name,
         hasNavigationView = true,
         toolbarType = ToolBarType.HasMenuButton)
-public class NewsListActivity extends HailerActivity implements NewsContract.View{
+public class NewsActivity extends BaseActivity implements NewsContract.View{
 
     private TabLayout mTabLayout;
     private ViewPager mNewsViewpager;
@@ -94,7 +94,7 @@ public class NewsListActivity extends HailerActivity implements NewsContract.Vie
                 break;
             case R.id.login_imagebutton:
 //                if(UserManager.getInstance().getServerToken()==null || UserManager.getInstance().getServerToken().isEmpty()){
-                    Intent intent = new Intent(NewsListActivity.this, LoginActivity.class);
+                    Intent intent = new Intent(NewsActivity.this, LoginActivity.class);
                     startActivity(intent);
 //                }
                 break;
@@ -127,7 +127,7 @@ public class NewsListActivity extends HailerActivity implements NewsContract.Vie
         mNewsViewpager = (ViewPager) findViewById(R.id.news_viewpager);
         mChange_channel = (ImageButton) findViewById(R.id.change_channel);
 
-        KLog.e("bailei ----show channels");
+        KLog.e("show channels...");
 
         List<NewsListFragment> fragments = new ArrayList<>();
         final List<String> title = new ArrayList<>();

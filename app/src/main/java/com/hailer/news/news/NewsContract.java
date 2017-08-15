@@ -1,7 +1,6 @@
 package com.hailer.news.news;
 
 import com.hailer.news.api.bean.NewsItem;
-import com.hailer.news.contract.IBasePresenter;
 import com.hailer.news.util.bean.NewsChannelBean;
 
 import java.util.List;
@@ -20,7 +19,7 @@ public interface NewsContract {
         void showErrorMsg();
     }
 
-    interface Presenter extends IBasePresenter {
+    interface Presenter {
 
         void refreshData(String catId);
 

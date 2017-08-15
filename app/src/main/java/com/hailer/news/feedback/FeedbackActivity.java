@@ -1,4 +1,4 @@
-package com.hailer.news.contract;
+package com.hailer.news.feedback;
 
 import android.app.AlertDialog;
 import android.content.Context;
@@ -14,9 +14,8 @@ import android.widget.EditText;
 import android.widget.TextView;
 
 import com.hailer.news.R;
-import com.hailer.news.contract.presenter.IContractUsPresenter;
-import com.hailer.news.contract.presenter.IContractUsPresenterImpl;
-import com.hailer.news.contract.view.IContractUsView;
+import com.hailer.news.common.ErrMsg;
+import com.hailer.news.common.BaseActivity;
 import com.hailer.news.util.annotation.ActivityFragmentInject;
 import com.hailer.news.util.bean.FeedBackMessage;
 
@@ -30,7 +29,7 @@ import com.hailer.news.util.bean.FeedBackMessage;
         toolbarTextViewId = R.id.toolbar_title,
         toolbarTextViewTitle = R.string.contract_us
 )
-public class ContractUsActivity extends BaseActivity<IContractUsPresenter> implements IContractUsView {
+public class FeedbackActivity extends BaseActivity implements FeedbackContract.View {
 
     private FeedBackMessage message;
     private EditText emailEditview;
@@ -38,6 +37,8 @@ public class ContractUsActivity extends BaseActivity<IContractUsPresenter> imple
     private Button sendButton;
     private InputMethodManager manager;
     AlertDialog alertDialog;
+    private FeedbackPresenter mPresenter;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -46,17 +47,28 @@ public class ContractUsActivity extends BaseActivity<IContractUsPresenter> imple
         super.onCreate(savedInstanceState);
         manager  = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
 
-    }
-
-
-    @Override
-    protected void initView() {
         emailEditview  = (EditText) findViewById(R.id.email_editview);
         feedbackEditview = (EditText) findViewById(R.id.feedback_editview);
         sendButton = (Button) findViewById(R.id.send_button);
         message = new FeedBackMessage(emailEditview.getText().toString(),feedbackEditview.getText().toString());
         sendButton.setOnClickListener(this);
+
+        mPresenter = new FeedbackPresenter(this);
+
     }
+
+    @Override
+    public void showMsg(int msg) {
+        switch (msg) {
+            case ErrMsg.SUCCESS:
+                showPopUp();
+                break;
+            default:
+                toast(this.getString(R.string.unknow_error));
+        }
+    }
+
+
 
     @Override
     public void onClick(View v) {
@@ -67,8 +79,9 @@ public class ContractUsActivity extends BaseActivity<IContractUsPresenter> imple
             case R.id.send_button:
                 message.setUserEmail(emailEditview.getText().toString());
                 message.setMessageContent(feedbackEditview.getText().toString());
-                mPresenter = new IContractUsPresenterImpl(this, message);
-                showPopUp();
+//                mPresenter = new IContractUsPresenterImpl(this, message);
+                mPresenter.postFeedback(message);
+//                showPopUp();
                 break;
             case R.id.diagle_button:
                 if(alertDialog != null){
@@ -80,6 +93,8 @@ public class ContractUsActivity extends BaseActivity<IContractUsPresenter> imple
                 toast(this.getString(R.string.unknow_error));
         }
     }
+
+
 
     @Override
     public boolean dispatchTouchEvent(MotionEvent ev) {

@@ -22,7 +22,7 @@ import rx.functions.Func2;
 /**
  * Fuction: 代理的基类
  */
-public class RemoteDataSource extends BaseModel {
+public class RemoteDataSource {
     public void onDestroy() {
 
     }

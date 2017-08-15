@@ -12,7 +12,7 @@ import com.facebook.ProfileTracker;
 import com.facebook.login.widget.LoginButton;
 import com.hailer.news.R;
 import com.hailer.news.common.ToolBarType;
-import com.hailer.news.common.HailerActivity;
+import com.hailer.news.common.BaseActivity;
 import com.hailer.news.util.annotation.ActivityFragmentInject;
 
 /**
@@ -21,7 +21,7 @@ import com.hailer.news.util.annotation.ActivityFragmentInject;
 @ActivityFragmentInject(contentViewId = R.layout.activity_login_by_facebook,
                 toolbarType = ToolBarType.NoToolbar
 )
-public class LoginActivity extends HailerActivity implements LoginContract.View{
+public class LoginActivity extends BaseActivity implements LoginContract.View{
 
     CallbackManager mFBCallbackMgr;
     LoginButton mLoginBtn;

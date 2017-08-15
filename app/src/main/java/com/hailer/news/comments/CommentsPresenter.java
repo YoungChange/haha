@@ -42,12 +42,6 @@ public class CommentsPresenter implements CommentsContract.Presenter {
     }
 
     @Override
-    public void start() {
-        //load data
-        //mDataSource.getNewsList(categoryId, mStartPage);
-    }
-
-    @Override
     public void getCommentsList(String postId) {
         //load data
         mRemoteData.getCommentsList(postId, mStartPage, mGetDataCallback);

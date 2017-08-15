@@ -31,11 +31,11 @@ public class RemoteSubscriber<T> extends Subscriber<T> {
     @CallSuper
     @Override
     public void onError(Throwable e) {
-        KLog.e("onError, bailei ..... e="+e);
+        KLog.e("onError, e="+e);
         int err = ErrMsg.LOAD_DATA_ERROR;
         if (e instanceof HttpException) {
             int errCode = ((HttpException) e).code();
-            KLog.e("onError, bailei, errCode =" + errCode);
+            KLog.e("onError, http error code =" + errCode);
 
             //状态码是2xx是成功
             if (errCode == 201 || errCode == 200) {

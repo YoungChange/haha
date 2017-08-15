@@ -21,7 +21,7 @@ import com.hailer.news.UserManager;
 import com.hailer.news.api.bean.NewsDetail;
 import com.hailer.news.comments.CommentsActivity;
 import com.hailer.news.login.LoginActivity;
-import com.hailer.news.common.HailerActivity;
+import com.hailer.news.common.BaseActivity;
 import com.hailer.news.util.InputMethodLayout;
 import com.hailer.news.util.InputMethodLayout.onKeyboardsChangeListener;
 import com.hailer.news.util.annotation.ActivityFragmentInject;
@@ -38,7 +38,7 @@ import com.zzhoujay.richtext.RichText;
         toolbarTextViewId = R.id.toolbar_title,
         toolbarTextViewTitle = R.string.news_detail
         )
-public class DetailActivity extends HailerActivity implements NewsDetailContract.View {
+public class NewsDetailActivity extends BaseActivity implements NewsDetailContract.View {
 
     private int mCommentsCount = 0;
 
@@ -168,7 +168,7 @@ public class DetailActivity extends HailerActivity implements NewsDetailContract
 
     @Override
     public void popLoginDlg(){
-        Intent intent = new Intent(DetailActivity.this, LoginActivity.class);
+        Intent intent = new Intent(NewsDetailActivity.this, LoginActivity.class);
         startActivity(intent);
     }
 
@@ -211,15 +211,6 @@ public class DetailActivity extends HailerActivity implements NewsDetailContract
             default:
                 toast(this.getString(R.string.unknow_error));
         }
-    }
-
-
-    @Override
-    public void showProgress() {
-    }
-
-    @Override
-    public void hideProgress() {
     }
 
     @Override

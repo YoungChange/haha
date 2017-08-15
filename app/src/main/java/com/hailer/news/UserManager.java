@@ -49,13 +49,9 @@ public class UserManager {
         Profile profile = Profile.getCurrentProfile();
 
         if (accessToken == null || profile == null) {
-            KLog.d("---need login");
+            KLog.d("need login facebook");
             return false;
         }
-
-        KLog.d("----getFBInfo,  token="+accessToken.getToken()+", id="+profile.getId());
-        KLog.d("----getFBInfo,  name="+profile.getName());
-        KLog.d("----getFBInfo,  linkuri="+profile.getLinkUri()+", picuri="+profile.getProfilePictureUri(100,100));
 
 //        setUserInfo(profile.getId(), profile.getName(), profile.getProfilePictureUri(100,100),accessToken.getToken());
 
@@ -69,8 +65,6 @@ public class UserManager {
             KLog.d("---need login");
             return false;
         }
-
-        KLog.e("bailei ------------token =" +accessToken.getToken());
 
         setUserInfo(null, null, null, accessToken.getToken());
         return true;

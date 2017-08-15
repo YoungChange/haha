@@ -37,25 +37,16 @@ public class NewsDetailPresenter implements NewsDetailContract.Presenter {
         mPostDataCallback = new RxCallback() {
             @Override
             public void requestError(int msg) {
-                KLog.e("bailei.........postComment error");
-                //mView.showErrorMsg();
+                KLog.e("requestError error msg ="+ msg);
                 mView.showCommentMsg();
             }
 
             @Override
             public void requestSuccess(Object data) {
-                //ToDo save serverToken
-                KLog.e("bailei.........postComment success");
-
+                KLog.e("requestSucess...");
                 mView.showCommentMsg();
             }
         };
-    }
-
-    @Override
-    public void start() {
-        //load data
-        //mDataSource.getNewsList(categoryId, mStartPage);
     }
 
     @Override

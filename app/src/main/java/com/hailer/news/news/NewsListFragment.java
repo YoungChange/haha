@@ -18,7 +18,7 @@ import com.hailer.news.api.bean.NewsItem;
 import com.hailer.news.common.BaseRecycleViewDivider;
 import com.hailer.news.common.LoadType;
 import com.hailer.news.common.OnItemClickListener;
-import com.hailer.news.newsdetail.DetailActivity;
+import com.hailer.news.newsdetail.NewsDetailActivity;
 import com.hailer.news.util.MeasureUtil;
 import com.hailer.news.util.annotation.ActivityFragmentInject;
 import com.socks.library.KLog;
@@ -71,9 +71,6 @@ public class NewsListFragment extends Fragment{
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-
-        KLog.e("bailei-----newslistfragment----onCreateView....mFragmentRootView="+mFragmentRootView+", mCatId="+mCatId);
-
         if (mFragmentRootView == null) {
             if (getClass().isAnnotationPresent(ActivityFragmentInject.class)) {
                 ActivityFragmentInject annotation = getClass()
@@ -95,8 +92,6 @@ public class NewsListFragment extends Fragment{
         mSwipeRefreshLayout = (SwipeRefreshLayout) mFragmentRootView.findViewById(R.id.refresh_layout);
         mRecyclerView = (RecyclerView) mFragmentRootView.findViewById(R.id.newslist_recycler_view);
 
-        //mPresenter.getNewsList(mCatId);
-
         return mFragmentRootView;
     }
 
@@ -106,9 +101,6 @@ public class NewsListFragment extends Fragment{
 
     public void showNewsList(int loadType, List<NewsItem> list){
         mLoading = false;
-
-//        KLog.e("bailei----------mAdapter="+mAdapter+", loadType="+loadType);
-
         if (mAdapter == null) {
             initNewsList(list);
         }
@@ -146,7 +138,7 @@ public class NewsListFragment extends Fragment{
 
             @Override
             public void onItemClick(View view, int position) {
-                Intent intent = new Intent(getActivity(), DetailActivity.class);
+                Intent intent = new Intent(getActivity(), NewsDetailActivity.class);
                 NewsItem newsItem =  mAdapter.getmData().get(position);
                 //KLog.e("onItemClick, position="+position+"; id="+newsItem.id+"; img="+newsItem.post_image);
                 intent.putExtra("postid", String.valueOf(newsItem.getPostId()));
@@ -178,7 +170,6 @@ public class NewsListFragment extends Fragment{
                 //mLoading 防止多次加载同一批数据
                 if (!mLoading && totalItemCount < (lastVisibleItem + 2)) {
                     mLoading = true;
-                    KLog.e("bailei mCatId="+mCatId+", mCatName="+mCatName);
                     mPresenter.loadMoreData(mCatId, totalItemCount);
                 }
             }

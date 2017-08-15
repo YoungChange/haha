@@ -72,13 +72,6 @@ public class NewsPresenter implements NewsContract.Presenter {
         mLocalData = new LocalDataSource(mLocalCB);
 
     }
-
-    @Override
-    public void start() {
-        //load data
-        //mDataSource.getNewsList(categoryId, mStartPage);
-    }
-
     @Override
     public void getNewsList(String catId) {
         //load data
@@ -101,7 +94,7 @@ public class NewsPresenter implements NewsContract.Presenter {
 
     @Override
     public void refreshData(String catId) {
-        KLog.i("bailei refreshData()............");
+        KLog.i("refreshData(), category id="+catId);
 //        mStartPage = 1;
         mLoadType = LoadType.TYPE_REFRESH;
         //refresh
@@ -111,7 +104,7 @@ public class NewsPresenter implements NewsContract.Presenter {
     @Override
     public void loadMoreData(String catId, int itemCount) {
         //load data
-        KLog.i("bailei loadMoreData()............");
+        KLog.i("loadMoreData(), category id="+ catId+", itemCount="+itemCount);
         mLoadType = LoadType.TYPE_LOAD_MORE;
         mRemoteData.getNewsList(catId, itemCount, mGetDataCallback);
     }

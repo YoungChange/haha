@@ -207,6 +207,7 @@ public class RetrofitService {
      * 反馈
      */
     public Observable<String> postFeedbackObservable(String email, String feedback) {
+        KLog.e("postFeedback, email="+email+", feedback="+feedback);
         return mNewsAPI.postFeedback(email, feedback, APIConfig.GET_TOKEN)
                 .compose(new BaseSchedulerTransformer<String>());
     }

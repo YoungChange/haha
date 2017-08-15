@@ -14,7 +14,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.hailer.news.R;
-import com.hailer.news.contract.ContractUsActivity;
+import com.hailer.news.feedback.FeedbackActivity;
 import com.hailer.news.util.MeasureUtil;
 import com.hailer.news.util.annotation.ActivityFragmentInject;
 import com.hailer.news.util.bean.NavigationItem;
@@ -27,7 +27,7 @@ import de.hdodenhof.circleimageview.CircleImageView;
 import rx.Observable;
 
 
-public abstract class HailerActivity extends AppCompatActivity implements View.OnClickListener {
+public abstract class BaseActivity extends AppCompatActivity implements View.OnClickListener {
 
     /**
      * 布局的id
@@ -204,11 +204,11 @@ public abstract class HailerActivity extends AppCompatActivity implements View.O
                 Intent intent ;
                 switch (position){
                     case 0:
-                        intent = new Intent(HailerActivity.this, ContractUsActivity.class);
+                        intent = new Intent(BaseActivity.this, FeedbackActivity.class);
                         startActivity(intent);
                         break;
                     default:
-                        Toast.makeText(HailerActivity.this, R.string.unknow_error, Toast.LENGTH_SHORT).show();
+                        Toast.makeText(BaseActivity.this, R.string.unknow_error, Toast.LENGTH_SHORT).show();
                         break;
                 }
             }

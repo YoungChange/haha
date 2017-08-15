@@ -11,7 +11,7 @@ import android.view.View;
 import com.hailer.news.R;
 import com.hailer.news.api.bean.CommentInfo;
 import com.hailer.news.common.BaseRecycleViewDivider;
-import com.hailer.news.common.HailerActivity;
+import com.hailer.news.common.BaseActivity;
 import com.hailer.news.util.MeasureUtil;
 import com.hailer.news.util.annotation.ActivityFragmentInject;
 import com.socks.library.KLog;
@@ -24,7 +24,7 @@ import java.util.List;
         toolbarTextViewId = R.id.toolbar_title,
         toolbarTextViewTitle = R.string.news_comment
 )
-public class CommentsActivity extends HailerActivity implements CommentsContract.View{
+public class CommentsActivity extends BaseActivity implements CommentsContract.View{
 
     private String postId;
 
@@ -59,7 +59,7 @@ public class CommentsActivity extends HailerActivity implements CommentsContract
 
     @Override
     public void showCommentsList(List<CommentInfo> data){
-        KLog.e("bailei... showCommentsList...");
+        KLog.e("showCommentsList...");
         if (newsCommentListAdapter == null) {
             initCommentList(data);
         }

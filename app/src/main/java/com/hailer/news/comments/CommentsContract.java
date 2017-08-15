@@ -1,7 +1,6 @@
 package com.hailer.news.comments;
 
 import com.hailer.news.api.bean.CommentInfo;
-import com.hailer.news.contract.IBasePresenter;
 
 import java.util.List;
 
@@ -16,7 +15,7 @@ public interface CommentsContract {
         void showErrorMsg(int error);
     }
 
-    interface Presenter extends IBasePresenter {
+    interface Presenter {
 
         void refreshData();
 

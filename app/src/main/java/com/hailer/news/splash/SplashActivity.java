@@ -3,12 +3,11 @@ package com.hailer.news.splash;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.annotation.Nullable;
-import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 
 
 import com.hailer.news.R;
-import com.hailer.news.common.HailerActivity;
+import com.hailer.news.common.BaseActivity;
 import com.hailer.news.common.ToolBarType;
 import com.hailer.news.util.annotation.ActivityFragmentInject;
 import com.socks.library.KLog;
@@ -23,7 +22,7 @@ import com.socks.library.KLog;
         toolbarTextViewTitle = R.string.app_name,
         hasNavigationView = true,
         toolbarType = ToolBarType.HasMenuButton)
-public class SplashActivity extends HailerActivity implements SplashContract.View{
+public class SplashActivity extends BaseActivity implements SplashContract.View{
     private Handler mTimerHander; // 定时
 
     @Override

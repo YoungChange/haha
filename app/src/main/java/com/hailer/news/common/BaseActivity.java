@@ -13,6 +13,7 @@ import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.hailer.news.R;
 import com.hailer.news.feedback.FeedbackActivity;
 
 import com.hailer.news.util.MeasureUtil;

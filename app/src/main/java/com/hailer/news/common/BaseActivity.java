@@ -26,8 +26,6 @@ import java.util.List;
 import de.hdodenhof.circleimageview.CircleImageView;
 import rx.Observable;
 
-
-
 public abstract class BaseActivity extends AppCompatActivity implements View.OnClickListener {
     /**
      * 布局的id
@@ -253,8 +251,4 @@ public abstract class BaseActivity extends AppCompatActivity implements View.OnC
     }
 
     public void showSplash(){}
-    @Override
-    protected void initView() {
-
-    }
 }

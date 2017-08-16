@@ -10,6 +10,7 @@
     android:fitsSystemWindows="true"
     tools:context="com.hailer.news.home.NewsDetailActivity">
 
+    <!--app:elevation="0dp"-->
     <android.support.design.widget.AppBarLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
@@ -18,7 +19,9 @@
 
     </android.support.design.widget.AppBarLayout>
 
+    <!--正常的布局-->
     <RelativeLayout
+        android:id="@+id/normal_layout"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
@@ -26,6 +29,8 @@
             android:layout_height="match_parent"
             android:layout_width="match_parent"/>
 
+
+        <!--底部Bar 1-->
         <LinearLayout
             android:id="@+id/goto_comment_list_layout"
             android:layout_width="fill_parent"
@@ -79,8 +84,7 @@
 
         </LinearLayout>
 
-
-
+        <!--底部Bar 2-->
         <LinearLayout
             android:id="@+id/send_comment_layout"
             android:layout_width="fill_parent"
@@ -119,5 +123,44 @@
         </LinearLayout>
         
     </RelativeLayout>
+
+
+    <!--网络异常的布局-->
+    <LinearLayout
+        android:id="@+id/net_error_layout"
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/white"
+        android:visibility="gone">
+
+
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="90dp"
+            android:src="@drawable/link_failed"/>
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="25dp"
+            android:text="@string/net_error"
+            android:gravity="center"
+            android:textSize="18sp"
+            android:textColor="#222222"/>
+
+        <Button
+            android:id="@+id/retry_button"
+            android:layout_width="180dp"
+            android:layout_height="44dp"
+            android:layout_marginTop="20dp"
+            android:layout_gravity="center_horizontal"
+            android:text="@string/retry"
+            android:textSize="18sp"
+            android:textColor="#f24444"
+            android:background="@drawable/bg_button_retry"/>
+
+    </LinearLayout>
 
 </com.hailer.news.util.InputMethodLayout>

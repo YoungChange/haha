@@ -14,8 +14,10 @@ import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.hailer.news.NewsApplication;
 import com.hailer.news.R;
 import com.hailer.news.UserManager;
 import com.hailer.news.api.bean.NewsDetail;
@@ -24,6 +26,7 @@ import com.hailer.news.login.LoginActivity;
 import com.hailer.news.common.BaseActivity;
 import com.hailer.news.util.InputMethodLayout;
 import com.hailer.news.util.InputMethodLayout.onKeyboardsChangeListener;
+import com.hailer.news.util.NetworkUtil;
 import com.hailer.news.util.annotation.ActivityFragmentInject;
 import com.socks.library.KLog;
 import com.zzhoujay.richtext.RichText;
@@ -63,9 +66,16 @@ public class NewsDetailActivity extends BaseActivity implements NewsDetailContra
 
     private InputMethodLayout layout;
 
+    RelativeLayout normalLayout;
+    LinearLayout netErrorLayout;
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        normalLayout = (RelativeLayout) findViewById(R.id.normal_layout);
+        netErrorLayout = (LinearLayout) findViewById(R.id.net_error_layout);
 
         sendCommentBar = (LinearLayout) findViewById(R.id.send_comment_layout);
         gotoCommentListBar = (LinearLayout) findViewById(R.id.goto_comment_list_layout);
@@ -108,6 +118,11 @@ public class NewsDetailActivity extends BaseActivity implements NewsDetailContra
         mEditviewButton.setOnClickListener(this);
 
 
+
+        Button retryButton = (Button) findViewById(R.id.retry_button);
+        retryButton.setOnClickListener(this);
+
+
         String mNewsDetailPostId = getIntent().getStringExtra("postid");
         mPostId = mNewsDetailPostId;
 
@@ -133,11 +148,16 @@ public class NewsDetailActivity extends BaseActivity implements NewsDetailContra
         });
 
         mDetailPresenter = new NewsDetailPresenter(this);
-        mDetailPresenter.getDetail(mNewsDetailPostId);
+        mDetailPresenter.getDetail(mPostId);
+
     }
 
     @Override
     public void showDetail(NewsDetail data){
+
+        normalLayout.setVisibility(View.VISIBLE);
+        netErrorLayout.setVisibility(View.GONE);
+
         mDetailTitle.setText(data.getTitle());
         mDetailTime.setText(data.getDate());
         mCommentsCount = data.getCommentsCount();
@@ -155,21 +175,33 @@ public class NewsDetailActivity extends BaseActivity implements NewsDetailContra
     @Override
     public void showCommentMsg(){
         toast(getString(R.string.send_uccess));
+        mCommentCountTextView.setText(""+(++mCommentsCount));
         mSendCommentEditText.setText("");
 
         InputMethodManager imm = (InputMethodManager)getSystemService(Context.INPUT_METHOD_SERVICE);
-        imm.toggleSoftInput(InputMethodManager.SHOW_IMPLICIT, InputMethodManager.HIDE_NOT_ALWAYS);
+        if(imm.isActive()){
+            imm.toggleSoftInput(InputMethodManager.SHOW_IMPLICIT, InputMethodManager.HIDE_NOT_ALWAYS);
+        }
     }
 
     @Override
     public void handleError(){
-
+        normalLayout.setVisibility(View.GONE);
+        netErrorLayout.setVisibility(View.VISIBLE);
     }
 
     @Override
     public void popLoginDlg(){
         Intent intent = new Intent(NewsDetailActivity.this, LoginActivity.class);
-        startActivity(intent);
+        startActivityForResult(intent,1);
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if(UserManager.getInstance().getServerToken()!=null && !UserManager.getInstance().getServerToken().isEmpty()){
+            mSendCommentButton.callOnClick();
+        }
     }
 
 
@@ -186,13 +218,19 @@ public class NewsDetailActivity extends BaseActivity implements NewsDetailContra
                 String comment = mSendCommentEditText.getText().toString();
                 String token = UserManager.getInstance().getServerToken();
                 KLog.e(" comment="+comment+", token="+token);
-                if(comment == null || comment.isEmpty()){
-                    KLog.e("--------------Comment is null");
-                    toast(getString(R.string.comment_is_null));
+
+                if(NetworkUtil.isConnected(NewsApplication.getContext())){
+                    if(comment == null || comment.isEmpty()){
+                        KLog.e("--------------Comment is null");
+                        toast(getString(R.string.comment_is_null));
+                    }else{
+                        KLog.e("--------------send Comment");
+                        mDetailPresenter.postComment(mPostId,comment);
+                    }
                 }else{
-                    KLog.e("--------------send Comment");
-                    mDetailPresenter.postComment(mPostId,comment);
+                    toast(getString(R.string.net_error));
                 }
+
 
                 break;
             case R.id.goto_comment_list_button:
@@ -201,12 +239,16 @@ public class NewsDetailActivity extends BaseActivity implements NewsDetailContra
                 if (mCommentsCount != 0) {
                     Intent intent = new Intent(this, CommentsActivity.class);
                     intent.putExtra("postId", mPostId);
+                    intent.putExtra("commentCount",mCommentsCount);
                     startActivity(intent);
                 }
                 break;
             case R.id.editview_button:
-//                InputMethodManager imm = (InputMethodManager)getSystemService(Context.INPUT_METHOD_SERVICE);
                 imm.toggleSoftInput(InputMethodManager.SHOW_IMPLICIT, InputMethodManager.HIDE_NOT_ALWAYS);
+                break;
+            case R.id.retry_button:
+                mDetailPresenter = new NewsDetailPresenter(this);
+                mDetailPresenter.getDetail(mPostId);
                 break;
             default:
                 toast(this.getString(R.string.unknow_error));
@@ -221,7 +263,7 @@ public class NewsDetailActivity extends BaseActivity implements NewsDetailContra
             View v = sendCommentBar;
             KLog.e("-------NewsDetailActivity--dispatchTouchEvent---view:"+v.getClass().getName());
 
-            if (isShouldHideInput(v, ev)) {
+            if (viewFocused!=null && isShouldHideInput(v, ev)) {
                 hideSoftInput(viewFocused.getWindowToken());
             }
         }

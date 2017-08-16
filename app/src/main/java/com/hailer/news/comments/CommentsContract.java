@@ -10,7 +10,7 @@ import java.util.List;
 public interface CommentsContract {
     interface View {
 
-        void showCommentsList(List<CommentInfo> data);
+        void showCommentsList(List<CommentInfo> data,boolean isRefresh);
 
         void showErrorMsg(int error);
     }

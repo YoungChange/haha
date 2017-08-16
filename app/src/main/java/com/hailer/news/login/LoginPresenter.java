@@ -8,6 +8,7 @@ import com.hailer.news.common.ErrMsg;
 import com.hailer.news.model.FacebookDataSource;
 import com.hailer.news.model.RemoteDataSource;
 import com.hailer.news.common.RxCallback;
+import com.socks.library.KLog;
 
 /**
  * Created by moma on 17-7-17.
@@ -28,11 +29,13 @@ public class LoginPresenter implements LoginContract.Presenter {
         mFacebookLoginCB = new RxCallback<String>() {
             @Override
             public void requestError(int msg) {
+                KLog.e("--------mFacebookLoginCB--requestError-");
                 mView.showLoginFailed(ErrMsg.UNKNOW_ERROR);
             }
 
             @Override
             public void requestSuccess(String token) {
+                KLog.e("--------mFacebookLoginCB--requestSuccess---token"+token);
                 UserManager.getInstance().setPlatformToken(token);
                 mRemoteData.login(UserManager.getInstance().getUserinfo(), mRemoteLoginCB);
             }
@@ -42,11 +45,14 @@ public class LoginPresenter implements LoginContract.Presenter {
         mRemoteLoginCB = new RxCallback<LoginInfo>() {
             @Override
             public void requestError(int msg) {
+                KLog.e("-----mRemoteLoginCB---requestError");
                 mView.showLoginFailed(ErrMsg.LOAD_DATA_ERROR);
             }
 
             @Override
             public void requestSuccess(LoginInfo loginInfo) {
+                KLog.e("-----mRemoteLoginCB---requestSuccess");
+                UserManager.getInstance().saveUserInfo(loginInfo);
                 mView.showLoginSuccess();
             }
         };

@@ -16,7 +16,11 @@ import java.util.List;
 public class CommentsPresenter implements CommentsContract.Presenter {
     private CommentsContract.View mView;
     private RemoteDataSource mRemoteData;
+
     private int mStartPage = 0;
+    private String mPostId;
+    private boolean mIsRefresh = true;
+
     private RxCallback mGetDataCallback;
     private RxCallback mLoginCallback;
     private RxCallback mPostDataCallback;
@@ -34,8 +38,9 @@ public class CommentsPresenter implements CommentsContract.Presenter {
 
             @Override
             public void requestSuccess(List<CommentInfo> data) {
+                KLog.e("Data.size():"+data.size());
                 mStartPage += APIConfig.LIST_ITEMS_PER_PAGE;
-                mView.showCommentsList(data);
+                mView.showCommentsList(data,mIsRefresh);
             }
         };
 
@@ -43,6 +48,7 @@ public class CommentsPresenter implements CommentsContract.Presenter {
 
     @Override
     public void getCommentsList(String postId) {
+        mPostId = postId;
         //load data
         mRemoteData.getCommentsList(postId, mStartPage, mGetDataCallback);
     }
@@ -50,15 +56,19 @@ public class CommentsPresenter implements CommentsContract.Presenter {
     @Override
     public void refreshData() {
         KLog.i("refreshData()............");
-        mStartPage = 1;
-        //refresh
-        mRemoteData.getCommentsList("", mStartPage, mGetDataCallback);
+        mStartPage = 0;
+        mIsRefresh = true;
+        if(mPostId!=null){
+            mRemoteData.getCommentsList(mPostId, mStartPage, mGetDataCallback);
+        }
     }
 
     @Override
     public void loadMoreData() {
-        //load data
-        mRemoteData.getCommentsList("", mStartPage, mGetDataCallback);
+        mIsRefresh = false;
+        if(mPostId!=null){
+            mRemoteData.getCommentsList(mPostId, mStartPage, mGetDataCallback);
+        }
     }
 
 }

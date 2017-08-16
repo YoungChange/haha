@@ -168,6 +168,7 @@ public class NewsActivity extends BaseActivity implements NewsContract.View{
 
     @Override
     public void upateUserView(){
+        KLog.e("--------NewsActivity--------upateUserView----");
         UserInfo userInfo = UserManager.getInstance().getUserinfo();
         if(userInfo.getIconUri()==null || userInfo.getIconUri()==""){
             loginImageButton.setImageResource(R.drawable.login);

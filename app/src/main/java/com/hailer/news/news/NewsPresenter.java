@@ -1,6 +1,7 @@
 package com.hailer.news.news;
 
 import com.hailer.news.UserManager;
+import com.hailer.news.api.bean.LoginInfo;
 import com.hailer.news.api.bean.NewsItem;
 import com.hailer.news.common.LoadType;
 import com.hailer.news.common.RxCallback;
@@ -54,16 +55,16 @@ public class NewsPresenter implements NewsContract.Presenter {
             }
         };
 
-        mLoginCallback = new RxCallback() {
+        mLoginCallback = new RxCallback<LoginInfo>() {
             @Override
             public void requestError(int msg) {
                 //mView.showErrorMsg();
             }
 
             @Override
-            public void requestSuccess(Object data) {
+            public void requestSuccess(LoginInfo loginInfo) {
                 //ToDo save serverToken
-
+                UserManager.getInstance().saveUserInfo(loginInfo);
                 mView.upateUserView();
             }
         };
@@ -80,6 +81,7 @@ public class NewsPresenter implements NewsContract.Presenter {
 
     @Override
     public void autoLogin() {
+        KLog.e("----autoLogin()--FacebookDataSource.getToken():"+FacebookDataSource.getToken());
         if (FacebookDataSource.getToken() != null) {
             mRemoteData.login(UserManager.getInstance().getUserinfo(), mLoginCallback);
         } else {

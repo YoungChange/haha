@@ -38,12 +38,14 @@ public class NewsDetailPresenter implements NewsDetailContract.Presenter {
             @Override
             public void requestError(int msg) {
                 KLog.e("requestError error msg ="+ msg);
+
                 mView.showCommentMsg();
             }
 
             @Override
             public void requestSuccess(Object data) {
                 KLog.e("requestSucess...");
+
                 mView.showCommentMsg();
             }
         };

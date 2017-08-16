@@ -46,6 +46,7 @@ public class CommentsListViewHolder extends BaseRecyclerViewHolder {
     }
 
     public void setCommentContent(String content) {
+        KLog.e("--------------, content="+ content);
         this.commentContent.setText(content);
     }
 

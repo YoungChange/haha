@@ -27,12 +27,13 @@ public class FeedbackPresenter implements FeedbackContract.Presenter {
             @Override
             public void requestError(int msg) {
                 KLog.e("requestError, msg="+msg);
-                mView.showMsg(ErrMsg.SUCCESS);
+                mView.showMsg(msg);
             }
 
             @Override
             public void requestSuccess(Object data) {
-//                KLog.e(".........postComment success");
+                KLog.e(".........postComment success");
+                mView.showMsg(ErrMsg.SUCCESS);
             }
         };
     }

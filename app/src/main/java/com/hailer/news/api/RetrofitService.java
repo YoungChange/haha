@@ -2,6 +2,9 @@ package com.hailer.news.api;
 
 import android.util.SparseArray;
 
+import com.google.gson.Gson;
+import com.google.gson.TypeAdapter;
+import com.google.gson.reflect.TypeToken;
 import com.hailer.news.NewsApplication;
 import com.hailer.news.api.bean.CommentInfo;
 import com.hailer.news.api.bean.LoginInfo;
@@ -13,6 +16,8 @@ import com.socks.library.KLog;
 
 import java.io.File;
 import java.io.IOException;
+import java.lang.annotation.Annotation;
+import java.lang.reflect.Type;
 import java.nio.charset.Charset;
 import java.nio.charset.UnsupportedCharsetException;
 import java.util.List;
@@ -24,10 +29,12 @@ import okhttp3.Interceptor;
 import okhttp3.MediaType;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
+import okhttp3.RequestBody;
 import okhttp3.Response;
 import okhttp3.ResponseBody;
 import okio.Buffer;
 import okio.BufferedSource;
+import retrofit2.Converter;
 import retrofit2.Retrofit;
 import retrofit2.adapter.rxjava.RxJavaCallAdapterFactory;
 import retrofit2.converter.gson.GsonConverterFactory;
@@ -111,10 +118,8 @@ public class RetrofitService {
 
             if (contentLength != 0) {
                 KLog.v("--------------------------------------------开始打印返回数据----------------------------------------------------");
-//                KLog.json(buffer.clone().readString(charset));
+                KLog.json(buffer.clone().readString(charset));
                 KLog.v("--------------------------------------------结束打印返回数据----------------------------------------------------");
-            } else {
-                KLog.e("---------------------------error--------------------------");
             }
 
             return response;
@@ -154,6 +159,7 @@ public class RetrofitService {
         Retrofit retrofit = new Retrofit.Builder()
                 .baseUrl(APIConfig.HOST_NAME)
                 .client(sOkHttpClient)
+                .addConverterFactory(new NullOnEmptyConverterFactory())
                 .addConverterFactory(GsonConverterFactory.create())
                 .addCallAdapterFactory(RxJavaCallAdapterFactory.create())
                 .build();
@@ -236,5 +242,7 @@ public class RetrofitService {
         return mNewsAPI.getCommentsList(postId, APIConfig.GET_TOKEN, APIConfig.LIST_ITEMS_PER_PAGE, startPage)
                 .compose(new BaseSchedulerTransformer<Map<String, List<CommentInfo>>>());
     }
+
+
 
 }

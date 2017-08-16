@@ -13,8 +13,8 @@ import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.hailer.news.R;
 import com.hailer.news.feedback.FeedbackActivity;
+
 import com.hailer.news.util.MeasureUtil;
 import com.hailer.news.util.annotation.ActivityFragmentInject;
 import com.hailer.news.util.bean.NavigationItem;
@@ -27,8 +27,8 @@ import de.hdodenhof.circleimageview.CircleImageView;
 import rx.Observable;
 
 
-public abstract class BaseActivity extends AppCompatActivity implements View.OnClickListener {
 
+public abstract class BaseActivity extends AppCompatActivity implements View.OnClickListener {
     /**
      * 布局的id
      */
@@ -75,6 +75,7 @@ public abstract class BaseActivity extends AppCompatActivity implements View.OnC
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        showSplash();
         if(getClass().isAnnotationPresent(ActivityFragmentInject.class)){
             ActivityFragmentInject anno = getClass().getAnnotation(ActivityFragmentInject.class);
             mContentViewId = anno.contentViewId();
@@ -251,4 +252,9 @@ public abstract class BaseActivity extends AppCompatActivity implements View.OnC
         }
     }
 
+    public void showSplash(){}
+    @Override
+    protected void initView() {
+
+    }
 }

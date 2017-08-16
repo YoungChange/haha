@@ -41,8 +41,11 @@ public class RemoteSubscriber<T> extends Subscriber<T> {
             if (errCode == 201 || errCode == 200) {
                 err = ErrMsg.SUCCESS;
             }
+            if (errCode == 504) {
+                mRequestCallback.requestError(err);
+            }
         }
-        mRequestCallback.requestError(err);
+
     }
 
     @CallSuper

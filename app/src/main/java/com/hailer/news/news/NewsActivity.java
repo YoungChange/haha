@@ -10,6 +10,7 @@ import android.support.v4.view.ViewPager;
 import android.view.KeyEvent;
 import android.view.View;
 import android.widget.ImageButton;
+import android.widget.TextView;
 
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.crashlytics.android.Crashlytics;
@@ -23,6 +24,7 @@ import com.hailer.news.api.bean.NewsItem;
 import com.hailer.news.common.ToolBarType;
 import com.hailer.news.common.BaseActivity;
 import com.hailer.news.login.LoginActivity;
+import com.hailer.news.splash.SplashActivity;
 import com.hailer.news.util.GlideUtils;
 import com.hailer.news.util.RxBus;
 import com.hailer.news.util.annotation.ActivityFragmentInject;
@@ -50,7 +52,8 @@ public class NewsActivity extends BaseActivity implements NewsContract.View{
     private ImageButton mChange_channel;
 
     private NewsContract.Presenter mNewsPresenter;
-
+    private TextView mTvNoDataAndInternet;
+    private TextView mTvHabeDataNoInternet;
     CircleImageView loginImageButton;
 
     Tracker mTracker;
@@ -63,12 +66,12 @@ public class NewsActivity extends BaseActivity implements NewsContract.View{
         mNewsViewpager = (ViewPager) findViewById(R.id.news_viewpager);
         mChange_channel = (ImageButton) findViewById(R.id.change_channel);
         loginImageButton = (CircleImageView) findViewById(R.id.login_imagebutton);
+        mTvNoDataAndInternet = (TextView) findViewById(R.id.tv_no_internet_and_data);
+        mTvHabeDataNoInternet = (TextView) findViewById(R.id.tv_no_internet_have_data);
         mNewsPresenter = new NewsPresenter(this);
         mNewsPresenter.autoLogin();
         mNewsPresenter.getUserChannel();
-
         trackingApp();
-
     }
 
 
@@ -178,6 +181,8 @@ public class NewsActivity extends BaseActivity implements NewsContract.View{
 
     @Override
     public void showNewsList(int loadType, List<NewsItem> list){
+        mTvNoDataAndInternet.setVisibility(View.GONE);
+        mTvHabeDataNoInternet.setVisibility(View.GONE);
         NewsListFragment fragment = (NewsListFragment)getCurrentFragment();
         if (fragment != null) {
             fragment.showNewsList(loadType, list);
@@ -186,7 +191,17 @@ public class NewsActivity extends BaseActivity implements NewsContract.View{
 
     @Override
     public void showErrorMsg(){
-
+        NewsListFragment fragment = (NewsListFragment)getCurrentFragment();
+        mTvNoDataAndInternet.setVisibility(View.VISIBLE);
+//        if (fragment != null) {
+//            if (fragment.haveData()) {
+//                mTvNoDataAndInternet.setVisibility(View.GONE);
+//                mTvHabeDataNoInternet.setVisibility(View.VISIBLE);
+//            } else {
+//                mTvHabeDataNoInternet.setVisibility(View.GONE);
+//            }
+//        }
+        mTvNoDataAndInternet.setVisibility(View.VISIBLE);
     }
 
     private void trackingApp(){
@@ -228,7 +243,7 @@ public class NewsActivity extends BaseActivity implements NewsContract.View{
         }
     }
 
-    private void setOnTabSelectEvent(final ViewPager viewPager, final TabLayout tabLayout) {
+    protected void setOnTabSelectEvent(final ViewPager viewPager, final TabLayout tabLayout) {
         tabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
             @Override
             public void onTabSelected(TabLayout.Tab tab) {
@@ -248,5 +263,9 @@ public class NewsActivity extends BaseActivity implements NewsContract.View{
         });
     }
 
+    @Override
+    public void showSplash() {
+        this.startActivity(new Intent(this, SplashActivity.class));
+    }
 
 }

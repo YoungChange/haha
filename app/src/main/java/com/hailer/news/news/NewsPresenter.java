@@ -1,5 +1,8 @@
 package com.hailer.news.news;
 
+import android.content.Intent;
+
+import com.hailer.news.NewsApplication;
 import com.hailer.news.UserManager;
 import com.hailer.news.api.bean.LoginInfo;
 import com.hailer.news.api.bean.NewsItem;
@@ -8,6 +11,7 @@ import com.hailer.news.common.RxCallback;
 import com.hailer.news.model.FacebookDataSource;
 import com.hailer.news.model.LocalDataSource;
 import com.hailer.news.model.RemoteDataSource;
+import com.hailer.news.splash.SplashActivity;
 import com.hailer.news.util.bean.NewsChannelBean;
 import com.socks.library.KLog;
 

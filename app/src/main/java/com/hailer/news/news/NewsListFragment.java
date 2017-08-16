@@ -47,6 +47,7 @@ public class NewsListFragment extends Fragment{
 
     protected View mFragmentRootView;
     protected int mContentViewId;
+    private List mNewsList;
 
     private NewsContract.Presenter mPresenter;
 
@@ -101,6 +102,9 @@ public class NewsListFragment extends Fragment{
 
     public void showNewsList(int loadType, List<NewsItem> list){
         mLoading = false;
+        mNewsList = list;
+//        KLog.e("bailei----------mAdapter="+mAdapter+", loadType="+loadType);
+
         if (mAdapter == null) {
             initNewsList(list);
         }
@@ -201,6 +205,13 @@ public class NewsListFragment extends Fragment{
     public void display(){
         if (mAdapter == null) {
             mPresenter.getNewsList(mCatId);
+        }
+    }
+    public boolean haveData() {
+        if (mNewsList != null && mNewsList.size() > 0) {
+            return true;
+        } else {
+            return false;
         }
     }
 }

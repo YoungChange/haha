@@ -41,7 +41,7 @@ public class SplashActivity extends BaseActivity implements SplashContract.View{
                 public void run() {
                     finish();
                 }
-            }, 2500);
+            }, 1000);
         }
     }
 

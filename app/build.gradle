@@ -90,6 +90,8 @@ dependencies {
     compile 'com.github.zhaokaiqiang.klog:library:1.5.0'
     //RichText控件
     compile 'com.zzhoujay.richtext:richtext:2.5.4'
+    //twitter
+    compile 'com.twitter.sdk.android:twitter:3.1.1'
     //facebook sdk
     compile 'com.facebook.android:facebook-android-sdk:[4,5)'
     //    compile 'com.facebook.android:facebook-android-sdk:4.25.0'

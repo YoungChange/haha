@@ -8,6 +8,7 @@ import com.socks.library.KLog;
 
 import com.google.android.gms.analytics.GoogleAnalytics;
 import com.google.android.gms.analytics.Tracker;
+import com.twitter.sdk.android.core.Twitter;
 
 
 public class NewsApplication extends Application {
@@ -29,6 +30,8 @@ public class NewsApplication extends Application {
         KLog.init(BuildConfig.DEBUG);
 
         sAnalytics = GoogleAnalytics.getInstance(this);
+        //初始化Twitter
+        Twitter.initialize(this);
     }
 
     // 获取ApplicationContext

@@ -43,9 +43,13 @@ import com.hailer.news.common.BaseActivity;
 import com.hailer.news.util.InputMethodLayout;
 import com.hailer.news.util.InputMethodLayout.onKeyboardsChangeListener;
 import com.hailer.news.util.NetworkUtil;
+import com.hailer.news.util.TextUtil;
 import com.hailer.news.util.annotation.ActivityFragmentInject;
 import com.socks.library.KLog;
 import com.zzhoujay.richtext.RichText;
+
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 /**
  * Created by moma on 17-7-17.
@@ -228,8 +232,10 @@ public class NewsDetailActivity extends BaseActivity implements NewsDetailContra
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         KLog.e("----rebackfromFacebook---requestCode:"+requestCode+"--resultCode:"+resultCode);
-        if(UserManager.getInstance().getServerToken()!=null && !UserManager.getInstance().getServerToken().isEmpty()){
-            mSendCommentButton.callOnClick();
+        if(requestCode==1){
+            if(UserManager.getInstance().getServerToken()!=null && !UserManager.getInstance().getServerToken().isEmpty()){
+                mSendCommentButton.callOnClick();
+            }
         }
     }
 
@@ -245,6 +251,8 @@ public class NewsDetailActivity extends BaseActivity implements NewsDetailContra
             case R.id.send_comment_button:
                 KLog.e("-------------onclick , send comment ..............");
                 String comment = mSendCommentEditText.getText().toString();
+                comment = TextUtil.noCRLF(comment);
+
                 String token = UserManager.getInstance().getServerToken();
                 KLog.e(" comment="+comment+", token="+token);
 

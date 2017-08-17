@@ -37,14 +37,12 @@ public class NewsDetailPresenter implements NewsDetailContract.Presenter {
         mPostDataCallback = new RxCallback() {
             @Override
             public void requestError(int msg) {
-                KLog.e("requestError error msg ="+ msg);
-
-                mView.showCommentMsg();
+                KLog.e("-NewsDetailPresenter------mPostDataCallback--requestError error msg ="+ msg);
             }
 
             @Override
             public void requestSuccess(Object data) {
-                KLog.e("requestSucess...");
+                KLog.e("--NewsDetailPresenter------mPostDataCallback---requestSucess...");
 
                 mView.showCommentMsg();
             }

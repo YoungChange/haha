@@ -12,6 +12,7 @@ import static com.google.common.base.Preconditions.checkNotNull;
 import android.support.annotation.NonNull;
 
 import java.io.EOFException;
+import java.net.SocketTimeoutException;
 
 /**
  * 把回调各个方法统一处理，并且这里对返回错误做了统一处理
@@ -35,24 +36,26 @@ public class RemoteSubscriber<T> extends Subscriber<T> {
     public void onError(Throwable e) {
         KLog.e("onError, e="+e);
         int err = ErrMsg.LOAD_DATA_ERROR;
-        if (e instanceof HttpException) {
-            int errCode = ((HttpException) e).code();
-            KLog.e("onError, http error code =" + errCode);
+//        if (e instanceof HttpException) {
+//            int errCode = ((HttpException) e).code();
+//            KLog.e("onError, http error code =" + errCode);
+//
+//            //状态码是2xx是成功
+//            if (errCode == 201 || errCode == 200) {
+//                err = ErrMsg.SUCCESS;
+//            }
+//            if (errCode == 504) {
+//                mRequestCallback.requestError(err);
+//            }
+//        }
 
-            //状态码是2xx是成功
-            if (errCode == 201 || errCode == 200) {
-                err = ErrMsg.SUCCESS;
-            }
-            if (errCode == 504) {
-                mRequestCallback.requestError(err);
-            }
-        }
-
+        mRequestCallback.requestError(err);
     }
 
     @CallSuper
     @Override
     public void onNext(T t) {
         mRequestCallback.requestSuccess(t);
+        KLog.e("---RemoteSubscriber---onNext()");
     }
 }

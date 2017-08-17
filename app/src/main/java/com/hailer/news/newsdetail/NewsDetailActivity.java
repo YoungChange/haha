@@ -1,22 +1,38 @@
 package com.hailer.news.newsdetail;
 
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.drawable.BitmapDrawable;
+import android.net.Uri;
 import android.os.Bundle;
 import android.os.IBinder;
 import android.text.Editable;
 import android.text.TextUtils;
 import android.text.TextWatcher;
+import android.view.Gravity;
+import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
+import android.view.WindowManager;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.LinearLayout;
+import android.widget.PopupWindow;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.facebook.CallbackManager;
+import com.facebook.FacebookCallback;
+import com.facebook.FacebookException;
+import com.facebook.share.Sharer;
+import com.facebook.share.model.ShareLinkContent;
+import com.facebook.share.model.SharePhoto;
+import com.facebook.share.widget.ShareDialog;
 import com.hailer.news.NewsApplication;
 import com.hailer.news.R;
 import com.hailer.news.UserManager;
@@ -59,6 +75,7 @@ public class NewsDetailActivity extends BaseActivity implements NewsDetailContra
     private Button mGotoCommentListButton;
     private EditText mEditviewButton;
     private TextView mCommentCountTextView;
+    private Button mShareButton;
 
     private String mPostId;
 
@@ -69,10 +86,17 @@ public class NewsDetailActivity extends BaseActivity implements NewsDetailContra
     RelativeLayout normalLayout;
     LinearLayout netErrorLayout;
 
+    private PopupWindow popupWindow;
+    private int navigationHeight;
+
+    private Context mContext;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        mContext = this;
 
         normalLayout = (RelativeLayout) findViewById(R.id.normal_layout);
         netErrorLayout = (LinearLayout) findViewById(R.id.net_error_layout);
@@ -116,8 +140,12 @@ public class NewsDetailActivity extends BaseActivity implements NewsDetailContra
         mCommentCountTextView = (TextView) findViewById(R.id.comment_count_textview);
         mGotoCommentListButton.setOnClickListener(this);
         mEditviewButton.setOnClickListener(this);
+        mShareButton = (Button) findViewById(R.id.share_btn);
+        mShareButton.setOnClickListener(this);
 
-
+        int resourceId = getResources().getIdentifier("navigation_bar_height", "dimen", "android");
+        navigationHeight = getResources().getDimensionPixelSize(resourceId);
+        initShareDlg();
 
         Button retryButton = (Button) findViewById(R.id.retry_button);
         retryButton.setOnClickListener(this);
@@ -199,6 +227,7 @@ public class NewsDetailActivity extends BaseActivity implements NewsDetailContra
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
+        KLog.e("----rebackfromFacebook---requestCode:"+requestCode+"--resultCode:"+resultCode);
         if(UserManager.getInstance().getServerToken()!=null && !UserManager.getInstance().getServerToken().isEmpty()){
             mSendCommentButton.callOnClick();
         }
@@ -250,6 +279,11 @@ public class NewsDetailActivity extends BaseActivity implements NewsDetailContra
                 mDetailPresenter = new NewsDetailPresenter(this);
                 mDetailPresenter.getDetail(mPostId);
                 break;
+            case R.id.share_btn:
+                //设置位置
+                popupWindow.showAtLocation(v, Gravity.BOTTOM, 0, navigationHeight);
+                setBackgroundAlpha(0.5f);
+                break;
             default:
                 toast(this.getString(R.string.unknow_error));
         }
@@ -300,6 +334,104 @@ public class NewsDetailActivity extends BaseActivity implements NewsDetailContra
             im.hideSoftInputFromWindow(token,
                     InputMethodManager.HIDE_NOT_ALWAYS);
         }
+    }
+
+
+
+
+
+
+
+
+    void initShareDlg(){
+
+        if (popupWindow != null && popupWindow.isShowing()) {
+            return;
+        }
+
+//        CallbackManager callbackManager;
+//        final ShareDialog shareDialog;
+//        callbackManager = CallbackManager.Factory.create();
+//        shareDialog = new ShareDialog(this);
+//        // this part is optional
+//        shareDialog.registerCallback(callbackManager, new FacebookCallback<Sharer.Result>() {
+//            @Override
+//            public void onSuccess(Sharer.Result result) {
+//                KLog.e("--Facebook--shareDialog---onSuccess-");
+//            }
+//
+//            @Override
+//            public void onCancel() {
+//                KLog.e("--Facebook--shareDialog---onCancel-");
+//            }
+//
+//            @Override
+//            public void onError(FacebookException error) {
+//                KLog.e("--Facebook--shareDialog---onError-[error]:"+error.toString());
+//            }
+//        });
+
+
+
+
+        View view = LayoutInflater.from(this).inflate(R.layout.dialog_share, null);
+
+        ImageButton mDialogFacebookBtn = view.findViewById(R.id.dialog_facebook_btn);
+        ImageButton mDialogTwitterBtn = view.findViewById(R.id.dialog_twitter_btn);
+        ImageButton mDialogMessageBtn = view.findViewById(R.id.dialog_message_btn);
+        ImageButton mDialogWhatsAppBtn = view.findViewById(R.id.dialog_whatsapp_btn);
+        Button mDialogCancelBtn = view.findViewById(R.id.dialog_cancel_btn);
+        View.OnClickListener listener = new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                switch (v.getId()){
+                    case R.id.dialog_facebook_btn:
+                        ShareLinkContent content = new ShareLinkContent.Builder()
+                                .setContentUrl(Uri.parse("https://developers.facebook.com"))
+                                .build();
+                        if (ShareDialog.canShow(ShareLinkContent.class)) {
+                            ShareDialog.show((Activity)mContext,content);
+                        }
+                        break;
+                    case R.id.dialog_twitter_btn:
+
+
+                        break;
+                    case R.id.dialog_message_btn:
+                        break;
+                    case R.id.dialog_whatsapp_btn:
+                        break;
+                    case R.id.dialog_cancel_btn:
+                        popupWindow.dismiss();
+                        break;
+                }
+
+            }
+        };
+        mDialogFacebookBtn.setOnClickListener(listener);
+        mDialogTwitterBtn.setOnClickListener(listener);
+        mDialogMessageBtn.setOnClickListener(listener);
+        mDialogWhatsAppBtn.setOnClickListener(listener);
+        mDialogCancelBtn.setOnClickListener(listener);
+        popupWindow = new PopupWindow(view, RelativeLayout.LayoutParams.MATCH_PARENT,
+                RelativeLayout.LayoutParams.WRAP_CONTENT,true);
+        popupWindow.setBackgroundDrawable(new BitmapDrawable(getResources(), (Bitmap) null));
+        popupWindow.setOutsideTouchable(true);
+
+        popupWindow.setOnDismissListener(new PopupWindow.OnDismissListener() {
+            @Override
+            public void onDismiss() {
+                setBackgroundAlpha(1);
+            }
+        });
+        popupWindow.setAnimationStyle(R.style.PopupWindow);
+//        popupWindow.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE);
+    }
+
+    public void setBackgroundAlpha(float alpha) {
+        WindowManager.LayoutParams lp = getWindow().getAttributes();
+        lp.alpha = alpha;
+        getWindow().setAttributes(lp);
     }
 
 }

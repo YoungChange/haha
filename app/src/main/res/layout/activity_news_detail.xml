@@ -7,8 +7,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:fitsSystemWindows="true"
-    tools:context="com.hailer.news.home.NewsDetailActivity">
+    android:fitsSystemWindows="true">
 
     <!--app:elevation="0dp"-->
     <android.support.design.widget.AppBarLayout
@@ -34,8 +33,7 @@
         <LinearLayout
             android:id="@+id/goto_comment_list_layout"
             android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:minHeight="44dp"
+            android:layout_height="44dp"
             android:gravity="bottom"
             android:background="@drawable/bg_sendcomment_bar"
             android:layout_alignParentBottom="true"
@@ -44,8 +42,9 @@
 
             <EditText
                 android:id="@+id/editview_button"
-                android:layout_width="280dp"
-                android:layout_height="34dp"
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:layout_height="match_parent"
                 android:focusable="false"
                 android:focusableInTouchMode="false"
                 android:clickable="true"
@@ -53,17 +52,19 @@
                 android:text="@string/post_comment_msg"
                 android:background="@drawable/bg_edittext_comment"/>
 
+
+
             <FrameLayout
-                android:layout_width="70dp"
-                android:layout_weight="1"
+                android:layout_width="50dp"
                 android:layout_height="match_parent"
+                android:layout_marginLeft="10dp"
                 android:background="@drawable/bg_comment_button"
                 >
 
                 <Button
                     android:id="@+id/goto_comment_list_button"
                     android:focusableInTouchMode="false"
-                    android:layout_width="70dp"
+                    android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:background="@android:color/transparent"
                     />
@@ -72,15 +73,22 @@
                     android:id="@+id/comment_count_textview"
                     android:layout_width="22dp"
                     android:layout_height="12dp"
-                    android:layout_marginLeft="35dp"
-                    android:layout_marginTop="5dp"
+                    android:layout_marginLeft="20dp"
+                    android:layout_marginTop="0dp"
                     android:gravity="center"
                     android:background="@drawable/bg_tip"
                     android:textSize="10sp"
-                    android:textColor="@color/white"
+                    android:textColor="#f24444"
                     tools:text="123"/>
 
             </FrameLayout>
+
+            <Button
+                android:id="@+id/share_btn"
+                android:layout_width="50dp"
+                android:layout_height="match_parent"
+                android:background="@drawable/bg_share_button"/>
+
 
         </LinearLayout>
 

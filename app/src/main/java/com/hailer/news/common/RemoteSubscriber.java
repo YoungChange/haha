@@ -11,6 +11,8 @@ import rx.Subscriber;
 import static com.google.common.base.Preconditions.checkNotNull;
 import android.support.annotation.NonNull;
 
+import java.io.EOFException;
+
 /**
  * 把回调各个方法统一处理，并且这里对返回错误做了统一处理
  */

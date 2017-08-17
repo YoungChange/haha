@@ -21,12 +21,34 @@
 
         <TextView
             android:id="@+id/comment_username"
-            android:layout_width="match_parent"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:gravity="center_vertical"
             android:textSize="12sp"
             android:textColor="#ff0000"
             tools:text="让黑白染上点色彩" />
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true">
+
+            <ImageButton
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/like"
+                android:background="@android:color/transparent"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="5dp"
+                android:textSize="12sp"
+                android:textColor="#808080"
+                android:text="125"
+                tools:text="1245"/>
+
+        </LinearLayout>
+
 
         <TextView
             android:id="@+id/comment_content"

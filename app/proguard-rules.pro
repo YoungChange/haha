@@ -40,7 +40,7 @@
   **[] $VALUES;
   public *;
 }
-#-keepresourcexmlelements manifest/application/meta-data@value=GlideModule
+-keepresourcexmlelements manifest/application/meta-data@value=GlideModule
 
 # rxjava
 -keep class rx.schedulers.Schedulers {
@@ -121,7 +121,22 @@
  -keep class com.socks.library.** { *; }
 
 
+# Facebook
+-keep class com.facebook.** {*;}
+-keep interface com.facebook.** {*;}
+-keep enum com.facebook.** {*;}
 
+# Twitter
+-keep class com.twitter.** {*;}
+-keep interface com.twitter.** {*;}
+-keep enum com.twitter.** {*;}
+
+# Gson
+-keepattributes Signature-keepattributes *Annotation*
+-keep class sun.misc.Unsafe { *; }
+-keep class com.google.gson.stream.** { *; }
+# 使用Gson时需要配置Gson的解析对象及变量都不混淆。不然Gson会找不到变量。
+# 将下面替换成自己的实体类
 
 #-------------------------------------------------------------------------
 #---------------------------------3.与js互相调用的类------------------------

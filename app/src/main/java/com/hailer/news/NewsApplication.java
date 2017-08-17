@@ -1,6 +1,7 @@
 package com.hailer.news;
 
-import android.app.Application;
+//import android.app.Application;
+import android.support.multidex.MultiDexApplication;
 import android.content.Context;
 
 import com.hailer.news.BuildConfig;
@@ -11,7 +12,7 @@ import com.google.android.gms.analytics.Tracker;
 import com.twitter.sdk.android.core.Twitter;
 
 
-public class NewsApplication extends Application {
+public class NewsApplication extends MultiDexApplication {
 
     private static Context sApplicationContext;
 

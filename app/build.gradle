@@ -20,6 +20,7 @@ android {
         targetSdkVersion 26
         versionCode 3
         versionName "1.1.1"
+        multiDexEnabled true
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
     }
     buildTypes {
@@ -30,7 +31,7 @@ android {
         }
 
         release {
-            minifyEnabled true
+            minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
             debuggable false
         }
@@ -88,10 +89,11 @@ dependencies {
     compile 'com.squareup.okhttp3:okhttp:3.8.1'
     //compile 'com.squareup.okhttp3:logging-interceptor:3.4.1'
     compile 'com.github.zhaokaiqiang.klog:library:1.5.0'
-    //RichText控件
+    //RichText控件multiDexEnabled true
     compile 'com.zzhoujay.richtext:richtext:2.5.4'
     //twitter
-    compile 'com.twitter.sdk.android:twitter:3.1.1'
+//    compile 'com.twitter.sdk.android:twitter:3.1.1'
+    compile 'com.twitter.sdk.android:tweet-composer:3.1.1'
     //facebook sdk
     compile 'com.facebook.android:facebook-android-sdk:[4,5)'
     //    compile 'com.facebook.android:facebook-android-sdk:4.25.0'
@@ -107,6 +109,8 @@ dependencies {
 
     //guava
     compile 'com.google.guava:guava:22.0-android'
+    //解决DEX65536问题
+    compile 'com.android.support:multidex:1.0.1'
 }
 
 configurations.all {

@@ -168,7 +168,7 @@ public class NewsListFragment extends Fragment{
                 super.onScrolled(recyclerView, dx, dy);
 
                 LinearLayoutManager layoutManager = (LinearLayoutManager) recyclerView.getLayoutManager();
-                int totalItemCount = layoutManager.getItemCount();
+                int totalItemCount = layoutManager.getItemCount() - 1;
                 int lastVisibleItem = layoutManager.findLastVisibleItemPosition();
 
                 //mLoading 防止多次加载同一批数据

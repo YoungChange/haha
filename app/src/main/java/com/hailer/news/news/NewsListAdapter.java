@@ -26,46 +26,60 @@ public  class NewsListAdapter extends BaseRecyclerAdapter<NewsItem> {
 
     @Override
     public BaseRecyclerViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        final NewsListViewHolder holder;
-        View view;
-
-        if(viewType == NewsItemViewType.THREEIMAGE){
-            view =  mInflater.inflate(R.layout.item_news_three_image, parent, false);
-        }else if(viewType == NewsItemViewType.ONEIMAGE){
-            view =  mInflater.inflate(R.layout.item_news_one_image, parent, false);
-        }else{
-            view =  mInflater.inflate(R.layout.item_news_no_image, parent, false);
+        View view = null;
+        switch (viewType){
+            case  NewsItemViewType.THREEIMAGE:
+                view =  mInflater.inflate(R.layout.item_news_three_image, parent, false);
+                break;
+            case NewsItemViewType.ONEIMAGE:
+                view =  mInflater.inflate(R.layout.item_news_one_image, parent, false);
+                break;
+            case NewsItemViewType.NOIMAGE:
+                view =  mInflater.inflate(R.layout.item_news_no_image, parent, false);
+                break;
+            case NewsItemViewType.FOOTER:
+                view = mInflater.inflate(R.layout.item_news_footer, parent, false);
         }
-        holder = new NewsListViewHolder(mContext, view, viewType);
+        if (viewType == NewsItemViewType.FOOTER) {
+            return new FooterViewHolder(view);
+        } else {
+            final NewsListViewHolder holder = new NewsListViewHolder(mContext, view, viewType);
 
-        if (mClickListener != null) {
-            holder.itemView.setOnClickListener(new View.OnClickListener(){
-                @Override
-                public void onClick(View view) {
-                    if(holder.getLayoutPosition()!= RecyclerView.NO_POSITION){
-                        try{
-                            mClickListener.onItemClick(view,holder.getLayoutPosition());
-                        }catch(Exception e){
-                            KLog.d("set ItemView listener failed");
-                            e.printStackTrace();
+            if (mClickListener != null) {
+                holder.itemView.setOnClickListener(new View.OnClickListener(){
+                    @Override
+                    public void onClick(View view) {
+                        if(holder.getLayoutPosition()!= RecyclerView.NO_POSITION){
+                            try{
+                                mClickListener.onItemClick(view,holder.getLayoutPosition());
+                            }catch(Exception e){
+                                KLog.d("set ItemView listener failed");
+                                e.printStackTrace();
+                            }
                         }
                     }
-                }
-            });
+                });
+            }
+            return holder;
         }
-        return holder;
     }
 
     @Override
     public void onBindViewHolder(BaseRecyclerViewHolder holder, int position) {
-        NewsItem item = mData.get(position);
+        if ( holder instanceof NewsListViewHolder) {
+            NewsItem item = mData.get(position);
 
-        ((NewsListViewHolder) holder).setTitle(item.getPostTitle());
-        ((NewsListViewHolder) holder).setDate(item.getDate());
-        ((NewsListViewHolder) holder).setImage(item);
+            ((NewsListViewHolder) holder).setTitle(item.getPostTitle());
+            ((NewsListViewHolder) holder).setDate(item.getDate());
+            ((NewsListViewHolder) holder).setImage(item);
+        }
     }
 
-
+    @Override
+    public int getItemCount() {
+        // 添加一个脚部加载动画
+        return super.getItemCount() + 1;
+    }
 
     /**
      * 在里面判断每一个Item的类型，是没有图片还是单图片还是多图片
@@ -74,11 +88,15 @@ public  class NewsListAdapter extends BaseRecyclerAdapter<NewsItem> {
      */
     @Override
     public int getItemViewType(int position) {
+        // 是底部动画直接返回
+        if (position + 1 == getItemCount()) {
+            return NewsItemViewType.FOOTER;
+        }
         //默认有一张图片
         int type;
-        NewsItem item = mData.get(position);
-
+        NewsItem item = mData.get(position );
         ArrayList<String> imageList = item.getImageList();
+
         if (imageList == null || imageList.isEmpty()) {
             type = NewsItemViewType.NOIMAGE;
         }
@@ -87,7 +105,13 @@ public  class NewsListAdapter extends BaseRecyclerAdapter<NewsItem> {
         } else {
             type = NewsItemViewType.ONEIMAGE;
         }
-
         return type;
+    }
+
+    class FooterViewHolder extends BaseRecyclerViewHolder {
+
+        public FooterViewHolder(View itemView) {
+            super(itemView);
+        }
     }
 }

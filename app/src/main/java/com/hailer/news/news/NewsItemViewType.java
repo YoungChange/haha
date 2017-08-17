@@ -9,5 +9,6 @@ public class NewsItemViewType {
     public static final int NOIMAGE = 0;
     public static final int ONEIMAGE = 1;
     public static final int THREEIMAGE = 2;
+    public static final int FOOTER = 3;
 
 }

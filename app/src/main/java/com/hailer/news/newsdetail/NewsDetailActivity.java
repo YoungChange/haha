@@ -2,8 +2,10 @@ package com.hailer.news.newsdetail;
 
 
 import android.app.Activity;
+import android.content.ContentResolver;
 import android.content.Context;
 import android.content.Intent;
+import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.drawable.BitmapDrawable;
 import android.net.Uri;
@@ -26,12 +28,7 @@ import android.widget.PopupWindow;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
-import com.facebook.CallbackManager;
-import com.facebook.FacebookCallback;
-import com.facebook.FacebookException;
-import com.facebook.share.Sharer;
 import com.facebook.share.model.ShareLinkContent;
-import com.facebook.share.model.SharePhoto;
 import com.facebook.share.widget.ShareDialog;
 import com.hailer.news.NewsApplication;
 import com.hailer.news.R;
@@ -46,10 +43,14 @@ import com.hailer.news.util.NetworkUtil;
 import com.hailer.news.util.TextUtil;
 import com.hailer.news.util.annotation.ActivityFragmentInject;
 import com.socks.library.KLog;
+import com.twitter.sdk.android.core.TwitterCore;
+import com.twitter.sdk.android.core.TwitterSession;
+import com.twitter.sdk.android.tweetcomposer.ComposerActivity;
+import com.twitter.sdk.android.tweetcomposer.TweetComposer;
 import com.zzhoujay.richtext.RichText;
 
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
+import java.net.MalformedURLException;
+import java.net.URL;
 
 /**
  * Created by moma on 17-7-17.
@@ -94,6 +95,8 @@ public class NewsDetailActivity extends BaseActivity implements NewsDetailContra
     private int navigationHeight;
 
     private Context mContext;
+
+    private int TWEET_COMPOSER_REQUEST_CODE = 101;
 
 
     @Override
@@ -347,7 +350,13 @@ public class NewsDetailActivity extends BaseActivity implements NewsDetailContra
 
 
 
-
+    public Uri getHeaderIconUri(){   //要上传的图片
+        Resources r =  getApplicationContext().getResources();
+        return Uri.parse(ContentResolver.SCHEME_ANDROID_RESOURCE + "://"
+                + r.getResourcePackageName(R.drawable.curry) + "/"
+                + r.getResourceTypeName(R.drawable.curry) + "/"
+                + r.getResourceEntryName(R.drawable.curry));
+    }
 
 
 
@@ -395,17 +404,31 @@ public class NewsDetailActivity extends BaseActivity implements NewsDetailContra
                 switch (v.getId()){
                     case R.id.dialog_facebook_btn:
                         ShareLinkContent content = new ShareLinkContent.Builder()
-                                .setContentUrl(Uri.parse("https://developers.facebook.com"))
+                                .setContentUrl(Uri.parse("https://hailer.news/news/the-cheapest-joint-venture-suv-fuel-consumption-of-3-cents-than-the-toyota-province-the-value-of-to"))
                                 .build();
                         if (ShareDialog.canShow(ShareLinkContent.class)) {
                             ShareDialog.show((Activity)mContext,content);
                         }
                         break;
                     case R.id.dialog_twitter_btn:
-
+                        try {
+                            TweetComposer.Builder builder = null;
+                            Intent intentTwitter;
+                            intentTwitter = new TweetComposer.Builder(mContext)
+                                    .text("测试222222")
+                                    .url(new URL("https://hailer.news/news/the-cheapest-joint-venture-suv-fuel-consumption-of-3-cents-than-the-toyota-province-the-value-of-to"))
+                                    .createIntent();
+                            startActivityForResult(intentTwitter, TWEET_COMPOSER_REQUEST_CODE);
+                        } catch (MalformedURLException e) {
+                            KLog.e("--twitter_share_error----MalformedURLException-:"+e);
+                            e.printStackTrace();
+                        }
 
                         break;
                     case R.id.dialog_message_btn:
+
+
+
                         break;
                     case R.id.dialog_whatsapp_btn:
                         break;

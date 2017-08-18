@@ -31,7 +31,7 @@ android {
         }
 
         release {
-            minifyEnabled false
+            minifyEnabled true
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
             debuggable false
         }
@@ -103,9 +103,11 @@ dependencies {
     }
 
     //guava
-    compile 'com.google.guava:guava:22.0-android'
+    compile 'com.google.guava:guava:18.0'
     //解决DEX65536问题
     compile 'com.android.support:multidex:1.0.1'
+//    compile 'com.google.code.findbugs:jsr305:3.0.0'
+    compile 'com.google.code.findbugs:jsr305:1.3.9'
 }
 
 configurations.all {

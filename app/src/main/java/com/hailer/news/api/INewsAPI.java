@@ -100,5 +100,10 @@ public interface INewsAPI {
             @Query("page_num") int pageNumber
     );
 
+    /**
+     * 点赞
+     *
+     */
+
 
 }

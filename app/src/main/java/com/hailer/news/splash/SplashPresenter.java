@@ -1,5 +1,11 @@
 package com.hailer.news.splash;
 
+import android.content.Context;
+import android.content.Intent;
+
+import com.hailer.news.NewsApplication;
+import com.hailer.news.news.NewsActivity;
+
 import rx.Subscription;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.functions.Action1;
@@ -29,5 +35,11 @@ public class SplashPresenter implements SplashContract.Presenter {
                         mView.showAdvertising();
                     }
                 });
+    }
+
+    @Override
+    public void startNewsActivity() {
+        Context context = NewsApplication.getContext();
+        context.startActivity(new Intent(context, NewsActivity.class));
     }
 }

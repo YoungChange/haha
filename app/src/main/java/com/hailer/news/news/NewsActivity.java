@@ -263,9 +263,10 @@ public class NewsActivity extends BaseActivity implements NewsContract.View{
         });
     }
 
+    // 原先考虑的闪屏页启动方式，现在改为了先启动闪屏页。定好之后可以将改代码删除。
     @Override
     public void showSplash() {
-        this.startActivity(new Intent(this, SplashActivity.class));
+        //this.startActivity(new Intent(this, SplashActivity.class));
     }
 
 }

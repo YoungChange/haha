@@ -14,6 +14,8 @@ public interface SplashContract {
     }
     interface Presenter {
         void getAdvertising();
+
+        void startNewsActivity();
     }
     interface Model<T> {
         Observable<T> getAdvertising();

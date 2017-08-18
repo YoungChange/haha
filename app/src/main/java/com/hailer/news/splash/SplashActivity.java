@@ -24,11 +24,12 @@ import com.socks.library.KLog;
         toolbarType = ToolBarType.HasMenuButton)
 public class SplashActivity extends BaseActivity implements SplashContract.View{
     private Handler mTimerHander; // 定时
-
+    SplashContract.Presenter mPresenter;
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_splash);
+        mPresenter = new SplashPresenter(this, new SplashModel());
     }
 
     @Override
@@ -39,6 +40,7 @@ public class SplashActivity extends BaseActivity implements SplashContract.View{
             mTimerHander.postDelayed(new Runnable() {
                 @Override
                 public void run() {
+                    mPresenter.startNewsActivity();
                     finish();
                 }
             }, 1000);

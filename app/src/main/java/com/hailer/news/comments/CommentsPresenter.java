@@ -56,14 +56,16 @@ public class CommentsPresenter implements CommentsContract.Presenter {
     }
 
     @Override
-    public void voteComment(int commentId) {
+    public void voteComment(final CommentInfo commentInfo) {
         String token = UserManager.getInstance().getServerToken();
-        if (token != null && !token.isEmpty()) {
+        if (token != null && !token.isEmpty() && commentInfo != null) {
             //mRemoteData.postComment(postId, token, comment, mPostDataCallback);
-            mRemoteData.postVote(Integer.toString(commentId), token, new RxCallback() {
+            mRemoteData.postVote(Integer.toString(commentInfo.getId()), token, new RxCallback() {
                 @Override
                 public void requestError(int msgType) {
-
+                    commentInfo.setVote(!commentInfo.isVoted());
+                    commentInfo.setCommentLike(commentInfo.getCommentLike() + 1);
+                    mView.resetVote();
                 }
 
                 @Override
@@ -101,7 +103,7 @@ public class CommentsPresenter implements CommentsContract.Presenter {
             mRemoteData.postVote(Integer.toString(commentId), token, new RxCallback() {
                 @Override
                 public void requestError(int msgType) {
-
+                    mView.resetVote();
                 }
 
                 @Override

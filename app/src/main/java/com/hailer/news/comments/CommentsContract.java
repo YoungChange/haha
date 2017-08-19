@@ -15,6 +15,8 @@ public interface CommentsContract {
         void showErrorMsg(int error);
 
         void popLoginDlg();
+
+        void resetVote();
     }
 
     interface Presenter {
@@ -25,6 +27,6 @@ public interface CommentsContract {
 
         void getCommentsList(String postId);
 
-        void voteComment(int commentId);
+        void voteComment(CommentInfo info);
     }
 }

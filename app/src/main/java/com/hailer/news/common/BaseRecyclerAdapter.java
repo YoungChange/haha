@@ -57,5 +57,4 @@ public abstract class BaseRecyclerAdapter<T> extends RecyclerView.Adapter<BaseRe
     public void setOnItemClickListener(OnItemClickListener listener) {
         mClickListener = listener;
     }
-
 }

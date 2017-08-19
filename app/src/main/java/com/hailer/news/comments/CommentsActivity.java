@@ -93,6 +93,11 @@ public class CommentsActivity extends BaseActivity implements CommentsContract.V
         startActivityForResult(intent,1);
     }
 
+    @Override
+    public void resetVote() {
+        newsCommentListAdapter.resetVote();
+    }
+
     private void initCommentList(final List<CommentInfo> newsCommentList) {
 
         //刷新监听事件
@@ -149,8 +154,8 @@ public class CommentsActivity extends BaseActivity implements CommentsContract.V
         mRecyclerView.setAdapter(newsCommentListAdapter);
     }
 
-    public void vote(int id) {
-        mCommentsPresenter.voteComment(id);
+    public void vote(CommentInfo commentInfo) {
+        mCommentsPresenter.voteComment(commentInfo);
     }
 
     public void unVote(int id) {

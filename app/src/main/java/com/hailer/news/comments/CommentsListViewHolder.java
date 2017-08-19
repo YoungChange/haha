@@ -52,43 +52,14 @@ public class CommentsListViewHolder extends BaseRecyclerViewHolder {
             @Override
             public void onClick(View view) {
                 if (! mCommentInfo.isVoted()) {
-                    mCommentsActivity.vote(mCommentInfo.getId());
-                    mCommentInfo.setCommentLike(mCommentInfo.getCommentLike() + 1);
-                    mTvVoteCount.setText(Integer.toString(mCommentInfo.getCommentLike()));
-                    mCommentInfo.setVote(!mCommentInfo.isVoted());
-                    setVote(mCommentInfo.isVoted());
+                    mCommentsActivity.vote(mCommentInfo);
                 }
 //                else {
-//                    mCommentsActivity.unVote(mCommentInfo.getId());
-//                    mCommentInfo.setCommentLike(mCommentInfo.getCommentLike() - 1);
 //                }
-
             }
         });
     }
 
-    // set函数返回其本身，能够使用链式调用函数，减少代码。
-//    public CommentsListViewHolder setCommentUserPic(String userPicURL) {
-//        KLog.e("--------------, userPicURL="+ userPicURL);
-//        GlideUtils.loadDefault(userPicURL, commentUserPic, false, null, DiskCacheStrategy.RESULT);
-//        return this;
-//    }
-//
-//    public CommentsListViewHolder setCommentUserName(String userName) {
-//        this.commentUserName.setText(userName);
-//        return this;
-//    }
-//
-//    public CommentsListViewHolder setCommentContent(String content) {
-//        KLog.e("--------------, content="+ content);
-//        this.commentContent.setText(content);
-//        return this;
-//    }
-//
-//    public CommentsListViewHolder setCommentTime(String time) {
-//        this.commentTime.setText(time);
-//    }
-//
     public CommentsListViewHolder setVote(boolean voted) {
         if (voted) {
             mIbVote.setImageResource(R.drawable.liked);
@@ -98,6 +69,7 @@ public class CommentsListViewHolder extends BaseRecyclerViewHolder {
             mIbVote.setImageResource(R.drawable.like);
             mTvVoteCount.setTextColor(mUnVoteTextColor);
         }
+        mTvVoteCount.setText(Integer.toString(mCommentInfo.getCommentLike()));
         return this;
     }
 
@@ -109,7 +81,7 @@ public class CommentsListViewHolder extends BaseRecyclerViewHolder {
             commentUserName.setText(mCommentInfo.getUserName());
             commentContent.setText(mCommentInfo.getComment());
             commentTime.setText(mCommentInfo.getDate());
-            mTvVoteCount.setText(Integer.toString(mCommentInfo.getCommentLike()));
+
             setVote(mCommentInfo.isVoted());
         }
         return this;

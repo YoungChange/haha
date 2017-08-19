@@ -7,6 +7,10 @@ public class APIConfig {
     //api url
     public static final String HOST_NAME = "https://hailer.news/api/";
 
+    //url
+    public static final String Post_HOST_NAME = "https://hailer.news";
+
+
     //token
     public static final String GET_TOKEN = "7rRltNoGUM2TLA0avUeXbEyDPKvtYQMD";
 

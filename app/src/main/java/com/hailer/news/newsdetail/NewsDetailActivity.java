@@ -29,10 +29,12 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.facebook.share.model.ShareLinkContent;
+import com.facebook.share.widget.MessageDialog;
 import com.facebook.share.widget.ShareDialog;
 import com.hailer.news.NewsApplication;
 import com.hailer.news.R;
 import com.hailer.news.UserManager;
+import com.hailer.news.api.APIConfig;
 import com.hailer.news.api.bean.NewsDetail;
 import com.hailer.news.comments.CommentsActivity;
 import com.hailer.news.login.LoginActivity;
@@ -65,6 +67,8 @@ import java.net.URL;
 public class NewsDetailActivity extends BaseActivity implements NewsDetailContract.View {
 
     private int mCommentsCount = 0;
+    private String mPostUrl = "https://hailer.news/";
+    private String mPostTitle = "";
 
     private TextView mDetailTitle;
     private TextView mDetailTime;
@@ -196,6 +200,8 @@ public class NewsDetailActivity extends BaseActivity implements NewsDetailContra
         mDetailTitle.setText(data.getTitle());
         mDetailTime.setText(data.getDate());
         mCommentsCount = data.getCommentsCount();
+        mPostUrl =  APIConfig.Post_HOST_NAME+data.getUrl();
+        mPostTitle = data.getTitle();
 
         String content = data.getContent();
         if (!TextUtils.isEmpty(content)) {
@@ -240,6 +246,11 @@ public class NewsDetailActivity extends BaseActivity implements NewsDetailContra
                 mSendCommentButton.callOnClick();
             }
         }
+
+        if(popupWindow.isShowing()){
+            popupWindow.dismiss();
+        }
+
     }
 
 
@@ -403,11 +414,11 @@ public class NewsDetailActivity extends BaseActivity implements NewsDetailContra
             public void onClick(View v) {
                 switch (v.getId()){
                     case R.id.dialog_facebook_btn:
-                        ShareLinkContent content = new ShareLinkContent.Builder()
-                                .setContentUrl(Uri.parse("https://hailer.news/news/the-cheapest-joint-venture-suv-fuel-consumption-of-3-cents-than-the-toyota-province-the-value-of-to"))
+                        ShareLinkContent facebookContent = new ShareLinkContent.Builder()
+                                .setContentUrl(Uri.parse(mPostUrl))
                                 .build();
                         if (ShareDialog.canShow(ShareLinkContent.class)) {
-                            ShareDialog.show((Activity)mContext,content);
+                            ShareDialog.show((Activity)mContext,facebookContent);
                         }
                         break;
                     case R.id.dialog_twitter_btn:
@@ -415,8 +426,8 @@ public class NewsDetailActivity extends BaseActivity implements NewsDetailContra
                             TweetComposer.Builder builder = null;
                             Intent intentTwitter;
                             intentTwitter = new TweetComposer.Builder(mContext)
-                                    .text("测试222222")
-                                    .url(new URL("https://hailer.news/news/the-cheapest-joint-venture-suv-fuel-consumption-of-3-cents-than-the-toyota-province-the-value-of-to"))
+                                    .text(mPostTitle)
+                                    .url(new URL(mPostUrl))
                                     .createIntent();
                             startActivityForResult(intentTwitter, TWEET_COMPOSER_REQUEST_CODE);
                         } catch (MalformedURLException e) {
@@ -426,11 +437,22 @@ public class NewsDetailActivity extends BaseActivity implements NewsDetailContra
 
                         break;
                     case R.id.dialog_message_btn:
-
-
+                        ShareLinkContent messagerContent = new ShareLinkContent.Builder()
+                                .setContentUrl(Uri.parse(mPostUrl))
+                                .build();
+                        if (MessageDialog.canShow(ShareLinkContent.class)) {
+                            MessageDialog.show((Activity)mContext, messagerContent);
+                        }
 
                         break;
                     case R.id.dialog_whatsapp_btn:
+                        Intent sendIntent = new Intent();
+                        sendIntent.setAction(Intent.ACTION_SEND);
+                        sendIntent.putExtra(Intent.EXTRA_TEXT, mPostUrl);
+                        sendIntent.setType("text/plain");
+                        sendIntent.setPackage("com.whatsapp");
+                        startActivity(sendIntent);
+
                         break;
                     case R.id.dialog_cancel_btn:
                         popupWindow.dismiss();

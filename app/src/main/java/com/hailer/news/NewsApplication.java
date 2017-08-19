@@ -30,7 +30,7 @@ public class NewsApplication extends MultiDexApplication {
         sApplicationContext = this;
         KLog.init(BuildConfig.DEBUG);
 
-        //sAnalytics = GoogleAnalytics.getInstance(this);
+        sAnalytics = GoogleAnalytics.getInstance(this);
         //初始化Twitter
         //Twitter.initialize(this);
     }

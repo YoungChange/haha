@@ -40,6 +40,6 @@ public class SplashPresenter implements SplashContract.Presenter {
     @Override
     public void startNewsActivity() {
         Context context = NewsApplication.getContext();
-        context.startActivity(new Intent(context, NewsActivity.class));
+        context.startActivity(new Intent(context, NewsActivity.class).setFlags(Intent. FLAG_ACTIVITY_NEW_TASK ));
     }
 }

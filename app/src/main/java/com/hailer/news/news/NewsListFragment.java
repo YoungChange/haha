@@ -101,6 +101,7 @@ public class NewsListFragment extends Fragment{
     }
 
     public void showNewsList(int loadType, List<NewsItem> list){
+        KLog.e("showNewsList");
         mLoading = false;
         mNewsList = list;
 //        KLog.e("bailei----------mAdapter="+mAdapter+", loadType="+loadType);

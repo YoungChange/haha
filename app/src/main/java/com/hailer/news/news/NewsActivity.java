@@ -181,6 +181,7 @@ public class NewsActivity extends BaseActivity implements NewsContract.View{
 
     @Override
     public void showNewsList(int loadType, List<NewsItem> list){
+
         mTvNoDataAndInternet.setVisibility(View.GONE);
         mTvHabeDataNoInternet.setVisibility(View.GONE);
         NewsListFragment fragment = (NewsListFragment)getCurrentFragment();

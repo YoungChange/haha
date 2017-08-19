@@ -49,12 +49,15 @@ public class NewsPresenter implements NewsContract.Presenter {
         mGetDataCallback = new RxCallback<List<NewsItem>>() {
             @Override
             public void requestError(int msg) {
+                KLog.e("-----NewsPresenter-----mGetDataCallback-----requestError");
                 mView.showErrorMsg();
             }
 
             @Override
             public void requestSuccess(List<NewsItem> data) {
 //                mStartPage += APIConfig.LIST_ITEMS_PER_PAGE;
+                KLog.e("-----NewsPresenter-----mGetDataCallback-----requestSuccess");
+
                 mView.showNewsList(mLoadType, data);
             }
         };

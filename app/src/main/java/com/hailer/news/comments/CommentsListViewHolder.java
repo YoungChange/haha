@@ -3,11 +3,15 @@ package com.hailer.news.comments;
 import android.content.Context;
 import android.content.res.ColorStateList;
 import android.graphics.Color;
+import android.os.Handler;
 import android.view.View;
+import android.view.animation.AnimationUtils;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.hailer.news.R;
@@ -27,7 +31,9 @@ public class CommentsListViewHolder extends BaseRecyclerViewHolder {
     private TextView commentUserName;
     private TextView commentContent;
     private TextView commentTime;
-    private LinearLayout mLlVoteContainer;
+    private TextView addOne;// +1
+    private android.view.animation.Animation animation;
+    private RelativeLayout mLlVoteContainer;
     private ImageButton mIbVote;
     private TextView mTvVoteCount;
     private CommentInfo mCommentInfo;
@@ -45,17 +51,30 @@ public class CommentsListViewHolder extends BaseRecyclerViewHolder {
         mLlVoteContainer = itemView.findViewById(R.id.ll_vote_container);
         mIbVote = itemView.findViewById(R.id.ib_vote);
         mTvVoteCount = itemView.findViewById(R.id.tv_vote_count);
+        //  初始化 动画
+        animation = AnimationUtils.loadAnimation(mCommentsActivity, R.anim.add_score_anim);
         mVoteTextColor = Color.rgb(0xf2, 0x44, 0x44);
         mUnVoteTextColor = Color.rgb(0x80, 0x80, 0x80);
+
+        addOne = itemView.findViewById(R.id.addOne_tv);
 
         mLlVoteContainer.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 if (! mCommentInfo.isVoted()) {
+
                     mCommentsActivity.vote(mCommentInfo);
+
+                    addOne.setVisibility(View.VISIBLE);
+                    addOne.startAnimation(animation);
+                    new Handler().postDelayed(new Runnable() {
+                        public void run() {
+                            addOne.setVisibility(View.GONE);
+                        }
+                    }, 1000);
+
                 }
-//                else {
-//                }
+
             }
         });
     }

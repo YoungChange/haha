@@ -20,6 +20,7 @@
         android:paddingLeft="10dp"
         tools:ignore="RtlSymmetry">
 
+
         <TextView
             android:id="@+id/comment_username"
             android:layout_width="wrap_content"
@@ -28,7 +29,7 @@
             android:textSize="12sp"
             android:textColor="#ff0000"
             tools:text="让黑白染上点色彩" />
-        <LinearLayout
+        <RelativeLayout
             android:id="@+id/ll_vote_container"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -42,6 +43,17 @@
                 android:layout_height="wrap_content"
                 android:src="@drawable/like"
                 android:background="@android:color/transparent"/>
+            <!-- +1 动画  -->
+            <TextView
+                android:id="@+id/addOne_tv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
+                android:gravity="center"
+                android:text="+1"
+                android:textColor="#FF0000"
+                android:textSize="18dip"
+                android:visibility="gone" />
 
             <TextView
                 android:id="@+id/tv_vote_count"
@@ -49,11 +61,12 @@
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="5dp"
                 android:layout_marginStart="5dp"
+                android:layout_toRightOf="@+id/ib_vote"
                 android:textSize="12sp"
                 android:textColor="#808080"
                 tools:text="1245"/>
 
-        </LinearLayout>
+        </RelativeLayout>
 
 
         <TextView

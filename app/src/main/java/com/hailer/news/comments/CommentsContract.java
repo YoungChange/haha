@@ -13,6 +13,8 @@ public interface CommentsContract {
         void showCommentsList(List<CommentInfo> data,boolean isRefresh);
 
         void showErrorMsg(int error);
+
+        void popLoginDlg();
     }
 
     interface Presenter {
@@ -23,5 +25,6 @@ public interface CommentsContract {
 
         void getCommentsList(String postId);
 
+        void voteComment(int commentId);
     }
 }

@@ -236,13 +236,22 @@ public class RetrofitService {
     }
 
     /**
-     * 登录
+     * 评论列表
      */
     public Observable<Map<String, List<CommentInfo>>> getCommentsListObservable(String postId, int startPage) {
         return mNewsAPI.getCommentsList(postId, APIConfig.GET_TOKEN, APIConfig.LIST_ITEMS_PER_PAGE, startPage)
                 .compose(new BaseSchedulerTransformer<Map<String, List<CommentInfo>>>());
     }
 
-
+    /**
+     * 点赞功能
+     * @param commentId 评论的id
+     * @param token
+     * @return
+     */
+    public Observable<Boolean> postVoteObservable(String commentId, String token) {
+        return mNewsAPI.postVoteComment(commentId, token)
+                .compose(new BaseSchedulerTransformer<Boolean>());
+    }
 
 }

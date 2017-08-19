@@ -105,4 +105,13 @@ public class RemoteDataSource {
 
     }
 
+    /**
+     * 点赞
+     */
+    public void postVote(String commentId, String userToken, RxCallback callback) {
+        Subscription voteSub = RetrofitService.getInstance(APIConfig.HOST_TYPE_NEWS)
+                .postVoteObservable(commentId, userToken)
+                .subscribe(new RemoteSubscriber<Boolean>(callback));
+    }
+
 }

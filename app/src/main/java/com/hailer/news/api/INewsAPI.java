@@ -65,7 +65,7 @@ public interface INewsAPI {
     );
 
     /**
-     * 用户反馈：
+     * 登录：
      * hailer.news/api/feedback/store/?token=7rRltNoGUM2TLA0avUeXbEyDPKvtYQMD
      */
     @FormUrlEncoded
@@ -77,7 +77,7 @@ public interface INewsAPI {
     );
 
     /**
-     * 用户反馈：
+     * 发表评论：
      * hailer.news/api/feedback/store/?token=7rRltNoGUM2TLA0avUeXbEyDPKvtYQMD
      */
     @FormUrlEncoded
@@ -89,7 +89,7 @@ public interface INewsAPI {
     );
 
     /**
-     * 用户反馈：
+     * 获取评论列表：
      * hailer.news/api/feedback/store/?token=7rRltNoGUM2TLA0avUeXbEyDPKvtYQMD
      */
     @GET("post/{postId}/comments")
@@ -102,8 +102,12 @@ public interface INewsAPI {
 
     /**
      * 点赞
-     *
+     * hailer.news/api/comment/vote/1?token=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOjE5LCJpc3MiOiJodHRwczovL2hhaWxlci5uZXdzL2FwaS9hdXRoL2xvZ2luIiwiaWF0IjoxNTAzMDI1NTk0LCJleHAiOjE1MDMwMjkxOTQsIm5iZiI6MTUwMzAyNTU5NCwianRpIjoiMXU2OWN4Y0RjaVVuTXdQMCJ9.IzS_uqucthsqfLwzcs0MjU70vjK6HURMwoeRHG-bz3o
      */
 
-
+    @POST("comment/vote/{commentId}/")
+    Observable<Boolean> postVoteComment(
+            @Path("commentId") String commentId,
+            @Query("token") String token
+    );
 }

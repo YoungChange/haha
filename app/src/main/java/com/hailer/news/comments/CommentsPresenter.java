@@ -1,5 +1,7 @@
 package com.hailer.news.comments;
 
+import com.hailer.news.NewsApplication;
+import com.hailer.news.UserManager;
 import com.hailer.news.api.APIConfig;
 import com.hailer.news.common.ErrMsg;
 import com.hailer.news.api.bean.CommentInfo;
@@ -54,6 +56,28 @@ public class CommentsPresenter implements CommentsContract.Presenter {
     }
 
     @Override
+    public void voteComment(int commentId) {
+        String token = UserManager.getInstance().getServerToken();
+        if (token != null && !token.isEmpty()) {
+            //mRemoteData.postComment(postId, token, comment, mPostDataCallback);
+            mRemoteData.postVote(Integer.toString(commentId), token, new RxCallback() {
+                @Override
+                public void requestError(int msgType) {
+
+                }
+
+                @Override
+                public void requestSuccess(Object data) {
+
+                }
+            });
+        } else {
+            //提示登录
+            mView.popLoginDlg();
+        }
+    }
+
+    @Override
     public void refreshData() {
         KLog.i("refreshData()............");
         mStartPage = 0;
@@ -71,4 +95,23 @@ public class CommentsPresenter implements CommentsContract.Presenter {
         }
     }
 
+    public void unVoteComment(int commentId) {
+        String token = UserManager.getInstance().getServerToken();
+        if (token != null && !token.isEmpty()) {
+            mRemoteData.postVote(Integer.toString(commentId), token, new RxCallback() {
+                @Override
+                public void requestError(int msgType) {
+
+                }
+
+                @Override
+                public void requestSuccess(Object data) {
+
+                }
+            });
+        } else {
+            //提示登录
+            mView.popLoginDlg();
+        }
+    }
 }

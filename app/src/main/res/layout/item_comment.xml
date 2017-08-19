@@ -17,7 +17,8 @@
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:paddingLeft="10dp">
+        android:paddingLeft="10dp"
+        tools:ignore="RtlSymmetry">
 
         <TextView
             android:id="@+id/comment_username"
@@ -28,23 +29,28 @@
             android:textColor="#ff0000"
             tools:text="让黑白染上点色彩" />
         <LinearLayout
+            android:id="@+id/ll_vote_container"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignParentRight="true">
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentRight="true"
+            android:clickable="true">
 
             <ImageButton
+                android:id="@+id/ib_vote"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:src="@drawable/like"
                 android:background="@android:color/transparent"/>
 
             <TextView
+                android:id="@+id/tv_vote_count"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="5dp"
+                android:layout_marginStart="5dp"
                 android:textSize="12sp"
                 android:textColor="#808080"
-                android:text="125"
                 tools:text="1245"/>
 
         </LinearLayout>

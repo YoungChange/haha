@@ -1,5 +1,6 @@
 package com.hailer.news.comments;
 
+import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v4.widget.SwipeRefreshLayout;
@@ -12,6 +13,8 @@ import com.hailer.news.R;
 import com.hailer.news.api.bean.CommentInfo;
 import com.hailer.news.common.BaseRecycleViewDivider;
 import com.hailer.news.common.BaseActivity;
+import com.hailer.news.login.LoginActivity;
+import com.hailer.news.newsdetail.NewsDetailActivity;
 import com.hailer.news.util.MeasureUtil;
 import com.hailer.news.util.annotation.ActivityFragmentInject;
 import com.socks.library.KLog;
@@ -84,6 +87,12 @@ public class CommentsActivity extends BaseActivity implements CommentsContract.V
 
     }
 
+    @Override
+    public void popLoginDlg() {
+        Intent intent = new Intent(this, LoginActivity.class);
+        startActivityForResult(intent,1);
+    }
+
     private void initCommentList(final List<CommentInfo> newsCommentList) {
 
         //刷新监听事件
@@ -138,5 +147,13 @@ public class CommentsActivity extends BaseActivity implements CommentsContract.V
         mRecyclerView.getItemAnimator().setRemoveDuration(250);
 
         mRecyclerView.setAdapter(newsCommentListAdapter);
+    }
+
+    public void vote(int id) {
+        mCommentsPresenter.voteComment(id);
+    }
+
+    public void unVote(int id) {
+        mCommentsPresenter.unVoteComment(id);
     }
 }

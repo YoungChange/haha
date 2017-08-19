@@ -16,9 +16,10 @@ import java.util.List;
  */
 
 public class CommentsListAdapter extends BaseRecyclerAdapter<CommentInfo> {
-
+    //private CommentsActivity mCommentsActivity;
     public CommentsListAdapter(Context context, List<CommentInfo> data){
         super(context, data, null);
+        //mCommentsActivity = (CommentsActivity)context;
     }
 
     @Override
@@ -33,14 +34,14 @@ public class CommentsListAdapter extends BaseRecyclerAdapter<CommentInfo> {
     @Override
     public void onBindViewHolder(BaseRecyclerViewHolder holder, int position) {
         CommentInfo item = mData.get(position);
-
-
-        ((CommentsListViewHolder) holder).setCommentUserPic(item.getUserAvatar());
-        ((CommentsListViewHolder) holder).setCommentUserName(item.getUserName());
-        ((CommentsListViewHolder) holder).setCommentContent(item.getComment());
-        ((CommentsListViewHolder) holder).setCommentTime(item.getDate());
-
+        ((CommentsListViewHolder) holder).setData(item);
+               /* setCommentUserPic(item.getUserAvatar())
+                .setCommentUserName(item.getUserName())
+                .setCommentContent(item.getComment())
+                .setCommentTime(item.getDate());*/
     }
+
+
 
 
 }

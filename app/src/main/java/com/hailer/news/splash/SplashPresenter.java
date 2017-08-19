@@ -13,6 +13,7 @@ import rx.schedulers.Schedulers;
 
 /**
  * Created by moma on 17-8-16.
+ * 闪屏页
  */
 
 public class SplashPresenter implements SplashContract.Presenter {

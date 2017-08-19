@@ -1,6 +1,8 @@
 package com.hailer.news.util;
 
 import android.content.Context;
+import android.content.Intent;
+import android.database.Cursor;
 import android.database.DatabaseErrorHandler;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
@@ -11,6 +13,8 @@ import android.database.sqlite.SQLiteOpenHelper;
 
 public class CommentVoteUtil extends SQLiteOpenHelper{
     private static final String CREAT_COMMENT_VOTE = "create table is not exists comment_vote ( id integer primary key )";
+    private static final String SELECT_COMMENT_VOTED = "select id from comment_vote where id = ";
+    private static final String INSERT_COMMENT_VOTED = "insert into comment_vote ( id ) values ( ? )";
     private static CommentVoteUtil mCommentVote;
     private static final String DB_NAME = "MEWS_APP.db";
     private CommentVoteUtil(Context context, String name, SQLiteDatabase.CursorFactory factory, int version) {
@@ -40,4 +44,20 @@ public class CommentVoteUtil extends SQLiteOpenHelper{
         return mCommentVote;
     }
 
+    public boolean isVoted(int commentId) {
+        Cursor cousor = this.getReadableDatabase().rawQuery(SELECT_COMMENT_VOTED + commentId, null);
+        boolean isVoted = false;
+        if (cousor != null && cousor.moveToNext()) {
+            isVoted = true;
+        }
+        return isVoted;
+    }
+
+    public void setVoted(int commentId, boolean isVoted) {
+        if (isVoted) {
+            getWritableDatabase().execSQL(INSERT_COMMENT_VOTED, new String[]{Integer.toString(commentId)});
+        } else {
+            getWritableDatabase().execSQL("delete * from comment_vote where id = " + Integer.toString(commentId));
+        }
+    }
 }

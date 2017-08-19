@@ -17,6 +17,7 @@ import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.hailer.news.R;
 import com.hailer.news.api.bean.CommentInfo;
 import com.hailer.news.common.BaseRecyclerViewHolder;
+import com.hailer.news.util.CommentVoteUtil;
 import com.hailer.news.util.GlideUtils;
 import com.socks.library.KLog;
 
@@ -57,12 +58,10 @@ public class CommentsListViewHolder extends BaseRecyclerViewHolder {
         mUnVoteTextColor = Color.rgb(0x80, 0x80, 0x80);
 
         addOne = itemView.findViewById(R.id.addOne_tv);
-
-        mLlVoteContainer.setOnClickListener(new View.OnClickListener() {
+        View.OnClickListener clickListener = new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if (! mCommentInfo.isVoted()) {
-
+                if (!mCommentInfo.isVoted()) {
                     mCommentsActivity.vote(mCommentInfo);
 
                     addOne.setVisibility(View.VISIBLE);
@@ -76,7 +75,10 @@ public class CommentsListViewHolder extends BaseRecyclerViewHolder {
                 }
 
             }
-        });
+        };
+        mLlVoteContainer.setOnClickListener(clickListener);
+        mIbVote.setOnClickListener(clickListener);
+        mTvVoteCount.setOnClickListener(clickListener);
     }
 
     public CommentsListViewHolder setVote(boolean voted) {
@@ -100,7 +102,8 @@ public class CommentsListViewHolder extends BaseRecyclerViewHolder {
             commentUserName.setText(mCommentInfo.getUserName());
             commentContent.setText(mCommentInfo.getComment());
             commentTime.setText(mCommentInfo.getDate());
-
+            //boolean isVoted = CommentVoteUtil.getInstances(mContext).isVoted(commentInfo.getId());
+            //commentInfo.setVote(isVoted);
             setVote(mCommentInfo.isVoted());
         }
         return this;

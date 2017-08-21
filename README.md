@@ -1,6 +1,6 @@
-##目录结构
+## 目录结构
 以MVP框架实现
-###一级目录
+### 一级目录
 .
 ├── app
 │   ├── build.gradle                                                            **当前模块的Gradle编译文件**
@@ -19,7 +19,7 @@
 ├── local.properties                                                            **本地属性文件，存放了SDk路径，可通过AS进行配置**         
 └── settings.gradle                                                             **Gradle配置文件，包含当前目录的Mudule，可通过AS进行添加和删除**
 
-###代码目录
+### 代码目录
 .
 ├── AndroidManifest.xml                                                         **Manifest文件**
 ├── java

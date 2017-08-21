@@ -47,9 +47,9 @@ public class NewsItem {
         }
 
         if (post_image_list != null && !post_image_list.isEmpty()) {
-            mImageList.add(post_image_list.get(0).url);
-            mImageList.add(post_image_list.get(1).url);
-            mImageList.add(post_image_list.get(2).url);
+            for (ImageEntity imageEntity : post_image_list) {
+                mImageList.add(imageEntity.url);
+            }
         } else if (post_image != null && !post_image.isEmpty()){
             mImageList.add(post_image.get("small").url);
         }

@@ -53,5 +53,6 @@
     <string name="message">Messager</string>
     <string name="whatsapp">WhatsApp</string>
     <string name="cancel">取消</string>
+    <string name="tv_no_more_data">沒有更多數據了</string>
 
 </resources>

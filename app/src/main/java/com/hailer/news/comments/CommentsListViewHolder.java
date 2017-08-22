@@ -63,7 +63,7 @@ public class CommentsListViewHolder extends BaseRecyclerViewHolder {
             public void onClick(View view) {
                 if (!mCommentInfo.isVoted()) {
                     mCommentsActivity.vote(mCommentInfo);
-
+                    mLlVoteContainer.setClickable(false);
                     addOne.setVisibility(View.VISIBLE);
                     addOne.startAnimation(animation);
                     new Handler().postDelayed(new Runnable() {
@@ -77,8 +77,7 @@ public class CommentsListViewHolder extends BaseRecyclerViewHolder {
             }
         };
         mLlVoteContainer.setOnClickListener(clickListener);
-        mIbVote.setOnClickListener(clickListener);
-        mTvVoteCount.setOnClickListener(clickListener);
+
     }
 
     public CommentsListViewHolder setVote(boolean voted) {
@@ -105,6 +104,7 @@ public class CommentsListViewHolder extends BaseRecyclerViewHolder {
             //boolean isVoted = CommentVoteUtil.getInstances(mContext).isVoted(commentInfo.getId());
             //commentInfo.setVote(isVoted);
             setVote(mCommentInfo.isVoted());
+            mLlVoteContainer.setClickable(true);
         }
         return this;
     }

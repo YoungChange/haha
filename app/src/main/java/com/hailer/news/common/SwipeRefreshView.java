@@ -57,7 +57,7 @@ public class SwipeRefreshView extends SwipeRefreshLayout {
                     // 设置ListView的滑动监听
                     setListViewOnScroll();
                 } else if (getChildAt(0) instanceof RecyclerView) {
-                    // 创建ListView对象
+                    // 创建RecyclerView对象
                     mRecyclerView = (RecyclerView) getChildAt(0);
 
                     // 设置RecyclerView的滑动监听

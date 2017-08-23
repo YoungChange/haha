@@ -1,17 +1,33 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.v4.widget.SwipeRefreshLayout
+<com.dinuscxj.refresh.RecyclerRefreshLayout
     android:id="@+id/refresh_layout"
     xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:paddingLeft="15dp"
     android:paddingRight="15dp">
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/newslist_recycler_view"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@color/white"
+            >
 
-    <android.support.v7.widget.RecyclerView
-        android:id="@+id/newslist_recycler_view"
+        </android.support.v7.widget.RecyclerView>
+        <ProgressBar
+            android:id="@+id/loading_view"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:scaleType="centerInside"/>
+
+    </FrameLayout>
+    <TextView
+        android:id="@+id/no_internet_tip"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@color/white"/>
-
-</android.support.v4.widget.SwipeRefreshLayout>
+        android:visibility="gone"/>
+</com.dinuscxj.refresh.RecyclerRefreshLayout>

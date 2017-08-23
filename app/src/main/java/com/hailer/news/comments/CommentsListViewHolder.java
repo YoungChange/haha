@@ -38,7 +38,6 @@ public class CommentsListViewHolder extends BaseRecyclerViewHolder {
     private ImageButton mIbVote;
     private TextView mTvVoteCount;
     private CommentInfo mCommentInfo;
-    //private boolean mIsVoted;
     private int mVoteTextColor;
     private int mUnVoteTextColor;
     public CommentsListViewHolder(Context context, View itemView) {

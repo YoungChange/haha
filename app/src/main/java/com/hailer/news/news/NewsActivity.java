@@ -6,7 +6,9 @@ import android.os.Bundle;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.GravityCompat;
+import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
+import android.support.v7.widget.RecyclerView;
 import android.view.KeyEvent;
 import android.view.View;
 import android.widget.ImageButton;
@@ -52,12 +54,9 @@ public class NewsActivity extends BaseActivity implements NewsContract.View{
     private ImageButton mChange_channel;
 
     private NewsContract.Presenter mNewsPresenter;
-    private TextView mTvNoDataAndInternet;
-    private TextView mTvHabeDataNoInternet;
     CircleImageView loginImageButton;
 
     Tracker mTracker;
-    private String CATEGORY_ID_RECENT = "0";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -66,8 +65,6 @@ public class NewsActivity extends BaseActivity implements NewsContract.View{
         mNewsViewpager = (ViewPager) findViewById(R.id.news_viewpager);
         mChange_channel = (ImageButton) findViewById(R.id.change_channel);
         loginImageButton = (CircleImageView) findViewById(R.id.login_imagebutton);
-        mTvNoDataAndInternet = (TextView) findViewById(R.id.tv_no_internet_and_data);
-        mTvHabeDataNoInternet = (TextView) findViewById(R.id.tv_no_internet_have_data);
         mNewsPresenter = new NewsPresenter(this);
         mNewsPresenter.autoLogin();
         mNewsPresenter.getUserChannel();
@@ -128,12 +125,8 @@ public class NewsActivity extends BaseActivity implements NewsContract.View{
 
     @Override
     public void showChannels(List<NewsChannelBean> newsChannels){
-
-        KLog.e("show channels...");
-
         List<NewsListFragment> fragmentList = new ArrayList<>();
         final List<String> title = new ArrayList<>();
-        int i = 0;
         if (newsChannels != null) {
             for (NewsChannelBean news : newsChannels) {
                 final NewsListFragment fragment = NewsListFragment
@@ -143,14 +136,13 @@ public class NewsActivity extends BaseActivity implements NewsContract.View{
                 fragmentList.add(fragment);
                 title.add(news.getTabName());
             }
-
-            if (mNewsViewpager.getAdapter() == null) {
-                NewsFragmentAdapter adapter = new NewsFragmentAdapter(getSupportFragmentManager(),
-                        fragmentList, title);
+            PagerAdapter adapter = mNewsViewpager.getAdapter();
+            if (adapter == null) {
+                adapter = new NewsFragmentAdapter(getSupportFragmentManager(), fragmentList, title);
                 mNewsViewpager.setAdapter(adapter);
             } else {
-                final NewsFragmentAdapter adapter = (NewsFragmentAdapter) mNewsViewpager.getAdapter();
-                adapter.updateFragments(fragmentList, title);
+                adapter = mNewsViewpager.getAdapter();
+                ((NewsFragmentAdapter) adapter).updateFragments(fragmentList, title);
             }
             mNewsViewpager.setCurrentItem(0, false);
             mTabLayout.setupWithViewPager(mNewsViewpager);
@@ -165,12 +157,11 @@ public class NewsActivity extends BaseActivity implements NewsContract.View{
 
         initListener();
 
-        displayCurFragment();
+        //displayCurFragment();
     }
 
     @Override
     public void upateUserView(){
-        KLog.e("--------NewsActivity--------upateUserView----");
         UserInfo userInfo = UserManager.getInstance().getUserinfo();
         if(userInfo.getIconUri()==null || userInfo.getIconUri()==""){
             loginImageButton.setImageResource(R.drawable.login);
@@ -181,9 +172,6 @@ public class NewsActivity extends BaseActivity implements NewsContract.View{
 
     @Override
     public void showNewsList(int loadType, List<NewsItem> list){
-
-        mTvNoDataAndInternet.setVisibility(View.GONE);
-        mTvHabeDataNoInternet.setVisibility(View.GONE);
         NewsListFragment fragment = (NewsListFragment)getCurrentFragment();
         if (fragment != null) {
             fragment.showNewsList(loadType, list);
@@ -193,7 +181,7 @@ public class NewsActivity extends BaseActivity implements NewsContract.View{
     @Override
     public void showErrorMsg(){
         NewsListFragment fragment = (NewsListFragment)getCurrentFragment();
-        mTvNoDataAndInternet.setVisibility(View.VISIBLE);
+        fragment.showLoadError();
 //        if (fragment != null) {
 //            if (fragment.haveData()) {
 //                mTvNoDataAndInternet.setVisibility(View.GONE);
@@ -202,7 +190,6 @@ public class NewsActivity extends BaseActivity implements NewsContract.View{
 //                mTvHabeDataNoInternet.setVisibility(View.GONE);
 //            }
 //        }
-        mTvNoDataAndInternet.setVisibility(View.VISIBLE);
     }
 
     private void trackingApp(){
@@ -230,12 +217,12 @@ public class NewsActivity extends BaseActivity implements NewsContract.View{
         return fragment;
     }
 
-    private void updateCurFragment(){
-        NewsListFragment fragment = (NewsListFragment)getCurrentFragment();
-        if (fragment != null) {
-            fragment.refreshList();
-        }
-    }
+//    private void updateCurFragment(){
+//        NewsListFragment fragment = (NewsListFragment)getCurrentFragment();
+//        if (fragment != null) {
+//            fragment.refreshList();
+//        }
+//    }
 
     private void displayCurFragment(){
         NewsListFragment fragment = (NewsListFragment)getCurrentFragment();
@@ -270,4 +257,7 @@ public class NewsActivity extends BaseActivity implements NewsContract.View{
         //this.startActivity(new Intent(this, SplashActivity.class));
     }
 
+    public void getNewsList(String mCatId) {
+        mNewsPresenter.getNewsList(mCatId);
+    }
 }

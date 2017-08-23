@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.DefaultItemAnimator;
@@ -12,13 +13,20 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ProgressBar;
+import android.widget.TextView;
 
+import com.dinuscxj.refresh.RecyclerRefreshLayout;
 import com.hailer.news.R;
 import com.hailer.news.api.bean.NewsItem;
 import com.hailer.news.common.BaseRecycleViewDivider;
+import com.hailer.news.common.LoadTips;
 import com.hailer.news.common.LoadType;
+import com.hailer.news.common.MaterialRefreshView;
 import com.hailer.news.common.OnItemClickListener;
+import com.hailer.news.common.SwipeRefreshView;
 import com.hailer.news.newsdetail.NewsDetailActivity;
+import com.hailer.news.util.DensityUtil;
 import com.hailer.news.util.MeasureUtil;
 import com.hailer.news.util.annotation.ActivityFragmentInject;
 import com.socks.library.KLog;
@@ -29,28 +37,32 @@ import static com.google.common.base.Preconditions.checkNotNull;
 
 /**
  * Created by moma on 17-7-17.
+ *
  */
 @ActivityFragmentInject(contentViewId = R.layout.fragment_news_list)
 public class NewsListFragment extends Fragment{
 
+    enum LOAD_STATE {
+        UNLOAD, LOADING, COMPLATE
+    }
     public static final String ARGS_NAME = "args_Name";
     public static final String ARGS_Id = "args_Id";
 
     private String mCatName;
     private String mCatId;
 
-    private SwipeRefreshLayout mSwipeRefreshLayout;
+    private RecyclerRefreshLayout mRecyclerRefreshLayout;
     private RecyclerView mRecyclerView;
     private NewsListAdapter mAdapter;
-
-    private Boolean mLoading = false;
-
+    private Boolean mLoadingMore = false;
+    private Boolean mIsRefreshing = false;
     protected View mFragmentRootView;
     protected int mContentViewId;
     private List mNewsList;
-
     private NewsContract.Presenter mPresenter;
-
+    private NewsActivity mActivity;
+    private ProgressBar mLoadingViewPb;
+    private TextView mNoInternetTipTv;
     public static NewsListFragment newInstance(String catName, String catId) {
         Bundle args = new Bundle();
         args.putString(ARGS_NAME,catName);
@@ -67,7 +79,7 @@ public class NewsListFragment extends Fragment{
             mCatName = getArguments().getString(ARGS_NAME);
             mCatId = getArguments().getString(ARGS_Id);
         }
-
+        //mLoadState = LOAD_STATE.UNLOAD;
     }
 
     @Override
@@ -89,11 +101,23 @@ public class NewsListFragment extends Fragment{
                 throw e;
             }
         }
-
-        mSwipeRefreshLayout = (SwipeRefreshLayout) mFragmentRootView.findViewById(R.id.refresh_layout);
-        mRecyclerView = (RecyclerView) mFragmentRootView.findViewById(R.id.newslist_recycler_view);
-
+        mActivity = (NewsActivity)getActivity();
         return mFragmentRootView;
+    }
+
+    @Override
+    public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+        mLoadingViewPb = view.findViewById(R.id.loading_view);
+        mNoInternetTipTv = view.findViewById(R.id.no_internet_tip);
+        initRecyclerView(view);
+        initRecyclerRefreshLayout(view);
+    }
+
+    @Override
+    public void onDestroyView() {
+        //mRecyclerView.removeOnScrollListener();
+        super.onDestroyView();
     }
 
     public void setPresenter(@NonNull NewsContract.Presenter presenter) {
@@ -101,15 +125,12 @@ public class NewsListFragment extends Fragment{
     }
 
     public void showNewsList(int loadType, List<NewsItem> list){
-        KLog.e("showNewsList");
-        mLoading = false;
+        mIsRefreshing = false;
         mNewsList = list;
-//        KLog.e("bailei----------mAdapter="+mAdapter+", loadType="+loadType);
-
-        if (mAdapter == null) {
-            initNewsList(list);
-        }
-
+        mRecyclerRefreshLayout.setEnabled(true);
+        mRecyclerRefreshLayout.setRefreshing(false);
+        mLoadingViewPb.setVisibility(View.GONE);
+        mNoInternetTipTv.setVisibility(View.GONE);
         switch (loadType) {
             case LoadType.TYPE_REFRESH:
                 mAdapter.setmData(list);
@@ -124,23 +145,33 @@ public class NewsListFragment extends Fragment{
         }
     }
 
-    private void initNewsList(final List<NewsItem> data) {
-
-        //刷新监听事件
-        mSwipeRefreshLayout.setColorSchemeColors(Color.RED, Color.BLUE);
-        mSwipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+    protected void initRecyclerView(View view) {
+        mRecyclerView = mFragmentRootView.findViewById(R.id.newslist_recycler_view);
+        // 在Fragment中给RecyclerView增加滑动监听
+        mRecyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
             @Override
-            public void onRefresh() {
-                mPresenter.refreshData(mCatId);
-                mSwipeRefreshLayout.setRefreshing(false);
-                mAdapter.notifyDataSetChanged();
+            public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
+                super.onScrolled(recyclerView, dx, dy);
+                LinearLayoutManager layoutManager = (LinearLayoutManager) recyclerView.getLayoutManager();
+                int totalItemCount = layoutManager.getItemCount() - 1;
+                int lastVisibleItem = layoutManager.findLastVisibleItemPosition();
+                //mLoading 防止多次加载同一批数据
+                if (!mLoadingMore && totalItemCount < (lastVisibleItem + 2)) {
+                    mLoadingMore = true;
+                    mPresenter.loadMoreData(mCatId, totalItemCount);
+                }
             }
         });
 
+        //设置布局管理器
+        final LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false);
+        mRecyclerView.setLayoutManager(linearLayoutManager);
 
-        mAdapter = new NewsListAdapter(getActivity(), data);
+        //设置adapter
+        mAdapter = new NewsListAdapter(getActivity(), null);
+        mRecyclerView.setAdapter(mAdapter);
+
         mAdapter.setOnItemClickListener(new OnItemClickListener(){
-
             @Override
             public void onItemClick(View view, int position) {
                 Intent intent = new Intent(getActivity(), NewsDetailActivity.class);
@@ -155,38 +186,13 @@ public class NewsListFragment extends Fragment{
             }
         });
 
-
-        //设置布局管理器
-        final LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false);
-        mRecyclerView.setLayoutManager(linearLayoutManager);
-
-        // 在Fragment中给RecyclerView增加滑动监听
-        mRecyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
-
-            @Override
-            public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
-
-                super.onScrolled(recyclerView, dx, dy);
-
-                LinearLayoutManager layoutManager = (LinearLayoutManager) recyclerView.getLayoutManager();
-                int totalItemCount = layoutManager.getItemCount() - 1;
-                int lastVisibleItem = layoutManager.findLastVisibleItemPosition();
-
-                //mLoading 防止多次加载同一批数据
-                if (!mLoading && totalItemCount < (lastVisibleItem + 2)) {
-                    mLoading = true;
-                    mPresenter.loadMoreData(mCatId, totalItemCount);
-                }
-            }
-        });
-
         //添加分割线
         mRecyclerView.addItemDecoration(
-            new BaseRecycleViewDivider(
-                    getActivity(),
-                    LinearLayoutManager.HORIZONTAL,
-                    MeasureUtil.dip2px(getActivity(),1),
-                    getResources().getColor(R.color.divide_newslist)));
+                new BaseRecycleViewDivider(
+                        getActivity(),
+                        LinearLayoutManager.HORIZONTAL,
+                        MeasureUtil.dip2px(getActivity(),1),
+                        getResources().getColor(R.color.divide_newslist)));
 
         //设置Item增加、移除动画
         mRecyclerView.setItemAnimator(new DefaultItemAnimator());
@@ -194,20 +200,46 @@ public class NewsListFragment extends Fragment{
         mRecyclerView.getItemAnimator().setMoveDuration(250);
         mRecyclerView.getItemAnimator().setChangeDuration(250);
         mRecyclerView.getItemAnimator().setRemoveDuration(250);
-
-        //设置adapter
-        mRecyclerView.setAdapter(mAdapter);
     }
 
-    public void refreshList(){
-        mPresenter.refreshData(mCatId);
+    protected void initRecyclerRefreshLayout(View view) {
+        mRecyclerRefreshLayout = mFragmentRootView.findViewById(R.id.refresh_layout);
+        // 允许拉动刷新
+        mRecyclerRefreshLayout.setEnabled(false); // 第一次显示，先不允许下拉刷新
+        //mSwipeRefreshLayout.setColorSchemeColors(Color.RED, Color.BLUE);
+        mRecyclerRefreshLayout.setRefreshStyle(RecyclerRefreshLayout.RefreshStyle.FLOAT);
+        ViewGroup.LayoutParams layoutParams = new ViewGroup.LayoutParams(
+                (int) DensityUtil.dip2px(getActivity(), 40), (int)DensityUtil.dip2px(getActivity(), 40));
+        mRecyclerRefreshLayout.setRefreshView(new MaterialRefreshView(getActivity()), layoutParams);
+        mRecyclerRefreshLayout.setOnRefreshListener(new RecyclerRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                requestRefresh(); // 下拉刷新内容
+            }
+        });
     }
 
-    public void display(){
-        if (mAdapter == null) {
-            mPresenter.getNewsList(mCatId);
+    private void requestRefresh() {
+        if (/*mInteractionListener != null && */!mIsRefreshing) {
+            // 防止多次连续加载说数据
+            mIsRefreshing = true;
+            mActivity.getNewsList(mCatId);
+            if (!haveData()) {
+                mLoadingViewPb.setVisibility(View.VISIBLE);
+            }
         }
     }
+
+    public void showLoadError() {
+        mRecyclerRefreshLayout.setEnabled(true);
+        mNoInternetTipTv.setVisibility(View.VISIBLE);
+    }
+    public void display(){
+        if (mAdapter != null) {
+            requestRefresh();
+        }
+    }
+
     public boolean haveData() {
         if (mNewsList != null && mNewsList.size() > 0) {
             return true;
@@ -215,4 +247,13 @@ public class NewsListFragment extends Fragment{
             return false;
         }
     }
+
+//    protected void showLoading() {
+//        if (!haveData()) {
+//        } else {
+//
+//            mLoadingViewPb.setVisibility(View.VISIBLE);
+//        }
+//    }
+
 }

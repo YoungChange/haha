@@ -52,7 +52,4 @@ public class RecyclerNavigationAdapter extends BaseRecyclerAdapter<NavigationIte
         ((RecyclerNavigationViewHolder) holder).itemTextView.setText(item.getItemTitle());
         ((RecyclerNavigationViewHolder) holder).itemImageView.setImageResource(item.getItemImageId());
     }
-
-
-
 }

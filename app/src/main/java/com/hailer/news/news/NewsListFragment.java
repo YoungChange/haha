@@ -1,12 +1,10 @@
 package com.hailer.news.news;
 
 import android.content.Intent;
-import android.graphics.Color;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
-import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -20,16 +18,12 @@ import com.dinuscxj.refresh.RecyclerRefreshLayout;
 import com.hailer.news.R;
 import com.hailer.news.api.bean.NewsItem;
 import com.hailer.news.common.BaseRecycleViewDivider;
-import com.hailer.news.common.LoadTips;
 import com.hailer.news.common.LoadType;
 import com.hailer.news.common.MaterialRefreshView;
 import com.hailer.news.common.OnItemClickListener;
-import com.hailer.news.common.SwipeRefreshView;
 import com.hailer.news.newsdetail.NewsDetailActivity;
-import com.hailer.news.util.DensityUtil;
 import com.hailer.news.util.MeasureUtil;
 import com.hailer.news.util.annotation.ActivityFragmentInject;
-import com.socks.library.KLog;
 
 import java.util.List;
 
@@ -209,7 +203,7 @@ public class NewsListFragment extends Fragment{
         //mSwipeRefreshLayout.setColorSchemeColors(Color.RED, Color.BLUE);
         mRecyclerRefreshLayout.setRefreshStyle(RecyclerRefreshLayout.RefreshStyle.FLOAT);
         ViewGroup.LayoutParams layoutParams = new ViewGroup.LayoutParams(
-                (int) DensityUtil.dip2px(getActivity(), 40), (int)DensityUtil.dip2px(getActivity(), 40));
+                (int) MeasureUtil.dip2px(getActivity(), 40), (int)MeasureUtil.dip2px(getActivity(), 40));
         mRecyclerRefreshLayout.setRefreshView(new MaterialRefreshView(getActivity()), layoutParams);
         mRecyclerRefreshLayout.setOnRefreshListener(new RecyclerRefreshLayout.OnRefreshListener() {
             @Override

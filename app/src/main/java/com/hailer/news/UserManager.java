@@ -111,5 +111,4 @@ public class UserManager {
         setUserInfo(loginInfo.getUserId(),
                 loginInfo.getUserName(), loginInfo.getUserAvatar());
     }
-
 }

@@ -12,11 +12,11 @@ public interface NewsContract {
     interface View {
         void showChannels(List<NewsChannelBean> data);
 
-        void showNewsList(int loadType, List<NewsItem> list);
+        void showNewsList(int loadType, List<NewsItem> list, int tabId);
 
         void upateUserView();
 
-        void showErrorMsg();
+        void showErrorMsg(int mTabId);
     }
 
     interface Presenter {
@@ -29,7 +29,7 @@ public interface NewsContract {
 
         void getUserChannel();
 
-        void getNewsList(String catId);
+        void getNewsList(String catId, int tabId);
 
     }
 }

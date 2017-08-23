@@ -1,8 +1,6 @@
 package com.hailer.news.news;
 
-import android.content.Intent;
 
-import com.hailer.news.NewsApplication;
 import com.hailer.news.UserManager;
 import com.hailer.news.api.bean.LoginInfo;
 import com.hailer.news.api.bean.NewsItem;
@@ -11,7 +9,6 @@ import com.hailer.news.common.RxCallback;
 import com.hailer.news.model.FacebookDataSource;
 import com.hailer.news.model.LocalDataSource;
 import com.hailer.news.model.RemoteDataSource;
-import com.hailer.news.splash.SplashActivity;
 import com.hailer.news.util.bean.NewsChannelBean;
 import com.socks.library.KLog;
 
@@ -27,7 +24,7 @@ public class NewsPresenter implements NewsContract.Presenter {
     private LocalDataSource mLocalData;
     private int mStartPage = 0;
     private RxCallback mLocalCB;
-    private RxCallback mGetDataCallback;
+    private NewsLoadedCallBacek mGetDataCallback;
     private RxCallback mLoginCallback;
     private int mLoadType = LoadType.TYPE_REFRESH;
 
@@ -37,7 +34,7 @@ public class NewsPresenter implements NewsContract.Presenter {
         mLocalCB = new RxCallback<List< NewsChannelBean >>() {
             @Override
             public void requestError(int msg) {
-                mView.showErrorMsg();
+                mView.showErrorMsg(msg);
             }
 
             @Override
@@ -46,18 +43,7 @@ public class NewsPresenter implements NewsContract.Presenter {
             }
         };
 
-        mGetDataCallback = new RxCallback<List<NewsItem>>() {
-            @Override
-            public void requestError(int msg) {
-                mView.showErrorMsg();
-            }
-
-            @Override
-            public void requestSuccess(List<NewsItem> data) {
-//                mStartPage += APIConfig.LIST_ITEMS_PER_PAGE;
-                mView.showNewsList(mLoadType, data);
-            }
-        };
+        mGetDataCallback = new NewsLoadedCallBacek();
 
         mLoginCallback = new RxCallback<LoginInfo>() {
             @Override
@@ -78,9 +64,9 @@ public class NewsPresenter implements NewsContract.Presenter {
 
     }
     @Override
-    public void getNewsList(String catId) {
+    public void getNewsList(String catId, int tabId) {
         //load data
-        mRemoteData.getNewsList(catId, mStartPage, mGetDataCallback);
+        mRemoteData.getNewsList(catId, mStartPage, mGetDataCallback.setTabId(tabId));
     }
 
     @Override
@@ -115,4 +101,27 @@ public class NewsPresenter implements NewsContract.Presenter {
         mRemoteData.getNewsList(catId, itemCount, mGetDataCallback);
     }
 
+    class NewsLoadedCallBacek implements RxCallback<List<NewsItem>> {
+        int mTabId = 0;
+
+        @Override
+        public void requestError(int msg) {
+            mView.showErrorMsg(mTabId);
+        }
+
+        @Override
+        public void requestSuccess(List<NewsItem> data) {
+            // mStartPage += APIConfig.LIST_ITEMS_PER_PAGE;
+            mView.showNewsList(mLoadType, data, mTabId);
+        }
+
+        public NewsLoadedCallBacek setTabId(int tabId) {
+            mTabId = tabId;
+            return this;
+        }
+
+        public String getTabId() {
+            return getTabId();
+        }
+    }
 }

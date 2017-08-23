@@ -8,11 +8,9 @@ import android.support.v4.app.Fragment;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
-import android.support.v7.widget.RecyclerView;
 import android.view.KeyEvent;
 import android.view.View;
 import android.widget.ImageButton;
-import android.widget.TextView;
 
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.crashlytics.android.Crashlytics;
@@ -26,7 +24,6 @@ import com.hailer.news.api.bean.NewsItem;
 import com.hailer.news.common.ToolBarType;
 import com.hailer.news.common.BaseActivity;
 import com.hailer.news.login.LoginActivity;
-import com.hailer.news.splash.SplashActivity;
 import com.hailer.news.util.GlideUtils;
 import com.hailer.news.util.RxBus;
 import com.hailer.news.util.annotation.ActivityFragmentInject;
@@ -170,16 +167,19 @@ public class NewsActivity extends BaseActivity implements NewsContract.View{
     }
 
     @Override
-    public void showNewsList(int loadType, List<NewsItem> list){
-        NewsListFragment fragment = (NewsListFragment)getCurrentFragment();
-        if (fragment != null) {
-            fragment.showNewsList(loadType, list);
+    public void showNewsList(int loadType, List<NewsItem> list, int tabId){
+        if (tabId == mNewsViewpager.getCurrentItem()) {
+            NewsListFragment fragment = (NewsListFragment)getFragmentAt(tabId);
+            if (fragment != null) {
+                KLog.e("------" + tabId + "is going to update data");
+                fragment.showNewsList(loadType, list);
+            }
         }
     }
 
     @Override
-    public void showErrorMsg(){
-        NewsListFragment fragment = (NewsListFragment)getCurrentFragment();
+    public void showErrorMsg(int mTabId){
+        NewsListFragment fragment = (NewsListFragment)getFragmentAt(mTabId);
         fragment.showLoadError();
 //        if (fragment != null) {
 //            if (fragment.haveData()) {
@@ -203,6 +203,20 @@ public class NewsActivity extends BaseActivity implements NewsContract.View{
         Fabric.with(this, new Crashlytics());
     }
 
+    private Fragment getFragmentAt(int index){
+        NewsFragmentAdapter adapter = (NewsFragmentAdapter) mNewsViewpager.getAdapter();
+        Fragment fragment = adapter.getItem(index);
+
+        if (!fragment.isAdded()) {
+            KLog.e("has not added fragment!!!!!!!!!!!!!!!!!!!!");
+            return null;
+        }
+        return fragment;
+    }
+
+//    private int getCurretFragmentIndex() {
+//
+//    }
     private Fragment getCurrentFragment(){
         int curItem = mNewsViewpager.getCurrentItem();
         NewsFragmentAdapter adapter = (NewsFragmentAdapter) mNewsViewpager.getAdapter();
@@ -212,7 +226,6 @@ public class NewsActivity extends BaseActivity implements NewsContract.View{
             KLog.e("has not added fragment!!!!!!!!!!!!!!!!!!!!");
             return null;
         }
-
         return fragment;
     }
 
@@ -235,6 +248,13 @@ public class NewsActivity extends BaseActivity implements NewsContract.View{
             @Override
             public void onTabSelected(TabLayout.Tab tab) {
                 viewPager.setCurrentItem(tab.getPosition(), true);
+                // 如果一个页面正在更新数据，就滑动到另一个页面，需要将其他页面的页面都置为可刷新，因为那些正在刷新数据
+                // 的页面被标志为正在刷新。打开舒心功能才能在下次打开时从新加载数据。
+                NewsFragmentAdapter adapter = (NewsFragmentAdapter) mNewsViewpager.getAdapter();
+                for (int fragmentIndex = 0; fragmentIndex < adapter.getCount(); fragmentIndex++ ) {
+                    NewsListFragment fragment = (NewsListFragment)adapter.getItem(fragmentIndex);
+                    fragment.enableLoad();
+                }
                 displayCurFragment();
             }
 
@@ -257,6 +277,6 @@ public class NewsActivity extends BaseActivity implements NewsContract.View{
     }
 
     public void getNewsList(String mCatId) {
-        mNewsPresenter.getNewsList(mCatId);
+        mNewsPresenter.getNewsList(mCatId,  mNewsViewpager.getCurrentItem());
     }
 }

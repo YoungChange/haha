@@ -30,6 +30,7 @@
             android:layout_height="match_parent"
             android:gravity="center"
             android:maxLines="1"
+            android:background="@color/white"
             android:text="@string/net_error"
             android:visibility="gone" />
 

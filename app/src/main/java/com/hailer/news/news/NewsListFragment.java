@@ -8,6 +8,7 @@ import android.support.v4.app.Fragment;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -24,7 +25,6 @@ import com.hailer.news.common.OnItemClickListener;
 import com.hailer.news.newsdetail.NewsDetailActivity;
 import com.hailer.news.util.MeasureUtil;
 import com.hailer.news.util.annotation.ActivityFragmentInject;
-
 import java.util.List;
 
 import static com.google.common.base.Preconditions.checkNotNull;
@@ -36,9 +36,6 @@ import static com.google.common.base.Preconditions.checkNotNull;
 @ActivityFragmentInject(contentViewId = R.layout.fragment_news_list)
 public class NewsListFragment extends Fragment{
 
-    enum LOAD_STATE {
-        UNLOAD, LOADING, COMPLATE
-    }
     public static final String ARGS_NAME = "args_Name";
     public static final String ARGS_Id = "args_Id";
 
@@ -119,10 +116,9 @@ public class NewsListFragment extends Fragment{
     }
 
     public void showNewsList(int loadType, List<NewsItem> list){
-        mIsRefreshing = false;
+        Log.i("white screen", "------ show new list is running");
+        enableLoad();
         mNewsList = list;
-        mRecyclerRefreshLayout.setEnabled(true);
-        mRecyclerRefreshLayout.setRefreshing(false);
         mLoadingViewPb.setVisibility(View.GONE);
         mNoInternetTipTv.setVisibility(View.GONE);
         switch (loadType) {
@@ -170,7 +166,6 @@ public class NewsListFragment extends Fragment{
             public void onItemClick(View view, int position) {
                 Intent intent = new Intent(getActivity(), NewsDetailActivity.class);
                 NewsItem newsItem =  mAdapter.getmData().get(position);
-                //KLog.e("onItemClick, position="+position+"; id="+newsItem.id+"; img="+newsItem.post_image);
                 intent.putExtra("postid", String.valueOf(newsItem.getPostId()));
                 startActivity(intent);
             }
@@ -214,23 +209,22 @@ public class NewsListFragment extends Fragment{
     }
 
     private void requestRefresh() {
-        if (/*mInteractionListener != null && */!mIsRefreshing) {
+        if (!mIsRefreshing) {
             // 防止多次连续加载说数据
             mIsRefreshing = true;
             mActivity.getNewsList(mCatId);
-            if (!haveData()) {
-                mLoadingViewPb.setVisibility(View.VISIBLE);
-            }
         }
     }
 
     public void showLoadError() {
-        mRecyclerRefreshLayout.setEnabled(true);
+        enableLoad();
         mNoInternetTipTv.setVisibility(View.VISIBLE);
     }
     public void display(){
+        mLoadingViewPb.setVisibility(View.VISIBLE);
         if (mAdapter != null) {
             requestRefresh();
+        } else {
         }
     }
 
@@ -239,6 +233,14 @@ public class NewsListFragment extends Fragment{
             return true;
         } else {
             return false;
+        }
+    }
+
+    protected void enableLoad() {
+        mIsRefreshing = false;
+        if (mRecyclerRefreshLayout != null) {
+            mRecyclerRefreshLayout.setEnabled(true);
+            mRecyclerRefreshLayout.setRefreshing(false);
         }
     }
 

@@ -156,8 +156,7 @@ public class NewsActivity extends BaseActivity implements NewsContract.View{
         }
 
         initListener();
-
-        //displayCurFragment();
+        displayCurFragment();
     }
 
     @Override

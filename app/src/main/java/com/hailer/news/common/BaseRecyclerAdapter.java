@@ -54,6 +54,18 @@ public abstract class BaseRecyclerAdapter<T> extends RecyclerView.Adapter<BaseRe
         notifyItemRangeInserted(startPos, data.size());
     }
 
+    /**
+     * 在Recycle的上面插入一个item
+     * @param data
+     */
+    public void addHeadData(T data){
+        mData.add(0,data);
+        notifyItemInserted(0);
+        notifyItemRangeChanged(0,mData.size()-1);
+    }
+
+
+
     public void setOnItemClickListener(OnItemClickListener listener) {
         mClickListener = listener;
     }

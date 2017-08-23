@@ -5,6 +5,7 @@ import android.content.res.ColorStateList;
 import android.graphics.Color;
 import android.os.Handler;
 import android.view.View;
+import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.ImageButton;
 import android.widget.ImageView;
@@ -18,6 +19,7 @@ import com.hailer.news.R;
 import com.hailer.news.api.bean.CommentInfo;
 import com.hailer.news.common.BaseRecyclerViewHolder;
 import com.hailer.news.util.CommentVoteUtil;
+import com.hailer.news.util.FuncUtil;
 import com.hailer.news.util.GlideUtils;
 import com.socks.library.KLog;
 
@@ -32,16 +34,20 @@ public class CommentsListViewHolder extends BaseRecyclerViewHolder {
     private TextView commentUserName;
     private TextView commentContent;
     private TextView commentTime;
-    private TextView addOne;// +1
-    private android.view.animation.Animation animation;
+    public TextView addOneTv;// +1
+
     private RelativeLayout mLlVoteContainer;
     private ImageButton mIbVote;
     private TextView mTvVoteCount;
     private CommentInfo mCommentInfo;
     private int mVoteTextColor;
     private int mUnVoteTextColor;
+    private BaseRecyclerViewHolder viewHolder;
+
+
     public CommentsListViewHolder(Context context, View itemView) {
         super(itemView);
+        viewHolder = this;
         mCommentsActivity = (CommentsActivity)context;
         mContext = context;
         commentUserPic = itemView.findViewById(R.id.comment_userpicture);
@@ -51,33 +57,36 @@ public class CommentsListViewHolder extends BaseRecyclerViewHolder {
         mLlVoteContainer = itemView.findViewById(R.id.ll_vote_container);
         mIbVote = itemView.findViewById(R.id.ib_vote);
         mTvVoteCount = itemView.findViewById(R.id.tv_vote_count);
-        //  初始化 动画
-        animation = AnimationUtils.loadAnimation(mCommentsActivity, R.anim.add_score_anim);
+
         mVoteTextColor = Color.rgb(0xf2, 0x44, 0x44);
         mUnVoteTextColor = Color.rgb(0x80, 0x80, 0x80);
 
-        addOne = itemView.findViewById(R.id.addOne_tv);
+        addOneTv = itemView.findViewById(R.id.add_one_tv);
+
         View.OnClickListener clickListener = new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 if (!mCommentInfo.isVoted()) {
-                    mCommentsActivity.vote(mCommentInfo);
                     mLlVoteContainer.setClickable(false);
-                    addOne.setVisibility(View.VISIBLE);
-                    addOne.startAnimation(animation);
-                    new Handler().postDelayed(new Runnable() {
-                        public void run() {
-                            addOne.setVisibility(View.GONE);
-                        }
-                    }, 1000);
-
+                    mCommentsActivity.vote(mCommentInfo,viewHolder);
                 }
-
             }
         };
         mLlVoteContainer.setOnClickListener(clickListener);
-
     }
+
+
+    public void addOneAnim(){
+        Animation animation = AnimationUtils.loadAnimation(mCommentsActivity, R.anim.add_score_anim);
+        addOneTv.setVisibility(View.VISIBLE);
+        addOneTv.startAnimation(animation);
+        new Handler().postDelayed(new Runnable() {
+            public void run() {
+                addOneTv.setVisibility(View.GONE);
+            }
+        }, 1000);
+    }
+
 
     public CommentsListViewHolder setVote(boolean voted) {
         if (voted) {
@@ -99,7 +108,7 @@ public class CommentsListViewHolder extends BaseRecyclerViewHolder {
                     false, null, DiskCacheStrategy.RESULT);
             commentUserName.setText(mCommentInfo.getUserName());
             commentContent.setText(mCommentInfo.getComment());
-            commentTime.setText(mCommentInfo.getDate());
+            commentTime.setText(FuncUtil.time2Time(mCommentInfo.getDate()));
             //boolean isVoted = CommentVoteUtil.getInstances(mContext).isVoted(commentInfo.getId());
             //commentInfo.setVote(isVoted);
             setVote(mCommentInfo.isVoted());

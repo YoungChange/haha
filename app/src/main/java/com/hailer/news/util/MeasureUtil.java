@@ -5,9 +5,12 @@ import android.content.Context;
 import android.content.res.Resources;
 import android.content.res.TypedArray;
 import android.graphics.Point;
+import android.os.IBinder;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.ListAdapter;
 import android.widget.ListView;
 
@@ -19,36 +22,7 @@ import com.socks.library.KLog;
  * Fuction：测量工具类<p>
  */
 public class MeasureUtil {
-    /**
-     * 获取状态栏的高度
-     *
-     * @param context 上下文
-     * @return 状态栏高度
-     */
-    public static int getStatusBarHeight(Context context) {
-        int result = 0;
-        int resourceId = context.getResources()
-                .getIdentifier("status_bar_height", "dimen", "android");
-        if (resourceId > 0) {
-            result = context.getResources().getDimensionPixelSize(resourceId);
-        }
-        return result;
-    }
 
-    /**
-     * 获取ToolBar的高度
-     *
-     * @param context
-     * @return
-     */
-    public static int getToolbarHeight(Context context) {
-        final TypedArray styledAttributes = context.getTheme()
-                .obtainStyledAttributes(new int[]{R.attr.actionBarSize});
-        int toolbarHeight = (int) styledAttributes.getDimension(0, 0);
-        styledAttributes.recycle();
-
-        return toolbarHeight;
-    }
 
     public static int getNavigationBarHeight(Activity activity) {
 
@@ -66,24 +40,10 @@ public class MeasureUtil {
             return resources.getDimensionPixelSize(resourceId);
         }
 
-        //获取NavigationBar的高度
         return 0;
     }
 
-    /**
-     * 获取屏幕尺寸
-     *
-     * @param context 上下文
-     * @return 屏幕尺寸像素值，下标为0的值为宽，下标为1的值为高
-     */
-    public static Point getScreenSize(Context context) {
 
-        // 获取屏幕宽高
-        WindowManager wm = (WindowManager) context.getSystemService(Context.WINDOW_SERVICE);
-        Point screenSize = new Point();
-        wm.getDefaultDisplay().getSize(screenSize);
-        return screenSize;
-    }
 
     /**
      * 根据手机的分辨率从 dp 的单位 转成为 px(像素)
@@ -125,62 +85,30 @@ public class MeasureUtil {
         return (int) (spValue * fontScale + 0.5f);
     }
 
-    /**
-     * 动态测量listview item的高度
-     *
-     * @param listView
-     */
-    public static void setListViewHeightBasedOnChildren(ListView listView) {
-        ListAdapter listAdapter = listView.getAdapter();
-        if (listAdapter == null) {
-            // pre-condition
-            return;
-        }
-
-        int totalHeight = listView.getPaddingTop() + listView.getPaddingBottom();
-        for (int i = 0; i < listAdapter.getCount(); i++) {
-            View listItem = listAdapter.getView(i, null, listView);
-            if (listItem instanceof ViewGroup) {
-                listItem.setLayoutParams(
-                        new ViewGroup.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT,
-                                ViewGroup.LayoutParams.WRAP_CONTENT));
-            }
-            listItem.measure(0, 0);
-            totalHeight += listItem.getMeasuredHeight();
-        }
-
-        ViewGroup.LayoutParams params = listView.getLayoutParams();
-        params.height = totalHeight + (listView.getDividerHeight() * (listAdapter.getCount() - 1));
-        listView.setLayoutParams(params);
-    }
 
     /**
-     * 动态测量listview item的高度
-     *
-     * @param listView
+     * 判断点击事件是否在View上
+     * @param v
+     * @param event
+     * @return
      */
-    public static void setListViewHeightBasedOnChildren1(ListView listView) {
-        ListAdapter listAdapter = listView.getAdapter();
-        if (listAdapter == null) {
-            return;
-        }
-        int desiredWidth = View.MeasureSpec
-                .makeMeasureSpec(listView.getWidth(), View.MeasureSpec.AT_MOST);
-        int totalHeight = 0;
-        View view = null;
-        for (int i = 0; i < listAdapter.getCount(); i++) {
-            view = listAdapter.getView(i, view, listView);
-            if (i == 0) {
-                view.setLayoutParams(new ViewGroup.LayoutParams(desiredWidth,
-                        ViewGroup.LayoutParams.WRAP_CONTENT));
+    public static boolean isShouldHideInput(View v, MotionEvent event) {
+        if (v != null ) {
+            int[] l = { 0, 0 };
+            v.getLocationInWindow(l);
+            int left = l[0], top = l[1], bottom = top + v.getHeight(), right = left
+                    + v.getWidth();
+            KLog.e("-----View v[left:"+left+";top:"+top+";bottom:"+bottom+";right:"+right+"]");
+            KLog.e("-----event.getX():"+event.getX()+";event.getY():"+event.getY());
+            if (event.getX() > left && event.getX() < right
+                    && event.getY() > top && event.getY() < bottom) {
+                return false;
+            } else {
+                return true;
             }
-            view.measure(desiredWidth, View.MeasureSpec.UNSPECIFIED);
-            totalHeight += view.getMeasuredHeight();
         }
-        ViewGroup.LayoutParams params = listView.getLayoutParams();
-        params.height = totalHeight + (listView.getDividerHeight() * (listAdapter.getCount() - 1));
-        listView.setLayoutParams(params);
-        listView.requestLayout();
+        KLog.e("----v=null----");
+        return false;
     }
 
 }

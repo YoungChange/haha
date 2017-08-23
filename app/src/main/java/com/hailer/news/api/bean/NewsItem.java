@@ -1,5 +1,7 @@
 package com.hailer.news.api.bean;
 
+import com.hailer.news.api.APIConfig;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;

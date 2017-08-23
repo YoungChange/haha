@@ -1,8 +1,11 @@
 package com.hailer.news.comments;
 
+import android.support.v7.widget.RecyclerView;
+
 import com.hailer.news.NewsApplication;
 import com.hailer.news.UserManager;
 import com.hailer.news.api.APIConfig;
+import com.hailer.news.common.BaseRecyclerViewHolder;
 import com.hailer.news.common.ErrMsg;
 import com.hailer.news.api.bean.CommentInfo;
 import com.hailer.news.model.RemoteDataSource;
@@ -46,6 +49,20 @@ public class CommentsPresenter implements CommentsContract.Presenter {
             }
         };
 
+        mPostDataCallback = new RxCallback() {
+            @Override
+            public void requestError(int msg) {
+                KLog.e("-NewsDetailPresenter------mPostDataCallback--requestError error msg ="+ msg);
+            }
+
+            @Override
+            public void requestSuccess(Object data) {
+                KLog.e("--NewsDetailPresenter------mPostDataCallback---requestSucess...");
+
+                mView.showCommentMsg();
+            }
+        };
+
     }
 
     @Override
@@ -59,11 +76,10 @@ public class CommentsPresenter implements CommentsContract.Presenter {
     public void voteComment(final CommentInfo commentInfo) {
         String token = UserManager.getInstance().getServerToken();
         if (token != null && !token.isEmpty() && commentInfo != null) {
-            //mRemoteData.postComment(postId, token, comment, mPostDataCallback);
             mRemoteData.postVote(Integer.toString(commentInfo.getId()), token, new RxCallback() {
                 @Override
                 public void requestError(int msgType) {
-                    commentInfo.setVote(!commentInfo.isVoted());
+                    commentInfo.setVote(true);
                     commentInfo.setCommentLike(commentInfo.getCommentLike() + 1);
                     mView.resetVote();
                 }
@@ -111,6 +127,17 @@ public class CommentsPresenter implements CommentsContract.Presenter {
 
                 }
             });
+        } else {
+            //提示登录
+            mView.popLoginDlg();
+        }
+    }
+
+    @Override
+    public void postComment(String postId, String comment) {
+        String token = UserManager.getInstance().getServerToken();
+        if (token != null && !token.isEmpty()) {
+            mRemoteData.postComment(postId, token, comment, mPostDataCallback);
         } else {
             //提示登录
             mView.popLoginDlg();

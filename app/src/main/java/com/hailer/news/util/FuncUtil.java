@@ -1,12 +1,13 @@
 package com.hailer.news.util;
 
+import android.app.Activity;
+import android.view.WindowManager;
+
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
-/**
- * 跟网络相关的工具类
- */
+
 public class FuncUtil {
     
     private FuncUtil() {
@@ -25,6 +26,7 @@ public class FuncUtil {
         long nd = 1000 * 24 * 60 * 60;
         long nh = 1000 * 60 * 60;
         long nm = 1000 * 60;
+        long ns = 1000;
 
         SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
         try{
@@ -38,13 +40,18 @@ public class FuncUtil {
             long hour = diff % nd / nh;
             // 计算差多少分钟
             long min = diff % nd % nh / nm;
+            //计算差多少秒
+            long sec = diff % nd % nh % nm / ns;
 
             if(day != 0){
                 returnValue = (day+"天前");
             }else if(hour != 0){
                 returnValue = (hour+"小時前");
-            }else{
+            }else if(min != 0){
                 returnValue = (min+"分鐘前");
+            }else{
+
+                returnValue = ((sec>0?sec:0)+"秒前");
             }
 
         }catch(ParseException e){

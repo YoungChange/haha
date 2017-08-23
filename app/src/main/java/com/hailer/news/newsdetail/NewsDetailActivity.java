@@ -37,6 +37,7 @@ import com.hailer.news.UserManager;
 import com.hailer.news.api.APIConfig;
 import com.hailer.news.api.bean.NewsDetail;
 import com.hailer.news.comments.CommentsActivity;
+import com.hailer.news.common.ActivityCode;
 import com.hailer.news.login.LoginActivity;
 import com.hailer.news.common.BaseActivity;
 import com.hailer.news.util.InputMethodLayout;
@@ -151,6 +152,7 @@ public class NewsDetailActivity extends BaseActivity implements NewsDetailContra
         mCommentCountTextView = (TextView) findViewById(R.id.comment_count_textview);
         mGotoCommentListButton.setOnClickListener(this);
         mEditviewButton.setOnClickListener(this);
+
         mShareButton = (Button) findViewById(R.id.share_btn);
         mShareButton.setOnClickListener(this);
 
@@ -191,6 +193,10 @@ public class NewsDetailActivity extends BaseActivity implements NewsDetailContra
 
     }
 
+    /**
+     * 展示新闻详情，被P层调用
+     * @param data 网络返回的NewsDetail数据对象
+     */
     @Override
     public void showDetail(NewsDetail data){
 
@@ -200,7 +206,7 @@ public class NewsDetailActivity extends BaseActivity implements NewsDetailContra
         mDetailTitle.setText(data.getTitle());
         mDetailTime.setText(data.getDate());
         mCommentsCount = data.getCommentsCount();
-        mPostUrl =  APIConfig.Post_HOST_NAME+data.getUrl();
+        mPostUrl =  data.getUrl();
         mPostTitle = data.getTitle();
 
         String content = data.getContent();
@@ -234,16 +240,22 @@ public class NewsDetailActivity extends BaseActivity implements NewsDetailContra
     @Override
     public void popLoginDlg(){
         Intent intent = new Intent(NewsDetailActivity.this, LoginActivity.class);
-        startActivityForResult(intent,1);
+        startActivityForResult(intent, ActivityCode.Request.NEWS_DETAIL_TO_LOGIN_REQUEST_CODE);
     }
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         KLog.e("----rebackfromFacebook---requestCode:"+requestCode+"--resultCode:"+resultCode);
-        if(requestCode==1){
+        if(requestCode==ActivityCode.Request.NEWS_DETAIL_TO_LOGIN_REQUEST_CODE){
             if(UserManager.getInstance().getServerToken()!=null && !UserManager.getInstance().getServerToken().isEmpty()){
                 mSendCommentButton.callOnClick();
+            }
+        }else if(requestCode==ActivityCode.Request.NEWS_DETAIL_TO_NEWS_COMMENT_REQUEST_CODE){
+            if(data!=null){
+                int count = data.getExtras().getInt("count");
+                mCommentsCount = count;
+                mCommentCountTextView.setText(String.valueOf(count));
             }
         }
 
@@ -291,8 +303,11 @@ public class NewsDetailActivity extends BaseActivity implements NewsDetailContra
                     Intent intent = new Intent(this, CommentsActivity.class);
                     intent.putExtra("postId", mPostId);
                     intent.putExtra("commentCount",mCommentsCount);
-                    startActivity(intent);
+                    intent.putExtra("postUrl",mPostUrl);
+                    intent.putExtra("postTitle",mPostTitle);
+                    startActivityForResult(intent,ActivityCode.Request.NEWS_DETAIL_TO_NEWS_COMMENT_REQUEST_CODE);
                 }
+
                 break;
             case R.id.editview_button:
                 imm.toggleSoftInput(InputMethodManager.SHOW_IMPLICIT, InputMethodManager.HIDE_NOT_ALWAYS);
@@ -358,19 +373,6 @@ public class NewsDetailActivity extends BaseActivity implements NewsDetailContra
         }
     }
 
-
-
-
-    public Uri getHeaderIconUri(){   //要上传的图片
-        Resources r =  getApplicationContext().getResources();
-        return Uri.parse(ContentResolver.SCHEME_ANDROID_RESOURCE + "://"
-                + r.getResourcePackageName(R.drawable.curry) + "/"
-                + r.getResourceTypeName(R.drawable.curry) + "/"
-                + r.getResourceEntryName(R.drawable.curry));
-    }
-
-
-
     void initShareDlg(){
 
         if (popupWindow != null && popupWindow.isShowing()) {
@@ -414,6 +416,7 @@ public class NewsDetailActivity extends BaseActivity implements NewsDetailContra
             public void onClick(View v) {
                 switch (v.getId()){
                     case R.id.dialog_facebook_btn:
+                        popupWindow.dismiss();
                         ShareLinkContent facebookContent = new ShareLinkContent.Builder()
                                 .setContentUrl(Uri.parse(mPostUrl))
                                 .build();
@@ -422,6 +425,7 @@ public class NewsDetailActivity extends BaseActivity implements NewsDetailContra
                         }
                         break;
                     case R.id.dialog_twitter_btn:
+                        popupWindow.dismiss();
                         try {
                             TweetComposer.Builder builder = null;
                             Intent intentTwitter;
@@ -429,7 +433,7 @@ public class NewsDetailActivity extends BaseActivity implements NewsDetailContra
                                     .text(mPostTitle)
                                     .url(new URL(mPostUrl))
                                     .createIntent();
-                            startActivityForResult(intentTwitter, TWEET_COMPOSER_REQUEST_CODE);
+                            startActivityForResult(intentTwitter,ActivityCode.Request.TO_TWEET_COMPOSER_REQUEST_CODE);
                         } catch (MalformedURLException e) {
                             KLog.e("--twitter_share_error----MalformedURLException-:"+e);
                             e.printStackTrace();
@@ -437,6 +441,7 @@ public class NewsDetailActivity extends BaseActivity implements NewsDetailContra
 
                         break;
                     case R.id.dialog_message_btn:
+                        popupWindow.dismiss();
                         ShareLinkContent messagerContent = new ShareLinkContent.Builder()
                                 .setContentUrl(Uri.parse(mPostUrl))
                                 .build();
@@ -446,6 +451,7 @@ public class NewsDetailActivity extends BaseActivity implements NewsDetailContra
 
                         break;
                     case R.id.dialog_whatsapp_btn:
+                        popupWindow.dismiss();
                         Intent sendIntent = new Intent();
                         sendIntent.setAction(Intent.ACTION_SEND);
                         sendIntent.putExtra(Intent.EXTRA_TEXT, mPostUrl);

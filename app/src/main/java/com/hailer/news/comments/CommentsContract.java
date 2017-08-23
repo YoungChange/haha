@@ -1,6 +1,7 @@
 package com.hailer.news.comments;
 
 import com.hailer.news.api.bean.CommentInfo;
+import com.hailer.news.common.BaseRecyclerViewHolder;
 
 import java.util.List;
 
@@ -17,6 +18,8 @@ public interface CommentsContract {
         void popLoginDlg();
 
         void resetVote();
+
+        void showCommentMsg();
     }
 
     interface Presenter {
@@ -28,5 +31,7 @@ public interface CommentsContract {
         void getCommentsList(String postId);
 
         void voteComment(CommentInfo info);
+
+        void postComment(String postId, String comment);
     }
 }

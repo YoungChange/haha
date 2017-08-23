@@ -47,9 +47,10 @@
                 android:layout_height="wrap_content"
                 android:src="@drawable/like"
                 android:background="@android:color/transparent"/>
+
             <!-- +1 动画  -->
             <TextView
-                android:id="@+id/addOne_tv"
+                android:id="@+id/add_one_tv"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_centerInParent="true"

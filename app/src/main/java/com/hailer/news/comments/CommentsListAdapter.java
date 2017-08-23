@@ -1,6 +1,7 @@
 package com.hailer.news.comments;
 
 import android.content.Context;
+import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.view.ViewGroup;
 
@@ -8,6 +9,7 @@ import com.hailer.news.R;
 import com.hailer.news.api.bean.CommentInfo;
 import com.hailer.news.common.BaseRecyclerAdapter;
 import com.hailer.news.common.BaseRecyclerViewHolder;
+import com.socks.library.KLog;
 
 import java.util.List;
 
@@ -32,11 +34,13 @@ public class CommentsListAdapter extends BaseRecyclerAdapter<CommentInfo> {
     @Override
     public void onBindViewHolder(BaseRecyclerViewHolder holder, int position) {
         CommentInfo item = mData.get(position);
+        KLog.e("CommentsListAdapter---onBindViewHolder---CommentInfo.isVoted:"+item.isVoted());
+
         ((CommentsListViewHolder) holder).setData(item);
     }
 
 
-    public void resetVote() {
-        notifyDataSetChanged();
+    public void resetVote(int position) {
+        notifyItemChanged(position);
     }
 }

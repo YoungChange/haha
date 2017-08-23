@@ -66,6 +66,7 @@ public  class NewsListAdapter extends BaseRecyclerAdapter<NewsItem> {
 
     @Override
     public void onBindViewHolder(BaseRecyclerViewHolder holder, int position) {
+        KLog.e("---NewsListAdapter----onBindViewHolder---position:"+position);
         if ( holder instanceof NewsListViewHolder) {
             NewsItem item = mData.get(position);
 
@@ -100,7 +101,7 @@ public  class NewsListAdapter extends BaseRecyclerAdapter<NewsItem> {
         if (imageList == null || imageList.isEmpty()) {
             type = NewsItemViewType.NOIMAGE;
         }
-        else if (imageList.size() == 3) {
+        else if (imageList.size() >= 3) {
             type = NewsItemViewType.THREEIMAGE;
         } else {
             type = NewsItemViewType.ONEIMAGE;

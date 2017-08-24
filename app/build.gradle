@@ -18,8 +18,8 @@ android {
         applicationId "com.hailer.news"
         minSdkVersion 16
         targetSdkVersion 26
-        versionCode 3
-        versionName "1.1.1"
+        versionCode 4
+        versionName "1.1.2"
         multiDexEnabled true
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
     }

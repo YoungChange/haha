@@ -96,7 +96,6 @@ public class NewsPresenter implements NewsContract.Presenter {
     @Override
     public void loadMoreData(String catId, int itemCount) {
         //load data
-        KLog.i("loadMoreData(), category id="+ catId+", itemCount="+itemCount);
         mLoadType = LoadType.TYPE_LOAD_MORE;
         mRemoteData.getNewsList(catId, itemCount, mGetDataCallback);
     }

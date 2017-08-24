@@ -1,6 +1,7 @@
 package com.hailer.news.news;
 
 import android.content.Context;
+import android.os.Handler;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.view.ViewGroup;
@@ -19,7 +20,8 @@ import java.util.List;
  */
 
 public  class NewsListAdapter extends BaseRecyclerAdapter<NewsItem> {
-
+    private static final int FOOTER_NUM = 1;
+    private boolean mIsLoading = false;
     public NewsListAdapter(Context context, List<NewsItem> data) {
         super(context, data, null);
     }
@@ -78,7 +80,11 @@ public  class NewsListAdapter extends BaseRecyclerAdapter<NewsItem> {
     @Override
     public int getItemCount() {
         // 添加一个脚部加载动画
-        return super.getItemCount() + 1;
+        if (mIsLoading) {
+            return super.getItemCount() + FOOTER_NUM;
+        } else {
+            return super.getItemCount();
+        }
     }
 
     /**
@@ -115,5 +121,13 @@ public  class NewsListAdapter extends BaseRecyclerAdapter<NewsItem> {
         }
     }
 
+    public NewsListAdapter setLoading(boolean loading) {
+        mIsLoading = loading;
+        notifyDataSetChanged();
+        return this;
+    }
 
+    public boolean isLoding() {
+        return mIsLoading;
+    }
 }

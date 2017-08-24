@@ -2,6 +2,7 @@ package com.hailer.news.news;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -145,6 +146,13 @@ public class NewsListFragment extends Fragment{
                 //mLoading 防止多次加载同一批数据
                 if (!mIsRefreshing && totalItemCount < (lastVisibleItem + 2)) {
                     mIsRefreshing = true;
+                    mRecyclerView.post(new Runnable() {
+                        // 此处要添加加载动画，RecycleView正在滚动时更新界面会发出一个警告。放到而另一个线程中可以消除。
+                        @Override
+                        public void run() {
+                            mAdapter.setLoading(true);
+                        }
+                    });
                     mPresenter.loadMoreData(mCatId, totalItemCount);
                 }
             }
@@ -234,6 +242,9 @@ public class NewsListFragment extends Fragment{
     }
 
     protected void enableLoad() {
+        if (mAdapter != null) {
+            mAdapter.setLoading(false);
+        }
         mIsRefreshing = false;
         if (mRecyclerRefreshLayout != null) {
             mRecyclerRefreshLayout.setEnabled(true);

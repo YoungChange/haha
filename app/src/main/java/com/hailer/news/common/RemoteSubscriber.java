@@ -56,6 +56,5 @@ public class RemoteSubscriber<T> extends Subscriber<T> {
     @Override
     public void onNext(T t) {
         mRequestCallback.requestSuccess(t);
-        KLog.e("---RemoteSubscriber---onNext()");
     }
 }

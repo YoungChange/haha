@@ -245,7 +245,6 @@ public abstract class BaseActivity extends AppCompatActivity implements View.OnC
     @Override
     protected void onPause() {
         super.onPause();
-        KLog.e("---------Which Activity："+this.getClass().getName());
         if(mToast!=null){
             mToast.cancel();
         }

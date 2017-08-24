@@ -171,7 +171,6 @@ public class NewsActivity extends BaseActivity implements NewsContract.View{
         if (tabId == mNewsViewpager.getCurrentItem()) {
             NewsListFragment fragment = (NewsListFragment)getFragmentAt(tabId);
             if (fragment != null) {
-                KLog.e("------" + tabId + "is going to update data");
                 fragment.showNewsList(loadType, list);
             }
         }

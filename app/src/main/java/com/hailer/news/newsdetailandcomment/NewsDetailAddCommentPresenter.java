@@ -127,8 +127,6 @@ public class NewsDetailAddCommentPresenter implements NewsDetailAddCommentContra
             mRemoteData.postVote(Integer.toString(commentInfo.getId()), token, new RxCallback() {
                 @Override
                 public void requestError(int msgType) {
-                    commentInfo.setVote(true);
-                    commentInfo.setCommentLike(commentInfo.getCommentLike() + 1);
                     mView.resetVote();
                 }
 
@@ -139,7 +137,9 @@ public class NewsDetailAddCommentPresenter implements NewsDetailAddCommentContra
             });
         } else {
             //提示登录
-            mView.popLoginDlg();
+            //mView.popLoginDlg();
+            // 先不登录，保存数据到本地
+
         }
     }
 

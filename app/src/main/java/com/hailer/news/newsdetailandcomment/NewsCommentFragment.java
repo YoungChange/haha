@@ -194,8 +194,7 @@ public class NewsCommentFragment extends Fragment {
     }
 
     public void resetVote() {
-        newsCommentListAdapter.resetVote(mViewHolderPosition);
-        ((CommentsListViewHolder) mViewHolder).addOneAnim();
+        //newsCommentListAdapter.resetVote(mViewHolderPosition);
     }
 
     private Toast mToast;

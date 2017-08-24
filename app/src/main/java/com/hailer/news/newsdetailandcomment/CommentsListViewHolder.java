@@ -2,6 +2,7 @@ package com.hailer.news.newsdetailandcomment;
 
 import android.content.Context;
 import android.graphics.Color;
+import android.graphics.drawable.Drawable;
 import android.os.Handler;
 import android.view.View;
 import android.view.animation.Animation;
@@ -31,15 +32,12 @@ public class CommentsListViewHolder extends BaseRecyclerViewHolder {
     private TextView commentContent;
     private TextView commentTime;
     public TextView addOneTv;// +1
-
-    private RelativeLayout mLlVoteContainer;
-    private ImageButton mIbVote;
     private TextView mTvVoteCount;
     private CommentInfo mCommentInfo;
     private int mVoteTextColor;
     private int mUnVoteTextColor;
     private BaseRecyclerViewHolder viewHolder;
-
+    private Drawable mImgLiked, mImgUnlike;
 
     public CommentsListViewHolder(Context context, View itemView) {
         super(itemView);
@@ -50,8 +48,6 @@ public class CommentsListViewHolder extends BaseRecyclerViewHolder {
         commentUserName = itemView.findViewById(R.id.comment_username);
         commentContent = itemView.findViewById(R.id.comment_content);
         commentTime = itemView.findViewById(R.id.comment_time);
-        mLlVoteContainer = itemView.findViewById(R.id.ll_vote_container);
-        mIbVote = itemView.findViewById(R.id.ib_vote);
         mTvVoteCount = itemView.findViewById(R.id.tv_vote_count);
 
         mVoteTextColor = Color.rgb(0xf2, 0x44, 0x44);
@@ -59,18 +55,33 @@ public class CommentsListViewHolder extends BaseRecyclerViewHolder {
 
         addOneTv = itemView.findViewById(R.id.add_one_tv);
 
-        View.OnClickListener clickListener = new View.OnClickListener() {
+        mTvVoteCount.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 if (!mCommentInfo.isVoted()) {
-                    mLlVoteContainer.setClickable(false);
-                    mNewsDetailAddCommentActivity.vote(mCommentInfo,viewHolder);
+                    synchronized (mCommentInfo) {
+                        if(!mCommentInfo.isVoted()) {
+                            mCommentInfo.setVote(true);
+                            mCommentInfo.setCommentLike(mCommentInfo.getCommentLike() + 1);
+                            mNewsDetailAddCommentActivity.vote(mCommentInfo,viewHolder);
+                            setVote(true);
+                            addOneAnim();
+                        }
+                    }
                 }
             }
-        };
-        mLlVoteContainer.setOnClickListener(clickListener);
-    }
+        });
+        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.LOLLIPOP) {
+            mImgLiked = mContext.getResources().getDrawable(R.drawable.liked, null);
+            mImgUnlike = mContext.getResources().getDrawable(R.drawable.like, null);
+        } else {
+            mImgLiked = mContext.getResources().getDrawable(R.drawable.liked);
+            mImgUnlike = mContext.getResources().getDrawable(R.drawable.like);
+        }
+        mImgLiked.setBounds(0, 0, mImgLiked.getMinimumWidth(), mImgLiked.getMinimumHeight());
+        mImgUnlike.setBounds(0, 0, mImgUnlike.getMinimumWidth(), mImgUnlike.getMinimumHeight());
 
+    }
 
     public void addOneAnim(){
         Animation animation = AnimationUtils.loadAnimation(mNewsDetailAddCommentActivity, R.anim.add_score_anim);
@@ -86,11 +97,11 @@ public class CommentsListViewHolder extends BaseRecyclerViewHolder {
 
     public CommentsListViewHolder setVote(boolean voted) {
         if (voted) {
-            mIbVote.setImageResource(R.drawable.liked);
+            mTvVoteCount.setCompoundDrawables(mImgLiked, null, null, null);
             mTvVoteCount.setTextColor(mVoteTextColor);
         }
         else  {
-            mIbVote.setImageResource(R.drawable.like);
+            mTvVoteCount.setCompoundDrawables(mImgUnlike, null, null, null);
             mTvVoteCount.setTextColor(mUnVoteTextColor);
         }
         mTvVoteCount.setText(Integer.toString(mCommentInfo.getCommentLike()));
@@ -108,7 +119,7 @@ public class CommentsListViewHolder extends BaseRecyclerViewHolder {
             //boolean isVoted = CommentVoteUtil.getInstances(mContext).isVoted(commentInfo.getId());
             //commentInfo.setVote(isVoted);
             setVote(mCommentInfo.isVoted());
-            mLlVoteContainer.setClickable(true);
+            //mLlVoteContainer.setClickable(true);
         }
         return this;
     }

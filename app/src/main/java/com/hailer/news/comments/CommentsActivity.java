@@ -209,7 +209,7 @@ public class CommentsActivity extends BaseActivity implements CommentsContract.V
     public void resetVote() {
 //        (CommentsListViewHolder)mViewHolder.
         newsCommentListAdapter.resetVote(mViewHolderPosition);
-        ((CommentsListViewHolder) mViewHolder).addOneAnim();
+        //((CommentsListViewHolder) mViewHolder).addOneAnim();
     }
 
 

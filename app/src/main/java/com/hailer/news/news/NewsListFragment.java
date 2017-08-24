@@ -46,6 +46,7 @@ public class NewsListFragment extends Fragment{
     private RecyclerView mRecyclerView;
     private NewsListAdapter mAdapter;
     private Boolean mIsRefreshing = false;
+    private Boolean mIsLoadingMore = false;
     protected View mFragmentRootView;
     protected int mContentViewId;
     private List mNewsList;
@@ -146,8 +147,8 @@ public class NewsListFragment extends Fragment{
                 int lastVisibleItem = layoutManager.findLastVisibleItemPosition();
                 //mLoading 防止多次加载同一批数据
 //                KLog.e("totalItemCount:"+totalItemCount+";lastVisibleItem:"+lastVisibleItem);
-                if (!mIsRefreshing && totalItemCount < (lastVisibleItem + 2)) {
-                    mIsRefreshing = true;
+                if (!mIsLoadingMore && totalItemCount < (lastVisibleItem + 2)) {
+                    mIsLoadingMore = true;
                     mRecyclerView.post(new Runnable() {
                         // 此处要添加加载动画，RecycleView正在滚动时更新界面会发出一个警告。放到而另一个线程中可以消除。
                         @Override
@@ -255,6 +256,7 @@ public class NewsListFragment extends Fragment{
             mAdapter.setLoading(false);
         }
         mIsRefreshing = false;
+        mIsLoadingMore = false;
         if (mRecyclerRefreshLayout != null) {
             mRecyclerRefreshLayout.setEnabled(true);
             mRecyclerRefreshLayout.setRefreshing(false);

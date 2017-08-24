@@ -150,7 +150,7 @@ public class NewsListFragment extends Fragment{
 //                int totalItemCount = layoutManager.getItemCount() - 1;
                 int lastVisibleItem = layoutManager.findLastVisibleItemPosition();
                 //mLoading 防止多次加载同一批数据
-                KLog.e("totalItemCount:"+totalItemCount+";lastVisibleItem:"+lastVisibleItem);
+//                KLog.e("totalItemCount:"+totalItemCount+";lastVisibleItem:"+lastVisibleItem);
                 if (!mIsRefreshing && totalItemCount < (lastVisibleItem + 2)) {
                     mIsRefreshing = true;
                     mRecyclerView.post(new Runnable() {

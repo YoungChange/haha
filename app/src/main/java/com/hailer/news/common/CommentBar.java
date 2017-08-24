@@ -168,7 +168,6 @@ public class CommentBar extends LinearLayout implements View.OnClickListener{
                 KLog.e("-------------onclick , send comment ..............");
                 String comment = mSendCommentEditText.getText().toString();
                 comment = TextUtil.noCRLF(comment);
-
                 mListener.sendCommentClick(comment);
                 break;
             case R.id.goto_comment_list_button:

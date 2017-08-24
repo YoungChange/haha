@@ -21,6 +21,15 @@
     <string name="facebook_logout">Facebook登出</string>
     <string name="login_to_post">登錄後立即暢談</string>
 
+    <!--channel-->
+    <string name="my_channel">我的頻道</string>
+    <string name="enter_channel">點擊進入頻道</string>
+    <string name="sort_channel">拖動可以進行排序</string>
+    <string name="edit">編輯</string>
+    <string name="complete">完成</string>
+    <string name="more_channel">更多頻道</string>
+    <string name="add_channel">點擊添加頻道</string>
+    
     <!--comment-->
     <string name="news_comment">文章評論</string>
     <string name="post_comment">發佈</string>

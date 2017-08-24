@@ -21,6 +21,7 @@ import com.hailer.news.NewsApplication;
 import com.hailer.news.R;
 import com.hailer.news.UserManager;
 import com.hailer.news.api.bean.NewsItem;
+import com.hailer.news.channel.ChannelActivity;
 import com.hailer.news.common.ToolBarType;
 import com.hailer.news.common.BaseActivity;
 import com.hailer.news.login.LoginActivity;
@@ -92,10 +93,11 @@ public class NewsActivity extends BaseActivity implements NewsContract.View{
                 this.mDrawerLayout.openDrawer(GravityCompat.START);
                 break;
             case R.id.login_imagebutton:
-//                if(UserManager.getInstance().getServerToken()==null || UserManager.getInstance().getServerToken().isEmpty()){
-                    Intent intent = new Intent(NewsActivity.this, LoginActivity.class);
-                    startActivity(intent);
-//                }
+                Intent intent = new Intent(NewsActivity.this, LoginActivity.class);
+                startActivity(intent);
+                break;
+            case R.id.change_channel:
+                startActivity(new Intent(NewsActivity.this, ChannelActivity.class));
                 break;
         }
     }

@@ -114,6 +114,11 @@ public class NewsDetailFragment extends Fragment implements View.OnClickListener
         }
     }
 
+    public void handleError(){
+        normalLayout.setVisibility(View.GONE);
+        netErrorLayout.setVisibility(View.VISIBLE);
+    }
+
     public void showDetail(NewsDetail data){
         KLog.e("---showDetail---");
 

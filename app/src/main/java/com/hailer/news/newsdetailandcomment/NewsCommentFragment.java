@@ -186,7 +186,6 @@ public class NewsCommentFragment extends Fragment {
         mRecyclerView.setAdapter(newsCommentListAdapter);
     }
 
-
     public void vote(CommentInfo commentInfo,BaseRecyclerViewHolder viewHolder) {
         mPresenter.voteComment(commentInfo);
         mViewHolder = viewHolder;

@@ -40,7 +40,7 @@
 
                 <ImageButton
                     android:id="@+id/change_channel"
-                    android:layout_width="36dp"
+                    android:layout_width="0dp"
                     android:layout_height="36dp"
                     android:layout_gravity="center_vertical"
                     android:background="#ddffffff"

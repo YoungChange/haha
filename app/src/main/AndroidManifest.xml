@@ -85,6 +85,12 @@
         </activity>
 
 
+        <activity android:name=".channel.ChannelActivity"
+            android:screenOrientation="portrait"
+            android:configChanges="orientation|keyboardHidden|screenSize"
+            android:theme="@style/AppThemeBack">
+
+        </activity>
 
 
 

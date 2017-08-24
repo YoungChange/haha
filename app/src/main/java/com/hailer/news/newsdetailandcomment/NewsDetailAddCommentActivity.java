@@ -143,11 +143,12 @@ public class NewsDetailAddCommentActivity extends BaseActivity implements NewsDe
 
             @Override
             public void gotoCommentListClick() {
+
                 if(mNewsCommentFragment.isVisible()){
                     KLog.e("------mNewsCommentFragment---is---- showing");
                     changeFragment(mNewsDetailFragment);
                     changeToolBar(R.string.news_detail);
-                }else if(mNewsDetailFragment.isVisible()){
+                }else if(mNewsDetailFragment.isVisible() && mCommentCount != 0){
                     KLog.e("------mNewsCommentFragment-----is---- showing");
                     changeFragment(mNewsCommentFragment);
                     changeToolBar(R.string.news_comment);
@@ -181,8 +182,8 @@ public class NewsDetailAddCommentActivity extends BaseActivity implements NewsDe
     }
 
     @Override
-    public void handleError() {
-
+    public void handleError(){
+        mNewsDetailFragment.handleError();
     }
 
     @Override

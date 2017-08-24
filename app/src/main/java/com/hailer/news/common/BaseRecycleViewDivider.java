@@ -11,6 +11,8 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 
+import com.hailer.news.util.MeasureUtil;
+
 /**
  * Created by moma on 17-7-22.
  */
@@ -89,10 +91,11 @@ public class BaseRecycleViewDivider extends RecyclerView.ItemDecoration{
 
     //绘制横向 item 分割线
     private void drawHorizontal(Canvas canvas, RecyclerView parent) {
-        final int left = parent.getPaddingLeft();
-        final int right = parent.getMeasuredWidth() - parent.getPaddingRight();
+        final int margin = MeasureUtil.dip2px(parent.getContext(), 15);
+        final int left = parent.getPaddingLeft() + margin;
+        final int right = parent.getMeasuredWidth() - parent.getPaddingRight() - margin;
         final int childSize = parent.getChildCount();
-        for (int i = 0; i < childSize; i++) {
+        for (int i = 0; i < childSize - 1; i++) {
             final View child = parent.getChildAt(i);
             RecyclerView.LayoutParams layoutParams = (RecyclerView.LayoutParams) child.getLayoutParams();
             final int top = child.getBottom() + layoutParams.bottomMargin;

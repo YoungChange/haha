@@ -36,13 +36,13 @@ public  class NewsListAdapter extends BaseRecyclerAdapter<NewsItem> {
                 break;
             case NewsItemViewType.NOIMAGE:
                 view =  mInflater.inflate(R.layout.item_news_no_image, parent, false);
-//                break;
-//            case NewsItemViewType.FOOTER:
-//                view = mInflater.inflate(R.layout.item_news_footer, parent, false);
+                break;
+            case NewsItemViewType.FOOTER:
+                view = mInflater.inflate(R.layout.item_footer_view, parent, false);
         }
-//        if (viewType == NewsItemViewType.FOOTER) {
-//            return new FooterViewHolder(view);
-//        } else {
+        if (viewType == NewsItemViewType.FOOTER) {
+            return new FooterViewHolder(view);
+        } else {
             final NewsListViewHolder holder = new NewsListViewHolder(mContext, view, viewType);
 
             if (mClickListener != null) {
@@ -61,12 +61,11 @@ public  class NewsListAdapter extends BaseRecyclerAdapter<NewsItem> {
                 });
             }
             return holder;
-//        }
+        }
     }
 
     @Override
     public void onBindViewHolder(BaseRecyclerViewHolder holder, int position) {
-        KLog.e("---NewsListAdapter----onBindViewHolder---position:"+position);
         if ( holder instanceof NewsListViewHolder) {
             NewsItem item = mData.get(position);
 
@@ -79,7 +78,7 @@ public  class NewsListAdapter extends BaseRecyclerAdapter<NewsItem> {
     @Override
     public int getItemCount() {
         // 添加一个脚部加载动画
-        return super.getItemCount();
+        return super.getItemCount() + 1;
     }
 
     /**
@@ -90,9 +89,9 @@ public  class NewsListAdapter extends BaseRecyclerAdapter<NewsItem> {
     @Override
     public int getItemViewType(int position) {
         // 是底部动画直接返回
-//        if (position + 1 == getItemCount()) {
-//            return NewsItemViewType.FOOTER;
-//        }
+        if (position + 1 == getItemCount()) {
+            return NewsItemViewType.FOOTER;
+        }
         //默认有一张图片
         int type;
         NewsItem item = mData.get(position );
@@ -109,10 +108,12 @@ public  class NewsListAdapter extends BaseRecyclerAdapter<NewsItem> {
         return type;
     }
 
-//    class FooterViewHolder extends BaseRecyclerViewHolder {
-//
-//        public FooterViewHolder(View itemView) {
-//            super(itemView);
-//        }
-//    }
+    class FooterViewHolder extends BaseRecyclerViewHolder {
+
+        public FooterViewHolder(View itemView) {
+            super(itemView);
+        }
+    }
+
+
 }

@@ -8,7 +8,6 @@ import android.support.v4.app.Fragment;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -45,7 +44,6 @@ public class NewsListFragment extends Fragment{
     private RecyclerRefreshLayout mRecyclerRefreshLayout;
     private RecyclerView mRecyclerView;
     private NewsListAdapter mAdapter;
-    private Boolean mLoadingMore = false;
     private Boolean mIsRefreshing = false;
     protected View mFragmentRootView;
     protected int mContentViewId;
@@ -116,7 +114,6 @@ public class NewsListFragment extends Fragment{
     }
 
     public void showNewsList(int loadType, List<NewsItem> list){
-        Log.i("white screen", "------ show new list is running");
         enableLoad();
         mNewsList = list;
         mLoadingViewPb.setVisibility(View.GONE);
@@ -146,8 +143,8 @@ public class NewsListFragment extends Fragment{
                 int totalItemCount = layoutManager.getItemCount() - 1;
                 int lastVisibleItem = layoutManager.findLastVisibleItemPosition();
                 //mLoading 防止多次加载同一批数据
-                if (!mLoadingMore && totalItemCount < (lastVisibleItem + 2)) {
-                    mLoadingMore = true;
+                if (!mIsRefreshing && totalItemCount < (lastVisibleItem + 2)) {
+                    mIsRefreshing = true;
                     mPresenter.loadMoreData(mCatId, totalItemCount);
                 }
             }
@@ -243,13 +240,4 @@ public class NewsListFragment extends Fragment{
             mRecyclerRefreshLayout.setRefreshing(false);
         }
     }
-
-//    protected void showLoading() {
-//        if (!haveData()) {
-//        } else {
-//
-//            mLoadingViewPb.setVisibility(View.VISIBLE);
-//        }
-//    }
-
 }

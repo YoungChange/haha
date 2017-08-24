@@ -22,7 +22,6 @@ import com.hailer.news.common.BaseRecycleViewDivider;
 import com.hailer.news.common.LoadType;
 import com.hailer.news.common.MaterialRefreshView;
 import com.hailer.news.common.OnItemClickListener;
-import com.hailer.news.newsdetail.NewsDetailActivity;
 import com.hailer.news.newsdetailandcomment.NewsDetailAddCommentActivity;
 
 import com.hailer.news.util.MeasureUtil;

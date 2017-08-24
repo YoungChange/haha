@@ -24,23 +24,12 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.facebook.share.model.ShareLinkContent;
-import com.facebook.share.widget.MessageDialog;
-import com.facebook.share.widget.ShareDialog;
-import com.hailer.news.NewsApplication;
 import com.hailer.news.R;
 import com.hailer.news.UserManager;
-import com.hailer.news.comments.CommentsActivity;
-import com.hailer.news.newsdetail.NewsDetailActivity;
-import com.hailer.news.newsdetail.NewsDetailPresenter;
 import com.hailer.news.util.InputMethodLayout;
 import com.hailer.news.util.NetworkUtil;
 import com.hailer.news.util.TextUtil;
 import com.socks.library.KLog;
-import com.twitter.sdk.android.tweetcomposer.TweetComposer;
-
-import java.net.MalformedURLException;
-import java.net.URL;
 
 /**
  * Created by moma on 17-8-22.

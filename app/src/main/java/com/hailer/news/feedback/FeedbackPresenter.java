@@ -1,12 +1,9 @@
 
 package com.hailer.news.feedback;
 
-import com.hailer.news.UserManager;
-import com.hailer.news.api.bean.NewsDetail;
 import com.hailer.news.common.ErrMsg;
 import com.hailer.news.common.RxCallback;
 import com.hailer.news.model.RemoteDataSource;
-import com.hailer.news.newsdetail.NewsDetailContract;
 import com.hailer.news.util.bean.FeedBackMessage;
 import com.socks.library.KLog;
 

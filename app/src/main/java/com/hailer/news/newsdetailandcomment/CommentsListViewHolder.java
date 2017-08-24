@@ -15,7 +15,6 @@ import android.widget.TextView;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.hailer.news.R;
 import com.hailer.news.api.bean.CommentInfo;
-import com.hailer.news.comments.CommentsActivity;
 import com.hailer.news.common.BaseRecyclerViewHolder;
 import com.hailer.news.util.CommentVoteUtil;
 import com.hailer.news.util.FuncUtil;

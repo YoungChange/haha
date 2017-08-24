@@ -5,7 +5,6 @@ import com.hailer.news.UserManager;
 import com.hailer.news.api.APIConfig;
 import com.hailer.news.api.bean.CommentInfo;
 import com.hailer.news.api.bean.NewsDetail;
-import com.hailer.news.comments.CommentsContract;
 import com.hailer.news.common.ErrMsg;
 import com.hailer.news.common.RxCallback;
 import com.hailer.news.model.RemoteDataSource;

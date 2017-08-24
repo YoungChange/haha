@@ -17,6 +17,7 @@ import com.hailer.news.R;
 import com.hailer.news.api.bean.CommentInfo;
 import com.hailer.news.comments.CommentsActivity;
 import com.hailer.news.common.BaseRecyclerViewHolder;
+import com.hailer.news.util.CommentVoteUtil;
 import com.hailer.news.util.FuncUtil;
 import com.hailer.news.util.GlideUtils;
 
@@ -116,8 +117,8 @@ public class CommentsListViewHolder extends BaseRecyclerViewHolder {
             commentUserName.setText(mCommentInfo.getUserName());
             commentContent.setText(mCommentInfo.getComment());
             commentTime.setText(FuncUtil.time2Time(mCommentInfo.getDate()));
-            //boolean isVoted = CommentVoteUtil.getInstances(mContext).isVoted(commentInfo.getId());
-            //commentInfo.setVote(isVoted);
+            boolean isVoted = CommentVoteUtil.getInstances(mContext).isVoted(commentInfo.getId());
+            commentInfo.setVote(isVoted);
             setVote(mCommentInfo.isVoted());
             //mLlVoteContainer.setClickable(true);
         }

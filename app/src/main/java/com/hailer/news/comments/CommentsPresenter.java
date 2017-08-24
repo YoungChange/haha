@@ -11,6 +11,7 @@ import com.hailer.news.api.bean.CommentInfo;
 import com.hailer.news.model.RemoteDataSource;
 import com.hailer.news.common.RxCallback;
 import com.hailer.news.news.NewsContract;
+import com.hailer.news.util.CommentVoteUtil;
 import com.socks.library.KLog;
 
 import java.util.List;
@@ -89,12 +90,10 @@ public class CommentsPresenter implements CommentsContract.Presenter {
 
                 }
             });
-        } else {
-            //提示登录
-            //mView.popLoginDlg();
-            // 先不登录，保存数据到本地
-
         }
+        //mView.popLoginDlg();
+        // 先不登录，保存数据到本地
+        CommentVoteUtil.getInstances(NewsApplication.getContext()).setVoted(commentInfo.getId(), true);
     }
 
     @Override

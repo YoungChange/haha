@@ -10,9 +10,11 @@ import android.view.animation.AnimationUtils;
 import android.widget.ImageView;
 import android.widget.TextView;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
+import com.hailer.news.NewsApplication;
 import com.hailer.news.R;
 import com.hailer.news.api.bean.CommentInfo;
 import com.hailer.news.common.BaseRecyclerViewHolder;
+import com.hailer.news.util.CommentVoteUtil;
 import com.hailer.news.util.FuncUtil;
 import com.hailer.news.util.GlideUtils;
 
@@ -34,7 +36,7 @@ public class CommentsListViewHolder extends BaseRecyclerViewHolder {
     private int mUnVoteTextColor;
     private BaseRecyclerViewHolder viewHolder;
     private Drawable mImgLiked, mImgUnlike;
-
+    private CommentVoteUtil mVoteUtil;
     public CommentsListViewHolder(Context context, View itemView) {
         super(itemView);
         viewHolder = this;
@@ -77,6 +79,7 @@ public class CommentsListViewHolder extends BaseRecyclerViewHolder {
         }
         mImgLiked.setBounds(0, 0, mImgLiked.getMinimumWidth(), mImgLiked.getMinimumHeight());
         mImgUnlike.setBounds(0, 0, mImgUnlike.getMinimumWidth(), mImgUnlike.getMinimumHeight());
+        mVoteUtil = CommentVoteUtil.getInstances(NewsApplication.getContext());
 
     }
 
@@ -114,6 +117,8 @@ public class CommentsListViewHolder extends BaseRecyclerViewHolder {
             commentUserName.setText(mCommentInfo.getUserName());
             commentContent.setText(mCommentInfo.getComment());
             commentTime.setText(FuncUtil.time2Time(mCommentInfo.getDate()));
+            boolean vote = mVoteUtil.isVoted(commentInfo.getId());
+            mCommentInfo.setVote(mVoteUtil.isVoted(commentInfo.getId()));
             setVote(mCommentInfo.isVoted());
             //mTvVoteCount.setClickable(true);
         }

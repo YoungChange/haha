@@ -1,5 +1,6 @@
 package com.hailer.news.newsdetailandcomment;
 
+import com.hailer.news.NewsApplication;
 import com.hailer.news.UserManager;
 import com.hailer.news.api.APIConfig;
 import com.hailer.news.api.bean.CommentInfo;
@@ -8,6 +9,7 @@ import com.hailer.news.comments.CommentsContract;
 import com.hailer.news.common.ErrMsg;
 import com.hailer.news.common.RxCallback;
 import com.hailer.news.model.RemoteDataSource;
+import com.hailer.news.util.CommentVoteUtil;
 import com.socks.library.KLog;
 
 import java.util.List;
@@ -135,12 +137,10 @@ public class NewsDetailAddCommentPresenter implements NewsDetailAddCommentContra
 
                 }
             });
-        } else {
-            //提示登录
-            //mView.popLoginDlg();
-            // 先不登录，保存数据到本地
-
         }
+        //mView.popLoginDlg();
+        // 先不登录，保存数据到本地
+        CommentVoteUtil.getInstances(NewsApplication.getContext()).setVoted(commentInfo.getId(), true);
     }
 
     @Override

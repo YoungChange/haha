@@ -66,6 +66,8 @@ public abstract class BaseActivity extends AppCompatActivity implements View.OnC
 
     protected Toast mToast;
 
+    protected TextView mToolBarTv;
+
     /**
      * 跳转的类
      */
@@ -121,8 +123,8 @@ public abstract class BaseActivity extends AppCompatActivity implements View.OnC
 
         Toolbar toolbar = (Toolbar) findViewById(id);
 
-        TextView textView = (TextView) findViewById(titleId);
-        textView.setText(titleString);
+        mToolBarTv = (TextView) findViewById(titleId);
+        mToolBarTv.setText(titleString);
 
         ImageButton menuImageButton = (ImageButton) findViewById(R.id.menu_imagebutton);
         menuImageButton.setOnClickListener(this);
@@ -148,8 +150,8 @@ public abstract class BaseActivity extends AppCompatActivity implements View.OnC
         ImageButton imageButton = (ImageButton) findViewById(toolbarBackImageButtonId);
         imageButton.setOnClickListener(this);
 
-        TextView textView = (TextView) findViewById(titleId);
-        textView.setText(titleString);
+        mToolBarTv = (TextView) findViewById(titleId);
+        mToolBarTv.setText(titleString);
 
         AppCompatActivity activity = this;
         activity.setSupportActionBar(toolbar);

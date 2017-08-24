@@ -1,30 +1,31 @@
-package com.hailer.news.comments;
+package com.hailer.news.newsdetailandcomment;
+
 
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
-import android.graphics.Color;
 import android.graphics.drawable.BitmapDrawable;
 import android.net.Uri;
 import android.os.Bundle;
-import android.os.Handler;
 import android.os.IBinder;
-import android.support.v4.app.ActivityCompat;
-import android.support.v4.widget.SwipeRefreshLayout;
-import android.support.v7.widget.DefaultItemAnimator;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
+import android.support.v4.view.GravityCompat;
+import android.text.Editable;
+import android.text.TextUtils;
+import android.text.TextWatcher;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.WindowManager;
-import android.view.animation.Animation;
-import android.view.animation.AnimationUtils;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageButton;
+import android.widget.LinearLayout;
 import android.widget.PopupWindow;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -36,58 +37,63 @@ import com.hailer.news.NewsApplication;
 import com.hailer.news.R;
 import com.hailer.news.UserManager;
 import com.hailer.news.api.bean.CommentInfo;
+import com.hailer.news.api.bean.NewsDetail;
+import com.hailer.news.comments.*;
 import com.hailer.news.common.ActivityCode;
-import com.hailer.news.common.BaseRecycleViewDivider;
 import com.hailer.news.common.BaseActivity;
 import com.hailer.news.common.BaseRecyclerViewHolder;
 import com.hailer.news.common.CommentBar;
 import com.hailer.news.login.LoginActivity;
-import com.hailer.news.newsdetail.NewsDetailActivity;
-import com.hailer.news.newsdetailandcomment.NewsDetailAddCommentActivity;
+import com.hailer.news.news.NewsContract;
+import com.hailer.news.newsdetail.NewsDetailContract;
+import com.hailer.news.newsdetail.NewsDetailPresenter;
 import com.hailer.news.util.FuncUtil;
 import com.hailer.news.util.InputMethodLayout;
+import com.hailer.news.util.InputMethodLayout.onKeyboardsChangeListener;
 import com.hailer.news.util.MeasureUtil;
 import com.hailer.news.util.NetworkUtil;
+import com.hailer.news.util.TextUtil;
 import com.hailer.news.util.annotation.ActivityFragmentInject;
 import com.socks.library.KLog;
 import com.twitter.sdk.android.tweetcomposer.TweetComposer;
+import com.zzhoujay.richtext.RichText;
 
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.text.BreakIterator;
 import java.util.List;
 
-@ActivityFragmentInject(contentViewId = R.layout.activity_news_comment_list,
+/**
+ * Created by moma on 17-7-17.
+ */
+
+@ActivityFragmentInject(contentViewId = R.layout.activitymodified,
         toolbarId = R.id.back_toolbar,
         toolbarBackImageButtonId = R.id.back_imagebutton,
         toolbarTextViewId = R.id.toolbar_title,
-        toolbarTextViewTitle = R.string.news_comment
-)
-public class CommentsActivity extends BaseActivity implements CommentsContract.View{
+        toolbarTextViewTitle = R.string.news_detail
+        )
+public class NewsDetailAddCommentActivity extends BaseActivity implements NewsDetailAddCommentContract.View {
 
     private Context mContext;
     private BaseActivity activity;
 
+    private NewsDetailFragment mNewsDetailFragment;
+    private NewsCommentFragment mNewsCommentFragment;
+    private NewsDetailAddCommentContract.Presenter mNewsDetailAddCommentPresenter;
 
     private String mPostId;
     private int mCommentCount;
     private String mPostUrl;
+
+
     private String mPostTitle;
 
 
-    private CommentsListAdapter newsCommentListAdapter;
-    private RecyclerView mRecyclerView;
-
-    private SwipeRefreshLayout mSwipeRefreshLayout;
-    private Boolean mLoading = false;
-    private CommentsPresenter mCommentsPresenter;
-    private int mViewHolderPosition;
-
-    private BaseRecyclerViewHolder mViewHolder;
-
-    private CommentBar mCommentBar;
     private InputMethodLayout layout;
-
+    private CommentBar mCommentBar;
     private PopupWindow popupWindow;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -96,17 +102,18 @@ public class CommentsActivity extends BaseActivity implements CommentsContract.V
         mContext = this;
         activity = this;
 
+        //!!!!给石磊要URL
         mPostId = getIntent().getStringExtra("postId");
-        mCommentCount = getIntent().getIntExtra("commentCount",0);
-        mPostUrl = getIntent().getStringExtra("postUrl");
         mPostTitle = getIntent().getStringExtra("postTitle");
-        KLog.e("-------CommentsListActivity------mPostId:"+mPostId+
-                ";------mCommentCount:"+mCommentCount+
-                ";------mPostUrl:"+mPostUrl+
-                ";------mPostTitle:"+mPostTitle);
+        mPostUrl = getIntent().getStringExtra("postUrl");
 
-        mRecyclerView = (RecyclerView) findViewById(R.id.newscommentlist_recycler_view);
-        mSwipeRefreshLayout = (SwipeRefreshLayout) findViewById(R.id.comment_refresh_layout);
+        mNewsDetailAddCommentPresenter = new NewsDetailAddCommentPresenter(this);
+        mNewsDetailFragment = NewsDetailFragment.newInstance(mPostId);
+        mNewsDetailFragment.setPresenter(mNewsDetailAddCommentPresenter);
+        mNewsCommentFragment = NewsCommentFragment.newInstance(mPostId,mPostUrl,mPostTitle);
+        mNewsCommentFragment.setPresenter(mNewsDetailAddCommentPresenter);
+
+        changeFragment(mNewsDetailFragment);
 
         initShareDlg();
 
@@ -127,7 +134,7 @@ public class CommentsActivity extends BaseActivity implements CommentsContract.V
                         toast(getString(R.string.comment_is_null));
                     }else{
                         KLog.e("--------------send Comment");
-                        mCommentsPresenter.postComment(mPostId,comment);
+                        mNewsDetailAddCommentPresenter.postComment(mPostId,comment);
                     }
                 }else{
                     toast(getString(R.string.net_error));
@@ -136,13 +143,16 @@ public class CommentsActivity extends BaseActivity implements CommentsContract.V
 
             @Override
             public void gotoCommentListClick() {
-                KLog.e("------CommentsActivity------- onclick , to comment list..............");
+                if(mNewsCommentFragment.isVisible()){
+                    KLog.e("------mNewsCommentFragment---is---- showing");
+                    changeFragment(mNewsDetailFragment);
+                    changeToolBar(R.string.news_detail);
+                }else if(mNewsDetailFragment.isVisible()){
+                    KLog.e("------mNewsCommentFragment-----is---- showing");
+                    changeFragment(mNewsCommentFragment);
+                    changeToolBar(R.string.news_comment);
+                }
 
-                Intent intent = new Intent(mContext, NewsDetailAddCommentActivity.class);
-                intent.putExtra("postId",mPostId);
-                intent.putExtra("postUrl",mPostUrl);
-                intent.putExtra("postTitle",mPostTitle);
-                startActivity(intent);
             }
 
             @Override
@@ -161,122 +171,33 @@ public class CommentsActivity extends BaseActivity implements CommentsContract.V
                 activity.toast(activity.getString(R.string.unknow_error));
             }
         });
-
-        mCommentsPresenter = new CommentsPresenter(this);
-        mCommentsPresenter.getCommentsList(mPostId);
     }
 
     @Override
-    public void onClick(View v) {
-        switch(v.getId()){
-            case R.id.back_imagebutton:
-                Intent intent = new Intent();
-                intent.putExtra("count",mCommentCount);
-                setResult(ActivityCode.Result.NEWS_COMMENT_RESULT_CODE, intent);
-                this.finish();
-                break;
-            default:
-                toast(this.getString(R.string.unknow_error));
-        }
+    public void showDetail(NewsDetail data){
+        mCommentCount = data.getCommentsCount();
+        mCommentBar.setCount(mCommentCount);
+        mNewsDetailFragment.showDetail(data);
+    }
+
+    @Override
+    public void handleError() {
+
     }
 
     @Override
     public void showCommentsList(List<CommentInfo> data,boolean isRefresh){
-        KLog.e("-----List<CommentInfo>------:"+data.size());
-        mLoading = false;
-        KLog.e("showCommentsList...");
-        if (newsCommentListAdapter == null) {
-            initCommentList(data);
-        }
-
-        if(isRefresh){
-            newsCommentListAdapter.setmData(data);
-        }else{
-            if (data == null || data.size() == 0) {
-                toast(this.getString(R.string.all_loaded));
-                return;
-            }
-            newsCommentListAdapter.addMoreData(data);
-        }
+        mNewsCommentFragment.showCommentsList(data,isRefresh);
     }
 
     @Override
-    public void showErrorMsg(int error){
+    public void showErrorMsg(int error) {
 
     }
 
     @Override
     public void resetVote() {
-//        (CommentsListViewHolder)mViewHolder.
-        newsCommentListAdapter.resetVote(mViewHolderPosition);
-        ((CommentsListViewHolder) mViewHolder).addOneAnim();
-    }
-
-
-    private void initCommentList(final List<CommentInfo> newsCommentList) {
-
-        //刷新监听事件
-        mSwipeRefreshLayout.setColorSchemeColors(Color.RED, Color.BLUE);
-        mSwipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
-            @Override
-            public void onRefresh() {
-                mCommentsPresenter.refreshData();
-                mSwipeRefreshLayout.setRefreshing(false);
-                newsCommentListAdapter.notifyDataSetChanged();
-            }
-        });
-
-        newsCommentListAdapter = new CommentsListAdapter(this, newsCommentList);
-
-        final LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false);
-        mRecyclerView.setLayoutManager(linearLayoutManager);
-
-        // 给RecyclerView增加滑动监听
-        mRecyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
-
-            @Override
-            public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
-
-                super.onScrolled(recyclerView, dx, dy);
-
-                LinearLayoutManager layoutManager = (LinearLayoutManager) recyclerView.getLayoutManager();
-                int totalItemCount = layoutManager.getItemCount();
-                int lastVisibleItem = layoutManager.findLastVisibleItemPosition();
-
-                //mLoading 防止多次加载同一批数据
-                if (!mLoading && totalItemCount < (lastVisibleItem + 2)) {
-                    mLoading = true;
-                    mCommentsPresenter.loadMoreData();
-                }
-            }
-        });
-
-        //添加分割线
-        mRecyclerView.addItemDecoration(
-                new BaseRecycleViewDivider(
-                        this,
-                        LinearLayoutManager.HORIZONTAL,
-                        MeasureUtil.dip2px(this,1),
-                        getResources().getColor(R.color.divide_newslist)));
-
-        //设置Item增加、移除动画
-        mRecyclerView.setItemAnimator(new DefaultItemAnimator());
-        mRecyclerView.getItemAnimator().setAddDuration(250);
-        mRecyclerView.getItemAnimator().setMoveDuration(250);
-        mRecyclerView.getItemAnimator().setChangeDuration(250);
-        mRecyclerView.getItemAnimator().setRemoveDuration(250);
-
-        mRecyclerView.setAdapter(newsCommentListAdapter);
-    }
-
-    public void vote(CommentInfo commentInfo,BaseRecyclerViewHolder viewHolder) {
-        mCommentsPresenter.voteComment(commentInfo);
-        mViewHolder = viewHolder;
-        mViewHolderPosition = viewHolder.getAdapterPosition();
-    }
-
-    public void unVote(int id) {
-        mCommentsPresenter.unVoteComment(id);
+        mNewsCommentFragment.resetVote();
     }
 
     @Override
@@ -295,16 +216,25 @@ public class CommentsActivity extends BaseActivity implements CommentsContract.V
             imm.toggleSoftInput(InputMethodManager.SHOW_IMPLICIT, InputMethodManager.HIDE_NOT_ALWAYS);
         }
 
-        mCommentsPresenter.refreshData();
-        newsCommentListAdapter.notifyDataSetChanged();
-
         mCommentBar.setEditView("");
 
     }
 
+    private void changeFragment(Fragment fragment){
+        FragmentManager fragmentManager = getSupportFragmentManager();
+        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+        fragmentTransaction.replace(R.id.content_layout,fragment);
+        fragmentTransaction.commit();
+
+    }
+
+    private void changeToolBar(int resId){
+        mToolBarTv.setText(resId);
+    }
+
     @Override
     public boolean dispatchTouchEvent(MotionEvent ev) {
-        KLog.e("viewFocused:"+getCurrentFocus().getClass().getName());
+//        KLog.e("viewFocused:"+getCurrentFocus().getClass().getName());
         if (ev.getAction() == MotionEvent.ACTION_DOWN) {
 
             View viewFocused = getCurrentFocus();
@@ -376,12 +306,16 @@ public class CommentsActivity extends BaseActivity implements CommentsContract.V
                         break;
                     case R.id.dialog_whatsapp_btn:
                         popupWindow.dismiss();
-                        Intent sendIntent = new Intent();
-                        sendIntent.setAction(Intent.ACTION_SEND);
-                        sendIntent.putExtra(Intent.EXTRA_TEXT, mPostUrl);
-                        sendIntent.setType("text/plain");
-                        sendIntent.setPackage("com.whatsapp");
-                        startActivity(sendIntent);
+                        if(FuncUtil.isAvilible(mContext,"com.whatsapp")){
+                            Intent sendIntent = new Intent();
+                            sendIntent.setAction(Intent.ACTION_SEND);
+                            sendIntent.putExtra(Intent.EXTRA_TEXT, mPostUrl);
+                            sendIntent.setType("text/plain");
+                            sendIntent.setPackage("com.whatsapp");
+                            startActivity(sendIntent);
+                        }else{
+                            toast(getString(R.string.no_app));
+                        }
 
                         break;
                     case R.id.dialog_cancel_btn:
@@ -416,12 +350,39 @@ public class CommentsActivity extends BaseActivity implements CommentsContract.V
         getWindow().setAttributes(lp);
     }
 
-//    @Override
-//    public void onBackPressed() {
-//        super.onBackPressed();
-//        Intent intent = new Intent();
-//        intent.putExtra("count",mCommentCount);
-//        setResult(ActivityCode.Result.NEWS_COMMENT_RESULT_CODE, intent);
-//        this.finish();
-//    }
+    @Override
+    public void onClick(View v) {
+        switch (v.getId()) {
+            case R.id.back_imagebutton:
+                if(mNewsCommentFragment.isVisible()){
+                    changeFragment(mNewsDetailFragment);
+                    changeToolBar(R.string.news_detail);
+                }else if(mNewsDetailFragment.isVisible()){
+                    this.finish();
+                }
+                break;
+            default:
+                toast(this.getString(R.string.unknow_error));
+        }
+    }
+
+    public void vote(CommentInfo commentInfo,BaseRecyclerViewHolder viewHolder) {
+        mNewsCommentFragment.vote(commentInfo,viewHolder);
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        KLog.e("----rebackfromFacebook---requestCode:"+requestCode+"--resultCode:"+resultCode);
+        if(requestCode==ActivityCode.Request.NEWS_DETAIL_TO_LOGIN_REQUEST_CODE){
+            if(UserManager.getInstance().getServerToken()!=null && !UserManager.getInstance().getServerToken().isEmpty()){
+                mCommentBar.callSendCommentClick();
+            }
+        }
+
+        if(popupWindow.isShowing()){
+            popupWindow.dismiss();
+        }
+
+    }
 }

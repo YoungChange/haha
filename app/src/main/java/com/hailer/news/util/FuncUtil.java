@@ -1,11 +1,15 @@
 package com.hailer.news.util;
 
 import android.app.Activity;
+import android.content.Context;
+import android.content.pm.PackageInfo;
+import android.content.pm.PackageManager;
 import android.view.WindowManager;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.List;
 
 
 public class FuncUtil {
@@ -59,6 +63,20 @@ public class FuncUtil {
         }
 
         return returnValue;
+    }
+
+
+    public static boolean isAvilible(Context context, String packageName )
+    {
+        final PackageManager packageManager = context.getPackageManager();
+
+        List<PackageInfo> pinfo = packageManager.getInstalledPackages(0);
+        for ( int i = 0; i < pinfo.size(); i++ )
+        {
+            if(pinfo.get(i).packageName.equalsIgnoreCase(packageName))
+                return true;
+        }
+        return false;
     }
 
 }

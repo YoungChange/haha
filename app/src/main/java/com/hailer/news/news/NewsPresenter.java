@@ -86,7 +86,7 @@ public class NewsPresenter implements NewsContract.Presenter {
 
     @Override
     public void refreshData(String catId) {
-        KLog.i("refreshData(), category id="+catId);
+        KLog.e("refreshData(), category id="+catId);
 //        mStartPage = 1;
         mLoadType = LoadType.TYPE_REFRESH;
         //refresh
@@ -96,6 +96,8 @@ public class NewsPresenter implements NewsContract.Presenter {
     @Override
     public void loadMoreData(String catId, int itemCount) {
         //load data
+        KLog.e("loadMoreData(), category id="+ catId+", itemCount="+itemCount);
+
         mLoadType = LoadType.TYPE_LOAD_MORE;
         mRemoteData.getNewsList(catId, itemCount, mGetDataCallback);
     }

@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.hailer.news.util.InputMethodLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/inputmethod_layout"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:fitsSystemWindows="true">
+
+    <android.support.design.widget.AppBarLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <include layout="@layout/back_activity_toolbar"/>
+
+    </android.support.design.widget.AppBarLayout>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:focusableInTouchMode="true">
+
+        <android.support.v7.widget.RecyclerView
+            android:layout_width="match_parent"
+            android:layout_height="0dp">
+        </android.support.v7.widget.RecyclerView>
+
+
+        <FrameLayout
+            android:id="@+id/content_layout"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:paddingBottom="44dp">
+
+
+        </FrameLayout>
+
+        <com.hailer.news.common.CommentBar
+            android:id="@+id/comment_bar"
+            android:layout_height="wrap_content"
+            android:layout_width="match_parent"
+            android:layout_alignParentBottom="true">
+
+        </com.hailer.news.common.CommentBar>
+    </RelativeLayout>
+
+</com.hailer.news.util.InputMethodLayout>

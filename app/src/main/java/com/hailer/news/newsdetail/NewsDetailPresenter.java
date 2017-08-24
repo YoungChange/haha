@@ -14,6 +14,7 @@ import com.socks.library.KLog;
 public class NewsDetailPresenter implements NewsDetailContract.Presenter {
     private NewsDetailContract.View mView;
     private RemoteDataSource mRemoteData;
+
     private RxCallback mGetDataCallback;
     private RxCallback mLoginCallback;
     private RxCallback mPostDataCallback;

@@ -23,8 +23,12 @@ import com.hailer.news.common.LoadType;
 import com.hailer.news.common.MaterialRefreshView;
 import com.hailer.news.common.OnItemClickListener;
 import com.hailer.news.newsdetail.NewsDetailActivity;
+import com.hailer.news.newsdetailandcomment.NewsDetailAddCommentActivity;
+
 import com.hailer.news.util.MeasureUtil;
 import com.hailer.news.util.annotation.ActivityFragmentInject;
+import com.socks.library.KLog;
+
 import java.util.List;
 
 import static com.google.common.base.Preconditions.checkNotNull;
@@ -53,6 +57,7 @@ public class NewsListFragment extends Fragment{
     private NewsActivity mActivity;
     private ProgressBar mLoadingViewPb;
     private TextView mNoInternetTipTv;
+
     public static NewsListFragment newInstance(String catName, String catId) {
         Bundle args = new Bundle();
         args.putString(ARGS_NAME,catName);
@@ -125,7 +130,7 @@ public class NewsListFragment extends Fragment{
                 break;
             case LoadType.TYPE_LOAD_MORE:
                 if (list == null || list.size() == 0) {
-                    //toast(getActivity().getString(R.string.all_loaded));
+//                    toast(getActivity().getString(R.string.all_loaded));
                     return;
                 }
                 mAdapter.addMoreData(list);
@@ -142,8 +147,10 @@ public class NewsListFragment extends Fragment{
                 super.onScrolled(recyclerView, dx, dy);
                 LinearLayoutManager layoutManager = (LinearLayoutManager) recyclerView.getLayoutManager();
                 int totalItemCount = layoutManager.getItemCount() - 1;
+//                int totalItemCount = layoutManager.getItemCount() - 1;
                 int lastVisibleItem = layoutManager.findLastVisibleItemPosition();
                 //mLoading 防止多次加载同一批数据
+                KLog.e("totalItemCount:"+totalItemCount+";lastVisibleItem:"+lastVisibleItem);
                 if (!mIsRefreshing && totalItemCount < (lastVisibleItem + 2)) {
                     mIsRefreshing = true;
                     mRecyclerView.post(new Runnable() {
@@ -169,9 +176,13 @@ public class NewsListFragment extends Fragment{
         mAdapter.setOnItemClickListener(new OnItemClickListener(){
             @Override
             public void onItemClick(View view, int position) {
-                Intent intent = new Intent(getActivity(), NewsDetailActivity.class);
+                Intent intent = new Intent(getActivity(), NewsDetailAddCommentActivity.class);
                 NewsItem newsItem =  mAdapter.getmData().get(position);
-                intent.putExtra("postid", String.valueOf(newsItem.getPostId()));
+                //KLog.e("onItemClick, position="+position+"; id="+newsItem.id+"; img="+newsItem.post_image);
+                intent.putExtra("postId", String.valueOf(newsItem.getPostId()));
+                intent.putExtra("postUrl", String.valueOf(newsItem.getPostUrl()));
+                intent.putExtra("postTitle", String.valueOf(newsItem.getPostTitle()));
+
                 startActivity(intent);
             }
 

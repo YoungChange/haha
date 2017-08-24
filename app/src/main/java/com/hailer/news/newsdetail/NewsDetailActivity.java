@@ -40,6 +40,7 @@ import com.hailer.news.comments.CommentsActivity;
 import com.hailer.news.common.ActivityCode;
 import com.hailer.news.login.LoginActivity;
 import com.hailer.news.common.BaseActivity;
+import com.hailer.news.util.FuncUtil;
 import com.hailer.news.util.InputMethodLayout;
 import com.hailer.news.util.InputMethodLayout.onKeyboardsChangeListener;
 import com.hailer.news.util.NetworkUtil;
@@ -100,8 +101,6 @@ public class NewsDetailActivity extends BaseActivity implements NewsDetailContra
     private int navigationHeight;
 
     private Context mContext;
-
-    private int TWEET_COMPOSER_REQUEST_CODE = 101;
 
 
     @Override
@@ -332,7 +331,7 @@ public class NewsDetailActivity extends BaseActivity implements NewsDetailContra
 
             View viewFocused = getCurrentFocus();
             View v = sendCommentBar;
-            KLog.e("-------NewsDetailActivity--dispatchTouchEvent---view:"+v.getClass().getName());
+            KLog.e("-------NewsDetailAddCommentActivity--dispatchTouchEvent---view:"+v.getClass().getName());
 
             if (viewFocused!=null && isShouldHideInput(v, ev)) {
                 hideSoftInput(viewFocused.getWindowToken());
@@ -452,13 +451,16 @@ public class NewsDetailActivity extends BaseActivity implements NewsDetailContra
                         break;
                     case R.id.dialog_whatsapp_btn:
                         popupWindow.dismiss();
-                        Intent sendIntent = new Intent();
-                        sendIntent.setAction(Intent.ACTION_SEND);
-                        sendIntent.putExtra(Intent.EXTRA_TEXT, mPostUrl);
-                        sendIntent.setType("text/plain");
-                        sendIntent.setPackage("com.whatsapp");
-                        startActivity(sendIntent);
-
+                        if(FuncUtil.isAvilible(mContext,"com.whatsapp")){
+                            Intent sendIntent = new Intent();
+                            sendIntent.setAction(Intent.ACTION_SEND);
+                            sendIntent.putExtra(Intent.EXTRA_TEXT, mPostUrl);
+                            sendIntent.setType("text/plain");
+                            sendIntent.setPackage("com.whatsapp");
+                            startActivity(sendIntent);
+                        }else{
+                            toast(getString(R.string.no_app));
+                        }
                         break;
                     case R.id.dialog_cancel_btn:
                         popupWindow.dismiss();

@@ -14,6 +14,7 @@ public class NewsItem {
 
     private int id;
     private String post_title;
+    private String url;
     private int comment_count;
     private Map<String, ImageEntity> post_image;
     private List<ImageEntity> post_image_list;
@@ -33,6 +34,10 @@ public class NewsItem {
 
     public String getPostTitle() {
         return post_title;
+    }
+
+    public String getPostUrl(){
+        return url;
     }
 
     public int getCommentsCount() {

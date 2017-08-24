@@ -47,6 +47,7 @@
     <string name="send_uccess">發送成功</string>
     <string name="comment_is_null">評論內容不能爲空</string>
     <string name="net_error">網絡連線不可用，請檢查網絡</string>
+    <string name="no_app">沒有此APP</string>
 
     <string name="facebook">Facebook</string>
     <string name="twitter">Twitter</string>

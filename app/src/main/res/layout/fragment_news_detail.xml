@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <!--正常布局-->
+    <RelativeLayout
+        android:id="@+id/normal_layout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+
+        <include layout="@layout/content_news_detail"
+            android:layout_height="match_parent"
+            android:layout_width="match_parent"/>
+
+    </RelativeLayout>
+
+    <!--网络异常的布局-->
+    <LinearLayout
+        android:id="@+id/net_error_layout"
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/white"
+        android:visibility="gone">
+
+
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="90dp"
+            android:src="@drawable/link_failed"/>
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="25dp"
+            android:text="@string/net_error"
+            android:gravity="center"
+            android:textSize="18sp"
+            android:textColor="#222222"/>
+
+        <Button
+            android:id="@+id/retry_button"
+            android:layout_width="180dp"
+            android:layout_height="44dp"
+            android:layout_marginTop="20dp"
+            android:layout_gravity="center_horizontal"
+            android:text="@string/retry"
+            android:textSize="18sp"
+            android:textColor="#f24444"
+            android:background="@drawable/bg_button_retry"/>
+
+    </LinearLayout>
+
+</LinearLayout>

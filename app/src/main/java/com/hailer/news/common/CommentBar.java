@@ -185,6 +185,10 @@ public class CommentBar extends LinearLayout implements View.OnClickListener{
         }
     }
 
+    public void callSendCommentClick(){
+        mSendCommentButton.callOnClick();
+    }
+
     /**
      * 设置监听器
      * @param topbarClickListener

@@ -23,11 +23,8 @@ import com.hailer.news.common.LoadType;
 import com.hailer.news.common.MaterialRefreshView;
 import com.hailer.news.common.OnItemClickListener;
 import com.hailer.news.newsdetailandcomment.NewsDetailAddCommentActivity;
-
 import com.hailer.news.util.MeasureUtil;
 import com.hailer.news.util.annotation.ActivityFragmentInject;
-import com.socks.library.KLog;
-
 import java.util.List;
 
 import static com.google.common.base.Preconditions.checkNotNull;
@@ -146,7 +143,6 @@ public class NewsListFragment extends Fragment{
                 super.onScrolled(recyclerView, dx, dy);
                 LinearLayoutManager layoutManager = (LinearLayoutManager) recyclerView.getLayoutManager();
                 int totalItemCount = layoutManager.getItemCount() - 1;
-//                int totalItemCount = layoutManager.getItemCount() - 1;
                 int lastVisibleItem = layoutManager.findLastVisibleItemPosition();
                 //mLoading 防止多次加载同一批数据
 //                KLog.e("totalItemCount:"+totalItemCount+";lastVisibleItem:"+lastVisibleItem);
@@ -236,10 +232,13 @@ public class NewsListFragment extends Fragment{
         mNoInternetTipTv.setVisibility(View.VISIBLE);
     }
     public void display(){
-        mLoadingViewPb.setVisibility(View.VISIBLE);
-        if (mAdapter != null) {
-            requestRefresh();
+        if (haveData()) {
+            mLoadingViewPb.setVisibility(View.GONE);
+            mNoInternetTipTv.setVisibility(View.GONE);
+            mAdapter.setmData(mNewsList);
         } else {
+            mLoadingViewPb.setVisibility(View.VISIBLE);
+            requestRefresh();
         }
     }
 

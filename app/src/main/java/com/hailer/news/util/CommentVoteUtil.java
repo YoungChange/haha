@@ -58,17 +58,12 @@ public class CommentVoteUtil extends SQLiteOpenHelper{
 
     public void setVoted(int commentId, boolean isVote) {
         if (isVote) {
-            //getWritableDatabase().execSQL(INSERT_COMMENT_VOTED , new String[]{Integer.toString(commentId)});
             SQLiteDatabase database = getWritableDatabase();
             ContentValues values = new ContentValues();
             values.put("id", commentId);
             database.insert("comment_vote", null, values);
         } else {
             getWritableDatabase().execSQL("delete * from comment_vote where id = " + Integer.toString(commentId));
-//            SQLiteDatabase database = getWritableDatabase();
-//            ContentValues values = new ContentValues();
-//            values.put("id", commentId);
-//            database.insert("comment_vote", null, values);
         }
     }
 }

@@ -25,6 +25,8 @@ import com.hailer.news.common.OnItemClickListener;
 import com.hailer.news.newsdetailandcomment.NewsDetailAddCommentActivity;
 import com.hailer.news.util.MeasureUtil;
 import com.hailer.news.util.annotation.ActivityFragmentInject;
+import com.socks.library.KLog;
+
 import java.util.List;
 
 import static com.google.common.base.Preconditions.checkNotNull;
@@ -117,6 +119,7 @@ public class NewsListFragment extends Fragment{
     }
 
     public void showNewsList(int loadType, List<NewsItem> list){
+        KLog.e("callback----NewsListFragment--showNewsList---loadType:"+loadType);
         enableLoad();
         mNewsList = list;
         mLoadingViewPb.setVisibility(View.GONE);
@@ -156,6 +159,7 @@ public class NewsListFragment extends Fragment{
                             mAdapter.setLoading(true);
                         }
                     });
+                    KLog.e("NewsListFragment-----mPresenter.loadMoreData");
                     mPresenter.loadMoreData(mCatId, totalItemCount);
                 }
             }

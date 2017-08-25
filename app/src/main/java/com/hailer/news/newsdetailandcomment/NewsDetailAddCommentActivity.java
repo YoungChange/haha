@@ -376,10 +376,7 @@ public class NewsDetailAddCommentActivity extends BaseActivity implements NewsDe
             if(UserManager.getInstance().getServerToken()!=null && !UserManager.getInstance().getServerToken().isEmpty()){
                 mCommentBar.callSendCommentClick();
             }
-            InputMethodManager imm = (InputMethodManager)getSystemService(Context.INPUT_METHOD_SERVICE);
-            if(imm.isActive()){
-                imm.toggleSoftInput(InputMethodManager.SHOW_IMPLICIT, InputMethodManager.HIDE_NOT_ALWAYS);
-            }
+
         }
 
         if(popupWindow.isShowing()){

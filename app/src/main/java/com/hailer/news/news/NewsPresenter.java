@@ -63,11 +63,6 @@ public class NewsPresenter implements NewsContract.Presenter {
         mLocalData = new LocalDataSource(mLocalCB);
 
     }
-    @Override
-    public void getNewsList(String catId, int tabId) {
-        //load data
-        mRemoteData.getNewsList(catId, mStartPage, mGetDataCallback.setTabId(tabId));
-    }
 
     @Override
     public void autoLogin() {
@@ -85,7 +80,14 @@ public class NewsPresenter implements NewsContract.Presenter {
     }
 
     @Override
-    public void refreshData(String catId) {
+    public void getNewsList(String catId, int tabId) {
+        //load data
+        mLoadType = LoadType.TYPE_REFRESH;
+        mRemoteData.getNewsList(catId, mStartPage, mGetDataCallback.setTabId(tabId));
+    }
+
+    @Override
+    public void refreshData(String catId, int itemCount) {
         KLog.e("refreshData(), category id="+catId);
 //        mStartPage = 1;
         mLoadType = LoadType.TYPE_REFRESH;

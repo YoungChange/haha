@@ -111,6 +111,8 @@ public class NewsDetailFragment extends Fragment implements View.OnClickListener
             case R.id.retry_button:
                 mPresenter.getNewsDetail(mPostId);
                 break;
+            default:
+                break;
         }
     }
 

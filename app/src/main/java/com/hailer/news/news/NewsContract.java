@@ -21,7 +21,7 @@ public interface NewsContract {
 
     interface Presenter {
 
-        void refreshData(String catId);
+        void refreshData(String catId,int itemCount);
 
         void loadMoreData(String catId, int itemCount);
 

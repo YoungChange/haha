@@ -35,7 +35,6 @@ import static com.google.common.base.Preconditions.checkNotNull;
 public class NewsCommentFragment extends Fragment {
 
     protected View mFragmentRootView;
-    private NewsDetailAddCommentContract.Presenter mPresenter;
     protected int mContentViewId;
 
     private CommentsListAdapter newsCommentListAdapter;
@@ -51,9 +50,11 @@ public class NewsCommentFragment extends Fragment {
     private String mPostId;
     private String mPostUrl;
     private String mPostTitle;
+    private NewsDetailAddCommentContract.Presenter mPresenter;
     private static final String ARGS_POST_ID = "args_PostId";
     private static final String ARGS_POST_URL = "args_PostUrl";
     private static final String ARGS_POST_TITLE = "args_PostTiTle";
+    private static final String ARGS_PRESENTER = "args_Presenter";
 
     public static NewsCommentFragment newInstance(String postId,String postUrl,String postTitle) {
         Bundle args = new Bundle();

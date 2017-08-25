@@ -3,6 +3,7 @@ package com.hailer.news.newsdetailandcomment;
 import com.hailer.news.api.bean.CommentInfo;
 import com.hailer.news.api.bean.NewsDetail;
 
+import java.io.Serializable;
 import java.util.List;
 
 /**

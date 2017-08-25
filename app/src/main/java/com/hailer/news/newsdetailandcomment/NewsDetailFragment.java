@@ -30,21 +30,21 @@ import static com.google.common.base.Preconditions.checkNotNull;
 public class NewsDetailFragment extends Fragment implements View.OnClickListener {
 
     protected View mFragmentRootView;
-    private NewsDetailAddCommentContract.Presenter mPresenter;
     protected int mContentViewId;
-
     private TextView mDetailTitle;
+
     private TextView mDetailTime;
     private TextView mDetailBody;
-
     RelativeLayout normalLayout;
+
     LinearLayout netErrorLayout;
 
-
     private static final String ARGS_POST_ID = "args_PostId";
+    private static final String ARGS_PRESENTER = "args_Presenter";
     private String mPostId;
     private String mPostUrl;
     private String mPostTitle;
+    private NewsDetailAddCommentContract.Presenter mPresenter;
 
     public static NewsDetailFragment newInstance(String postId) {
         Bundle args = new Bundle();

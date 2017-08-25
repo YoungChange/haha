@@ -16,7 +16,7 @@ public interface NewsContract {
 
         void upateUserView();
 
-        void showErrorMsg(int mTabId);
+        void showErrorMsg(int tabId, int loadType);
     }
 
     interface Presenter {

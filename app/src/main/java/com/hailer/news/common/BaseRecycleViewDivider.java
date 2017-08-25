@@ -96,7 +96,7 @@ public class BaseRecycleViewDivider extends RecyclerView.ItemDecoration{
         final int right = parent.getMeasuredWidth() - parent.getPaddingRight() - margin;
         final int childSize = parent.getChildCount();
         // 最后一条下方没有分割线，主要是加载条下方有线太奇怪了。
-        for (int i = 0; i < childSize - 1; i++) {
+        for (int i = 0; i < childSize ; i++) {
             final View child = parent.getChildAt(i);
             RecyclerView.LayoutParams layoutParams = (RecyclerView.LayoutParams) child.getLayoutParams();
             final int top = child.getBottom() + layoutParams.bottomMargin;

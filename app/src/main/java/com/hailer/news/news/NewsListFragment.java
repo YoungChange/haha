@@ -230,7 +230,9 @@ public class NewsListFragment extends Fragment{
             mActivity.getNewsList(mCatId);
         }
     }
-
+    public void showRefreshError() {
+        //mAdapter.setLoadErroe();
+    }
     public void showLoadError() {
         enableLoad();
         mNoInternetTipTv.setVisibility(View.VISIBLE);
@@ -256,7 +258,13 @@ public class NewsListFragment extends Fragment{
 
     protected void enableLoad() {
         if (mAdapter != null) {
-            mAdapter.setLoading(false);
+            mRecyclerView.post(new Runnable() {
+                // 此处要添加加载动画，RecycleView正在滚动时更新界面会发出一个警告。放到而另一个线程中可以消除。
+                @Override
+                public void run() {
+                    mAdapter.setLoading(false);
+                }
+            });
         }
         mIsRefreshing = false;
         mIsLoadingMore = false;

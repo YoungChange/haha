@@ -8,6 +8,7 @@ import android.support.v4.app.Fragment;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
+import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
 import android.widget.ImageButton;
@@ -55,7 +56,6 @@ public class NewsActivity extends BaseActivity implements NewsContract.View{
     CircleImageView loginImageButton;
 
     Tracker mTracker;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -179,7 +179,7 @@ public class NewsActivity extends BaseActivity implements NewsContract.View{
     }
 
     @Override
-    public void showErrorMsg(int mTabId){
+    public void showErrorMsg(int mTabId, int loadType){
         NewsListFragment fragment = (NewsListFragment)getFragmentAt(mTabId);
         fragment.showLoadError();
 //        if (fragment != null) {
@@ -224,7 +224,6 @@ public class NewsActivity extends BaseActivity implements NewsContract.View{
         Fragment fragment = adapter.getItem(curItem);
 
         if (!fragment.isAdded()) {
-            KLog.e("has not added fragment!!!!!!!!!!!!!!!!!!!!");
             return null;
         }
         return fragment;

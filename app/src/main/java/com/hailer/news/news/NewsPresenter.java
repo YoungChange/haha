@@ -10,14 +10,13 @@ import com.hailer.news.model.FacebookDataSource;
 import com.hailer.news.model.LocalDataSource;
 import com.hailer.news.model.RemoteDataSource;
 import com.hailer.news.util.bean.NewsChannelBean;
-import com.socks.library.KLog;
-
 import java.util.List;
 
 /**
  * Created by moma on 17-7-17.
+ *
+ *
  */
-
 public class NewsPresenter implements NewsContract.Presenter {
     private NewsContract.View mView;
     private RemoteDataSource mRemoteData;
@@ -34,7 +33,9 @@ public class NewsPresenter implements NewsContract.Presenter {
         mLocalCB = new RxCallback<List< NewsChannelBean >>() {
             @Override
             public void requestError(int msg) {
-                mView.showErrorMsg(msg);
+                //mView.showErrorMsg(msg, mLoadType);
+                // 频道加载应该保证至少几个是可以使用的，如果没能加载远端数据则仅显示
+                // 本地的几条。连频道都提示出错的话也太令人茫然了。
             }
 
             @Override
@@ -66,7 +67,6 @@ public class NewsPresenter implements NewsContract.Presenter {
 
     @Override
     public void autoLogin() {
-        KLog.e("----autoLogin()--FacebookDataSource.getToken():"+FacebookDataSource.getToken());
         if (FacebookDataSource.getToken() != null) {
             mRemoteData.login(UserManager.getInstance().getUserinfo(), mLoginCallback);
         } else {
@@ -88,7 +88,6 @@ public class NewsPresenter implements NewsContract.Presenter {
 
     @Override
     public void refreshData(String catId, int itemCount) {
-        KLog.e("refreshData(), category id="+catId);
 //        mStartPage = 1;
         mLoadType = LoadType.TYPE_REFRESH;
         //refresh
@@ -98,8 +97,6 @@ public class NewsPresenter implements NewsContract.Presenter {
     @Override
     public void loadMoreData(String catId, int itemCount) {
         //load data
-        KLog.e("loadMoreData(), category id="+ catId+", itemCount="+itemCount);
-
         mLoadType = LoadType.TYPE_LOAD_MORE;
         mRemoteData.getNewsList(catId, itemCount, mGetDataCallback);
     }
@@ -109,7 +106,7 @@ public class NewsPresenter implements NewsContract.Presenter {
 
         @Override
         public void requestError(int msg) {
-            mView.showErrorMsg(mTabId);
+            mView.showErrorMsg(mTabId, mLoadType);
         }
 
         @Override

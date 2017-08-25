@@ -96,6 +96,10 @@ public class CommentBar extends LinearLayout implements View.OnClickListener{
         return this;
     }
 
+    public String getEditViewText(){
+        return mSendCommentEditText.getText().toString();
+    }
+
     public CommentBar(Context context) {
         this(context,null);
     }

@@ -58,7 +58,7 @@ public abstract class BaseRecyclerAdapter<T> extends RecyclerView.Adapter<BaseRe
      * 在Recycle的上面插入一个item
      * @param data
      */
-    public void addHeadData(T data){
+    public void addOneData(T data){
         mData.add(0,data);
         notifyItemInserted(0);
         notifyItemRangeChanged(0,mData.size()-1);

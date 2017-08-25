@@ -215,4 +215,8 @@ public class NewsCommentFragment extends Fragment {
             mToast.cancel();
         }
     }
+
+    public void addOneComment(CommentInfo commentInfo){
+        newsCommentListAdapter.addOneData(commentInfo);
+    }
 }

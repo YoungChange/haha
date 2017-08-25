@@ -118,7 +118,7 @@ public class RetrofitService {
 
             if (contentLength != 0) {
                 KLog.v("--------------------------------------------开始打印返回数据----------------------------------------------------");
-//                KLog.json(buffer.clone().readString(charset));
+                KLog.json(buffer.clone().readString(charset));
                 KLog.v("--------------------------------------------结束打印返回数据----------------------------------------------------");
             }
 

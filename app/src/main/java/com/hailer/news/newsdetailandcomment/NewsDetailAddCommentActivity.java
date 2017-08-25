@@ -51,6 +51,7 @@ import com.hailer.news.util.MeasureUtil;
 import com.hailer.news.util.NetworkUtil;
 import com.hailer.news.util.TextUtil;
 import com.hailer.news.util.annotation.ActivityFragmentInject;
+import com.hailer.news.util.bean.NewsComment;
 import com.socks.library.KLog;
 import com.twitter.sdk.android.tweetcomposer.TweetComposer;
 import com.zzhoujay.richtext.RichText;
@@ -58,6 +59,8 @@ import com.zzhoujay.richtext.RichText;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.text.BreakIterator;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -206,12 +209,25 @@ public class NewsDetailAddCommentActivity extends BaseActivity implements NewsDe
 
     @Override
     public void showCommentMsg(){
+
         toast(getString(R.string.send_uccess));
         mCommentBar.setCount(++mCommentCount);
 
         InputMethodManager imm = (InputMethodManager)getSystemService(Context.INPUT_METHOD_SERVICE);
         if(imm.isActive()){
             imm.toggleSoftInput(InputMethodManager.SHOW_IMPLICIT, InputMethodManager.HIDE_NOT_ALWAYS);
+        }
+
+        if(mNewsCommentFragment.isVisible()){
+            SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+            String time = df.format(new Date());
+            String content = mCommentBar.getEditViewText();
+            String userName = UserManager.getInstance().getUserinfo().getName();
+            String userPicUrl = UserManager.getInstance().getUserinfo().getIconUri();
+            KLog.e("[time:"+time+";content:"+content+";userName:"+userName+";userPicUrl:"+userPicUrl+"]");
+
+//            CommentInfo commentInfo = new CommentInfo(time,content,userName,userPicUrl);
+//            mNewsCommentFragment.addOneComment(commentInfo);
         }
 
         mCommentBar.setEditView("");

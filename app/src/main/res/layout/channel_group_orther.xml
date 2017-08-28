@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="40dp"
+    android:gravity="center_vertical"
+    android:background="@color/light_gray">
+
+
+    <TextView
+        android:id="@+id/channel_classification_tv"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="18sp"
+        android:maxLines="1"
+        android:text="@string/more_channel"
+        android:layout_marginLeft="15dp"
+        android:layout_marginStart="15dp"
+        />
+
+    <TextView
+        android:id="@+id/channel_hint"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_toRightOf="@+id/channel_classification_tv"
+        android:layout_alignBottom="@+id/channel_classification_tv"
+        android:layout_marginLeft="15dp"
+        android:textSize="12sp"
+        android:maxLines="1"
+        android:text="@string/add_channel"
+        tools:ignore="RtlHardcoded" />
+</RelativeLayout>

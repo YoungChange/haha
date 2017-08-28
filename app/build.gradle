@@ -117,11 +117,14 @@ dependencies {
     compile 'com.google.code.findbugs:jsr305:1.3.9'
     // 基于SwipeRefreshLayout的下拉，上拉扩展
     compile 'com.dinuscxj:recyclerrefreshlayout:2.0.5'
+
     //greendao依赖
     compile 'org.greenrobot:greendao:3.2.0'
     //查看数据库
     compile 'com.idescout.sql:sqlscout-server:2.0'
 
+    // 用于多种View的Adapter
+    compile 'com.github.CymChad:BaseRecyclerViewAdapterHelper:v1.8.5'
 }
 
 configurations.all {

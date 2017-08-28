@@ -103,26 +103,4 @@ public class ChannelPresenter implements ChannelContract.Presenter{
     @Override
     public void onItemSwap(int fromPos, int toPos) {}
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-//    public void onDestroy() {
-//        RxBus.get().post("channelChange", mChannelChange);
-//        super.onDestroy();
-//    }
-
 }

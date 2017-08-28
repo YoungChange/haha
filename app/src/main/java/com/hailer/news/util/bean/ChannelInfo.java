@@ -1,23 +1,23 @@
 package com.hailer.news.util.bean;
 
+
 import org.greenrobot.greendao.annotation.Entity;
 import org.greenrobot.greendao.annotation.Generated;
 import org.greenrobot.greendao.annotation.Id;
 import org.greenrobot.greendao.annotation.NotNull;
 import org.greenrobot.greendao.annotation.Unique;
+import com.chad.library.adapter.base.entity.MultiItemEntity;
 
 /**
  * Created by moma on 17-8-28.
  */
 
 @Entity
-public class ChannelInfo {
+public class ChannelInfo extends MultiItemEntity {
 
     @Id
     private Long id;
-
     private int position;
-
     @Unique
     private String categoryName;
     private String categorySlug;

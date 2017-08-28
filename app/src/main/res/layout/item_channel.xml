@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="75dp"
+    android:layout_height="40dp"
+    xmlns:toos="http://schemas.android.com/tools"
+    android:background="@color/white">
+    <TextView
+        android:id="@+id/channel_name_tv"
+        android:paddingLeft="12.5dp"
+        android:paddingRight="12.5dp"
+        android:layout_width="75dp"
+        android:layout_height="40dp"
+        android:drawablePadding="3dp"
+        android:gravity="center"
+        android:drawableLeft="@drawable/channel_add"
+        android:background="@drawable/shape_stroke_gray"
+        android:textSize="16sp"
+        android:textColor="@color/black1"
+        toos:text="推薦"
+        toos:ignore="RtlHardcoded" />
+
+    <ImageView
+        android:id="@+id/imageView2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:srcCompat="@drawable/channel_delete"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true"
+        android:contentDescription="@string/channel_delete_tips" />
+</RelativeLayout>

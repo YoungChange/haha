@@ -27,6 +27,8 @@
     <!--分割条颜色-->
     <color name="light_gray">#e6e6e6</color>
     <color name="dark_blue">#3d75c1</color>
+    <!--黑體字顏色-->
+    <color name="black1">#202020</color>
 
 
 </resources>

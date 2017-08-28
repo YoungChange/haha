@@ -3,12 +3,17 @@ package com.hailer.news.channel;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v7.widget.GridLayoutManager;
+import android.support.v7.widget.RecyclerView;
+import android.util.SparseArray;
 import android.view.View;
 
 import com.hailer.news.R;
 import com.hailer.news.common.ActivityCode;
 import com.hailer.news.common.BaseActivity;
 import com.hailer.news.util.annotation.ActivityFragmentInject;
+
+import java.util.ArrayList;
 
 /**
  * Created by moma on 17-8-24.
@@ -23,14 +28,23 @@ import com.hailer.news.util.annotation.ActivityFragmentInject;
 public class ChannelActivity extends BaseActivity implements ChannelContract.View{
 
     private Context mContext;
-    private BaseActivity activity;
-
+    private BaseActivity mActivity;
+    private RecyclerView mChannelManagerRv;
+    private ChannelAdapter mAdapter;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
         mContext = this;
-        activity = this;
+        mActivity = this;
+        mChannelManagerRv = (RecyclerView) findViewById(R.id.change_channel_rv);
+
+    }
+
+    private void initView() {
+        GridLayoutManager layoutManager = new GridLayoutManager(this, 4);
+        mChannelManagerRv.setLayoutManager(layoutManager);
+
+
     }
 
     @Override
@@ -42,5 +56,10 @@ public class ChannelActivity extends BaseActivity implements ChannelContract.Vie
             default:
                 toast(this.getString(R.string.unknow_error));
         }
+    }
+
+    @Override
+    public void showChannel(ArrayList<String> channelList) {
+
     }
 }

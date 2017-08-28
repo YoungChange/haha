@@ -1,4 +1,4 @@
-package com.hailer.news.newsdetailandcomment;
+package com.hailer.news.newsdetail;
 
 
 import android.app.Activity;
@@ -12,10 +12,6 @@ import android.os.IBinder;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
-import android.support.v4.view.GravityCompat;
-import android.text.Editable;
-import android.text.TextUtils;
-import android.text.TextWatcher;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
@@ -23,12 +19,9 @@ import android.view.View;
 import android.view.WindowManager;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
-import android.widget.EditText;
 import android.widget.ImageButton;
-import android.widget.LinearLayout;
 import android.widget.PopupWindow;
 import android.widget.RelativeLayout;
-import android.widget.TextView;
 
 import com.facebook.share.model.ShareLinkContent;
 import com.facebook.share.widget.MessageDialog;
@@ -43,22 +36,16 @@ import com.hailer.news.common.BaseActivity;
 import com.hailer.news.common.BaseRecyclerViewHolder;
 import com.hailer.news.common.CommentBar;
 import com.hailer.news.login.LoginActivity;
-import com.hailer.news.news.NewsContract;
 import com.hailer.news.util.FuncUtil;
 import com.hailer.news.util.InputMethodLayout;
-import com.hailer.news.util.InputMethodLayout.onKeyboardsChangeListener;
 import com.hailer.news.util.MeasureUtil;
 import com.hailer.news.util.NetworkUtil;
-import com.hailer.news.util.TextUtil;
 import com.hailer.news.util.annotation.ActivityFragmentInject;
-import com.hailer.news.util.bean.NewsComment;
 import com.socks.library.KLog;
 import com.twitter.sdk.android.tweetcomposer.TweetComposer;
-import com.zzhoujay.richtext.RichText;
 
 import java.net.MalformedURLException;
 import java.net.URL;
-import java.text.BreakIterator;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
@@ -73,14 +60,14 @@ import java.util.List;
         toolbarTextViewId = R.id.toolbar_title,
         toolbarTextViewTitle = R.string.news_detail
         )
-public class NewsDetailAddCommentActivity extends BaseActivity implements NewsDetailAddCommentContract.View {
+public class NewsDetailAndCommentActivity extends BaseActivity implements NewsDetailAndCommentContract.View {
 
     private Context mContext;
     private BaseActivity activity;
 
     private NewsDetailFragment mNewsDetailFragment;
     private NewsCommentFragment mNewsCommentFragment;
-    private NewsDetailAddCommentContract.Presenter mNewsDetailAddCommentPresenter;
+    private NewsDetailAndCommentContract.Presenter mNewsDetailAddCommentPresenter;
 
     private String mPostId;
     private int mCommentCount;
@@ -107,7 +94,7 @@ public class NewsDetailAddCommentActivity extends BaseActivity implements NewsDe
         mPostTitle = getIntent().getStringExtra("postTitle");
         mPostUrl = getIntent().getStringExtra("postUrl");
 
-        mNewsDetailAddCommentPresenter = new NewsDetailAddCommentPresenter(this);
+        mNewsDetailAddCommentPresenter = new NewsDetailAndCommentPresenter(this);
         mNewsDetailFragment = NewsDetailFragment.newInstance(mPostId);
         mNewsDetailFragment.setPresenter(mNewsDetailAddCommentPresenter);
         mNewsCommentFragment = NewsCommentFragment.newInstance(mPostId,mPostUrl,mPostTitle);
@@ -253,7 +240,7 @@ public class NewsDetailAddCommentActivity extends BaseActivity implements NewsDe
 
             View viewFocused = getCurrentFocus();
             View v = mCommentBar;
-            KLog.e("-------NewsDetailAddCommentActivity--dispatchTouchEvent---view:"+v.getClass().getName());
+            KLog.e("-------NewsDetailAndCommentActivity--dispatchTouchEvent---view:"+v.getClass().getName());
             boolean b = MeasureUtil.isShouldHideInput(v, ev);
             KLog.e("----isShouldHideInput------b:"+b);
             if (viewFocused!=null && b) {

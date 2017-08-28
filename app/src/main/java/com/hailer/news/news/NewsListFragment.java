@@ -2,7 +2,6 @@ package com.hailer.news.news;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.os.Handler;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -22,7 +21,7 @@ import com.hailer.news.common.BaseRecycleViewDivider;
 import com.hailer.news.common.LoadType;
 import com.hailer.news.common.MaterialRefreshView;
 import com.hailer.news.common.OnItemClickListener;
-import com.hailer.news.newsdetailandcomment.NewsDetailAddCommentActivity;
+import com.hailer.news.newsdetail.NewsDetailAndCommentActivity;
 import com.hailer.news.util.MeasureUtil;
 import com.hailer.news.util.annotation.ActivityFragmentInject;
 import com.socks.library.KLog;
@@ -176,7 +175,7 @@ public class NewsListFragment extends Fragment{
         mAdapter.setOnItemClickListener(new OnItemClickListener(){
             @Override
             public void onItemClick(View view, int position) {
-                Intent intent = new Intent(getActivity(), NewsDetailAddCommentActivity.class);
+                Intent intent = new Intent(getActivity(), NewsDetailAndCommentActivity.class);
                 NewsItem newsItem =  mAdapter.getmData().get(position);
                 //KLog.e("onItemClick, position="+position+"; id="+newsItem.id+"; img="+newsItem.post_image);
                 intent.putExtra("postId", String.valueOf(newsItem.getPostId()));

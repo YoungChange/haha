@@ -1,16 +1,15 @@
-package com.hailer.news.newsdetailandcomment;
+package com.hailer.news.newsdetail;
 
 import com.hailer.news.api.bean.CommentInfo;
 import com.hailer.news.api.bean.NewsDetail;
 
-import java.io.Serializable;
 import java.util.List;
 
 /**
  * Created by moma on 17-8-23.
  */
 
-public class NewsDetailAddCommentContract {
+public class NewsDetailAndCommentContract {
     interface View{
         //NewsDetail
         void showDetail(NewsDetail newsDetail);

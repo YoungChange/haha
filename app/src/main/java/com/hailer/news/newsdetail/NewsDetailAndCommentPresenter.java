@@ -1,4 +1,4 @@
-package com.hailer.news.newsdetailandcomment;
+package com.hailer.news.newsdetail;
 
 import com.hailer.news.NewsApplication;
 import com.hailer.news.UserManager;
@@ -17,9 +17,9 @@ import java.util.List;
  * Created by moma on 17-8-23.
  */
 
-public class NewsDetailAddCommentPresenter implements NewsDetailAddCommentContract.Presenter{
+public class NewsDetailAndCommentPresenter implements NewsDetailAndCommentContract.Presenter{
 
-    private NewsDetailAddCommentContract.View mView;
+    private NewsDetailAndCommentContract.View mView;
     private RemoteDataSource mRemoteData;
 
     private int mStartPage = 0;
@@ -32,7 +32,7 @@ public class NewsDetailAddCommentPresenter implements NewsDetailAddCommentContra
     private RxCallback mGetNewsDetailCallback;
 
 
-    public NewsDetailAddCommentPresenter(NewsDetailAddCommentContract.View view) {
+    public NewsDetailAndCommentPresenter(NewsDetailAndCommentContract.View view) {
         mView = view;
         mRemoteData = new RemoteDataSource();
 

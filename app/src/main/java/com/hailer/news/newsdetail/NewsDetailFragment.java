@@ -1,4 +1,4 @@
-package com.hailer.news.newsdetailandcomment;
+package com.hailer.news.newsdetail;
 
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -15,7 +15,6 @@ import android.widget.TextView;
 
 import com.hailer.news.R;
 import com.hailer.news.api.bean.NewsDetail;
-import com.hailer.news.news.NewsContract;
 import com.hailer.news.util.annotation.ActivityFragmentInject;
 import com.socks.library.KLog;
 import com.zzhoujay.richtext.RichText;
@@ -44,7 +43,7 @@ public class NewsDetailFragment extends Fragment implements View.OnClickListener
     private String mPostId;
     private String mPostUrl;
     private String mPostTitle;
-    private NewsDetailAddCommentContract.Presenter mPresenter;
+    private NewsDetailAndCommentContract.Presenter mPresenter;
 
     public static NewsDetailFragment newInstance(String postId) {
         Bundle args = new Bundle();
@@ -100,7 +99,7 @@ public class NewsDetailFragment extends Fragment implements View.OnClickListener
     }
 
 
-    public void setPresenter(@NonNull NewsDetailAddCommentContract.Presenter presenter) {
+    public void setPresenter(@NonNull NewsDetailAndCommentContract.Presenter presenter) {
         mPresenter = checkNotNull(presenter);
     }
 

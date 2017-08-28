@@ -39,12 +39,6 @@
 │               │   ├── INewsAPI.java                                           **使用Retrofit框架的数据接口**
 │               │   ├── NullOnEmptyConverterFactory.java                        **返回信息为空时的处理**
 │               │   └── RetrofitService.java                                    **使用Retrofit框架的网络处理**
-│               ├── comments                                                    **评论列表界面**
-│               │   ├── CommentsActivity.java
-│               │   ├── CommentsContract.java
-│               │   ├── CommentsListAdapter.java
-│               │   ├── CommentsListViewHolder.java
-│               │   └── CommentsPresenter.java
 │               ├── common                                                      **各个界面模块使用的公共类和基类**
 │               │   ├── BaseActivity.java
 │               │   ├── BaseRecyclerAdapter.java
@@ -80,12 +74,16 @@
 │               │   ├── NewsListViewHolder.java
 │               │   └── NewsPresenter.java
 │               ├── NewsApplication.java
-│               ├── newsdetail                                                  **新闻详情界面**
-│               │   ├── NewsDetailActivity.java
-│               │   ├── NewsDetailContract.java
-│               │   └── NewsDetailPresenter.java
+│               ├── newsdetailandcomment                                                  **新闻详情和新闻评论列表**
+│               │   ├── CommentsListAdapter.java
+│               │   ├── CommentsListViewHolder.java
+│               │   ├── NewsCommentFragment.java                                           **新闻评论列表界面**   
+│               │   ├── NewsDetailAndCommentActivity.java
+│               │   ├── NewsDetailAndCommentContract.java
+│               │   └── NewsDetailAndCommentPresenter.java
+│               │   ├── NewsDetailFragment.java                                            **新闻详情界面**
 │               ├── splash
-│               │   ├── SplashActivity.java
+│               │   ├── SplashActivity.java                                                **启动页界面**
 │               │   ├── SplashContract.java
 │               │   ├── SplashModel.java
 │               │   └── SplashPresenter.java
@@ -94,9 +92,9 @@
 │                   ├── annotation
 │                   │   └── ActivityFragmentInject.java                         **activity的注解注入**
 │                   ├── bean
-│                   │   ├── FeedBackMessage.java
-│                   │   ├── NavigationItem.java
-│                   │   ├── NewsChannelBean.java
+│                   │   ├── FeedBackMessage.java                                 **反馈信息bean**
+│                   │   ├── NavigationItem.java                                  **Nav的item bean**
+│                   │   ├── NewsChannelBean.java                  
 │                   │   ├── NewsComment.java
 │                   │   └── UserInfo.java
 │                   ├── CommentVoteUtil.java

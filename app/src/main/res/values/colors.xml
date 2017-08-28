@@ -20,7 +20,7 @@
     <color name="white">#ffffff</color>
 
 
-    <!--NewsDetailAddCommentActivity  SendCommentBar “发布”字体的颜色-->
+    <!--NewsDetailAndCommentActivity  SendCommentBar “发布”字体的颜色-->
     <color name="colorTextIsNull">#808080</color>
     <color name="colorTextNotNull">#f24444</color>
 

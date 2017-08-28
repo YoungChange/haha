@@ -1,4 +1,4 @@
-package com.hailer.news.newsdetailandcomment;
+package com.hailer.news.newsdetail;
 
 import android.graphics.Color;
 import android.os.Bundle;
@@ -12,7 +12,6 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.Toast;
 
 import com.hailer.news.R;
@@ -50,7 +49,7 @@ public class NewsCommentFragment extends Fragment {
     private String mPostId;
     private String mPostUrl;
     private String mPostTitle;
-    private NewsDetailAddCommentContract.Presenter mPresenter;
+    private NewsDetailAndCommentContract.Presenter mPresenter;
     private static final String ARGS_POST_ID = "args_PostId";
     private static final String ARGS_POST_URL = "args_PostUrl";
     private static final String ARGS_POST_TITLE = "args_PostTiTle";
@@ -106,7 +105,7 @@ public class NewsCommentFragment extends Fragment {
         return mFragmentRootView;
     }
 
-    public void setPresenter(@NonNull NewsDetailAddCommentContract.Presenter presenter) {
+    public void setPresenter(@NonNull NewsDetailAndCommentContract.Presenter presenter) {
         mPresenter = checkNotNull(presenter);
     }
 

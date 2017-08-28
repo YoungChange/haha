@@ -1,4 +1,4 @@
-package com.hailer.news.newsdetailandcomment;
+package com.hailer.news.newsdetail;
 
 import android.content.Context;
 import android.graphics.Color;
@@ -7,9 +7,7 @@ import android.os.Handler;
 import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
-import android.widget.ImageButton;
 import android.widget.ImageView;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
@@ -26,7 +24,7 @@ import com.hailer.news.util.GlideUtils;
  */
 
 public class CommentsListViewHolder extends BaseRecyclerViewHolder {
-    private NewsDetailAddCommentActivity mNewsDetailAddCommentActivity;
+    private NewsDetailAndCommentActivity mNewsDetailAndCommentActivity;
     private ImageView commentUserPic;
     private TextView commentUserName;
     private TextView commentContent;
@@ -42,7 +40,7 @@ public class CommentsListViewHolder extends BaseRecyclerViewHolder {
     public CommentsListViewHolder(Context context, View itemView) {
         super(itemView);
         viewHolder = this;
-        mNewsDetailAddCommentActivity = (NewsDetailAddCommentActivity)context;
+        mNewsDetailAndCommentActivity = (NewsDetailAndCommentActivity)context;
         mContext = context;
         commentUserPic = itemView.findViewById(R.id.comment_userpicture);
         commentUserName = itemView.findViewById(R.id.comment_username);
@@ -63,7 +61,7 @@ public class CommentsListViewHolder extends BaseRecyclerViewHolder {
                         if(!mCommentInfo.isVoted()) {
                             mCommentInfo.setVote(true);
                             mCommentInfo.setCommentLike(mCommentInfo.getCommentLike() + 1);
-                            mNewsDetailAddCommentActivity.vote(mCommentInfo,viewHolder);
+                            mNewsDetailAndCommentActivity.vote(mCommentInfo,viewHolder);
                             setVote(true);
                             addOneAnim();
                         }
@@ -84,7 +82,7 @@ public class CommentsListViewHolder extends BaseRecyclerViewHolder {
     }
 
     public void addOneAnim(){
-        Animation animation = AnimationUtils.loadAnimation(mNewsDetailAddCommentActivity, R.anim.add_score_anim);
+        Animation animation = AnimationUtils.loadAnimation(mNewsDetailAndCommentActivity, R.anim.add_score_anim);
         addOneTv.setVisibility(View.VISIBLE);
         addOneTv.startAnimation(animation);
         new Handler().postDelayed(new Runnable() {

@@ -26,6 +26,10 @@ public class LocalDataSource {
         mCallBack = checkNotNull(callback, "callback cannot be null");
     }
 
+    public LocalDataSource(){
+
+    }
+
     public void getChannel(){
 
             Observable.create(new Observable.OnSubscribe<List<NewsChannelBean>>() {
@@ -70,6 +74,14 @@ public class LocalDataSource {
                         mCallBack.requestSuccess(newsChannels);
                     }
             });
+    }
+
+    public void getUserChannel(RxCallback callback){
+
+    }
+
+    public void getAllChannel(RxCallback callback){
+
     }
 
 }

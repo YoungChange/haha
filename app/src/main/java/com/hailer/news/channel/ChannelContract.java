@@ -15,6 +15,9 @@ public class ChannelContract {
     }
 
     interface Presenter {
-
+        public void getUserChannelFromRemote();
+        public void getUserChannelFromLocal();
+        public void getAllChannelFromRemote();
+        public void getAllChannelFromLocal();
     }
 }

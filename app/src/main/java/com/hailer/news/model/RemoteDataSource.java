@@ -8,6 +8,7 @@ import com.hailer.news.api.bean.NewsDetail;
 import com.hailer.news.api.bean.NewsItem;
 import com.hailer.news.common.RemoteSubscriber;
 import com.hailer.news.common.RxCallback;
+import com.hailer.news.util.bean.ChannelInfo;
 import com.hailer.news.util.bean.UserInfo;
 
 import java.util.List;
@@ -112,6 +113,12 @@ public class RemoteDataSource {
         Subscription voteSub = RetrofitService.getInstance(APIConfig.HOST_TYPE_NEWS)
                 .postVoteObservable(commentId, userToken)
                 .subscribe(new RemoteSubscriber<Boolean>(callback));
+    }
+
+    public void getAllChannel(RxCallback callback){
+        Subscription getAllChannelSub = RetrofitService.getInstance(APIConfig.HOST_TYPE_NEWS)
+                .getChannelListObservable()
+                .subscribe(new RemoteSubscriber<Map<String, List<ChannelInfo>>>(callback));
     }
 
 }

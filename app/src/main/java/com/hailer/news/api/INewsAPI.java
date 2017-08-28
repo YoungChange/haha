@@ -4,6 +4,7 @@ import com.hailer.news.api.bean.CommentInfo;
 import com.hailer.news.api.bean.LoginInfo;
 import com.hailer.news.api.bean.NewsDetail;
 import com.hailer.news.api.bean.NewsItem;
+import com.hailer.news.util.bean.ChannelInfo;
 
 import java.util.List;
 import java.util.Map;
@@ -110,4 +111,12 @@ public interface INewsAPI {
             @Path("commentId") String commentId,
             @Query("token") String token
     );
+
+    @GET("category")
+    Observable<Map<String, List<ChannelInfo>>> getChannelList(
+            @Query("token") String token,
+            @Query("per_page") int perPage,
+            @Query("page") int pageNumber
+    );
+
 }

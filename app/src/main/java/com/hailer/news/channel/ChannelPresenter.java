@@ -3,6 +3,8 @@ package com.hailer.news.channel;
 import com.hailer.news.common.RxCallback;
 import com.hailer.news.model.LocalDataSource;
 import com.hailer.news.model.RemoteDataSource;
+import com.hailer.news.util.RxBus;
+import com.hailer.news.util.bean.ChannelInfo;
 import com.hailer.news.util.bean.NewsChannelBean;
 
 import java.util.List;
@@ -14,19 +16,16 @@ import java.util.List;
 public class ChannelPresenter implements ChannelContract.Presenter{
 
     private ChannelContract.View mView;
-
     private LocalDataSource mLocalData;
-    private RemoteDataSource mRemoteData;
+    private RxCallback mGetUserChannelListCallback;
+    private RxCallback mGetOtherChannelCallback;
 
-    private RxCallback mGetAllChannelCallback;
-    private RxCallback mUserGetChannelListCallback;
-    private RxCallback mLoginCallback;
-    private RxCallback mPostDataCallback;
+    private RxCallback mChangeChannelCallback;
 
     public ChannelPresenter(ChannelContract.View view) {
         mView = view;
 
-        mGetAllChannelCallback = new RxCallback<List<NewsChannelBean>>() {
+        mGetUserChannelListCallback = new RxCallback<List<NewsChannelBean>>() {
             @Override
             public void requestError(int msg) {
             }
@@ -37,7 +36,7 @@ public class ChannelPresenter implements ChannelContract.Presenter{
             }
         };
 
-        mUserGetChannelListCallback = new RxCallback() {
+        mGetOtherChannelCallback = new RxCallback() {
             @Override
             public void requestError(int msgType) {
 
@@ -49,9 +48,9 @@ public class ChannelPresenter implements ChannelContract.Presenter{
             }
         };
 
-        mPostDataCallback = new RxCallback() {
+        mChangeChannelCallback = new RxCallback() {
             @Override
-            public void requestError(int msg) {
+            public void requestError(int msgType) {
 
             }
 
@@ -61,28 +60,69 @@ public class ChannelPresenter implements ChannelContract.Presenter{
             }
         };
 
-
         mLocalData = new LocalDataSource();
-        mRemoteData = new RemoteDataSource();
-    }
-
-    @Override
-    public void getUserChannelFromRemote() {
-//        mRemoteData.getUserChannel(mUserGetChannelListCallback);
     }
 
     @Override
     public void getUserChannelFromLocal() {
-//        mLocalData.getUserChannel(mUserGetChannelListCallback);
+        mLocalData.getUserChannel(mGetUserChannelListCallback);
     }
 
     @Override
-    public void getAllChannelFromRemote() {
-        mRemoteData.getAllChannel(mGetAllChannelCallback);
+    public void getOtherChannelFromLocal() {
+        mLocalData.getOtherChannel(mGetOtherChannelCallback);
     }
 
+
     @Override
-    public void getAllChannelFromLocal() {
-//        mLocalData.getAllChannel(mGetAllChannelCallback);
+    public void updateChannel(List<ChannelInfo> list){
+        mLocalData.updateChannel(mChangeChannelCallback,list);
     }
+
+
+
+    /**
+     * UserChannel添加某个channel
+     * @param channelName
+     */
+    @Override
+    public void onItemAdd(String channelName) {}
+
+    /**
+     * UserChannel移除某个channel
+     * @param channelName
+     */
+    @Override
+    public void onItemRemove(String channelName) {}
+
+    /**
+     * 交换位置操作
+     * @param fromPos
+     * @param toPos
+     */
+    @Override
+    public void onItemSwap(int fromPos, int toPos) {}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+//    public void onDestroy() {
+//        RxBus.get().post("channelChange", mChannelChange);
+//        super.onDestroy();
+//    }
+
 }

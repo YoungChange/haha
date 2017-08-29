@@ -31,6 +31,7 @@ import com.hailer.news.util.RxBus;
 import com.hailer.news.util.annotation.ActivityFragmentInject;
 import com.hailer.news.util.bean.NewsChannelBean;
 import com.hailer.news.util.bean.UserInfo;
+import com.idescout.sql.SqlScoutServer;
 import com.socks.library.KLog;
 
 import java.util.ArrayList;
@@ -202,6 +203,12 @@ public class NewsActivity extends BaseActivity implements NewsContract.View{
         mTracker.send(new HitBuilders.ScreenViewBuilder().build());
 
         Fabric.with(this, new Crashlytics());
+    }
+
+    private void sqlScout(){
+        if (BuildConfig.DEBUG) {
+            SqlScoutServer.create(this, getPackageName());
+        }
     }
 
     private Fragment getFragmentAt(int index){

@@ -65,4 +65,55 @@
     <string name="cancel">取消</string>
     <string name="tv_no_more_data">沒有更多數據了</string>
 
+
+    <string-array name="news_channel">
+
+        <!--定死不能更改的三个频道-->
+        <item>科技</item>
+        <item>體育</item>
+        <item>財經</item>
+        <item>汽車</item>
+        <item>娛樂</item>
+
+        <item>社會</item>
+        <item>軍事</item>
+        <item>育兒</item>
+        <item>國際</item>
+        <item>旅遊</item>
+
+        <item>時尚</item>
+        <item>美食</item>
+        <item>健康</item>
+        <item>搞笑</item>
+        <item>文化</item>
+
+        <item>其他</item>
+    </string-array>
+
+    <string-array name="news_channel_slug">
+        <item>tech</item>
+        <item>sports</item>
+        <item>finance</item>
+        <item>car</item>
+        <item>entertainment</item>
+
+        <item>society</item>
+        <item>military</item>
+        <item>baby</item>
+        <item>world</item>
+        <item>travel</item>
+
+        <item>fashion</item>
+        <item>food</item>
+        <item>health</item>
+        <item>funny</item>
+        <item>culture</item>
+
+        <item>other</item>
+
+    </string-array>
+
+
+
+
 </resources>

@@ -1,6 +1,7 @@
 package com.hailer.news.channel;
 
 import com.hailer.news.api.bean.CommentInfo;
+import com.hailer.news.util.bean.ChannelInfo;
 
 import java.util.List;
 
@@ -15,9 +16,15 @@ public class ChannelContract {
     }
 
     interface Presenter {
-        public void getUserChannelFromRemote();
         public void getUserChannelFromLocal();
-        public void getAllChannelFromRemote();
-        public void getAllChannelFromLocal();
+        public void getOtherChannelFromLocal();
+        public void updateChannel(List<ChannelInfo> list);
+
+
+        //以后会用
+        public void onItemAdd(String channelName);
+        public void onItemRemove(String channelName);
+        public void onItemSwap(int fromPos, int toPos);
+
     }
 }

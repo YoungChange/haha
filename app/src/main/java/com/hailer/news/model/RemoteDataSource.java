@@ -118,7 +118,13 @@ public class RemoteDataSource {
     public void getAllChannel(RxCallback callback){
         Subscription getAllChannelSub = RetrofitService.getInstance(APIConfig.HOST_TYPE_NEWS)
                 .getChannelListObservable()
-                .subscribe(new RemoteSubscriber<Map<String, List<ChannelInfo>>>(callback));
+                .map(new Func1<Map<String,List<ChannelInfo>>, List<ChannelInfo>>() {
+                    @Override
+                    public List<ChannelInfo> call(Map<String, List<ChannelInfo>> stringListMap) {
+                        return stringListMap.get(APIConfig.NEWS_DATA_JSON_KEY);
+                    }
+                })
+                .subscribe(new RemoteSubscriber<List<ChannelInfo>>(callback));
     }
 
 }

@@ -5,19 +5,25 @@ import android.support.multidex.MultiDexApplication;
 import android.content.Context;
 
 import com.hailer.news.BuildConfig;
+import com.hailer.news.util.daogen.DaoMaster;
+import com.hailer.news.util.daogen.DaoSession;
 import com.socks.library.KLog;
 
 import com.google.android.gms.analytics.GoogleAnalytics;
 import com.google.android.gms.analytics.Tracker;
 import com.twitter.sdk.android.core.Twitter;
 
+import org.greenrobot.greendao.database.Database;
+
 
 public class NewsApplication extends MultiDexApplication {
 
     private static Context sApplicationContext;
-
     private static GoogleAnalytics sAnalytics;
     private static Tracker sTracker;
+
+    //greenDao相关
+    private DaoSession daoSession;
 
     @Override
     public void onCreate() {
@@ -31,8 +37,8 @@ public class NewsApplication extends MultiDexApplication {
         KLog.init(BuildConfig.DEBUG);
 
         sAnalytics = GoogleAnalytics.getInstance(this);
-        //初始化Twitter
-        //Twitter.initialize(this);
+
+        initDatabase();
     }
 
     // 获取ApplicationContext
@@ -52,6 +58,25 @@ public class NewsApplication extends MultiDexApplication {
 
         return sTracker;
     }
+
+
+    /**
+     * greenDao 初始化数据库
+     */
+    private void initDatabase(){
+        DaoMaster.DevOpenHelper helper = new DaoMaster.DevOpenHelper(this,"channels-db");
+        Database db = helper.getWritableDb();
+        daoSession = new DaoMaster(db).newSession();
+    }
+
+    /**
+     * 获取DaoSession对象
+     * @return
+     */
+    public DaoSession getDaoSession() {
+        return daoSession;
+    }
+
 
 
 /*

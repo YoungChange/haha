@@ -4,6 +4,7 @@ buildscript {
     repositories {
         jcenter()
         maven { url 'https://maven.fabric.io/public' }
+        mavenCentral()
     }
     dependencies {
         classpath 'com.android.tools.build:gradle:2.3.3'
@@ -14,6 +15,9 @@ buildscript {
         classpath 'com.google.gms:google-services:3.0.0'
 
         classpath 'io.fabric.tools:gradle:1.+'
+
+        //GreenDao3依赖
+        classpath 'org.greenrobot:greendao-gradle-plugin:3.2.1'
     }
 
 }
@@ -23,6 +27,9 @@ allprojects {
         mavenCentral()
         jcenter()
         maven { url "https://jitpack.io" }
+        maven {
+            url 'http://www.idescout.com/maven/repo/'
+        }
     }
 }
 

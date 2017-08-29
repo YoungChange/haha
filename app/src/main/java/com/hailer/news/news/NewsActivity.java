@@ -23,12 +23,14 @@ import com.hailer.news.R;
 import com.hailer.news.UserManager;
 import com.hailer.news.api.bean.NewsItem;
 import com.hailer.news.channel.ChannelActivity;
+import com.hailer.news.common.Const;
 import com.hailer.news.common.ToolBarType;
 import com.hailer.news.common.BaseActivity;
 import com.hailer.news.login.LoginActivity;
 import com.hailer.news.util.GlideUtils;
 import com.hailer.news.util.RxBus;
 import com.hailer.news.util.annotation.ActivityFragmentInject;
+import com.hailer.news.util.bean.ChannelInfo;
 import com.hailer.news.util.bean.NewsChannelBean;
 import com.hailer.news.util.bean.UserInfo;
 import com.idescout.sql.SqlScoutServer;
@@ -98,7 +100,19 @@ public class NewsActivity extends BaseActivity implements NewsContract.View{
                 startActivity(intent);
                 break;
             case R.id.change_channel:
-                startActivity(new Intent(NewsActivity.this, ChannelActivity.class));
+                ArrayList<ChannelInfo> selectChannelList = new ArrayList<>();
+                selectChannelList.add(new ChannelInfo("即时", ChannelInfo.TYPE_MY_CHANNEL_ITEM));
+                selectChannelList.add(new ChannelInfo("体育", ChannelInfo.TYPE_MY_CHANNEL_ITEM));
+                selectChannelList.add(new ChannelInfo("科技", ChannelInfo.TYPE_MY_CHANNEL_ITEM));
+                selectChannelList.add(new ChannelInfo("社会", ChannelInfo.TYPE_MY_CHANNEL_ITEM));
+                selectChannelList.add(new ChannelInfo("国际", ChannelInfo.TYPE_MY_CHANNEL_ITEM));
+                ArrayList<ChannelInfo> otherChannelList = new ArrayList<>();
+                otherChannelList.add(new ChannelInfo("小说", ChannelInfo.TYPE_OTHER_CHANNEL_ITEM));
+                otherChannelList.add(new ChannelInfo("图片", ChannelInfo.TYPE_OTHER_CHANNEL_ITEM));
+                otherChannelList.add(new ChannelInfo("趣闻", ChannelInfo.TYPE_OTHER_CHANNEL_ITEM));
+                otherChannelList.add(new ChannelInfo("旅游", ChannelInfo.TYPE_OTHER_CHANNEL_ITEM));
+                otherChannelList.add(new ChannelInfo("美食", ChannelInfo.TYPE_OTHER_CHANNEL_ITEM));
+                ChannelActivity.startChannelForResult(this, selectChannelList, otherChannelList);
                 break;
         }
     }

@@ -8,13 +8,18 @@ import org.greenrobot.greendao.annotation.NotNull;
 import org.greenrobot.greendao.annotation.Unique;
 import com.chad.library.adapter.base.entity.MultiItemEntity;
 
+import java.io.Serializable;
+
 /**
  * Created by moma on 17-8-28.
  */
 
 @Entity
-public class ChannelInfo extends MultiItemEntity {
-
+public class ChannelInfo extends MultiItemEntity implements Serializable {
+    public static final int TYPE_MY_CHANNEL = 1;
+    public static final int TYPE_MY_CHANNEL_ITEM = 2;
+    public static final int TYPE_OTHER_CHANNLE = 3;
+    public static final int TYPE_OTHER_CHANNEL_ITEM = 4;
     @Id
     private Long id;
     private int position;
@@ -23,6 +28,7 @@ public class ChannelInfo extends MultiItemEntity {
     private String categorySlug;
     private String description;
     private boolean sign;
+    private int mGroup;
 
     @Generated(hash = 8769805)
     public ChannelInfo(Long id, int position, String categoryName, String categorySlug, String description, boolean sign) {
@@ -34,6 +40,11 @@ public class ChannelInfo extends MultiItemEntity {
         this.sign = sign;
     }
 
+
+    public ChannelInfo(String category, int mGroup) {
+        this.categoryName = category;
+        this.mGroup = mGroup;
+    }
 
     @Generated(hash = 1609160491)
     public ChannelInfo() {
@@ -88,9 +99,15 @@ public class ChannelInfo extends MultiItemEntity {
         this.sign = sign;
     }
 
-
     public boolean getSign() {
         return this.sign;
+    }
+
+    public int getItemType() {
+        return mGroup;
+    }
+    public void setItemType(int type) {
+        mGroup = type;
     }
 }
 

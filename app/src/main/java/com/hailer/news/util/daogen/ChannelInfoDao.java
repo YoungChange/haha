@@ -25,10 +25,11 @@ public class ChannelInfoDao extends AbstractDao<ChannelInfo, Long> {
      */
     public static class Properties {
         public final static Property Id = new Property(0, Long.class, "id", true, "_id");
-        public final static Property CategoryName = new Property(1, String.class, "categoryName", false, "CATEGORY_NAME");
-        public final static Property CategorySlug = new Property(2, String.class, "categorySlug", false, "CATEGORY_SLUG");
-        public final static Property Description = new Property(3, String.class, "description", false, "DESCRIPTION");
-        public final static Property Sign = new Property(4, boolean.class, "sign", false, "SIGN");
+        public final static Property Position = new Property(1, int.class, "position", false, "POSITION");
+        public final static Property CategoryName = new Property(2, String.class, "categoryName", false, "CATEGORY_NAME");
+        public final static Property CategorySlug = new Property(3, String.class, "categorySlug", false, "CATEGORY_SLUG");
+        public final static Property Description = new Property(4, String.class, "description", false, "DESCRIPTION");
+        public final static Property Sign = new Property(5, boolean.class, "sign", false, "SIGN");
     }
 
 
@@ -45,10 +46,11 @@ public class ChannelInfoDao extends AbstractDao<ChannelInfo, Long> {
         String constraint = ifNotExists? "IF NOT EXISTS ": "";
         db.execSQL("CREATE TABLE " + constraint + "\"CHANNEL_INFO\" (" + //
                 "\"_id\" INTEGER PRIMARY KEY ," + // 0: id
-                "\"CATEGORY_NAME\" TEXT UNIQUE ," + // 1: categoryName
-                "\"CATEGORY_SLUG\" TEXT," + // 2: categorySlug
-                "\"DESCRIPTION\" TEXT," + // 3: description
-                "\"SIGN\" INTEGER NOT NULL );"); // 4: sign
+                "\"POSITION\" INTEGER NOT NULL ," + // 1: position
+                "\"CATEGORY_NAME\" TEXT UNIQUE ," + // 2: categoryName
+                "\"CATEGORY_SLUG\" TEXT," + // 3: categorySlug
+                "\"DESCRIPTION\" TEXT," + // 4: description
+                "\"SIGN\" INTEGER NOT NULL );"); // 5: sign
     }
 
     /** Drops the underlying database table. */
@@ -65,22 +67,23 @@ public class ChannelInfoDao extends AbstractDao<ChannelInfo, Long> {
         if (id != null) {
             stmt.bindLong(1, id);
         }
+        stmt.bindLong(2, entity.getPosition());
  
         String categoryName = entity.getCategoryName();
         if (categoryName != null) {
-            stmt.bindString(2, categoryName);
+            stmt.bindString(3, categoryName);
         }
  
         String categorySlug = entity.getCategorySlug();
         if (categorySlug != null) {
-            stmt.bindString(3, categorySlug);
+            stmt.bindString(4, categorySlug);
         }
  
         String description = entity.getDescription();
         if (description != null) {
-            stmt.bindString(4, description);
+            stmt.bindString(5, description);
         }
-        stmt.bindLong(5, entity.getSign() ? 1L: 0L);
+        stmt.bindLong(6, entity.getSign() ? 1L: 0L);
     }
 
     @Override
@@ -91,22 +94,23 @@ public class ChannelInfoDao extends AbstractDao<ChannelInfo, Long> {
         if (id != null) {
             stmt.bindLong(1, id);
         }
+        stmt.bindLong(2, entity.getPosition());
  
         String categoryName = entity.getCategoryName();
         if (categoryName != null) {
-            stmt.bindString(2, categoryName);
+            stmt.bindString(3, categoryName);
         }
  
         String categorySlug = entity.getCategorySlug();
         if (categorySlug != null) {
-            stmt.bindString(3, categorySlug);
+            stmt.bindString(4, categorySlug);
         }
  
         String description = entity.getDescription();
         if (description != null) {
-            stmt.bindString(4, description);
+            stmt.bindString(5, description);
         }
-        stmt.bindLong(5, entity.getSign() ? 1L: 0L);
+        stmt.bindLong(6, entity.getSign() ? 1L: 0L);
     }
 
     @Override
@@ -118,10 +122,11 @@ public class ChannelInfoDao extends AbstractDao<ChannelInfo, Long> {
     public ChannelInfo readEntity(Cursor cursor, int offset) {
         ChannelInfo entity = new ChannelInfo( //
             cursor.isNull(offset + 0) ? null : cursor.getLong(offset + 0), // id
-            cursor.isNull(offset + 1) ? null : cursor.getString(offset + 1), // categoryName
-            cursor.isNull(offset + 2) ? null : cursor.getString(offset + 2), // categorySlug
-            cursor.isNull(offset + 3) ? null : cursor.getString(offset + 3), // description
-            cursor.getShort(offset + 4) != 0 // sign
+            cursor.getInt(offset + 1), // position
+            cursor.isNull(offset + 2) ? null : cursor.getString(offset + 2), // categoryName
+            cursor.isNull(offset + 3) ? null : cursor.getString(offset + 3), // categorySlug
+            cursor.isNull(offset + 4) ? null : cursor.getString(offset + 4), // description
+            cursor.getShort(offset + 5) != 0 // sign
         );
         return entity;
     }
@@ -129,10 +134,11 @@ public class ChannelInfoDao extends AbstractDao<ChannelInfo, Long> {
     @Override
     public void readEntity(Cursor cursor, ChannelInfo entity, int offset) {
         entity.setId(cursor.isNull(offset + 0) ? null : cursor.getLong(offset + 0));
-        entity.setCategoryName(cursor.isNull(offset + 1) ? null : cursor.getString(offset + 1));
-        entity.setCategorySlug(cursor.isNull(offset + 2) ? null : cursor.getString(offset + 2));
-        entity.setDescription(cursor.isNull(offset + 3) ? null : cursor.getString(offset + 3));
-        entity.setSign(cursor.getShort(offset + 4) != 0);
+        entity.setPosition(cursor.getInt(offset + 1));
+        entity.setCategoryName(cursor.isNull(offset + 2) ? null : cursor.getString(offset + 2));
+        entity.setCategorySlug(cursor.isNull(offset + 3) ? null : cursor.getString(offset + 3));
+        entity.setDescription(cursor.isNull(offset + 4) ? null : cursor.getString(offset + 4));
+        entity.setSign(cursor.getShort(offset + 5) != 0);
      }
     
     @Override

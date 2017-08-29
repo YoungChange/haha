@@ -118,13 +118,13 @@ public class LocalDataSource {
                     .getStringArray(R.array.news_channel_slug));
 
             for (int i = 0; i < channelName.size(); i++) {
-                ChannelInfo channel = new ChannelInfo((long)i,channelName.get(i),channelSlug.get(i),"",i<4);
+                ChannelInfo channel = new ChannelInfo((long)i,i,channelName.get(i),channelSlug.get(i),"",i<4);
                 channelsDao.insert(channel);
             }
             SpUtil.writeBoolean("initDb", true);
             KLog.e("数据库初始化完毕！");
         }
-        
+
 
         Observable.create(new Observable.OnSubscribe<List<ChannelInfo>>() {
             @Override
@@ -164,32 +164,21 @@ public class LocalDataSource {
         DaoSession daoSession = ((NewsApplication)NewsApplication.getContext()).getDaoSession();
         channelsDao = daoSession.getChannelInfoDao();
         channelsQuery = channelsDao.queryBuilder().orderAsc(ChannelInfoDao.Properties.Id).build();
-        for (ChannelInfo channelInfo : allChannels ) {
+
+        for (int i = 0;i<allChannels.size();i++) {
+            ChannelInfo channelInfo = allChannels.get(i);
+            channelInfo.setPosition(i);
             channelsDao.update(channelInfo);
         }
     }
 
-//    public void getAllChannel2(RxCallback callback){
-//        DaoSession daoSession = ((NewsApplication)NewsApplication.getContext()).getDaoSession();
-//        channelsDao = daoSession.getChannelInfoDao().rx();
-//        channelsQuery = daoSession.getChannelInfoDao().queryBuilder().orderAsc(ChannelInfoDao.Properties.Id).rx();
-//        channelsQuery.list().observeOn(AndroidSchedulers.mainThread())
-//                .subscribe(new Action1<List<ChannelInfo>>() {
-//                    @Override
-//                    public void call(List<ChannelInfo> notes) {
-//                        notesAdapter.setNotes(notes);
-//                    }
-//                });
-//    }
-
-
-//    public void channelDbAddItem(RxCallback callback, String channelName){
-//        KLog.e("做增操作:channelName " + channelName + ";");
-//        DaoSession daoSession = ((NewsApplication)NewsApplication.getContext()).getDaoSession();
-//        channelsDao = daoSession.getChannelInfoDao();
-//        channelsQuery = channelsDao.queryBuilder().where(ChannelInfoDao.Properties.Sign.eq(true)).orderAsc(ChannelInfoDao.Properties.Id).build();
-//        channelsQuery.list();
-//        // 找到它的信息
+    public void channelDbAddItem(RxCallback callback, String channelName){
+        KLog.e("做增操作:channelName " + channelName + ";");
+        DaoSession daoSession = ((NewsApplication)NewsApplication.getContext()).getDaoSession();
+        channelsDao = daoSession.getChannelInfoDao();
+        channelsQuery = channelsDao.queryBuilder().where(ChannelInfoDao.Properties.Sign.eq(true)).orderAsc(ChannelInfoDao.Properties.Id).build();
+        channelsQuery.list();
+        // 找到它的信息
 //        final NewsChannelTable table = dao.queryBuilder()
 //                .where(NewsChannelTableDao.Properties.NewsChannelName
 //                        .eq(channelName)).unique();
@@ -221,7 +210,7 @@ public class LocalDataSource {
 //
 //        dao.update(table);
 //
-//    }
+    }
 
     public void channelDbRemoveItem(RxCallback callback, String channelName){
         DaoSession daoSession = ((NewsApplication)NewsApplication.getContext()).getDaoSession();

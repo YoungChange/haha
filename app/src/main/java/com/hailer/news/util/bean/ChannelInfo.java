@@ -16,15 +16,18 @@ public class ChannelInfo {
     @Id
     private Long id;
 
+    private int position;
+
     @Unique
     private String categoryName;
     private String categorySlug;
     private String description;
     private boolean sign;
 
-    @Generated(hash = 1551837672)
-    public ChannelInfo(Long id, String categoryName, String categorySlug, String description, boolean sign) {
+    @Generated(hash = 8769805)
+    public ChannelInfo(Long id, int position, String categoryName, String categorySlug, String description, boolean sign) {
         this.id = id;
+        this.position = position;
         this.categoryName = categoryName;
         this.categorySlug = categorySlug;
         this.description = description;
@@ -43,6 +46,14 @@ public class ChannelInfo {
 
     public void setId(Long id) {
         this.id = id;
+    }
+
+    public int getPosition() {
+        return position;
+    }
+
+    public void setPosition(int position) {
+        this.position = position;
     }
 
     public String getCategoryName() {

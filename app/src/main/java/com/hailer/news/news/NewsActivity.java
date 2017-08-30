@@ -72,6 +72,10 @@ public class NewsActivity extends BaseActivity implements NewsContract.View{
         trackingApp();
     }
 
+    public void loadMoreData(String mCatId, int totalItemCount) {
+        mNewsPresenter.loadMoreData(mCatId, totalItemCount);
+    }
+
 
     @Override
     protected void onResume() {
@@ -130,29 +134,29 @@ public class NewsActivity extends BaseActivity implements NewsContract.View{
         List<NewsListFragment> fragmentList = new ArrayList<>();
         final List<String> title = new ArrayList<>();
         if (newsChannels != null && newsChannels.size() > 0) {
-            for (ChannelInfo channel : newsChannels) {
-                final NewsListFragment fragment = NewsListFragment
-                        .newInstance(channel.getCategoryName(),channel.getCategorySlug()); // 使用newInstances比重载的构造方法好在哪里？
-
-                fragment.setPresenter(mNewsPresenter);
-                fragmentList.add(fragment);
-                title.add(channel.getCategoryName());
-            }
-            // 在adapter不为空时，fragment总是没有被添加。后期优化再查找原因。
-            //PagerAdapter adapter = mNewsViewpager.getAdapter();
-            PagerAdapter adapter = new NewsFragmentAdapter(getSupportFragmentManager(), fragmentList, title);
-            mNewsViewpager.setAdapter(adapter);
-//            if (adapter == null) {
-//                adapter = new NewsFragmentAdapter(getSupportFragmentManager(), fragmentList, title);
-//                mNewsViewpager.setAdapter(adapter);
-//            } else {
-//                adapter = mNewsViewpager.getAdapter();
-//                ((NewsFragmentAdapter) adapter).updateFragments(fragmentList, title);
+//            for (ChannelInfo channel : newsChannels) {
+//                final NewsListFragment fragment = NewsListFragment
+//                        .newInstance(channel.getCategoryName(),channel.getCategorySlug()); // 使用newInstances比重载的构造方法好在哪里？
+//
+//                fragment.setPresenter(mNewsPresenter);
+//                fragmentList.add(fragment);
+//                title.add(channel.getCategoryName());
 //            }
+            // 在adapter不为空时，fragment总是没有被添加。后期优化再查找原因。
+            PagerAdapter adapter = mNewsViewpager.getAdapter();
+            //PagerAdapter adapter = new NewsFragmentAdapter(getSupportFragmentManager(), fragmentList, title);
+            if (adapter == null) {
+                adapter = new NewsFragmentAdapter(getSupportFragmentManager(), newsChannels);
+                mNewsViewpager.setAdapter(adapter);
+            } else {
+                //adapter = mNewsViewpager.getAdapter();
+                ((NewsFragmentAdapter) adapter).updateFragments(newsChannels);
+            }
+            //mNewsViewpager.setAdapter(adapter);
             mNewsViewpager.setCurrentItem(0, false);
             mTabLayout.setupWithViewPager(mNewsViewpager);
             mTabLayout.setScrollPosition(0, 0, true);
-            mTabLayout.setTabMode(TabLayout.MODE_FIXED);
+            mTabLayout.setTabMode(TabLayout.MODE_SCROLLABLE);
 
             setOnTabSelectEvent(mNewsViewpager, mTabLayout);
 

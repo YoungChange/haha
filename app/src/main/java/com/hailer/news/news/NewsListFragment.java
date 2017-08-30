@@ -51,7 +51,7 @@ public class NewsListFragment extends Fragment{
     protected View mFragmentRootView;
     protected int mContentViewId;
     private List mNewsList;
-    private NewsContract.Presenter mPresenter;
+    //private NewsContract.Presenter mPresenter;
     private NewsActivity mActivity;
     private ProgressBar mLoadingViewPb;
     private TextView mNoInternetTipTv;
@@ -113,9 +113,9 @@ public class NewsListFragment extends Fragment{
         super.onDestroyView();
     }
 
-    public void setPresenter(@NonNull NewsContract.Presenter presenter) {
-        mPresenter = checkNotNull(presenter);
-    }
+//    public void setPresenter(@NonNull NewsContract.Presenter presenter) {
+//        mPresenter = checkNotNull(presenter);
+//    }
 
     public void showNewsList(int loadType, List<NewsItem> list){
         KLog.e("callback----NewsListFragment--showNewsList---loadType:"+loadType);
@@ -159,7 +159,7 @@ public class NewsListFragment extends Fragment{
                         }
                     });
                     KLog.e("NewsListFragment-----mPresenter.loadMoreData");
-                    mPresenter.loadMoreData(mCatId, totalItemCount);
+                    mActivity.loadMoreData(mCatId, totalItemCount);
                 }
             }
         });

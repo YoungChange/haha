@@ -4,11 +4,14 @@ package com.hailer.news.news;
 import com.hailer.news.UserManager;
 import com.hailer.news.api.bean.LoginInfo;
 import com.hailer.news.api.bean.NewsItem;
+import com.hailer.news.channel.ChannelActivity;
+import com.hailer.news.common.Const;
 import com.hailer.news.common.LoadType;
 import com.hailer.news.common.RxCallback;
 import com.hailer.news.model.FacebookDataSource;
 import com.hailer.news.model.LocalDataSource;
 import com.hailer.news.model.RemoteDataSource;
+import com.hailer.news.util.bean.ChannelInfo;
 import com.hailer.news.util.bean.NewsChannelBean;
 import java.util.List;
 
@@ -30,7 +33,7 @@ public class NewsPresenter implements NewsContract.Presenter {
     public NewsPresenter(NewsContract.View view) {
         mView = view;
 
-        mLocalCB = new RxCallback<List< NewsChannelBean >>() {
+        mLocalCB = new RxCallback<List<ChannelInfo>>() {
             @Override
             public void requestError(int msg) {
                 //mView.showErrorMsg(msg, mLoadType);
@@ -39,7 +42,7 @@ public class NewsPresenter implements NewsContract.Presenter {
             }
 
             @Override
-            public void requestSuccess(List< NewsChannelBean > data) {
+            public void requestSuccess(List< ChannelInfo > data) {
                 mView.showChannels(data);
             }
         };
@@ -61,7 +64,7 @@ public class NewsPresenter implements NewsContract.Presenter {
         };
 
         mRemoteData = new RemoteDataSource();
-        mLocalData = new LocalDataSource(mLocalCB);
+        mLocalData = new LocalDataSource();
 
     }
 
@@ -76,7 +79,7 @@ public class NewsPresenter implements NewsContract.Presenter {
 
     @Override
     public void getUserChannel() {
-        mLocalData.getChannel();
+        mLocalData.getUserChannel(mLocalCB);
     }
 
     @Override
@@ -84,6 +87,11 @@ public class NewsPresenter implements NewsContract.Presenter {
         //load data
         mLoadType = LoadType.TYPE_REFRESH;
         mRemoteData.getNewsList(catId, mStartPage, mGetDataCallback.setTabId(tabId));
+    }
+
+    @Override
+    public void startChannelForSelected() {
+        ChannelActivity.startChannelForResult((NewsActivity)mView);
     }
 
     @Override

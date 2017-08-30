@@ -27,6 +27,7 @@ public class LocalSubscriber<T> extends Subscriber<T> {
 
     @Override
     public void onError(Throwable e) {
+        KLog.e(e);
         mRequestCallback.requestError(ErrMsg.UNKNOW_ERROR);
     }
 

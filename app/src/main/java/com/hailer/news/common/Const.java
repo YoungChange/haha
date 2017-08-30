@@ -9,10 +9,12 @@ public interface Const {
     interface Channel {
         String DATA_SELECTED = "DataSelected";
         String DATA_UNSELECTED = "DataUnselected";
+        String SELECT_CHANNEL_LIST = "SelectChannelList";
     }
 
     interface Activity {
         int START_CHANNEL_FOR_RESULE = 200;
+        int RESPONSE_CODE_FROM_CHANNEL = 201;
     }
 
 

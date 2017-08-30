@@ -1,12 +1,13 @@
 package com.hailer.news.channel;
 
+import android.util.ArrayMap;
+
+import com.hailer.news.common.Const;
 import com.hailer.news.common.RxCallback;
 import com.hailer.news.model.LocalDataSource;
-import com.hailer.news.model.RemoteDataSource;
-import com.hailer.news.util.RxBus;
 import com.hailer.news.util.bean.ChannelInfo;
-import com.hailer.news.util.bean.NewsChannelBean;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -17,34 +18,21 @@ public class ChannelPresenter implements ChannelContract.Presenter{
 
     private ChannelContract.View mView;
     private LocalDataSource mLocalData;
-    private RxCallback mGetUserChannelListCallback;
-    private RxCallback mGetOtherChannelCallback;
+    private RxCallback mGetUserChannelListCallback;;
 
     private RxCallback mChangeChannelCallback;
 
-    public ChannelPresenter(ChannelContract.View view) {
+    public ChannelPresenter(final ChannelContract.View view) {
         mView = view;
 
-        mGetUserChannelListCallback = new RxCallback<List<NewsChannelBean>>() {
+        mGetUserChannelListCallback = new RxCallback<List<ChannelInfo>>() {
             @Override
             public void requestError(int msg) {
             }
 
             @Override
-            public void requestSuccess(List<NewsChannelBean> data) {
-
-            }
-        };
-
-        mGetOtherChannelCallback = new RxCallback() {
-            @Override
-            public void requestError(int msgType) {
-
-            }
-
-            @Override
-            public void requestSuccess(Object data) {
-
+            public void requestSuccess(List<ChannelInfo> data) {
+                //mView.showChannel(data);
             }
         };
 
@@ -64,13 +52,23 @@ public class ChannelPresenter implements ChannelContract.Presenter{
     }
 
     @Override
-    public void getUserChannelFromLocal() {
-        mLocalData.getUserChannel(mGetUserChannelListCallback);
+    public void getChannels() {
+        mLocalData.getChannels(new RxCallback<ArrayMap<String, List>>() {
+            @Override
+            public void requestError(int msgType) {
+            }
+
+            @Override
+            public void requestSuccess(ArrayMap<String, List> map) {
+                mView.showChannel(map.get(Const.Channel.DATA_SELECTED),
+                        map.get(Const.Channel.DATA_UNSELECTED));
+            }
+        });
     }
 
     @Override
-    public void getOtherChannelFromLocal() {
-        mLocalData.getOtherChannel(mGetOtherChannelCallback);
+    public void getUserChannelFromLocal() {
+        mLocalData.getUserChannel(mGetUserChannelListCallback);
     }
 
 
@@ -78,7 +76,6 @@ public class ChannelPresenter implements ChannelContract.Presenter{
     public void updateChannel(List<ChannelInfo> list){
         mLocalData.updateChannel(mChangeChannelCallback,list);
     }
-
 
 
     /**

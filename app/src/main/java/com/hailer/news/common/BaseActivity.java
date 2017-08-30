@@ -76,7 +76,6 @@ public abstract class BaseActivity extends AppCompatActivity implements View.OnC
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        showSplash();
         if(getClass().isAnnotationPresent(ActivityFragmentInject.class)){
             ActivityFragmentInject anno = getClass().getAnnotation(ActivityFragmentInject.class);
             mContentViewId = anno.contentViewId();
@@ -252,5 +251,4 @@ public abstract class BaseActivity extends AppCompatActivity implements View.OnC
         }
     }
 
-    public void showSplash(){}
 }

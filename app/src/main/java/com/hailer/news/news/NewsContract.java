@@ -1,6 +1,7 @@
 package com.hailer.news.news;
 
 import com.hailer.news.api.bean.NewsItem;
+import com.hailer.news.util.bean.ChannelInfo;
 import com.hailer.news.util.bean.NewsChannelBean;
 
 import java.util.List;
@@ -10,7 +11,7 @@ import java.util.List;
  */
 public interface NewsContract {
     interface View {
-        void showChannels(List<NewsChannelBean> data);
+        void showChannels(List<ChannelInfo> data);
 
         void showNewsList(int loadType, List<NewsItem> list, int tabId);
 
@@ -31,5 +32,6 @@ public interface NewsContract {
 
         void getNewsList(String catId, int tabId);
 
+        void startChannelForSelected();
     }
 }

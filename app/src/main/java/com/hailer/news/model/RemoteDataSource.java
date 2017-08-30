@@ -89,7 +89,6 @@ public class RemoteDataSource {
                     }
                 })
                 .subscribe(new RemoteSubscriber<List<CommentInfo>>(callback));
-
     }
 
     public void postComment(String postId, String serverToken, String comment, RxCallback callback) {

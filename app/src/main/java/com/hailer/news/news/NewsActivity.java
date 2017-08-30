@@ -100,19 +100,7 @@ public class NewsActivity extends BaseActivity implements NewsContract.View{
                 startActivity(intent);
                 break;
             case R.id.change_channel:
-                ArrayList<ChannelInfo> selectChannelList = new ArrayList<>();
-                selectChannelList.add(new ChannelInfo("即时", ChannelInfo.TYPE_MY_CHANNEL_ITEM));
-                selectChannelList.add(new ChannelInfo("体育", ChannelInfo.TYPE_MY_CHANNEL_ITEM));
-                selectChannelList.add(new ChannelInfo("科技", ChannelInfo.TYPE_MY_CHANNEL_ITEM));
-                selectChannelList.add(new ChannelInfo("社会", ChannelInfo.TYPE_MY_CHANNEL_ITEM));
-                selectChannelList.add(new ChannelInfo("国际", ChannelInfo.TYPE_MY_CHANNEL_ITEM));
-                ArrayList<ChannelInfo> otherChannelList = new ArrayList<>();
-                otherChannelList.add(new ChannelInfo("小说", ChannelInfo.TYPE_OTHER_CHANNEL_ITEM));
-                otherChannelList.add(new ChannelInfo("图片", ChannelInfo.TYPE_OTHER_CHANNEL_ITEM));
-                otherChannelList.add(new ChannelInfo("趣闻", ChannelInfo.TYPE_OTHER_CHANNEL_ITEM));
-                otherChannelList.add(new ChannelInfo("旅游", ChannelInfo.TYPE_OTHER_CHANNEL_ITEM));
-                otherChannelList.add(new ChannelInfo("美食", ChannelInfo.TYPE_OTHER_CHANNEL_ITEM));
-                ChannelActivity.startChannelForResult(this, selectChannelList, otherChannelList);
+                mNewsPresenter.startChannelForSelected();
                 break;
         }
     }
@@ -138,26 +126,29 @@ public class NewsActivity extends BaseActivity implements NewsContract.View{
     }
 
     @Override
-    public void showChannels(List<NewsChannelBean> newsChannels){
+    public void showChannels(List<ChannelInfo> newsChannels){
         List<NewsListFragment> fragmentList = new ArrayList<>();
         final List<String> title = new ArrayList<>();
-        if (newsChannels != null) {
-            for (NewsChannelBean news : newsChannels) {
+        if (newsChannels != null && newsChannels.size() > 0) {
+            for (ChannelInfo channel : newsChannels) {
                 final NewsListFragment fragment = NewsListFragment
-                        .newInstance(news.getTabName(),news.getTabId()); // 使用newInstances比重载的构造方法好在哪里？
+                        .newInstance(channel.getCategoryName(),channel.getCategorySlug()); // 使用newInstances比重载的构造方法好在哪里？
 
                 fragment.setPresenter(mNewsPresenter);
                 fragmentList.add(fragment);
-                title.add(news.getTabName());
+                title.add(channel.getCategoryName());
             }
-            PagerAdapter adapter = mNewsViewpager.getAdapter();
-            if (adapter == null) {
-                adapter = new NewsFragmentAdapter(getSupportFragmentManager(), fragmentList, title);
-                mNewsViewpager.setAdapter(adapter);
-            } else {
-                adapter = mNewsViewpager.getAdapter();
-                ((NewsFragmentAdapter) adapter).updateFragments(fragmentList, title);
-            }
+            // 在adapter不为空时，fragment总是没有被添加。后期优化再查找原因。
+            //PagerAdapter adapter = mNewsViewpager.getAdapter();
+            PagerAdapter adapter = new NewsFragmentAdapter(getSupportFragmentManager(), fragmentList, title);
+            mNewsViewpager.setAdapter(adapter);
+//            if (adapter == null) {
+//                adapter = new NewsFragmentAdapter(getSupportFragmentManager(), fragmentList, title);
+//                mNewsViewpager.setAdapter(adapter);
+//            } else {
+//                adapter = mNewsViewpager.getAdapter();
+//                ((NewsFragmentAdapter) adapter).updateFragments(fragmentList, title);
+//            }
             mNewsViewpager.setCurrentItem(0, false);
             mTabLayout.setupWithViewPager(mNewsViewpager);
             mTabLayout.setScrollPosition(0, 0, true);
@@ -197,14 +188,6 @@ public class NewsActivity extends BaseActivity implements NewsContract.View{
     public void showErrorMsg(int mTabId, int loadType){
         NewsListFragment fragment = (NewsListFragment)getFragmentAt(mTabId);
         fragment.showLoadError();
-//        if (fragment != null) {
-//            if (fragment.haveData()) {
-//                mTvNoDataAndInternet.setVisibility(View.GONE);
-//                mTvHabeDataNoInternet.setVisibility(View.VISIBLE);
-//            } else {
-//                mTvHabeDataNoInternet.setVisibility(View.GONE);
-//            }
-//        }
     }
 
     private void trackingApp(){
@@ -236,9 +219,6 @@ public class NewsActivity extends BaseActivity implements NewsContract.View{
         return fragment;
     }
 
-//    private int getCurretFragmentIndex() {
-//
-//    }
     private Fragment getCurrentFragment(){
         int curItem = mNewsViewpager.getCurrentItem();
         NewsFragmentAdapter adapter = (NewsFragmentAdapter) mNewsViewpager.getAdapter();
@@ -249,13 +229,6 @@ public class NewsActivity extends BaseActivity implements NewsContract.View{
         }
         return fragment;
     }
-
-//    private void updateCurFragment(){
-//        NewsListFragment fragment = (NewsListFragment)getCurrentFragment();
-//        if (fragment != null) {
-//            fragment.refreshList();
-//        }
-//    }
 
     private void displayCurFragment(){
         NewsListFragment fragment = (NewsListFragment)getCurrentFragment();
@@ -291,13 +264,15 @@ public class NewsActivity extends BaseActivity implements NewsContract.View{
         });
     }
 
-    // 原先考虑的闪屏页启动方式，现在改为了先启动闪屏页。定好之后可以将改代码删除。
-    @Override
-    public void showSplash() {
-        //this.startActivity(new Intent(this, SplashActivity.class));
-    }
 
     public void getNewsList(String mCatId) {
         mNewsPresenter.getNewsList(mCatId,  mNewsViewpager.getCurrentItem());
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        ArrayList<ChannelInfo> selectList = (ArrayList) data.getSerializableExtra(Const.Channel.SELECT_CHANNEL_LIST);
+        showChannels(selectList);
     }
 }

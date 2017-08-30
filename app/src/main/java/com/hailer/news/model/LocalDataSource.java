@@ -1,14 +1,15 @@
 package com.hailer.news.model;
 
+import android.os.Build;
 import android.support.annotation.NonNull;
+import android.support.annotation.RequiresApi;
+import android.util.ArrayMap;
 
 import com.hailer.news.NewsApplication;
 import com.hailer.news.R;
-import com.hailer.news.api.APIConfig;
-import com.hailer.news.api.RetrofitService;
+import com.hailer.news.common.Const;
 import com.hailer.news.common.ErrMsg;
 import com.hailer.news.common.LocalSubscriber;
-import com.hailer.news.common.RemoteSubscriber;
 import com.hailer.news.common.RxCallback;
 import com.hailer.news.util.SpUtil;
 import com.hailer.news.util.bean.ChannelInfo;
@@ -16,25 +17,14 @@ import com.hailer.news.util.bean.NewsChannelBean;
 import com.hailer.news.util.daogen.ChannelInfoDao;
 import com.hailer.news.util.daogen.DaoSession;
 import com.socks.library.KLog;
-
 import org.greenrobot.greendao.query.Query;
-import org.greenrobot.greendao.rx.RxDao;
-import org.greenrobot.greendao.rx.RxQuery;
-
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
-import java.util.concurrent.TimeUnit;
-
 import rx.Observable;
 import rx.Subscriber;
-import rx.Subscription;
 import rx.android.schedulers.AndroidSchedulers;
-import rx.functions.Action1;
 import rx.schedulers.Schedulers;
-
 import static com.google.common.base.Preconditions.checkNotNull;
 
 /**
@@ -47,64 +37,52 @@ public class LocalDataSource {
 
     private RxCallback mCallBack;
 
-    public LocalDataSource(@NonNull RxCallback callback){
-        mCallBack = checkNotNull(callback, "callback cannot be null");
-    }
-
     public LocalDataSource(){
-
+        initDataBase();
     }
 
-    public void getChannel(){
+//    public void getChannel(){
+//        Observable.create(new Observable.OnSubscribe<List<NewsChannelBean>>() {
+//                @Override
+//                public void call(Subscriber<? super List<NewsChannelBean>> subscriber) {
+//
+//                    NewsChannelBean bean1 = new NewsChannelBean("即時", "0", "category");
+//                    NewsChannelBean bean4 = new NewsChannelBean("社會", "6", "category");
+//                    NewsChannelBean bean2 = new NewsChannelBean("體育", "2", "category");
+//                    NewsChannelBean bean3 = new NewsChannelBean("科技", "1", "category");
+//
+//                    List<NewsChannelBean> newsChannels = new ArrayList<NewsChannelBean>();
+//                    newsChannels.add(bean1);
+//
+//                    newsChannels.add(bean2);
+//                    newsChannels.add(bean3);
+//                    newsChannels.add(bean4);
+//
+//                    subscriber.onNext(newsChannels);
+//        //           subscriber.onCompleted();
+//                }
+//            })
+//                .subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread())
+//            .subscribeOn(AndroidSchedulers.mainThread())
+//            .subscribe(new Subscriber<List<NewsChannelBean>>() {
+//                    @Override
+//                    public void onCompleted() {
+//                    }
+//
+//                    @Override
+//                    public void onError(Throwable e) {
+////                        mCallBack.requestError(e.getLocalizedMessage() + "\n" + e);\
+//                        mCallBack.requestError(ErrMsg.UNKNOW_ERROR);
+//                    }
+//
+//                    @Override
+//                    public void onNext(List<NewsChannelBean> newsChannels) {
+//                        mCallBack.requestSuccess(newsChannels);
+//                    }
+//            });
+//    }
 
-
-
-            Observable.create(new Observable.OnSubscribe<List<NewsChannelBean>>() {
-                    @Override
-                    public void call(Subscriber<? super List<NewsChannelBean>> subscriber) {
-
-                        NewsChannelBean bean1 = new NewsChannelBean("即時", "0", "category");
-                        NewsChannelBean bean4 = new NewsChannelBean("社會", "6", "category");
-                        NewsChannelBean bean2 = new NewsChannelBean("體育", "2", "category");
-                        NewsChannelBean bean3 = new NewsChannelBean("科技", "1", "category");
-
-
-                        List<NewsChannelBean> newsChannels = new ArrayList<NewsChannelBean>();
-                        newsChannels.add(bean1);
-
-                        newsChannels.add(bean2);
-                        newsChannels.add(bean3);
-                        newsChannels.add(bean4);
-
-
-                        subscriber.onNext(newsChannels);
-        //                subscriber.onCompleted();
-
-
-                    }
-            })
-            .subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread())
-            .subscribeOn(AndroidSchedulers.mainThread())
-            .subscribe(new Subscriber<List<NewsChannelBean>>() {
-                    @Override
-                    public void onCompleted() {
-                    }
-
-                    @Override
-                    public void onError(Throwable e) {
-//                        mCallBack.requestError(e.getLocalizedMessage() + "\n" + e);\
-                        mCallBack.requestError(ErrMsg.UNKNOW_ERROR);
-                    }
-
-                    @Override
-                    public void onNext(List<NewsChannelBean> newsChannels) {
-                        mCallBack.requestSuccess(newsChannels);
-                    }
-            });
-    }
-
-    public void getUserChannel(RxCallback callback){
-
+    protected void initDataBase() {
         DaoSession daoSession = ((NewsApplication)NewsApplication.getContext()).getDaoSession();
         channelsDao = daoSession.getChannelInfoDao();
 
@@ -124,34 +102,50 @@ public class LocalDataSource {
             SpUtil.writeBoolean("initDb", true);
             KLog.e("数据库初始化完毕！");
         }
+    }
 
+    protected List<ChannelInfo> getUserChannel() {
+        List<ChannelInfo> channelList = channelsDao.queryBuilder()
+                .where(ChannelInfoDao.Properties.Sign.eq(true))
+                .orderAsc(ChannelInfoDao.Properties.Id)
+                .build()
+                .list();
+        for (ChannelInfo info : channelList) {
+            info.setItemType(ChannelInfo.TYPE_MY_CHANNEL_ITEM);
+        }
+        return channelList;
+    }
 
-        Observable.create(new Observable.OnSubscribe<List<ChannelInfo>>() {
+    protected List<ChannelInfo> getOtherChannel() {
+        return channelsDao.queryBuilder()
+                .where(ChannelInfoDao.Properties.Sign.eq(false))
+                .orderAsc(ChannelInfoDao.Properties.Id)
+                .build()
+                .list();
+    }
+
+    public void getChannels(final RxCallback callback) {
+        Observable.create(new Observable.OnSubscribe<ArrayMap<String, List>>() {
+            @RequiresApi(api = Build.VERSION_CODES.KITKAT)
             @Override
-            public void call(Subscriber<? super List<ChannelInfo>> subscriber) {
-                channelsQuery = channelsDao.queryBuilder()
-                        .where(ChannelInfoDao.Properties.Sign.eq(true))
-                        .orderAsc(ChannelInfoDao.Properties.Id)
-                        .build();
-                List<ChannelInfo> channels = channelsQuery.list();
-                subscriber.onNext(channels);
+            public void call(Subscriber<? super ArrayMap<String, List>> subscriber) {
+                ArrayMap<String, List> channelMap = new ArrayMap<String, List>();
+                channelMap.put(Const.Channel.DATA_SELECTED, getUserChannel());
+                channelMap.put(Const.Channel.DATA_UNSELECTED, getOtherChannel());
+                subscriber.onNext(channelMap);
             }
         })
         .subscribeOn(Schedulers.io())
         .observeOn(AndroidSchedulers.mainThread())
         .subscribeOn(AndroidSchedulers.mainThread())
-        .subscribe(new LocalSubscriber<List<ChannelInfo>>(callback));
+        .subscribe(new LocalSubscriber<ArrayMap<String, List>>(callback));
     }
 
-    public void getOtherChannel(RxCallback callback){
+    public void getUserChannel(RxCallback callback){
         Observable.create(new Observable.OnSubscribe<List<ChannelInfo>>() {
             @Override
             public void call(Subscriber<? super List<ChannelInfo>> subscriber) {
-                DaoSession daoSession = ((NewsApplication)NewsApplication.getContext()).getDaoSession();
-                channelsDao = daoSession.getChannelInfoDao();
-                channelsQuery = channelsDao.queryBuilder().where(ChannelInfoDao.Properties.Sign.eq(false)).orderAsc(ChannelInfoDao.Properties.Id).build();
-                List<ChannelInfo> channels = channelsQuery.list();
-                subscriber.onNext(channels);
+                subscriber.onNext(getUserChannel());
             }
         })
         .subscribeOn(Schedulers.io())

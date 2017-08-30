@@ -43,7 +43,7 @@ public class ChannelAdapter extends BaseMultiItemQuickAdapter<ChannelInfo> {
         mIsEdit = false;
         addItemType(ChannelInfo.TYPE_MY_CHANNEL, R.layout.channel_group_my);
         addItemType(ChannelInfo.TYPE_MY_CHANNEL_ITEM, R.layout.item_channel);
-        addItemType(ChannelInfo.TYPE_OTHER_CHANNLE, R.layout.channel_group_orther);
+        addItemType(ChannelInfo.TYPE_OTHER_CHANNEL, R.layout.channel_group_orther);
         addItemType(ChannelInfo.TYPE_OTHER_CHANNEL_ITEM, R.layout.item_channel);
         if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.LOLLIPOP) {
             mAddIcon = mContext.getResources().getDrawable(R.drawable.channel_add, null);
@@ -85,7 +85,7 @@ public class ChannelAdapter extends BaseMultiItemQuickAdapter<ChannelInfo> {
                             }
                         });
                 break;
-            case ChannelInfo.TYPE_OTHER_CHANNLE:
+            case ChannelInfo.TYPE_OTHER_CHANNEL:
                 //频道推荐
                 //baseViewHolder.setText(R.id.t, ChannelInfo.Title);
                 break;

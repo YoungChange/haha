@@ -26,21 +26,18 @@ public class NewsFragmentAdapter extends FragmentPagerAdapter {
      * @param titles
      */
     public void updateFragments(List<NewsListFragment> fragments, List<String> titles) {
+        final FragmentTransaction ft = mFragmentManager.beginTransaction();
         for (int i = 0; i < mFragments.size(); i++) {
             final NewsListFragment fragment = mFragments.get(i);
-            final FragmentTransaction ft = mFragmentManager.beginTransaction();
-            if (i > 2) {
-                ft.remove(fragment);
-                mFragments.remove(i);
-                i--;
-            }
-            ft.commit();
+            ft.remove(fragment);
         }
-        for (int i = 0; i < fragments.size(); i++) {
-            if (i > 2) {
-                mFragments.add(fragments.get(i));
-            }
+        mFragments.clear();
+        mFragments.addAll(fragments);
+        for (int i = 0; i < mFragments.size(); i++) {
+            ft.add(mFragments.get(i), mTitles.get(i));
         }
+        ft.commit();
+
         this.mTitles = titles;
         notifyDataSetChanged();
     }

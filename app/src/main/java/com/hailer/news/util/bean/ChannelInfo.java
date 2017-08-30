@@ -19,7 +19,7 @@ public class ChannelInfo extends MultiItemEntity implements Serializable {
     public static final long serialVersionUID = 1;
     public static final int TYPE_MY_CHANNEL = 1;
     public static final int TYPE_MY_CHANNEL_ITEM = 2;
-    public static final int TYPE_OTHER_CHANNLE = 3;
+    public static final int TYPE_OTHER_CHANNEL = 3;
     public static final int TYPE_OTHER_CHANNEL_ITEM = 4;
     @Id
     private Long id;
@@ -106,9 +106,12 @@ public class ChannelInfo extends MultiItemEntity implements Serializable {
         return this.sign;
     }
 
+    @Override
     public int getItemType() {
         return mGroup;
     }
+
+    @Override
     public void setItemType(int type) {
         mGroup = type;
     }

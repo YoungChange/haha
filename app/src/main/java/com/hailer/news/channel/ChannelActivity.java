@@ -7,23 +7,19 @@ import android.os.Bundle;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.helper.ItemTouchHelper;
-import android.util.SparseArray;
 import android.view.View;
-
 import com.chad.library.adapter.base.BaseViewHolder;
 import com.hailer.news.R;
-import com.hailer.news.common.ActivityCode;
 import com.hailer.news.common.BaseActivity;
 import com.hailer.news.common.Const;
 import com.hailer.news.util.annotation.ActivityFragmentInject;
 import com.hailer.news.util.bean.ChannelInfo;
 import com.socks.library.KLog;
-
 import java.io.Serializable;
+import java.nio.channels.SelectableChannel;
 import java.util.ArrayList;
-import java.util.LinkedList;
+import java.util.Iterator;
 import java.util.List;
-import java.util.logging.Logger;
 
 /**
  * Created by moma on 17-8-24.
@@ -36,71 +32,42 @@ import java.util.logging.Logger;
         toolbarTextViewTitle = R.string.my_channel
 )
 public class ChannelActivity extends BaseActivity implements ChannelContract.View, ItemDragHelperCallBack.OnChannelDragListener{
-
-    private Context mContext;
-    private BaseActivity mActivity;
+    private ChannelContract.Presenter mPresenter;
     private RecyclerView mChannelManagerRv;
     private ChannelAdapter mAdapter;
     private List<ChannelInfo> mChannelList;
     private ItemTouchHelper mHelper;
-    public static void startChannelForResult(Context context, List<ChannelInfo> selectedDatas, List<ChannelInfo> unselectedDatas) {
-        Bundle bundle = new Bundle();
-        bundle.putSerializable(Const.Channel.DATA_SELECTED, (Serializable) selectedDatas);
-        bundle.putSerializable(Const.Channel.DATA_UNSELECTED, (Serializable) unselectedDatas);
+    private GridLayoutManager mLayoutManager;
+
+    public static void startChannelForResult(Context context) {
         Intent intent = new Intent(context, ChannelActivity.class);
-        intent.putExtra("data", bundle);
         if (context instanceof Activity) {
             ((Activity)context).startActivityForResult(intent, Const.Activity.START_CHANNEL_FOR_RESULE);
-
         }
     }
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        mContext = this;
-        mActivity = this;
         mChannelManagerRv = (RecyclerView) findViewById(R.id.change_channel_rv);
         mChannelList = new ArrayList<>();
+        mPresenter = new ChannelPresenter(this);
         initView();
+        mPresenter.getChannels();
     }
 
     private void initView() {
-        GridLayoutManager layoutManager = new GridLayoutManager(this, 4);
-        mChannelManagerRv.setLayoutManager(layoutManager);
+        // 我在将ChowChannel中部分视图初始化放到此处时，会引起视图的混乱。哪些可以在数据加载
+        // 前初始化有待考察。
+        mLayoutManager = new GridLayoutManager(this, 4);
+        mChannelManagerRv.setLayoutManager(mLayoutManager);
         mChannelManagerRv.addItemDecoration(new ChannelItemDivider(this));
-        mChannelList.add(new ChannelInfo("我的频道", ChannelInfo.TYPE_MY_CHANNEL));
-        Bundle bundle = getIntent().getBundleExtra("data");
-        List<ChannelInfo> selectChannelList = (List<ChannelInfo>) bundle
-                .getSerializable(Const.Channel.DATA_SELECTED);
-        mChannelList.addAll(selectChannelList);
-        mChannelList.add(new ChannelInfo("更多频道", ChannelInfo.TYPE_OTHER_CHANNLE));
-        List<ChannelInfo> unSelectChannelList = (List<ChannelInfo>) bundle
-                .getSerializable(Const.Channel.DATA_UNSELECTED);
-        mChannelList.addAll(unSelectChannelList);
-
-        mAdapter = new ChannelAdapter(this, mChannelList);
-        GridLayoutManager gridLayoutManager = new GridLayoutManager(this, 4);
-        mChannelManagerRv.setLayoutManager(gridLayoutManager);
-        mChannelManagerRv.setAdapter(mAdapter);
-        gridLayoutManager.setSpanSizeLookup(new GridLayoutManager.SpanSizeLookup() {
-            @Override
-            public int getSpanSize(int position) {
-                int group = mAdapter.getItemViewType(position);
-                return (group == ChannelInfo.TYPE_MY_CHANNEL || group == ChannelInfo.TYPE_OTHER_CHANNLE) ? 4 : 1;
-            }
-        });
-
-        ItemDragHelperCallBack dragHelperCallBack = new ItemDragHelperCallBack(this);
-        mHelper = new ItemTouchHelper(dragHelperCallBack);
-        mAdapter.setOnChannelDragListener(this);
-        mHelper.attachToRecyclerView(mChannelManagerRv);
     }
 
     @Override
     public void onClick(View v) {
         switch(v.getId()) {
             case R.id.back_imagebutton:
-                this.finish();
+                this.onBackPressed();
                 break;
             default:
                 toast(this.getString(R.string.unknow_error));
@@ -108,8 +75,31 @@ public class ChannelActivity extends BaseActivity implements ChannelContract.Vie
     }
 
     @Override
-    public void showChannel(ArrayList<String> channelList) {
+    public void showChannel(List<ChannelInfo> channelList, List<ChannelInfo> otherChannelList) {
 
+        mChannelList.add(new ChannelInfo("我的频道", ChannelInfo.TYPE_MY_CHANNEL));
+        mChannelList.addAll(channelList);
+        mChannelList.add(new ChannelInfo("更多频道", ChannelInfo.TYPE_OTHER_CHANNEL));
+        for (ChannelInfo info : otherChannelList) {
+            info.setItemType(ChannelInfo.TYPE_OTHER_CHANNEL_ITEM);
+        }
+        mChannelList.addAll(otherChannelList);
+
+        mAdapter = new ChannelAdapter(this, mChannelList);
+        mChannelManagerRv.setLayoutManager(mLayoutManager);
+        mChannelManagerRv.setAdapter(mAdapter);
+        mLayoutManager.setSpanSizeLookup(new GridLayoutManager.SpanSizeLookup() {
+            @Override
+            public int getSpanSize(int position) {
+                int group = mAdapter.getItemViewType(position);
+                return (group == ChannelInfo.TYPE_MY_CHANNEL || group == ChannelInfo.TYPE_OTHER_CHANNEL) ? 4 : 1;
+            }
+        });
+
+        ItemDragHelperCallBack dragHelperCallBack = new ItemDragHelperCallBack(this);
+        mHelper = new ItemTouchHelper(dragHelperCallBack);
+        mAdapter.setOnChannelDragListener(this);
+        mHelper.attachToRecyclerView(mChannelManagerRv);
     }
 
     @Override
@@ -144,5 +134,30 @@ public class ChannelActivity extends BaseActivity implements ChannelContract.Vie
         //添加到现在的位置
         mChannelList.add(endPos, startChannel);
         mAdapter.notifyItemMoved(starPos, endPos);
+    }
+
+    @Override
+    public void onBackPressed() {
+        Iterator<ChannelInfo> channels = mChannelList.iterator();
+        while (channels.hasNext()) {
+            // 删除标题
+            ChannelInfo info = channels.next();
+            if (info.getItemType() == ChannelInfo.TYPE_MY_CHANNEL ||
+                    info.getItemType() == ChannelInfo.TYPE_OTHER_CHANNEL) {
+                channels.remove();
+            }
+        }
+        mPresenter.updateChannel(mChannelList);
+
+        ArrayList selectChannel = new ArrayList();
+        for (ChannelInfo info : mChannelList) {
+            if (info.getItemType() == ChannelInfo.TYPE_MY_CHANNEL_ITEM) {
+                selectChannel.add(info);
+            }
+        }
+        Intent intent = new Intent();
+        intent.putExtra(Const.Channel.SELECT_CHANNEL_LIST, selectChannel);
+        setResult(Const.Activity.RESPONSE_CODE_FROM_CHANNEL, intent);
+        super.onBackPressed();
     }
 }

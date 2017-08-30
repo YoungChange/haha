@@ -30,6 +30,7 @@ public class ChannelInfoDao extends AbstractDao<ChannelInfo, Long> {
         public final static Property CategorySlug = new Property(3, String.class, "categorySlug", false, "CATEGORY_SLUG");
         public final static Property Description = new Property(4, String.class, "description", false, "DESCRIPTION");
         public final static Property Sign = new Property(5, boolean.class, "sign", false, "SIGN");
+        public final static Property MGroup = new Property(6, int.class, "mGroup", false, "M_GROUP");
     }
 
 
@@ -50,7 +51,8 @@ public class ChannelInfoDao extends AbstractDao<ChannelInfo, Long> {
                 "\"CATEGORY_NAME\" TEXT UNIQUE ," + // 2: categoryName
                 "\"CATEGORY_SLUG\" TEXT," + // 3: categorySlug
                 "\"DESCRIPTION\" TEXT," + // 4: description
-                "\"SIGN\" INTEGER NOT NULL );"); // 5: sign
+                "\"SIGN\" INTEGER NOT NULL ," + // 5: sign
+                "\"M_GROUP\" INTEGER NOT NULL );"); // 6: mGroup
     }
 
     /** Drops the underlying database table. */
@@ -84,6 +86,7 @@ public class ChannelInfoDao extends AbstractDao<ChannelInfo, Long> {
             stmt.bindString(5, description);
         }
         stmt.bindLong(6, entity.getSign() ? 1L: 0L);
+        stmt.bindLong(7, entity.getMGroup());
     }
 
     @Override
@@ -111,6 +114,7 @@ public class ChannelInfoDao extends AbstractDao<ChannelInfo, Long> {
             stmt.bindString(5, description);
         }
         stmt.bindLong(6, entity.getSign() ? 1L: 0L);
+        stmt.bindLong(7, entity.getMGroup());
     }
 
     @Override
@@ -126,7 +130,8 @@ public class ChannelInfoDao extends AbstractDao<ChannelInfo, Long> {
             cursor.isNull(offset + 2) ? null : cursor.getString(offset + 2), // categoryName
             cursor.isNull(offset + 3) ? null : cursor.getString(offset + 3), // categorySlug
             cursor.isNull(offset + 4) ? null : cursor.getString(offset + 4), // description
-            cursor.getShort(offset + 5) != 0 // sign
+            cursor.getShort(offset + 5) != 0, // sign
+            cursor.getInt(offset + 6) // mGroup
         );
         return entity;
     }
@@ -139,6 +144,7 @@ public class ChannelInfoDao extends AbstractDao<ChannelInfo, Long> {
         entity.setCategorySlug(cursor.isNull(offset + 3) ? null : cursor.getString(offset + 3));
         entity.setDescription(cursor.isNull(offset + 4) ? null : cursor.getString(offset + 4));
         entity.setSign(cursor.getShort(offset + 5) != 0);
+        entity.setMGroup(cursor.getInt(offset + 6));
      }
     
     @Override

@@ -16,6 +16,7 @@ import java.io.Serializable;
 
 @Entity
 public class ChannelInfo extends MultiItemEntity implements Serializable {
+    public static final long serialVersionUID = 1;
     public static final int TYPE_MY_CHANNEL = 1;
     public static final int TYPE_MY_CHANNEL_ITEM = 2;
     public static final int TYPE_OTHER_CHANNLE = 3;
@@ -30,14 +31,16 @@ public class ChannelInfo extends MultiItemEntity implements Serializable {
     private boolean sign;
     private int mGroup;
 
-    @Generated(hash = 8769805)
-    public ChannelInfo(Long id, int position, String categoryName, String categorySlug, String description, boolean sign) {
+    @Generated(hash = 1742272254)
+    public ChannelInfo(Long id, int position, String categoryName, String categorySlug, String description, boolean sign,
+            int mGroup) {
         this.id = id;
         this.position = position;
         this.categoryName = categoryName;
         this.categorySlug = categorySlug;
         this.description = description;
         this.sign = sign;
+        this.mGroup = mGroup;
     }
 
 
@@ -108,6 +111,16 @@ public class ChannelInfo extends MultiItemEntity implements Serializable {
     }
     public void setItemType(int type) {
         mGroup = type;
+    }
+
+
+    public int getMGroup() {
+        return this.mGroup;
+    }
+
+
+    public void setMGroup(int mGroup) {
+        this.mGroup = mGroup;
     }
 }
 

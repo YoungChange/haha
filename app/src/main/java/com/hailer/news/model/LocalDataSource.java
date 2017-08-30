@@ -118,7 +118,7 @@ public class LocalDataSource {
                     .getStringArray(R.array.news_channel_slug));
 
             for (int i = 0; i < channelName.size(); i++) {
-                ChannelInfo channel = new ChannelInfo((long)i,i,channelName.get(i),channelSlug.get(i),"",i<4);
+                ChannelInfo channel = new ChannelInfo((long)i,i,channelName.get(i),channelSlug.get(i),"",i<4, 2);
                 channelsDao.insert(channel);
             }
             SpUtil.writeBoolean("initDb", true);

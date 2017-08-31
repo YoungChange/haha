@@ -94,8 +94,11 @@ public class NewsFragmentAdapter extends FragmentPagerAdapter {
             ft.commit();
         }
         mTitles.clear();
-        for (ChannelInfo info : channelList) {
-            mTitles.add(info.getCategoryName());
+        // 更新数据
+        for (int i = 0; i < mFragments.size(); i++) {
+            ChannelInfo channel = channelList.get(i);
+            mTitles.add(channel.getCategoryName());
+            mFragments.get(i).setCat(channel.getCategoryName(), Long.toString(channel.getId()));
         }
         notifyDataSetChanged();
     }

@@ -74,7 +74,11 @@ public class NewsListFragment extends Fragment{
         }
         //mLoadState = LOAD_STATE.UNLOAD;
     }
-
+    public NewsListFragment setCat(@NonNull String catName, @NonNull String catId) {
+        mCatName = checkNotNull(catName);
+        mCatId = checkNotNull(catId);
+        return this;
+    }
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         if (mFragmentRootView == null) {

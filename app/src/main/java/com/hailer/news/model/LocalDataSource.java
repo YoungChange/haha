@@ -107,7 +107,7 @@ public class LocalDataSource {
     protected List<ChannelInfo> getUserChannel() {
         List<ChannelInfo> channelList = channelsDao.queryBuilder()
                 .where(ChannelInfoDao.Properties.Sign.eq(true))
-                .orderAsc(ChannelInfoDao.Properties.Id)
+                .orderAsc(ChannelInfoDao.Properties.Position)
                 .build()
                 .list();
         for (ChannelInfo info : channelList) {
@@ -119,7 +119,7 @@ public class LocalDataSource {
     protected List<ChannelInfo> getOtherChannel() {
         return channelsDao.queryBuilder()
                 .where(ChannelInfoDao.Properties.Sign.eq(false))
-                .orderAsc(ChannelInfoDao.Properties.Id)
+                .orderAsc(ChannelInfoDao.Properties.Position)
                 .build()
                 .list();
     }

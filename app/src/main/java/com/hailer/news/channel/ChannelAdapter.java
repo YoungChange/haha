@@ -14,6 +14,7 @@ import android.view.animation.TranslateAnimation;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.chad.library.adapter.base.BaseMultiItemQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
@@ -137,6 +138,10 @@ public class ChannelAdapter extends BaseMultiItemQuickAdapter<ChannelInfo> {
                             public void onClick(View v) {
                                 //执行删除，移动到推荐频道列表
                                 if (mIsEdit) {
+                                    if (getMyChannelSize() <= 3) {
+                                        Toast.makeText(mContext, R.string.cant_less_channel, Toast.LENGTH_LONG).show();
+                                        return;
+                                    }
                                     int otherFirstPosition = getOtherFirstPosition();
                                     int currentPosition = getViewHolderPosition(baseViewHolder);
                                     //获取到目标View
@@ -176,8 +181,6 @@ public class ChannelAdapter extends BaseMultiItemQuickAdapter<ChannelInfo> {
                 break;
             case ChannelInfo.TYPE_OTHER_CHANNEL_ITEM:
                 //频道推荐列表
-//                textView = baseViewHolder.getView(R.id.tv_channel);
-//                textView.setCompoundDrawables(mAddIcon, null, null, null);
                 baseViewHolder.setText(R.id.tv_channel, channel.getCategoryName())
                         .setBackgroundRes(R.id.tv_channel, R.drawable.shape_stroke_white)
                         .setVisible(R.id.iv_delete_channel, false)
@@ -229,7 +232,7 @@ public class ChannelAdapter extends BaseMultiItemQuickAdapter<ChannelInfo> {
         int size = 0;
         for (int i = 0; i < mData.size(); i++) {
             ChannelInfo channel = (ChannelInfo) mData.get(i);
-            if (channel.getItemType() == ChannelInfo.TYPE_OTHER_CHANNEL_ITEM) {
+            if (channel.getItemType() == ChannelInfo.TYPE_MY_CHANNEL_ITEM) {
                 size++;
             }
         }

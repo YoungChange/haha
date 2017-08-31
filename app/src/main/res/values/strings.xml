@@ -67,6 +67,7 @@
     <string name="my_channel_tips">點擊進入頻道</string>
     <string name="channel_delete_tips">刪除符號</string>
     <string name="update">更新</string>
+    <string name="cant_less_channel">頻道不能少於三個</string>
 
 
     <string-array name="news_channel">

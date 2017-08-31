@@ -4,6 +4,8 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
+import android.support.design.widget.TabLayout;
+import android.view.View;
 import android.view.WindowManager;
 
 import java.text.ParseException;
@@ -77,6 +79,22 @@ public class FuncUtil {
                 return true;
         }
         return false;
+    }
+
+    public static void dynamicSetTabLayoutMode(TabLayout tabLayout) {
+        int tabTotalWidth = 0;
+        for (int i = 0; i < tabLayout.getChildCount(); i++) {
+            final View view = tabLayout.getChildAt(i);
+            view.measure(0, 0);
+            tabTotalWidth += view.getMeasuredWidth();
+        }
+        if (tabTotalWidth <= MeasureUtil.getScreenSize(tabLayout.getContext()).x) {
+            tabLayout.setTabGravity(TabLayout.GRAVITY_FILL);
+            tabLayout.setTabMode(TabLayout.MODE_FIXED);
+        } else {
+            tabLayout.setTabGravity(TabLayout.GRAVITY_CENTER);
+            tabLayout.setTabMode(TabLayout.MODE_SCROLLABLE);
+        }
     }
 
 }

@@ -27,6 +27,7 @@ import com.hailer.news.common.Const;
 import com.hailer.news.common.ToolBarType;
 import com.hailer.news.common.BaseActivity;
 import com.hailer.news.login.LoginActivity;
+import com.hailer.news.util.FuncUtil;
 import com.hailer.news.util.GlideUtils;
 import com.hailer.news.util.RxBus;
 import com.hailer.news.util.annotation.ActivityFragmentInject;
@@ -147,6 +148,8 @@ public class NewsActivity extends BaseActivity implements NewsContract.View{
             mTabLayout.setupWithViewPager(mNewsViewpager);
             mTabLayout.setScrollPosition(0, 0, true);
             mTabLayout.setTabMode(TabLayout.MODE_SCROLLABLE);
+
+            FuncUtil.dynamicSetTabLayoutMode(mTabLayout);
 
             setOnTabSelectEvent(mNewsViewpager, mTabLayout);
 

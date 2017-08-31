@@ -34,7 +34,7 @@ public class NewsFragmentAdapter extends FragmentPagerAdapter {
         List<String> titleList = new ArrayList<>();
         for (ChannelInfo channel : channelList) {
             NewsListFragment fragment = NewsListFragment
-                    .newInstance(channel.getCategoryName(),channel.getCategorySlug()); // 使用newInstances比重载的构造方法好在哪里？
+                    .newInstance(channel.getCategoryName(),Long.toString(channel.getId())); // 使用newInstances比重载的构造方法好在哪里？
 
             fragmentList.add(fragment);
             titleList.add(channel.getCategoryName());

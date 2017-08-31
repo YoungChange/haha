@@ -4,6 +4,8 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
+import android.support.v4.view.PagerAdapter;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.helper.ItemTouchHelper;
@@ -147,6 +149,7 @@ public class ChannelActivity extends BaseActivity implements ChannelContract.Vie
                 channels.remove();
             }
         }
+        setPosition(mChannelList);
         mPresenter.updateChannel(mChannelList);
 
         ArrayList selectChannel = new ArrayList();
@@ -159,5 +162,17 @@ public class ChannelActivity extends BaseActivity implements ChannelContract.Vie
         intent.putExtra(Const.Channel.SELECT_CHANNEL_LIST, selectChannel);
         setResult(Const.Activity.RESPONSE_CODE_FROM_CHANNEL, intent);
         super.onBackPressed();
+    }
+
+    private void setPosition(@NonNull List<ChannelInfo> infoList) {
+        for (int i = 0; i < infoList.size(); i++) {
+            ChannelInfo channel = infoList.get(i);
+            channel.setPosition(i);
+            if (channel.getMGroup() == ChannelInfo.TYPE_MY_CHANNEL_ITEM) {
+                channel.setSign(true);
+            } else {
+                channel.setSign(false);
+            }
+        }
     }
 }

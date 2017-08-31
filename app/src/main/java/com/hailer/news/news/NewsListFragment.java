@@ -109,13 +109,9 @@ public class NewsListFragment extends Fragment{
 
     @Override
     public void onDestroyView() {
-        //mRecyclerView.removeOnScrollListener();
         super.onDestroyView();
     }
 
-//    public void setPresenter(@NonNull NewsContract.Presenter presenter) {
-//        mPresenter = checkNotNull(presenter);
-//    }
 
     public void showNewsList(int loadType, List<NewsItem> list){
         KLog.e("callback----NewsListFragment--showNewsList---loadType:"+loadType);

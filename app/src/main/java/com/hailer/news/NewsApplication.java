@@ -32,13 +32,13 @@ public class NewsApplication extends MultiDexApplication {
         // 如果检测到某个 activity 有内存泄露，LeakCanary 就是自动地显示一个通知
         //mRefWatcher = LeakCanary.install(this);
 
-        //setupDatabase();
+        initDatabase();
+
         sApplicationContext = this;
         KLog.init(BuildConfig.DEBUG);
 
         sAnalytics = GoogleAnalytics.getInstance(this);
 
-        initDatabase();
     }
 
     // 获取ApplicationContext

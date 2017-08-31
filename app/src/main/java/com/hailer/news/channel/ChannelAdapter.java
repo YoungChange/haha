@@ -213,7 +213,7 @@ public class ChannelAdapter extends BaseMultiItemQuickAdapter<ChannelInfo> {
                                         onChannelDragListener.onMoveToMyChannel(currentPosition, myLastPosition + 1);
                                     startAnimation(currentView, targetX, targetY);
                                 } else {
-                                    channel.setItemType(ChannelInfo.TYPE_OTHER_CHANNEL_ITEM);//改为推荐频道类型
+                                    channel.setItemType(ChannelInfo.TYPE_MY_CHANNEL_ITEM);//改为推荐频道类型
                                     if (myLastPosition == -1) myLastPosition = 0;//我的频道没有了，改成0
                                     if (onChannelDragListener != null)
                                         onChannelDragListener.onMoveToMyChannel(currentPosition, myLastPosition + 1);

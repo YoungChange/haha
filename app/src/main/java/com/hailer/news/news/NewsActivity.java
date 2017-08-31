@@ -1,17 +1,18 @@
 package com.hailer.news.news;
 
-
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
+import android.support.v7.app.AlertDialog;
 import android.view.KeyEvent;
 import android.view.View;
 import android.widget.ImageButton;
-
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.crashlytics.android.Crashlytics;
 import com.google.android.gms.analytics.HitBuilders;
@@ -33,10 +34,8 @@ import com.hailer.news.util.bean.ChannelInfo;
 import com.hailer.news.util.bean.UserInfo;
 import com.idescout.sql.SqlScoutServer;
 import com.socks.library.KLog;
-
 import java.util.ArrayList;
 import java.util.List;
-
 import de.hdodenhof.circleimageview.CircleImageView;
 import io.fabric.sdk.android.Fabric;
 
@@ -68,6 +67,7 @@ public class NewsActivity extends BaseActivity implements NewsContract.View{
         mNewsPresenter.autoLogin();
         mNewsPresenter.getUserChannel();
         trackingApp();
+        mNewsPresenter.checkUpdate();
     }
 
     public void loadMoreData(String mCatId, int totalItemCount) {
@@ -269,4 +269,22 @@ public class NewsActivity extends BaseActivity implements NewsContract.View{
         ArrayList<ChannelInfo> selectList = (ArrayList) data.getSerializableExtra(Const.Channel.SELECT_CHANNEL_LIST);
         showChannels(selectList);
     }
+
+
+    public void showUpdateDialog(@NonNull String title, @NonNull String context) {
+        new AlertDialog.Builder(this)
+
+                .setTitle(title)
+                .setMessage(context)
+                .setNegativeButton(R.string.cancel, null)
+                .setPositiveButton(R.string.update, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        //...To-do
+                    }
+                })
+                .create()
+                .show();
+    }
+
 }

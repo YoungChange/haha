@@ -1,5 +1,7 @@
 package com.hailer.news.news;
 
+import android.support.annotation.NonNull;
+
 import com.hailer.news.api.bean.NewsItem;
 import com.hailer.news.util.bean.ChannelInfo;
 
@@ -17,6 +19,8 @@ public interface NewsContract {
         void upateUserView();
 
         void showErrorMsg(int tabId, int loadType);
+
+        void showUpdateDialog(@NonNull String title, @NonNull String context);
     }
 
     interface Presenter {
@@ -32,5 +36,7 @@ public interface NewsContract {
         void getNewsList(String catId, int tabId);
 
         void startChannelForSelected();
+
+        void checkUpdate();
     }
 }

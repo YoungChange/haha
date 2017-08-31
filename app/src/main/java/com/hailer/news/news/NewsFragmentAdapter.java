@@ -44,7 +44,7 @@ public class NewsFragmentAdapter extends FragmentPagerAdapter {
         if (fragmentSize < channelSize) {
             for (int i = fragmentSize; i < channelSize; i++) {
                 mFragments.add(NewsListFragment.newInstance(channelList.get(i).getCategoryName(),
-                        channelList.get(i).getCategorySlug()));
+                        Long.toString(channelList.get(i).getId())));
             }
         } else {
             FragmentTransaction ft = mFragmentManager.beginTransaction();

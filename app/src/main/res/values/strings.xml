@@ -66,6 +66,7 @@
     <string name="tv_no_more_data">沒有更多數據了</string>
     <string name="my_channel_tips">點擊進入頻道</string>
     <string name="channel_delete_tips">刪除符號</string>
+    <string name="update">更新</string>
 
 
     <string-array name="news_channel">

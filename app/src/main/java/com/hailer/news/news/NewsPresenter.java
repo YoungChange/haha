@@ -94,6 +94,11 @@ public class NewsPresenter implements NewsContract.Presenter {
     }
 
     @Override
+    public void checkUpdate() {
+        mView.showUpdateDialog("检测到版本", "新功能新体验");
+    }
+
+    @Override
     public void refreshData(String catId, int itemCount) {
 //        mStartPage = 1;
         mLoadType = LoadType.TYPE_REFRESH;

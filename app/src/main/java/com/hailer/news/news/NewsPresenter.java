@@ -5,14 +5,13 @@ import com.hailer.news.UserManager;
 import com.hailer.news.api.bean.LoginInfo;
 import com.hailer.news.api.bean.NewsItem;
 import com.hailer.news.channel.ChannelActivity;
-import com.hailer.news.common.Const;
 import com.hailer.news.common.LoadType;
 import com.hailer.news.common.RxCallback;
 import com.hailer.news.model.FacebookDataSource;
 import com.hailer.news.model.LocalDataSource;
 import com.hailer.news.model.RemoteDataSource;
 import com.hailer.news.util.bean.ChannelInfo;
-import com.hailer.news.util.bean.NewsChannelBean;
+
 import java.util.List;
 
 /**

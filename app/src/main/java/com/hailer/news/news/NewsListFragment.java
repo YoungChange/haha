@@ -51,7 +51,6 @@ public class NewsListFragment extends Fragment{
     protected View mFragmentRootView;
     protected int mContentViewId;
     private List mNewsList;
-    //private NewsContract.Presenter mPresenter;
     private NewsActivity mActivity;
     private ProgressBar mLoadingViewPb;
     private TextView mNoInternetTipTv;
@@ -77,6 +76,9 @@ public class NewsListFragment extends Fragment{
     public NewsListFragment setCat(@NonNull String catName, @NonNull String catId) {
         mCatName = checkNotNull(catName);
         mCatId = checkNotNull(catId);
+        if (!catId.equals(mCatId)) { // 如果Fragment的频道换了，则清空数据
+            mNewsList = null;
+        }
         return this;
     }
     @Override

@@ -2,7 +2,6 @@ package com.hailer.news.news;
 
 import com.hailer.news.api.bean.NewsItem;
 import com.hailer.news.util.bean.ChannelInfo;
-import com.hailer.news.util.bean.NewsChannelBean;
 
 import java.util.List;
 

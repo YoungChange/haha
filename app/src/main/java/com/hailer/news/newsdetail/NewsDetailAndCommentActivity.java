@@ -89,7 +89,6 @@ public class NewsDetailAndCommentActivity extends BaseActivity implements NewsDe
         mContext = this;
         activity = this;
 
-        //!!!!给石磊要URL
         mPostId = getIntent().getStringExtra("postId");
         mPostTitle = getIntent().getStringExtra("postTitle");
         mPostUrl = getIntent().getStringExtra("postUrl");

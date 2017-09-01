@@ -118,7 +118,15 @@ public class CommentBar extends LinearLayout implements View.OnClickListener{
         gotoCommentListBar = findViewById(R.id.goto_comment_list_layout);
 
         mSendCommentButton = findViewById(R.id.send_comment_button);
-        mSendCommentButton.setOnClickListener(this);
+        mSendCommentButton.setOnClickListener(new NoDoubleClickListener() {
+            @Override
+            protected void onNoDoubleClick(View v) {
+                KLog.e("-------------onclick , send comment ..............");
+                String comment = mSendCommentEditText.getText().toString();
+                comment = TextUtil.noCRLF(comment);
+                mListener.sendCommentClick(comment);
+            }
+        });
         mSendCommentEditText = findViewById(R.id.comment_edittext);
         mSendCommentEditText.addTextChangedListener(new TextWatcher() {
             @Override
@@ -176,6 +184,7 @@ public class CommentBar extends LinearLayout implements View.OnClickListener{
                 mListener.defaultClick();
         }
     }
+
 
     public void callSendCommentClick(){
         mSendCommentButton.callOnClick();

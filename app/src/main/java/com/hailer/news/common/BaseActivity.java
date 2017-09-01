@@ -17,6 +17,7 @@ import com.hailer.news.R;
 import com.hailer.news.feedback.FeedbackActivity;
 
 import com.hailer.news.util.MeasureUtil;
+import com.hailer.news.util.VersionUtil;
 import com.hailer.news.util.annotation.ActivityFragmentInject;
 import com.hailer.news.util.bean.NavigationItem;
 import com.socks.library.KLog;
@@ -165,7 +166,8 @@ public abstract class BaseActivity extends AppCompatActivity implements View.OnC
     private void initNavigationView() {
 
         mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
-//        LinearLayout navigation_view = (LinearLayout) findViewById(R.id.navigation_view);
+        TextView versionTv = (TextView)findViewById(R.id.version);
+        versionTv.setText("V"+VersionUtil.getVersionName(this));
         RecyclerView nav_recycler_view = (RecyclerView) findViewById(R.id.nav_recycler_view);
         // 设置DrawerLayout的响应
         mDrawerLayout.addDrawerListener(new DrawerLayout.DrawerListener() {

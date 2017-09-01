@@ -41,7 +41,6 @@
             android:layout_below="@+id/app"
             android:layout_marginRight="30dp"
             android:layout_marginTop="5dp"
-            android:text="@string/version"
             android:textSize="15sp"/>
 
         <android.support.v7.widget.RecyclerView

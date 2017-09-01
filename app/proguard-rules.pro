@@ -166,7 +166,6 @@
 #-keep class com.google.common.collect.MapMakerInternalMap$ReferenceEntry
 #-keep class com.google.common.cache.LocalCache$ReferenceEntry
 
-# http://stackoverflow.com/questions/9120338/proguard-configuration-for-guava-with-obfuscation-and-optimization
 -dontwarn javax.annotation.**
 -dontwarn javax.inject.**
 -dontwarn sun.misc.Unsafe
@@ -177,6 +176,29 @@
 #-dontwarn org.codehaus.mojo.animal_sniffer.IgnoreJRERequirement
 
 #-dontwarn sun.misc.Unsafe
+
+#greenDao
+-keep class org.greenrobot.greendao.**{*;}
+-keep public interface org.greenrobot.greendao.**
+-keepclassmembers class * extends org.greenrobot.greendao.AbstractDao {
+    public static java.lang.String TABLENAME;
+}
+-keep class **$Properties
+-keep class net.sqlcipher.database.**{*;}
+-keep public interface net.sqlcipher.database.**
+-dontwarn net.sqlcipher.database.**
+-dontwarn org.greenrobot.greendao.**
+
+#基于SwipeRefreshLayout的下拉
+-keep class com.dinuscxj.**{*;}
+
+#com.chad.library
+-keep class com.chad.library.**{*;}
+
+
+
+
+
 
 #-------------------------------------------------------------------------
 #---------------------------------3.与js互相调用的类------------------------

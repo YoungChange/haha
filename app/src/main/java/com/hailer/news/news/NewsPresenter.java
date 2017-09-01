@@ -27,6 +27,7 @@ public class NewsPresenter implements NewsContract.Presenter {
     private RxCallback mLocalCB;
     private NewsLoadedCallBacek mGetDataCallback;
     private RxCallback mLoginCallback;
+    private RxCallback mCheckVersionUpdate;
     private int mLoadType = LoadType.TYPE_REFRESH;
 
     public NewsPresenter(NewsContract.View view) {
@@ -59,6 +60,18 @@ public class NewsPresenter implements NewsContract.Presenter {
                 //ToDo save serverToken
                 UserManager.getInstance().saveUserInfo(loginInfo);
                 mView.upateUserView();
+            }
+        };
+
+        mCheckVersionUpdate = new RxCallback() {
+            @Override
+            public void requestError(int msgType) {
+
+            }
+
+            @Override
+            public void requestSuccess(Object data) {
+
             }
         };
 

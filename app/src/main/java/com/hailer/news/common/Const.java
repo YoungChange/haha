@@ -6,6 +6,11 @@ package com.hailer.news.common;
  */
 
 public interface Const {
+
+    interface App{
+        String PACKAGE_NAME = "com.hailer.news";
+    }
+
     interface Channel {
         String DATA_SELECTED = "DataSelected";
         String DATA_UNSELECTED = "DataUnselected";

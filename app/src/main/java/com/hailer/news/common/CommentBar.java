@@ -183,10 +183,10 @@ public class CommentBar extends LinearLayout implements View.OnClickListener{
 
     /**
      * 设置监听器
-     * @param topbarClickListener
+     * @param commentBarClickListener
      */
-    public void setOnCommentBarClickListener(CommentBarClickListener topbarClickListener){
-        this.mListener = topbarClickListener;
+    public void setOnCommentBarClickListener(CommentBarClickListener commentBarClickListener){
+        this.mListener = commentBarClickListener;
     }
 
     /**

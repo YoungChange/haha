@@ -11,3 +11,5 @@
 ### 2017/9/1
 >versionCode 5；versionName "1.1.3"
 
+增加新功能：频道管理
+

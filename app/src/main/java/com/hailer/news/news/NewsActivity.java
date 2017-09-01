@@ -1,5 +1,6 @@
 package com.hailer.news.news;
 
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
@@ -29,10 +30,10 @@ import com.hailer.news.login.LoginActivity;
 import com.hailer.news.util.FuncUtil;
 import com.hailer.news.util.GlideUtils;
 import com.hailer.news.util.RxBus;
+import com.hailer.news.util.VersionUtil;
 import com.hailer.news.util.annotation.ActivityFragmentInject;
 import com.hailer.news.util.bean.ChannelInfo;
 import com.hailer.news.util.bean.UserInfo;
-import com.idescout.sql.SqlScoutServer;
 import com.socks.library.KLog;
 import java.util.ArrayList;
 import java.util.List;
@@ -55,10 +56,15 @@ public class NewsActivity extends BaseActivity implements NewsContract.View{
     private NewsContract.Presenter mNewsPresenter;
     CircleImageView loginImageButton;
 
+    private Context mContext;
+
     Tracker mTracker;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        mContext = this;
+
         mTabLayout = (TabLayout) findViewById(R.id.tab_layout);
         mNewsViewpager = (ViewPager) findViewById(R.id.news_viewpager);
         mChange_channel = (ImageButton) findViewById(R.id.change_channel);
@@ -196,11 +202,6 @@ public class NewsActivity extends BaseActivity implements NewsContract.View{
         Fabric.with(this, new Crashlytics());
     }
 
-    private void sqlScout(){
-        if (BuildConfig.DEBUG) {
-            SqlScoutServer.create(this, getPackageName());
-        }
-    }
 
     private Fragment getFragmentAt(int index){
         NewsFragmentAdapter adapter = (NewsFragmentAdapter) mNewsViewpager.getAdapter();
@@ -280,7 +281,7 @@ public class NewsActivity extends BaseActivity implements NewsContract.View{
                 .setPositiveButton(R.string.update, new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
-                        //...To-do
+                        VersionUtil.showMarket(mContext);
                     }
                 })
                 .create()

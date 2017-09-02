@@ -22,4 +22,6 @@ public class APIConfig {
 
     //
     public static final String NEWS_DATA_JSON_KEY = "data";
+
+    public static final String DEVICE_TYPE = "android";
 }

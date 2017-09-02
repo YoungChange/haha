@@ -10,6 +10,7 @@ import com.hailer.news.common.RemoteSubscriber;
 import com.hailer.news.common.RxCallback;
 import com.hailer.news.util.bean.ChannelInfo;
 import com.hailer.news.util.bean.UserInfo;
+import com.hailer.news.util.bean.VersionInfo;
 
 import java.util.List;
 import java.util.Map;
@@ -124,6 +125,12 @@ public class RemoteDataSource {
                     }
                 })
                 .subscribe(new RemoteSubscriber<List<ChannelInfo>>(callback));
+    }
+
+    public void getVersionInfo(RxCallback callback){
+        Subscription getVersionInfoSub = RetrofitService.getInstance(APIConfig.HOST_TYPE_NEWS)
+                .getVersionInfoObservable()
+                .subscribe(new RemoteSubscriber<VersionInfo>(callback));
     }
 
 }

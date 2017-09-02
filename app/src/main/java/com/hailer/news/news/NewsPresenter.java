@@ -1,6 +1,8 @@
 package com.hailer.news.news;
 
 
+import android.content.Context;
+
 import com.hailer.news.UserManager;
 import com.hailer.news.api.bean.LoginInfo;
 import com.hailer.news.api.bean.NewsItem;
@@ -10,7 +12,10 @@ import com.hailer.news.common.RxCallback;
 import com.hailer.news.model.FacebookDataSource;
 import com.hailer.news.model.LocalDataSource;
 import com.hailer.news.model.RemoteDataSource;
+import com.hailer.news.util.NetworkUtil;
+import com.hailer.news.util.VersionUtil;
 import com.hailer.news.util.bean.ChannelInfo;
+import com.hailer.news.util.bean.VersionInfo;
 
 import java.util.List;
 
@@ -27,7 +32,7 @@ public class NewsPresenter implements NewsContract.Presenter {
     private RxCallback mLocalCB;
     private NewsLoadedCallBacek mGetDataCallback;
     private RxCallback mLoginCallback;
-    private RxCallback mCheckVersionUpdate;
+    private RxCallback mGetVersionInfoCallback;
     private int mLoadType = LoadType.TYPE_REFRESH;
 
     public NewsPresenter(NewsContract.View view) {
@@ -63,14 +68,17 @@ public class NewsPresenter implements NewsContract.Presenter {
             }
         };
 
-        mCheckVersionUpdate = new RxCallback() {
+        mGetVersionInfoCallback = new RxCallback<VersionInfo>() {
             @Override
             public void requestError(int msgType) {
 
             }
 
             @Override
-            public void requestSuccess(Object data) {
+            public void requestSuccess(VersionInfo data) {
+                if(data.getVersion() != VersionUtil.getVersionCode((Context) mView)){
+                    mView.showUpdateDialog(data.getVersion(),data.getDescription());
+                }
 
             }
         };
@@ -108,7 +116,9 @@ public class NewsPresenter implements NewsContract.Presenter {
 
     @Override
     public void checkUpdate() {
-        mView.showUpdateDialog("检测到版本", "新功能新体验");
+        if(NetworkUtil.isConnected((Context)mView)){
+            mRemoteData.getVersionInfo(mGetVersionInfoCallback);
+        }
     }
 
     @Override

@@ -5,6 +5,7 @@ import com.hailer.news.api.bean.LoginInfo;
 import com.hailer.news.api.bean.NewsDetail;
 import com.hailer.news.api.bean.NewsItem;
 import com.hailer.news.util.bean.ChannelInfo;
+import com.hailer.news.util.bean.VersionInfo;
 
 import java.util.List;
 import java.util.Map;
@@ -15,6 +16,7 @@ import retrofit2.http.GET;
 import retrofit2.http.POST;
 import retrofit2.http.Path;
 import retrofit2.http.Query;
+import retrofit2.http.Url;
 import rx.Observable;
 
 /**
@@ -118,5 +120,13 @@ public interface INewsAPI {
             @Query("per_page") int perPage,
             @Query("page") int pageNumber
     );
+
+
+    @GET("version")
+    Observable<VersionInfo> getVersionInfo(
+            @Query("token") String token,
+            @Query("device_type") String deviceType
+    );
+
 
 }

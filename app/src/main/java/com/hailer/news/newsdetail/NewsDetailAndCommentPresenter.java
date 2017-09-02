@@ -33,6 +33,7 @@ public class NewsDetailAndCommentPresenter implements NewsDetailAndCommentContra
 
 
     public NewsDetailAndCommentPresenter(NewsDetailAndCommentContract.View view) {
+        mStartPage = 0;
         mView = view;
         mRemoteData = new RemoteDataSource();
 
@@ -46,7 +47,8 @@ public class NewsDetailAndCommentPresenter implements NewsDetailAndCommentContra
             @Override
             public void requestSuccess(List<CommentInfo> data) {
                 KLog.e("Data.size():"+data.size());
-                mStartPage += APIConfig.LIST_ITEMS_PER_PAGE;
+//              mStartPage += APIConfig.LIST_ITEMS_PER_PAGE;
+                mStartPage += data.size();
                 mView.showCommentsList(data,mIsRefresh);
             }
         };

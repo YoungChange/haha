@@ -10,6 +10,7 @@ import com.hailer.news.api.bean.NewsItem;
 import com.hailer.news.util.NetworkUtil;
 import com.hailer.news.util.bean.ChannelInfo;
 import com.hailer.news.util.bean.UserInfo;
+import com.hailer.news.util.bean.VersionInfo;
 import com.socks.library.KLog;
 
 import java.io.File;
@@ -255,7 +256,10 @@ public class RetrofitService {
                 .compose(new BaseSchedulerTransformer<Boolean>());
     }
 
-
+    public Observable<VersionInfo> getVersionInfoObservable() {
+        return mNewsAPI.getVersionInfo(APIConfig.GET_TOKEN,APIConfig.DEVICE_TYPE)
+                .compose(new BaseSchedulerTransformer<VersionInfo>());
+    }
 
 
 }

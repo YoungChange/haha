@@ -18,6 +18,7 @@ import com.hailer.news.R;
 import com.hailer.news.api.bean.CommentInfo;
 import com.hailer.news.common.BaseRecycleViewDivider;
 import com.hailer.news.common.BaseRecyclerViewHolder;
+import com.hailer.news.common.WrapContentLinearLayoutManager;
 import com.hailer.news.util.MeasureUtil;
 import com.hailer.news.util.annotation.ActivityFragmentInject;
 import com.socks.library.KLog;
@@ -145,7 +146,9 @@ public class NewsCommentFragment extends Fragment {
 
         newsCommentListAdapter = new CommentsListAdapter(getActivity(), newsCommentList);
 
-        final LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false);
+//        final LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false);
+        final WrapContentLinearLayoutManager linearLayoutManager = new WrapContentLinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false);
+
         mRecyclerView.setLayoutManager(linearLayoutManager);
 
         // 给RecyclerView增加滑动监听

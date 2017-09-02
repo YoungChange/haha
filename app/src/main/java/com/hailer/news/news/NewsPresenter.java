@@ -77,7 +77,7 @@ public class NewsPresenter implements NewsContract.Presenter {
 
             @Override
             public void requestSuccess(VersionInfo data) {
-                if(data.getVersion() != VersionUtil.getVersionCode((Context) mView)){
+                if(data.getVersion().equalsIgnoreCase(VersionUtil.getVersionCode((Context) mView))){
                     mView.showUpdateDialog(data.getVersion(),data.getDescription());
                 }
 

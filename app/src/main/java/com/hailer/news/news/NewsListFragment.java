@@ -21,6 +21,7 @@ import com.hailer.news.common.BaseRecycleViewDivider;
 import com.hailer.news.common.LoadType;
 import com.hailer.news.common.MaterialRefreshView;
 import com.hailer.news.common.OnItemClickListener;
+import com.hailer.news.common.WrapContentLinearLayoutManager;
 import com.hailer.news.newsdetail.NewsDetailAndCommentActivity;
 import com.hailer.news.util.MeasureUtil;
 import com.hailer.news.util.annotation.ActivityFragmentInject;
@@ -165,7 +166,10 @@ public class NewsListFragment extends Fragment{
         });
 
         //设置布局管理器
-        final LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false);
+//        final LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false);
+        final WrapContentLinearLayoutManager linearLayoutManager = new WrapContentLinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false);
+
+
         mRecyclerView.setLayoutManager(linearLayoutManager);
 
         //设置adapter

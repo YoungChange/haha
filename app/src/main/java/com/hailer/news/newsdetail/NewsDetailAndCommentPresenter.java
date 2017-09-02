@@ -33,7 +33,6 @@ public class NewsDetailAndCommentPresenter implements NewsDetailAndCommentContra
 
 
     public NewsDetailAndCommentPresenter(NewsDetailAndCommentContract.View view) {
-        mStartPage = 0;
         mView = view;
         mRemoteData = new RemoteDataSource();
 
@@ -119,6 +118,8 @@ public class NewsDetailAndCommentPresenter implements NewsDetailAndCommentContra
 
     @Override
     public void getCommentsList(String postId) {
+        mStartPage = 0;
+        mIsRefresh = true;
         mPostId = postId;
         mRemoteData.getCommentsList(postId, mStartPage, mGetCommentListCallback);
     }

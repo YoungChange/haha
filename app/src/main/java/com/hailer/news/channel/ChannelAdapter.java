@@ -21,6 +21,7 @@ import com.chad.library.adapter.base.BaseViewHolder;
 import com.hailer.news.NewsApplication;
 import com.hailer.news.R;
 import com.hailer.news.common.BaseRecyclerViewHolder;
+import com.hailer.news.common.Const;
 import com.hailer.news.util.bean.ChannelInfo;
 import java.util.List;
 
@@ -216,7 +217,7 @@ public class ChannelAdapter extends BaseMultiItemQuickAdapter<ChannelInfo> {
                                         onChannelDragListener.onMoveToMyChannel(currentPosition, myLastPosition + 1);
                                     startAnimation(currentView, targetX, targetY);
                                 } else {
-                                    channel.setItemType(ChannelInfo.TYPE_MY_CHANNEL_ITEM);//改为推荐频道类型
+                                    channel.setItemType(ChannelInfo.TYPE_MY_CHANNEL_ITEM);//改为我的频道类型
                                     if (myLastPosition == -1) myLastPosition = 0;//我的频道没有了，改成0
                                     if (onChannelDragListener != null)
                                         onChannelDragListener.onMoveToMyChannel(currentPosition, myLastPosition + 1);

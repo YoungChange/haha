@@ -27,7 +27,7 @@
         android:layout_marginLeft="15dp"
         android:textSize="12sp"
         android:maxLines="1"
-        android:text="@string/my_channel_tips"
+        android:text="@string/sort_channel"
         tools:ignore="RtlHardcoded" />
 
     <TextView
@@ -45,7 +45,6 @@
         android:paddingRight="5dp"
         android:paddingTop="0dp"
         android:paddingBottom="0dp"
-        android:background="@drawable/shape_stroke_red"
         tools:ignore="RelativeOverlap,RtlHardcoded" />
 
 </RelativeLayout>

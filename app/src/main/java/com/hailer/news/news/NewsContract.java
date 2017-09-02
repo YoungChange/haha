@@ -27,7 +27,7 @@ public interface NewsContract {
 
         void refreshData(String catId,int itemCount);
 
-        void loadMoreData(String catId, int itemCount);
+        void loadMoreData(String catId, int itemCount, int tabId);
 
         void autoLogin();
 

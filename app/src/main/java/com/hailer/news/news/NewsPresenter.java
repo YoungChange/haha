@@ -30,7 +30,8 @@ public class NewsPresenter implements NewsContract.Presenter {
     private LocalDataSource mLocalData;
     private int mStartPage = 0;
     private RxCallback mLocalCB;
-    private NewsLoadedCallBacek mGetDataCallback;
+    // 加载新闻列表，禁止使用同一个Callback，可能出现连续多个频道请求的情况。这会修改tabID，引起错乱。
+    //private NewsLoadedCallBacek mGetDataCallback;
     private RxCallback mLoginCallback;
     private RxCallback mGetVersionInfoCallback;
     private int mLoadType = LoadType.TYPE_REFRESH;
@@ -52,7 +53,7 @@ public class NewsPresenter implements NewsContract.Presenter {
             }
         };
 
-        mGetDataCallback = new NewsLoadedCallBacek();
+        // mGetDataCallback = new NewsLoadedCallBacek();
 
         mLoginCallback = new RxCallback<LoginInfo>() {
             @Override
@@ -106,7 +107,7 @@ public class NewsPresenter implements NewsContract.Presenter {
     public void getNewsList(String catId, int tabId) {
         //load data
         mLoadType = LoadType.TYPE_REFRESH;
-        mRemoteData.getNewsList(catId, mStartPage, mGetDataCallback.setTabId(tabId));
+        mRemoteData.getNewsList(catId, mStartPage, new NewsLoadedCallBacek(tabId));
     }
 
     @Override
@@ -126,18 +127,24 @@ public class NewsPresenter implements NewsContract.Presenter {
 //        mStartPage = 1;
         mLoadType = LoadType.TYPE_REFRESH;
         //refresh
-        mRemoteData.getNewsList(catId, 0, mGetDataCallback);
+        //mRemoteData.getNewsList(catId, 0, new NewsLoadedCallBacek(tabId));
     }
 
     @Override
-    public void loadMoreData(String catId, int itemCount) {
+    public void loadMoreData(String catId, int itemCount, int tabId) {
         //load data
         mLoadType = LoadType.TYPE_LOAD_MORE;
-        mRemoteData.getNewsList(catId, itemCount, mGetDataCallback);
+        // 这里每个回调都要new一个新的CallBack对象，以防一个请求发出去，切换了频道，另一个请求发
+        // 出。改变了tabID,使频道列表返回错乱。
+        mRemoteData.getNewsList(catId, itemCount, new NewsLoadedCallBacek(tabId));
     }
 
     class NewsLoadedCallBacek implements RxCallback<List<NewsItem>> {
         int mTabId = 0;
+
+        public NewsLoadedCallBacek(int tabId) {
+            mTabId = tabId;
+        }
 
         @Override
         public void requestError(int msg) {

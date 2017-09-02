@@ -120,7 +120,6 @@ public class NewsListFragment extends Fragment{
 
 
     public void showNewsList(int loadType, List<NewsItem> list){
-        KLog.e("callback----NewsListFragment--showNewsList---loadType:"+loadType);
         enableLoad();
         mNewsList = list;
         mLoadingViewPb.setVisibility(View.GONE);
@@ -160,7 +159,6 @@ public class NewsListFragment extends Fragment{
                             mAdapter.setLoading(true);
                         }
                     });
-                    KLog.e("NewsListFragment-----mPresenter.loadMoreData");
                     mActivity.loadMoreData(mCatId, totalItemCount);
                 }
             }

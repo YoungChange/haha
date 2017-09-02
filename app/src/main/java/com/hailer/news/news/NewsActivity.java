@@ -1,16 +1,22 @@
 package com.hailer.news.news;
 
+
+import android.Manifest;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
+import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.TabLayout;
+import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AlertDialog;
+import android.telephony.TelephonyManager;
 import android.view.KeyEvent;
 import android.view.View;
 import android.widget.ImageButton;
@@ -48,7 +54,8 @@ import io.fabric.sdk.android.Fabric;
         hasNavigationView = true,
         toolbarType = ToolBarType.HasMenuButton)
 public class NewsActivity extends BaseActivity implements NewsContract.View{
-
+    public final static int REQUEST_READ_PHONE_STATE = 1;
+    private String mImei;
     private TabLayout mTabLayout;
     private ViewPager mNewsViewpager;
     private ImageButton mChange_channel;
@@ -272,11 +279,11 @@ public class NewsActivity extends BaseActivity implements NewsContract.View{
     }
 
 
-    public void showUpdateDialog(@NonNull String title, @NonNull String context) {
+    public void showUpdateDialog(@NonNull String title, @NonNull String content) {
         new AlertDialog.Builder(this)
 
                 .setTitle(title)
-                .setMessage(context)
+                .setMessage(content)
                 .setNegativeButton(R.string.cancel, null)
                 .setPositiveButton(R.string.update, new DialogInterface.OnClickListener() {
                     @Override
@@ -287,5 +294,4 @@ public class NewsActivity extends BaseActivity implements NewsContract.View{
                 .create()
                 .show();
     }
-
 }

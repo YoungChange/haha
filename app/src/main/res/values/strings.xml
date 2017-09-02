@@ -16,6 +16,9 @@
     <string name="facebook_logout">Facebook登出</string>
     <string name="login_to_post">登錄後立即暢談</string>
 
+    <!--Version-->
+    <string name="find_new_version">發現新版本:V</string>
+
     <!--channel-->
     <string name="my_channel">我的頻道</string>
     <string name="enter_channel">點擊進入頻道</string>

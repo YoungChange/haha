@@ -8,7 +8,10 @@ import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.net.Uri;
 
+import com.hailer.news.NewsApplication;
+import com.hailer.news.R;
 import com.hailer.news.common.Const;
+import com.socks.library.KLog;
 
 /**
  * Created by moma on 17-8-31.
@@ -53,7 +56,7 @@ public class VersionUtil {
     /**
      * get App versionName
      * @param context
-     * @return
+     * @return 1.1.1
      */
     public static String getVersionName(Context context){
         PackageManager packageManager=context.getPackageManager();
@@ -66,5 +69,23 @@ public class VersionUtil {
             e.printStackTrace();
         }
         return versionName;
+    }
+
+
+    public static boolean checkVersion(String[] remoteVersionArray,String[] localVersionArray){
+        try{
+            KLog.e("remoteVersionArray.length:"+remoteVersionArray.length);
+            KLog.e("localVersionArray.length:"+localVersionArray.length);
+            for(int i=0;i<remoteVersionArray.length;i++){
+                if(Integer.valueOf(remoteVersionArray[i])>=Integer.valueOf(localVersionArray[i])){
+                    return true;
+                }
+            }
+        }catch(Exception e){
+            e.printStackTrace();
+            KLog.e("VersionInfo Error");
+        }
+
+        return false;
     }
 }

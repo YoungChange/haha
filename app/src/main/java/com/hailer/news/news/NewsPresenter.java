@@ -3,6 +3,8 @@ package com.hailer.news.news;
 
 import android.content.Context;
 
+import com.hailer.news.NewsApplication;
+import com.hailer.news.R;
 import com.hailer.news.UserManager;
 import com.hailer.news.api.bean.LoginInfo;
 import com.hailer.news.api.bean.NewsItem;
@@ -16,6 +18,7 @@ import com.hailer.news.util.NetworkUtil;
 import com.hailer.news.util.VersionUtil;
 import com.hailer.news.util.bean.ChannelInfo;
 import com.hailer.news.util.bean.VersionInfo;
+import com.socks.library.KLog;
 
 import java.util.List;
 
@@ -77,9 +80,27 @@ public class NewsPresenter implements NewsContract.Presenter {
 
             @Override
             public void requestSuccess(VersionInfo data) {
-                if(data.getVersion().equalsIgnoreCase(VersionUtil.getVersionCode((Context) mView))){
-                    mView.showUpdateDialog(data.getVersion(),data.getDescription());
+                KLog.e("VersionInfo");
+                try{
+                    String[] remoteVersionArray = data.getVersion().split("\\.");
+                    KLog.e("remoteVersionArray.length:"+remoteVersionArray.length);
+                    String[] localVersionArray = VersionUtil.getVersionName((Context) mView).split("\\.");
+                    KLog.e("localVersionArray.length:"+localVersionArray.length);
+                    for(int i=0;i<remoteVersionArray.length;i++){
+                        if(Integer.valueOf(remoteVersionArray[i])>Integer.valueOf(localVersionArray[i])){
+                            mView.showUpdateDialog(NewsApplication.getContext().getResources().getString(R.string.find_new_version)+data.getVersion(),data.getDescription());
+                            break;
+                        }
+                    }
+                }catch(Exception e){
+                    e.printStackTrace();
+                    KLog.e("VersionInfo Error");
                 }
+
+
+//                if(!(data.getVersion().equalsIgnoreCase(VersionUtil.getVersionCode((Context) mView)))){
+//                    mView.showUpdateDialog(data.getVersion(),data.getDescription());
+//                }
 
             }
         };

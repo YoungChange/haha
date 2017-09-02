@@ -16,6 +16,7 @@ import com.socks.library.KLog;
  */
 
 public class WrapContentLinearLayoutManager extends LinearLayoutManager {
+
     public WrapContentLinearLayoutManager(Context context) {
         super(context);
     }

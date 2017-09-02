@@ -138,6 +138,7 @@ public class NewsPresenter implements NewsContract.Presenter {
 
     @Override
     public void checkUpdate() {
+        mView.showUpdateDialog("新版本","棒棒哒 \n赶快升级 \n立即的");
         if(NetworkUtil.isConnected((Context)mView)){
             mRemoteData.getVersionInfo(mGetVersionInfoCallback);
         }

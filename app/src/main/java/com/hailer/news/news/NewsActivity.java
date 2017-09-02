@@ -4,17 +4,22 @@ package com.hailer.news.news;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.NotificationCompat;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AlertDialog;
+import android.view.Gravity;
 import android.view.KeyEvent;
 import android.view.View;
 import android.widget.ImageButton;
+import android.widget.TextView;
+
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.crashlytics.android.Crashlytics;
 import com.google.android.gms.analytics.HitBuilders;
@@ -30,12 +35,16 @@ import com.hailer.news.common.BaseActivity;
 import com.hailer.news.login.LoginActivity;
 import com.hailer.news.util.FuncUtil;
 import com.hailer.news.util.GlideUtils;
+import com.hailer.news.util.MeasureUtil;
 import com.hailer.news.util.RxBus;
 import com.hailer.news.util.VersionUtil;
 import com.hailer.news.util.annotation.ActivityFragmentInject;
 import com.hailer.news.util.bean.ChannelInfo;
 import com.hailer.news.util.bean.UserInfo;
 import com.socks.library.KLog;
+
+import org.w3c.dom.Text;
+
 import java.util.ArrayList;
 import java.util.List;
 import de.hdodenhof.circleimageview.CircleImageView;
@@ -272,10 +281,21 @@ public class NewsActivity extends BaseActivity implements NewsContract.View{
 
 
     public void showUpdateDialog(@NonNull String title, @NonNull String content) {
+        TextView titleTv = new TextView(this);
+        int pandding = MeasureUtil.dip2px(this, 20);
+        titleTv.setGravity(Gravity.CENTER);
+        titleTv.setPadding(pandding, pandding, pandding, pandding);
+        titleTv.setTextColor(Color.BLACK);
+        titleTv.setText(title);
+        titleTv.setTextSize(20);
+        TextView msg = new TextView(this);
+        msg.setText(content);
+        msg.setPadding(pandding, 0, pandding, 0);
+        msg.setTextSize(17);
+        msg.setTextColor(Color.GRAY);
         new AlertDialog.Builder(this)
-
-                .setTitle(title)
-                .setMessage(content)
+                .setCustomTitle(titleTv)
+                .setView(msg)
                 .setNegativeButton(R.string.cancel, null)
                 .setPositiveButton(R.string.update, new DialogInterface.OnClickListener() {
                     @Override
